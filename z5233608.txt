@@ -1,1 +1,10 @@
 Week 1
+
+Group formed. 
+I created the Jira account. 
+Discussed with the whole team and decided to do the project "Film Finder" and all available software tools.
+
+-----------------------------------------------------------------------------------------------------------
+
+Week 2
+Research on existing film finder website and anaylise their drawbacks. 
