@@ -1,0 +1,9 @@
+Week 1
+
+Started first sprint on JIRA with initial tasks. scheduled a meeting and discussed about the project.
+CircEx has some problems with the time frame, so we decided to go for Film Finder. Assigned tasks for everyone.
+Discussed the objectives of the project.
+
+Week 2
+
+Created a document for everyone to update the functional requirements and user stories.
