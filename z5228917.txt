@@ -1,0 +1,4 @@
+Week 1
+
+Held two meetings with the group to decide on the project. Finalised the project. 
+Discussed on possible tech stack to use. I also had a brief look at various recommender systems.
