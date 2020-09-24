@@ -1,2 +1,19 @@
-week1
--discuss all projects and decide one
+Work Diary
+
+z5198433 Wei Song
+
+--------------------------------------------------------------
+Week1:
+ 
+1. Group formed
+2. Setup Jira account
+3. Discuss all project and decide one
+--------------------------------------------------------------
+Week2:
+ 
+1. Discuss frontend and backent technologies
+2. Study Agile develop methodology
+3. Study mongoDB, Python Django
+4. Draft user stories
+5. UI/UX design
+--------------------------------------------------------------
