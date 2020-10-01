@@ -2,3 +2,12 @@ Week 1
 
 Held two meetings with the group to decide on the project. Finalised the project. 
 Discussed on possible tech stack to use. I also had a brief look at various recommender systems.
+
+----------------------------------------------------------------------------------------------------
+
+Week 2 
+
+Worked on the System Architecture Diagram. In the retrospective meeting, agreed to change back to Flask from Django.
+Updated the diagram accordingly.
+
+----------------------------------------------------------------------------------------------------
