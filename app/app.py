@@ -17,3 +17,4 @@ api = Api(blueprint,
           )
 
 # api.add_namespace(user_ns, path='/user')
+# There will be more namespace
