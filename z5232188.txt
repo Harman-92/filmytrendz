@@ -2,3 +2,13 @@ week 1:
 
 -finalised what project to do
 -made a rough er diagram for database
+
+week 2:
+
+Week :
+Study mongoDB
+Backend database design
+
+Week3:
+
+Learn how to define relations in sqlalchemy
