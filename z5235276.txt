@@ -10,7 +10,16 @@ Created a document for everyone to update the functional requirements and user s
 Worked on UI/UX and functional requirements.
 Created Adobe XD prototype.
 Worked on User Stories.
-Organised a meeting for next week to discuss progress and retrospection.
+Organised a meeting discuss progress and retrospection.
+Conducted scrum daily stand up meeting and retrospection.
+Discussed about the tasks and approach with recommendation model.
 
 Week 3
 
+Started new sprint on Jira.
+Updated UI UX design wire frames.
+Updated user stories, added more information to backlog.
+Formatted the project proposal document.
+Created cloud server architecture and technology stack diagram.
+
+Week 4
