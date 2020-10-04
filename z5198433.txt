@@ -17,3 +17,10 @@ Week2:
 4. Draft user stories
 5. UI/UX design
 --------------------------------------------------------------
+
+Week3:
+ 
+1. discuss user stories
+2. learn how to design database schema
+3. start working on backend boiler template
+--------------------------------------------------------------
