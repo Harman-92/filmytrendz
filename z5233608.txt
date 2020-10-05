@@ -4,14 +4,15 @@ Group formed.
 I created the Jira account. 
 Discussed with the whole team and decided to do the project "Film Finder" and all available software tools.
 
------------------------------------------------------------------------------------------------------------
 
 Week 2
 Research on existing film finder website and anaylise their drawbacks. 
 Worked with Song to create some user stories for the proposal
 
------------------------------------------------------------------------------------------------------------
 
 Week 3
+Formatted the project proposal document.
 Finalised the user stories for the proposal.
 
+
+Week 4
