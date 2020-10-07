@@ -16,8 +16,7 @@ virtualenv venv
 #### activate virtual environment  
 ```python
 cd ./venv/Scripts/
-./activate(linux)
-activate.bat(window)
+activate
 ```
 
 ### Step 3:  
