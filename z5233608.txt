@@ -16,3 +16,5 @@ Finalised the user stories for the proposal.
 
 
 Week 4
+Discussed with Adi and finished front-end time estimation
+Updated the UI theme and Logo
