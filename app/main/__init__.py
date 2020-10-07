@@ -4,6 +4,8 @@ from flask_bcrypt import Bcrypt
 
 from werkzeug.contrib.fixers import ProxyFix
 
+from app.main.config import config_by_name
+
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 

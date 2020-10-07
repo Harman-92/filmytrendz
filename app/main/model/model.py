@@ -1,31 +1,35 @@
+import flask_bcrypt
+from sqlalchemy import func
+
 from .. import db
 
 
 "tablename_childtable1_childtable2 is the name format"
 
 wishlist_movie = db.Table('wishlistmovie',
-                        db.Column('wishlistid',db.Integer,db.ForeignKey('wishlist.id')),
-                        db.Column('movieid',db.Integer,db.ForeignKey('movie.id')))
+                          db.Column('wishlistid', db.Integer, db.ForeignKey('wishlist.id')),
+                          db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
 favorite_movie_user = db.Table('favoritemovieuser',
-                        db.Column('userid',db.Integer,db.ForeignKey('user.id')),
-                        db.Column('movieid',db.Integer,db.ForeignKey('movie.id')))
+                               db.Column('userid', db.Integer, db.ForeignKey('user.id')),
+                               db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-watched_movie_user=db.Table('watchedmovieuser',
-                        db.Column('userid',db.Integer,db.ForeignKey('user.id')),
-                        db.Column('movieid',db.Integer,db.ForeignKey('movie.id')))
+watched_movie_user = db.Table('watchedmovieuser',
+                              db.Column('userid', db.Integer, db.ForeignKey('user.id')),
+                              db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-recommend_movie_user=db.Table('recommendmovieuser',
-                        db.Column('userid',db.Integer,db.ForeignKey('user.id')),
-                        db.Column('movieid',db.Integer,db.ForeignKey('movie.id')))
+recommend_movie_user = db.Table('recommendmovieuser',
+                                db.Column('userid', db.Integer, db.ForeignKey('user.id')),
+                                db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-cast_movie=db.Table('castmovie',
-                        db.Column('castid',db.Integer,db.ForeignKey('cast.id')),
-                        db.Column('movieid',db.Integer,db.ForeignKey('movie.id')))
+cast_movie = db.Table('castmovie',
+                      db.Column('castid', db.Integer, db.ForeignKey('cast.id')),
+                      db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
 
 class User(db.Model):
     """ User Model for storing user information """
+
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
@@ -44,15 +48,12 @@ class User(db.Model):
         return flask_bcrypt.check_password_hash(self.password, password)
 
 
-
-
-
 class Movie(db.Model):
     __tablename__ = 'movie'
     id = db.Column(db.Integer, primary_key=True)
-    director = db.Column(db.String(50) )
+    director = db.Column(db.String(50))
     name = db.Column(db.String(50))
-    description= db.Column(db.String(1000))
+    description = db.Column(db.String(1000))
     genre = db.Column(db.String(50))
     year = db.Column(db.Integer)
     language = db.Column(db.String(50))
@@ -67,22 +68,20 @@ class Reviews(db.Model):
     review_text = db.Column(db.String(1000))
     rating = db.Column(db.Integer)
     created_date = db.Column(db.DateTime, default=func.now())
-    user = db.Column(db.Integer,db.ForeignKey('user.id'))
-    movie =db.Column(db.Integer,db.ForeignKey('movie.id'))
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    movie = db.Column(db.Integer, db.ForeignKey('movie.id'))
+
 
 class Wishlist(db.Model):
     __tablename__ = 'wishlist'
-    id = db.Column(db.Integer,primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
-    user = db.Column(db.Integer,db.ForeignKey('user.id'))
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))
     status = db.Column(db.String(50))
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')
 
 
-
 class Cast(db.Model):
     __tablename__ = 'cast'
-    id=db.Column(db.Integer, primary_key=True)
-    name=db.Column(db.String(50))
-
-
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
