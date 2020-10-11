@@ -21,5 +21,9 @@ Updated UI UX design wire frames.
 Updated user stories, added more information to backlog.
 Formatted the project proposal document.
 Created cloud server architecture and technology stack diagram.
+Organised story point estimation meeting with team for user stories.
 
 Week 4
+
+Finished story point estimation with team.
+Worked on frontend boiler code which includes initial page, routing and server.
