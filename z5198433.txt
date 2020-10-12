@@ -24,3 +24,12 @@ Week3:
 2. learn how to design database schema
 3. start working on backend boiler template
 --------------------------------------------------------------
+
+Week4:
+ 
+1. code backend boiler template
+2. review and improve the database design
+3. build data object with ORM
+4. explore login with Facebook
+5. explore user session management
+--------------------------------------------------------------
