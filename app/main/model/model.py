@@ -6,21 +6,21 @@ from .. import db
 
 "tablename_childtable1_childtable2 is the name format"
 
-wishlist_movie = db.Table('wishlistmovie',
+wishlist_movie = db.Table('wishlist_movies',
                           db.Column('wishlistid', db.Integer, db.ForeignKey('wishlist.id')),
                           db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-favorite_movie_user = db.Table('favoritemovieuser',
-                               db.Column('userid', db.Integer, db.ForeignKey('user.id')),
-                               db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
+favorite_movie = db.Table('favoritemovie',
+                          db.Column('userid', db.Integer, db.ForeignKey('user.id')),
+                          db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-watched_movie_user = db.Table('watchedmovieuser',
-                              db.Column('userid', db.Integer, db.ForeignKey('user.id')),
-                              db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
+watched_movie = db.Table('watchedmovie',
+                         db.Column('userid', db.Integer, db.ForeignKey('user.id')),
+                         db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-recommend_movie_user = db.Table('recommendmovieuser',
-                                db.Column('userid', db.Integer, db.ForeignKey('user.id')),
-                                db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
+recommend_movie = db.Table('recommendmovie',
+                           db.Column('userid', db.Integer, db.ForeignKey('user.id')),
+                           db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
 cast_movie = db.Table('castmovie',
                       db.Column('castid', db.Integer, db.ForeignKey('cast.id')),
@@ -33,13 +33,13 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    username = db.Column(db.String(50), unique=True, nullable=False)
+    name = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100))
-    user_reviews = db.relationship('Reviews', backref='by_user', lazy='dynamic')
+    reviews = db.relationship('Reviews', backref='by_user', lazy='dynamic')
     wish_lists = db.relationship('Wishlist', backref='of_user', lazy='dynamic')
-    favorite_movies = db.relationship('Movie', secondary=favorite_movie_user, backref='favorite_of', lazy='dynamic')
-    watched_movies = db.relationship('Movie', secondary=watched_movie_user, backref='watched_by', lazy='dynamic')
-    recommended_movies = db.relationship('Movie', secondary=recommend_movie_user, backref='recommended_to', lazy='dynamic')
+    favorite_movies = db.relationship('Movie', secondary=favorite_movie, backref='favorite_of', lazy='dynamic')
+    watched_movies = db.relationship('Movie', secondary=watched_movie, backref='watched_by', lazy='dynamic')
+    recommended_movies = db.relationship('Movie', secondary=recommend_movie, backref='recommended_to', lazy='dynamic')
 
     def encrypt_password(self, password):
         self.password = flask_bcrypt.generate_password_hash(password).decode('utf-8')
@@ -66,7 +66,7 @@ class Reviews(db.Model):
     __tablename__ = 'reviews'
     id = db.Column(db.Integer, primary_key=True)
     review_text = db.Column(db.String(1000))
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Float)
     created_date = db.Column(db.DateTime, default=func.now())
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     movie = db.Column(db.Integer, db.ForeignKey('movie.id'))
