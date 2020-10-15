@@ -11,8 +11,8 @@ def get_all_users():
     return User.query.all()
 
 
-def get_user(id):
-    return User.query.filter_by(id=id).first()
+def get_user(userid):
+    return User.query.filter_by(id=userid).first()
 
 
 def save_changes(data):
@@ -26,13 +26,13 @@ class AuthenticationToken:
         self.expires_in = expires_in
         self.serializer = JSONWebSignatureSerializer(secret_key)
 
-    def generate_token(self, id , email, name):
+    def generate_token(self, userid, email, name):
         serializer = JWTSerializer(
             secret_key=key,
             expires_in=self.expires_in
         )
         payload = {
-            'id': id,
+            'id': userid,
             'email': email,
             'name': name,
             'generate_time': time()
@@ -54,3 +54,4 @@ class AuthenticationToken:
 
 EXPIRE = 6000
 TOKEN = AuthenticationToken(key, EXPIRE)
+

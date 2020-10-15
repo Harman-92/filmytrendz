@@ -1,6 +1,6 @@
 from flask import jsonify, make_response
 from app.main.model.model import User
-from app.main.service.user_service import TOKEN
+from app.main.service.user import TOKEN
 from ..http_status import *
 from ..model.model import BlacklistToken
 from .. import db
@@ -11,6 +11,7 @@ class Auth:
     @staticmethod
     def login(data):
         """ for user login, user need to provide email and the password """
+
         email, password = \
             data['email'].strip(), data['password'].strip()
         user = User.query.filter_by(email=email).first()
@@ -39,6 +40,7 @@ class Auth:
     @staticmethod
     def logout(token):
         """ logout, add the token to the black list """
+
         black_token = BlacklistToken(token=token)
         db.session.add(black_token)
         db.session.commit()
@@ -50,26 +52,21 @@ class Auth:
         email, name, password = \
             data['email'].strip(), data['name'].strip(), data['password'].strip()
 
-        user = User.query.filter_by(email = email).first()
+        user = User.query.filter_by(email=email).first()
 
         if user:
             resp = make_response(jsonify({'message': 'user does not exist'}))
             resp.status_code = BAD_REQUEST
             return resp
-
         else:
-            new_user = User(email = email, name = name)
+            new_user = User(email=email, name=name)
             new_user.encrypt_password(password)
             db.session.add(new_user)
             db.session.commit()
             resp_data = {
-
                     'id': new_user.id,
                     'email': new_user.email,
                     'name': new_user.name
             }
             return resp_data
-
-
-
 

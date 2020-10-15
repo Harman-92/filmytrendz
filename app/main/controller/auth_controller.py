@@ -2,7 +2,7 @@ from flask import request
 from flask_restplus import Resource
 import json
 
-from app.main.service.auth_service import Auth
+from app.main.service.auth import Auth
 from ..util.dto import AuthDto
 from ..util.decorator import token_required
 
@@ -11,9 +11,7 @@ auth_login_model = AuthDto.user_login_auth
 auth_signup_model = AuthDto.user_signup_auth
 
 
-
-
-@api.route('sign_up')
+@api.route('signup')
 class UsersignUp(Resource):
     @api.expect(auth_signup_model, validate=True)
     @api.doc(
@@ -48,3 +46,4 @@ class UserLogout(Resource):
     def post(self):
         token = request.headers.get('token')
         return Auth.logout(token)
+
