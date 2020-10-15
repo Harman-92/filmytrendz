@@ -27,3 +27,10 @@ Week 4
 
 Finished story point estimation with team.
 Worked on frontend boiler code which includes initial page, routing and server.
+Conducted Scrum meeting and discussed about the Demo.
+
+Week 5
+
+Presented the Demo. Organised a Retrospective.
+Organised Sprint planning and started new sprint.
+Worked on Retrospective report ans submitted.
