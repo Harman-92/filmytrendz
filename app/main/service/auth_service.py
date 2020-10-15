@@ -61,6 +61,7 @@ class Auth:
             new_user = User(email = email, name = name)
             new_user.encrypt_password(password)
             db.session.add(new_user)
+            db.session.commit()
             resp_data = {
 
                     'id': new_user.id,
