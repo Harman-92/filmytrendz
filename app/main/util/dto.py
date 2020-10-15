@@ -12,9 +12,16 @@ class UserDto:
 
 class AuthDto:
 	api = Namespace('auth', description='user authentication operations')
-	user_auth = api.model('auth_info', {
+
+	user_login_auth = api.model('auth_login_info', {
 		'email': fields.String,
 		'password': fields.String
+	})
+
+	user_signup_auth = api.model('auth_signup_info', {
+		'email': fields.String,
+		'password': fields.String,
+		'name': fields.String
 	})
 
 
