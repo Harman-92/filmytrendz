@@ -18,3 +18,8 @@ Finalised the user stories for the proposal.
 Week 4
 Discussed with Adi and finished front-end time estimation
 Updated the UI theme and Logo
+
+
+Week 5
+Finished RetrospectiveA and took notes
+Had a meeting to discuss the api architecture
