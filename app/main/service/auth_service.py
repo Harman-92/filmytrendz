@@ -42,6 +42,13 @@ class Auth:
         black_token = BlacklistToken(token=token)
         db.session.add(black_token)
         db.session.commit()
+        response_data = {
+            'status': 'success',
+            'message': 'logout success'
+        }
+        resp = make_response(jsonify(response_data))
+        resp.status_code = 200
+        return resp
 
     @staticmethod
     def signup(data):
