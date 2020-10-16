@@ -1,6 +1,6 @@
 import flask_bcrypt
 from sqlalchemy import func
-
+import datetime
 from .. import db
 
 
@@ -31,7 +31,7 @@ class User(db.Model):
     """ User Model for storing user information """
 
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
     name = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100))
@@ -47,10 +47,37 @@ class User(db.Model):
     def check_password(self, password):
         return flask_bcrypt.check_password_hash(self.password, password)
 
+    def __repr__(self):
+        return "<User '{}'>".format(self.name)
+
+class BlacklistToken(db.Model):
+    """
+    Token Model for storing JWT tokens
+    """
+    __tablename__ = 'blacklist_token'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    token = db.Column(db.String(500), unique=True, nullable=False)
+    blacklisted_on = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, token):
+        self.token = token
+        self.blacklisted_on = datetime.datetime.now()
+
+    def __repr__(self):
+        return '<id: token: {}'.format(self.token)
+
+    @staticmethod
+    def check_blacklist(auth_token):
+        # check whether auth token has been blacklisted
+        res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
+        if res:
+            return True
+        else:
+            return False
 
 class Movie(db.Model):
     __tablename__ = 'movie'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer,  primary_key=True)
     director = db.Column(db.String(50))
     name = db.Column(db.String(50))
     description = db.Column(db.String(1000))
