@@ -18,3 +18,9 @@ Finished the architecture diagram. Reviewed the proposal. Did background researc
 Applied for TMDB api access and got it.
 
 ----------------------------------------------------------------------------------------------------
+
+Week 4 
+
+Worked on creating a script to extract data from TMDB api. Dicussed api design for our project with the team.
+
+----------------------------------------------------------------------------------------------------
