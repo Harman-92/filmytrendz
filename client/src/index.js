@@ -8,9 +8,7 @@ import * as serviceWorker from './serviceWorker';
 
 const routing = (
     <Router>
-        <div>
-            <Route exact path="/" component={Home} />
-        </div>
+        <Route exact path="/" component={Home} />
     </Router>
 )
 
