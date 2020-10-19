@@ -26,12 +26,14 @@ class Auth:
             return resp
 
         # after successfully verify the user backend api will issue token
-        token = TOKEN.generate_token(user.id, user.email, user.name)
+        token = TOKEN.generate_token(user.id)
         resp_data = {
             'user_info': {
                 'id': user.id,
                 'email': user.email,
-                'name': user.name
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'mobile_no': user.mobile_no
             },
             'token': token,
         }
@@ -44,13 +46,20 @@ class Auth:
         black_token = BlacklistToken(token=token)
         db.session.add(black_token)
         db.session.commit()
+        response_data = {
+            'status': 'success',
+            'message': 'logout success'
+        }
+        resp = make_response(jsonify(response_data))
+        resp.status_code = 200
+        return resp
 
     @staticmethod
     def signup(data):
         """sign up with email name and password"""
 
-        email, name, password = \
-            data['email'].strip(), data['name'].strip(), data['password'].strip()
+        email, first_name, last_name, mobile_no, password = \
+            data['email'].strip(), data['first_name'].strip(), data['last_name'].strip(), data['mobile_no'].strip(), data['password'].strip()
 
         user = User.query.filter_by(email=email).first()
 
@@ -59,14 +68,16 @@ class Auth:
             resp.status_code = BAD_REQUEST
             return resp
         else:
-            new_user = User(email=email, name=name)
+            new_user = User(email=email, first_name=first_name, last_name=last_name, mobile_no=mobile_no )
             new_user.encrypt_password(password)
             db.session.add(new_user)
             db.session.commit()
             resp_data = {
                     'id': new_user.id,
                     'email': new_user.email,
-                    'name': new_user.name
+                    'first_name': new_user.first_name,
+                    'last_name':new_user.last_name,
+                    'mobile_no':new_user.mobile_no
             }
             return resp_data
 
