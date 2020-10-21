@@ -11,7 +11,7 @@ auth_login_model = AuthDto.user_login_auth
 auth_signup_model = AuthDto.user_signup_auth
 
 
-@api.route('signup')
+@api.route('/signup')
 class UsersignUp(Resource):
     @api.expect(auth_signup_model, validate=True)
     @api.doc(
@@ -24,7 +24,7 @@ class UsersignUp(Resource):
         return Auth.signup(data=user_info)
 
 
-@api.route('login')
+@api.route('/login')
 class UserLogin(Resource):
     @api.expect(auth_login_model, validate=True)
     @api.doc(
@@ -37,7 +37,7 @@ class UserLogin(Resource):
         return Auth.login(data=user_info)
 
 
-@api.route('logout')
+@api.route('/logout')
 class UserLogout(Resource):
     @api.doc(description="Logout the session")
     @api.response(201, 'success')

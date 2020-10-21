@@ -27,28 +27,41 @@ cast_movie = db.Table('castmovie',
                       db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
 
+
+
 class User(db.Model):
     """ User Model for storing user information """
 
     __tablename__ = 'user'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    name = db.Column(db.String(50), unique=True, nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    mobile_no = db.Column(db.String(50), nullable=False)
+
     password = db.Column(db.String(100))
-    reviews = db.relationship('Reviews', backref='by_user', lazy='dynamic')
+    reviews = db.relationship('Review', backref='by_user', lazy='dynamic')
     wish_lists = db.relationship('Wishlist', backref='of_user', lazy='dynamic')
     favorite_movies = db.relationship('Movie', secondary=favorite_movie, backref='favorite_of', lazy='dynamic')
     watched_movies = db.relationship('Movie', secondary=watched_movie, backref='watched_by', lazy='dynamic')
     recommended_movies = db.relationship('Movie', secondary=recommend_movie, backref='recommended_to', lazy='dynamic')
+
 
     def encrypt_password(self, password):
         self.password = flask_bcrypt.generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
         return flask_bcrypt.check_password_hash(self.password, password)
+    #
+    # def __repr__(self):
+    #     return "<User '{}'>".format(self.first_name)
 
-    def __repr__(self):
-        return "<User '{}'>".format(self.name)
+
+class BannedUser(db.Model):
+    __tablename__= 'bannedlist'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
+    banned_user_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
+
 
 class BlacklistToken(db.Model):
     """
@@ -85,12 +98,12 @@ class Movie(db.Model):
     year = db.Column(db.Integer)
     language = db.Column(db.String(50))
     country = db.Column(db.String(50))
-    reviews = db.relationship('Reviews', backref='for_movie', lazy='dynamic')
+    reviews = db.relationship('Review', backref='for_movie', lazy='dynamic')
     cast = db.relationship('Cast', secondary=cast_movie, backref='acted_in', lazy='dynamic')
 
 
-class Reviews(db.Model):
-    __tablename__ = 'reviews'
+class Review(db.Model):
+    __tablename__ = 'review'
     id = db.Column(db.Integer, primary_key=True)
     review_text = db.Column(db.String(1000))
     rating = db.Column(db.Float)

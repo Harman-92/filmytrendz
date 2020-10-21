@@ -20,14 +20,15 @@ api = Api(blueprint,
                       '\r\n\r\n\r\n'
                       'Team V5',
           authorizations={
-              "TOKEN-BASED": {
+              "apikey": {
                   "type": "apiKey",
-                  "name": "API-TOKEN",
+                  "name": "Authorization",
                   "in": "header"
               }
-          }
+          },
+          security='apikey'
           )
-api.add_namespace(auth_ns, path='/authorizaton')
+api.add_namespace(auth_ns, path='/authorization')
 api.add_namespace(user_ns, path='/user')
 api.add_namespace(movie_ns, path='/movie')
 api.add_namespace(wishlist_ns, path='/wishlist')
