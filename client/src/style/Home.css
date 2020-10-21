@@ -5,29 +5,7 @@
   height: 100%;
   padding-top: 2%;
 }
-.button {
-  float: right;
-}
-.button:hover {
-  color: #ed1212;
-  cursor: pointer;
-}
-.header-segment {
-  padding-left: 12% !important;
-  padding-right: 12% !important;
-}
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 35px;
-  margin-bottom: 0 !important;
-}
-.logo{
-  margin-bottom: 0!important;
-  width: 125px !important;
-}
-.search {
-  margin-left: 5%;
+.item {
   width: 50%;
+  font-size: 1.5em !important;
 }
