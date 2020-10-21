@@ -6,7 +6,7 @@ import os
     'mysql+pymysql://username:password@host:port/database'
 """
 
-local_db = 'mysql://root:venom123@127.0.0.1:3306/test'
+local_db = 'mysql+pymysql://root:112321@127.0.0.1:3306/v5'
 mysql_aws_db = 'mysql+pymysql://NOT HAVE YET'
 basedir = os.path.abspath(os.path.dirname(__file__))
 

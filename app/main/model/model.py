@@ -27,8 +27,6 @@ cast_movie = db.Table('castmovie',
                       db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
 
-
-
 class User(db.Model):
     """ User Model for storing user information """
 
@@ -46,7 +44,6 @@ class User(db.Model):
     watched_movies = db.relationship('Movie', secondary=watched_movie, backref='watched_by', lazy='dynamic')
     recommended_movies = db.relationship('Movie', secondary=recommend_movie, backref='recommended_to', lazy='dynamic')
 
-
     def encrypt_password(self, password):
         self.password = flask_bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -58,7 +55,7 @@ class User(db.Model):
 
 
 class BannedUser(db.Model):
-    __tablename__= 'bannedlist'
+    __tablename__ = 'bannedlist'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
     banned_user_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
 
@@ -87,6 +84,7 @@ class BlacklistToken(db.Model):
             return True
         else:
             return False
+
 
 class Movie(db.Model):
     __tablename__ = 'movie'

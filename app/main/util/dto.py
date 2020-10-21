@@ -78,8 +78,22 @@ class MovieDto:
         'reviews': fields.List(fields.Nested(review_model))
     })
 
+    wish_list = api.model('wish-list', {
+        'id': fields.String,
+        'name': fields.String,
+        'isPublic': fields.Boolean
+    })
+
     search_result_model = api.model('movie-list', {
         'movies': fields.List(fields.Nested(movie_model))
+    })
+
+    retrive_result_model = api.model('movie', {
+        'favorite': fields.Boolean,
+        'watched': fields.Boolean,
+        'wishlist': fields.List(fields.Nested(wish_list)),
+        'reviews': fields.List(fields.Nested(review_model)),
+        'movies': fields.Nested(movie_model)
     })
 
     recommand_movie_model = api.model('movie-recommandations', {
@@ -91,13 +105,10 @@ class MovieDto:
 class WishListDto:
     api = Namespace('wishlist', description='wish list')
 
-    wish_list_model = api.model('wish-list', {
+    wish_list_model = api.model('wish-list-movies', {
         'id': fields.Integer,
+        'name': fields.String,
         'movies': fields.List(fields.Nested(MovieDto.movie_model))
-    })
-
-    wish_lists_model = api.model('wish-lists', {
-        'wishlists': fields.List(fields.Nested(wish_list_model))
     })
 
 

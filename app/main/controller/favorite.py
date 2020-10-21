@@ -14,4 +14,3 @@ class Favoritelist(Resource):
 	@api.response(401, 'unauthorized')
 	def get(self):
 		pass
-
