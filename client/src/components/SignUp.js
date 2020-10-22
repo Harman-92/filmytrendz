@@ -110,7 +110,7 @@ const SignUp = () => {
     }, [firstName.v, lastName.v, email.v, password.v])
     return (
         <Container>
-            <Grid padded className='signup-container'>
+            <Grid padded className='form-container'>
                 <Grid.Column>
                     <Form size='large'
                           onSubmit={handleSubmit}
