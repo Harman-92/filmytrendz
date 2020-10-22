@@ -1,60 +1,160 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
 import {Form, Container, Grid, Divider, Message} from "semantic-ui-react";
 
 const SignUp = () => {
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const handleEmail = (e) => {
-        var pattern = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        if (!pattern.test(e.target.value)) {
-            console.log("Please enter valid email address.")
+    const [firstName, setFirstName] = useState({
+        v: '',
+        e: false
+    })
+    const [lastName, setLastName] = useState({
+        v: '',
+        e: false
+    })
+    const [email, setEmail] = useState({
+        v: '',
+        e: false
+    })
+    const [password, setPassword] = useState({
+        v: '',
+        e: false
+    })
+    const [submit, setSubmit] = useState({
+        formError: false,
+        loginError: false,
+        success: false
+    })
+    const handleFirstName = (e, {value}) => {
+        const pattern = new RegExp(/^[a-zA-Z ]+$/)
+        if (pattern.test(value) || value === "") {
+            setFirstName({
+                v: value,
+                e: false
+            })
         } else {
-            setEmail(e.target.value)
+            setFirstName({
+                v: value,
+                e: true
+            })
         }
     }
-    const handlePassword = (e) => {
-        //TODO: Password Validation
-        setPassword(e.target.value)
+    const handleLastName = (e, {value}) => {
+        const pattern = new RegExp(/^[a-zA-Z ]+$/)
+        if (pattern.test(value) || value === "") {
+            setLastName({
+                v: value,
+                e: false
+            })
+        } else {
+            setLastName({
+                v: value,
+                e: true
+            })
+        }
+    }
+    const handleEmail = (e, {value}) => {
+        const pattern = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        if (pattern.test(value) || value === "") {
+            setEmail({
+                v: value,
+                e: false
+            })
+        } else {
+            setEmail({
+                v: value,
+                e: true
+            })
+        }
     }
     const handleSubmit = () => {
-        console.log('hello')
+        if (firstName.e || lastName.e || email.e || firstName.v === "" || lastName.v === "" || email.v === "" || password.v === "") {
+            if (firstName.v === "") {
+                setFirstName({
+                    v: firstName.v,
+                    e: true
+                })
+            }
+            if (lastName.v === "") {
+                setLastName({
+                    v: '',
+                    e: true
+                })
+            }
+            if (email.v === "") {
+                setEmail({
+                    v: '',
+                    e: true
+                })
+            }
+            if (password.v === "") {
+                setPassword({
+                    v: '',
+                    e: true
+                })
+            }
+            setSubmit({
+                formError: true,
+                loginError: false,
+                success: false
+            })
+
+        }
+        //TODO: API call to Register
     }
+    useEffect(() => {
+        setSubmit({
+            formError: false,
+            loginError: false,
+            success: false
+        })
+    }, [firstName.v, lastName.v, email.v, password.v])
     return (
         <Container>
             <Grid padded className='signup-container'>
                 <Grid.Column>
-                    <Form size='large' onSubmit={handleSubmit}>
+                    <Form size='large'
+                          onSubmit={handleSubmit}
+                          warning={submit.formError}
+                          error={submit.loginError}
+                          success={submit.success}
+                    >
                         <Message
-                            error
-                            header='Action Forbidden'
-                            content='You can only sign up for an account once with a given e-mail address.'
+                            className={(submit.formError || submit.loginError || submit.success) ?
+                                'message-space-hide' : 'message-space-show'}
+                            header='handle space'
                         />
                         <Message
                             warning
-                            header='Could you check something!'
-                            list={[
-                                'That e-mail has been subscribed, but you have not yet clicked the verification link in your e-mail.',
-                            ]}
+                            header='Please give a valid input!'
+                        />
+                        <Message
+                            error
+                            header='Failed to Register!'
                         />
                         <Message
                             success
-                            header='Form Completed'
-                            content="You're all signed up for the newsletter"
+                            header='Register Success'
                         />
                         <Form.Input fluid placeholder='First name' name='firstName'
-                                    defaultValue={firstName}
-                                    onChange={(e, {v}) => setFirstName(v)}
+                                    value={firstName.v}
+                                    onChange={handleFirstName}
+                                    error={firstName.e}
                         />
                         <Form.Input fluid placeholder='Last Name' name='lastName'
-                                    defaultValue={lastName}
-                                    onChange={(e, {v}) => setLastName(v)}
+                                    value={lastName.v}
+                                    onChange={handleLastName}
+                                    error={lastName.e}
                         />
-                        <Form.Input control={'input'} placeholder='Email' name='email' defaultValue={email} onBlur={handleEmail}/>
-                        <Form.Input control={'input'} placeholder='Password' type='password' name='password' defaultValue={password}
-                                    onBlur={handlePassword}/>
+                        <Form.Input placeholder='Email' name='email'
+                                    value={email.v}
+                                    onChange={handleEmail}
+                                    error={email.e}
+                        />
+                        <Form.Input placeholder='Password' type='password' name='password'
+                                    value={password.v}
+                                    onChange={(e, {value}) => setPassword({v:value,e:false})}
+                                    error={password.e}
+                        />
                         <Form.Button fluid size='large'>Submit</Form.Button>
                     </Form>
                 </Grid.Column>

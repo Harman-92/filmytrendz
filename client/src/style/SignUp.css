@@ -1,3 +1,10 @@
 .signup-container {
-    padding: 10% 10% 20% !important;
+    padding: 5% 10% 20% !important;
+}
+.message-space-show {
+    margin-top: 1em !important;
+    visibility: hidden;
+}
+.message-space-hide {
+    display: none;
 }
