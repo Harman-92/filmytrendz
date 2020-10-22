@@ -112,7 +112,12 @@ const SignUp = () => {
         <Container>
             <Grid padded className='signup-container'>
                 <Grid.Column>
-                    <Form size='large' onSubmit={handleSubmit} warning={submit.formError}>
+                    <Form size='large'
+                          onSubmit={handleSubmit}
+                          warning={submit.formError}
+                          error={submit.loginError}
+                          success={submit.success}
+                    >
                         <Message
                             className={(submit.formError || submit.loginError || submit.success) ?
                                 'message-space-hide' : 'message-space-show'}
