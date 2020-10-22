@@ -42,4 +42,5 @@ Week 6
 
 Organised scrum meet for status update - wednesday.
 Worked on CWV 136 - User Menu options.
-Worked on CWV 63 - Sign-up form validation.
+Worked on CWV 63,65 - Sign-up and Login form validation.
+Worked on CWV 85 - Routing and Navigation.
