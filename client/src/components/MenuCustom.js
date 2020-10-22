@@ -1,8 +1,14 @@
 import React from 'react';
 import '../style/MenuCustom.css';
 import {Grid, Menu, Divider} from "semantic-ui-react";
-import IconCustom from "./IconCustom";
 import images from "../config/images";
+
+const IconCustom = (props) => (
+    <i className="">
+        <img width={38} height={38} src={props.src} alt='User Menu Icon'/>
+    </i>
+);
+
 const MenuCustom = () => {
     const [activeItem, setActiveItem] = React.useState('fav')
     const handleClick = (e, {name}) => {
