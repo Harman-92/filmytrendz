@@ -23,11 +23,13 @@ class UserDto:
     user_ban = api.model('user_ban', {
         'id': fields.Integer
     })
+
     banned_user = api.model('banned_user', {
         'id': fields.String,
         'first_name': fields.String,
         'last_name': fields.String
     })
+
     banned_list = api.model('banned_users', {
         'banned_users': fields.List(fields.Nested(banned_user))
     })
@@ -88,17 +90,18 @@ class MovieDto:
         'movies': fields.List(fields.Nested(movie_model))
     })
 
-    retrive_result_model = api.model('movie', {
+    retrive_result_model = api.model('retrieve-movie', {
         'favorite': fields.Boolean,
         'watched': fields.Boolean,
         'wishlist': fields.List(fields.Nested(wish_list)),
         'reviews': fields.List(fields.Nested(review_model)),
-        'movies': fields.Nested(movie_model)
+        'movie': fields.List(fields.Nested(movie_model))
     })
 
     recommand_movie_model = api.model('movie-recommandations', {
         'movies_by_genre': fields.List(fields.Nested(movie_model)),
-        'movies_by_director': fields.List(fields.Nested(movie_model))
+        'movies_by_director': fields.List(fields.Nested(movie_model)),
+        'movies_by_both': fields.List(fields.Nested(movie_model))
     })
 
 
@@ -111,18 +114,20 @@ class WishListDto:
         'movies': fields.List(fields.Nested(MovieDto.movie_model))
     })
 
+# watched movies are the histories...
+# class HistoryListDto:
+#     api = Namespace('history', description='history list')
+#
+#     watched_history_model = api.model('watch history', {
+#         'movies': fields.List(fields.Nested(MovieDto.movie_model))
+#     })
 
-class FavoriteListDto:
-    api = Namespace('favorite', description='favorite list')
 
-    favorite_list_model = api.model('favoriate movie', {
-        'movies': fields.List(fields.Nested(MovieDto.movie_model))
-    })
+class RecommendationDto:
+    api = Namespace('recommendation', description='movies recommendation for a specific user')
 
-
-class HistoryListDto:
-    api = Namespace('history', description='history list')
-
-    watched_history_model = api.model('watch history', {
-        'movies': fields.List(fields.Nested(MovieDto.movie_model))
-    })
+    recommendation_movies_model = api.model('recommendation-movie-model',
+        {
+            'movies': fields.List(fields.Nested(MovieDto.movie_model)),
+        }
+    )
