@@ -1,0 +1,67 @@
+.movieHeader {
+    padding-top: 5%;
+}
+
+.ui.form textarea {
+    marginleft: 4% !important;
+}
+
+/*----------------rating star format--------------*/
+.ui.star.rating .active.icon {
+    color: #7b68ee !important;
+    text-shadow: 0 -1px 0 #7b68ee,-1px 0 0 #7b68ee,0 1px 0 #7b68ee,1px 0 0 #7b68ee!important;
+}
+
+.ui.star.rating .icon.selected.active {
+    color: #7b68ee !important;
+    text-shadow: 0 -1px 0 #7b68ee,-1px 0 0 #7b68ee,0 1px 0 #7b68ee,1px 0 0 #7b68ee!important;
+}
+
+.ui.star.rating .icon.selected{
+    color: white !important;
+    text-shadow: 0 -1px 0 #7b68ee,-1px 0 0 #7b68ee,0 1px 0 #7b68ee,1px 0 0 #7b68ee!important;
+}
+/*----------------*/
+
+.ui.comments .comment {
+    margin-top: 4% !important;
+}
+
+.user {
+    margin-left: 4%;
+    /*justify-content: flex-end;*/
+    /*display: flex;*/
+}
+
+.ui.icon.menu .item{
+    color: lightgray !important;
+}
+
+.ui.menu .violet.active.item, .ui.violet.menu .active.item {
+    border-color: #7b68ee!important;
+    color: #7b68ee!important;
+}
+
+
+.postButton {
+    background-color: #7b68ee!important;
+    color: white !important;
+}
+
+.contentContainer {
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.imageSize {
+    width: 65px !important;
+    margin-bottom: 10px !important;
+}
+
+.dateTime {
+    color: darkgrey;
+}
+
+.gridColumnMargin {
+    margin-bottom: 4%;
+}
