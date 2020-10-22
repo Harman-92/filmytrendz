@@ -68,7 +68,7 @@ class Auth:
             resp.status_code = BAD_REQUEST
             return resp
         else:
-            new_user = User(email=email, first_name=first_name, last_name=last_name, mobile_no=mobile_no )
+            new_user = User(email=email, first_name=first_name, last_name=last_name, mobile_no=mobile_no)
             new_user.encrypt_password(password)
             db.session.add(new_user)
             db.session.commit()
@@ -76,8 +76,8 @@ class Auth:
                     'id': new_user.id,
                     'email': new_user.email,
                     'first_name': new_user.first_name,
-                    'last_name':new_user.last_name,
-                    'mobile_no':new_user.mobile_no
+                    'last_name': new_user.last_name,
+                    'mobile_no': new_user.mobile_no
             }
             return resp_data
 
