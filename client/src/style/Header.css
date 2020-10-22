@@ -1,0 +1,55 @@
+.App {
+  height: 100%;
+}
+.container {
+  height: 100%;
+  padding-top: 2%;
+}
+.item {
+  width: 50%;
+  font-size: 1.5em !important;
+}
+
+.button {
+  background-color: rgba(118,45,221,0.3)!important;
+}
+.button:hover {
+  background-color: rgba(118,45,221,0.5)!important;
+}
+.header-segment {
+  padding-left: 20% !important;
+  padding-right: 20% !important;
+  background-color: rgba(118,45,221,0.05)!important;
+  padding-top: 0!important;
+}
+.logo{
+  margin-bottom: 0!important;
+  width: 120px !important;
+  float: left!important;
+  margin-top: 0.7em!important;
+}
+.search {
+  margin-left: 2%;
+  width: 55%;
+  margin-top: 1em!important;
+}
+.filter-icon {
+  background-color: rgba(0,0,0,0) !important;
+}
+.ui.basic.button {
+  background: white!important;
+}
+.custom-menu {
+  margin-top: 1em!important;
+}
+.menu-image {
+  width: 40px;
+}
+.menu-div {
+  float: right;
+  display: flex;
+  align-items: center;
+}
+.menu-text {
+  font-size: 16px;
+}

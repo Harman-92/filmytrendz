@@ -1,94 +1,48 @@
 import React from 'react';
 import '../style/Home.css';
-import {Sidebar, Card, Menu, Container, Tab} from 'semantic-ui-react';
-import HeaderCustom from "./HeaderCustom";
-import SignUp from "./SignUp";
-import Login from "./Login";
-const panes = [
-    { menuItem: 'Login', render: () => <Tab.Pane as={'div'}><Login/></Tab.Pane> },
-    { menuItem: 'Register', render: () => <Tab.Pane as={'div'}><SignUp/></Tab.Pane> },
-]
+import {Card, Container} from "semantic-ui-react";
 
-function Home() {
-    const [visible, setVisible] = React.useState(false)
-    const [visible2, setVisible2] = React.useState(false)
-    const [activeIndex, setActiveIndex] = React.useState(1)
-    const src = '/empty_image.png'
-    const handleTab = (visible, index) => {
-        setVisible(visible)
-        setActiveIndex(index)
-    }
+import { useHistory, useLocation } from "react-router-dom";
+import images from "../config/images";
+const src = images.no_image
+const Home = () => {
+
+    const history = useHistory()
+    const location = useLocation()
     return (
-        <div className="App">
-            <Sidebar.Pushable as='div'>
-                <Sidebar
-                    as={Menu}
-                    animation='overlay'
-                    icon='labeled'
-                    onHide={() => setVisible(false)}
-                    vertical
-                    visible={visible}
-                    width='very wide'
-                    direction='right'
-                >
-                    <Tab menu={{pointing:true}} panes={panes}
-                         activeIndex={activeIndex}
-                         onTabChange={(e,{activeIndex}) => setActiveIndex(activeIndex)}/>
-                </Sidebar>
-                <Sidebar.Pusher>
-                    <HeaderCustom handleTab={handleTab} setVisible2={setVisible2} isLogin={false}/>
+        <Container className='container'>
 
-                    <Sidebar.Pushable>
-                        <Sidebar
-                            as={Menu}
-                            animation='overlay'
-                            icon='labeled'
-                            onHide={() => setVisible2(false)}
-                            vertical
-                            visible={visible2}
-                            width='very wide'
-                            direction='top'
-                        >
-                            <Container>
-                                Filters to be added
-                            </Container>
-                        </Sidebar>
-                        <Sidebar.Pusher>
-                            <Container className='container'>
-                                <h2>Latest Movies</h2>
-                                <Card.Group itemsPerRow={5}>
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                    <Card raised image={src} />
-                                </Card.Group>
-                            </Container>
-
-                        </Sidebar.Pusher>
-                    </Sidebar.Pushable>
-                </Sidebar.Pusher>
-            </Sidebar.Pushable>
-        </div>
+            <h2>{location.isLogin ? 'Recommended' : 'Latest'} Movies</h2>
+            <Card.Group itemsPerRow={5}>
+                <Card raised image={src} onClick={() => history.push('/movie/' + '1')}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+                <Card raised image={src}/>
+            </Card.Group>
+        </Container>
     );
 }
+Home.propTypes = {};
+
+Home.defaultProps = {};
 
 export default Home;

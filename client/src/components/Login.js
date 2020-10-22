@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
 import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
-
-const Login = () => {
+import {useHistory} from 'react-router-dom';
+const Login = (props) => {
+    const history = useHistory()
     const [email, setEmail] = useState({
         v: '',
         e: false
@@ -51,6 +52,20 @@ const Login = () => {
             })
 
         }
+        // on success
+        setSubmit({
+            formError: false,
+            loginError: false,
+            success: true
+        })
+        setTimeout(function() {
+            props.setVisible(false)
+            history.push({
+                pathname: '/',
+                isLogin: 'True',
+                email:email.v
+            })
+        }, 500);
         //TODO: API call to Login
     }
     useEffect(() => {
@@ -62,7 +77,7 @@ const Login = () => {
     }, [email.v, password.v])
     return (
         <Container>
-            <Grid padded className='signup-container'>
+            <Grid padded className='form-container'>
                 <Grid.Column>
                     <Form size='large'
                           onSubmit={handleSubmit}
@@ -81,11 +96,11 @@ const Login = () => {
                         />
                         <Message
                             error
-                            header='Failed to Register!'
+                            header='Failed to Login!'
                         />
                         <Message
                             success
-                            header='Register Success'
+                            header='Login Success'
                         />
                         <Form.Input fluid icon='user' iconPosition='left'
                                     placeholder='Email address'
