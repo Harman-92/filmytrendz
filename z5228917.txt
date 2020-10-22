@@ -24,3 +24,11 @@ Week 4
 Worked on creating a script to extract data from TMDB api. Dicussed api design for our project with the team.
 
 ----------------------------------------------------------------------------------------------------
+
+Week 5
+
+Finished generating all the movie data till Jan1, 2020. Applied for omdb api access and got it. 
+Finished script to generate all the movies till Oct, 2020. It didn't work because of a request rate limit enforced by omdb.
+Explored different ways to gather the data - data dumps and tmdb's discover api.
+
+----------------------------------------------------------------------------------------------------
