@@ -2,7 +2,7 @@ import flask_bcrypt
 from sqlalchemy import func
 import datetime
 from .. import db
-
+import enum
 
 "tablename_childtable1_childtable2 is the name format"
 
@@ -90,7 +90,7 @@ class BlacklistToken(db.Model):
 
 class Movie(db.Model):
     __tablename__ = 'movie'
-    id = db.Column(db.Integer,  primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True,  primary_key=True)
     director = db.Column(db.String(50))
     name = db.Column(db.String(50))
     description = db.Column(db.String(1000))
@@ -112,12 +112,17 @@ class Review(db.Model):
     movie = db.Column(db.Integer, db.ForeignKey('movie.id'))
 
 
+class Privacy(enum.Enum):
+    PRIVATE = 'private'
+    PUBLIC = 'public'
+
+
 class Wishlist(db.Model):
     __tablename__ = 'wishlist'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True , primary_key=True)
     name = db.Column(db.String(50))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    status = db.Column(db.String(50))
+    status = db.Column(db.Enum(Privacy), default=Privacy.PUBLIC, nullable=False)
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')
 
 

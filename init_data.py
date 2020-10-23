@@ -16,6 +16,10 @@ with app.app_context():
     user3 = User(id=3, first_name='venom', last_name='belly', mobile_no='0490898628',
                  email='venom567@gmail.com')
     user3.encrypt_password('tities')
-    db.session.add_all([user1, user2,user3])
+
+    movie1=Movie(name='harry potter',director='jk rowling')
+    movie2=Movie(name='fast', director='furious')
+    movie3 = Movie(name='code 8 ', director='idk')
+    db.session.add_all([user1, user2,user3,movie1,movie2,movie3])
     db.session.commit()
 
