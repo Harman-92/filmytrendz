@@ -1,24 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import '../style/Header.css';
 import {Sidebar, Menu, Container, Tab, Image, Input, Button, Icon, Popup, Segment} from 'semantic-ui-react';
 import SignUp from "./SignUp";
 import Login from "./Login";
 import images from "../config/images";
 import MenuCustom from "./MenuCustom";
-
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useHistory} from "react-router-dom";
+import '../style/Header.css';
 
 function Header(props) {
+    const history = useHistory()
+    const location = useLocation()
     const [visible, setVisible] = useState(false)
     const [visible2, setVisible2] = useState(false)
     const [activeIndex, setActiveIndex] = useState(1)
     const [isLogin, setIsLogin] = useState(false)
     const [name, setName] = useState('')
+    const [searchInput, setSearchInput] = useState('')
     const handleTab = (visible, index) => {
         setVisible(visible)
         setActiveIndex(index)
     }
-    const location = useLocation()
+    const handleSearch = () => {
+        //send search keyword to home
+        if(searchInput !== '') {
+            history.push({
+                pathname: location.pathname,
+                isSearch : true,
+                keyword : searchInput
+            })
+        }
+    }
     useEffect(() => {
         if (location.isLogin) {
             setIsLogin(true)
@@ -38,6 +49,9 @@ function Header(props) {
                     width='very wide'
                     direction='right'
                 >
+
+                    {/*---------------Side Menu Tabs for Login and Register----------------*/}
+
                     <Tab menu={{pointing: true}} panes={
                         [
                             {
@@ -51,30 +65,54 @@ function Header(props) {
                          onTabChange={(e, {value}) => setActiveIndex(value)}/>
                 </Sidebar>
                 <Sidebar.Pusher>
+
+                    {/*-------------------------Logo-----------------------*/}
+
                     <Segment vertical className='header-segment'>
                         <Link to={{
                             pathname: '/',
                             email: name,
-                            isLogin:isLogin
+                            isLogin: isLogin
                         }}>
                             <Image className='logo' src={images.logo} floated='left' size={"small"}/>
                         </Link>
-                        <Input className='search' type='text' placeholder='Search...' action>
-                            <input/>
-                            <Button icon basic labelPosition='right' onClick={() => setVisible2(true)}>
+
+                        {/*---------------------Search Bar----------------------*/}
+
+                        <Input className='header-search' type='text' placeholder='Search...' action
+                               onChange={(e, {value}) => {
+                                   setSearchInput(value)
+                               }}
+                        >
+                            <input
+                                onKeyPress={event => {
+                                    if (event.key === 'Enter') {
+                                        handleSearch()
+                                    }
+                                }}
+                            />
+                            <Button icon basic className='filter-button' labelPosition='right'
+                                    onClick={() => setVisible2(true)}>
                                 filter
                                 <Icon className='filter-icon' name='down arrow'/>
                             </Button>
-                            <Button className='button' type='submit'>Search</Button>
+                            <Button className='header-button' type='submit' onClick={handleSearch}>Search</Button>
                         </Input>
                         {!isLogin ?
+
+                            /*---------------Login or Register Button----------------*/
+
                             <Button.Group size='medium' floated='right'>
-                                <Button className='custom-menu button' onClick={() => handleTab(true, 0)}>Login</Button>
+                                <Button className='custom-menu header-button'
+                                        onClick={() => handleTab(true, 0)}>Login</Button>
                                 <Button.Or className='custom-menu'/>
-                                <Button className='custom-menu button'
+                                <Button className='custom-menu header-button'
                                         onClick={() => handleTab(true, 1)}>Register</Button>
                             </Button.Group>
                             :
+
+                            /*--------------------User Menu Button-------------------*/
+
                             <div className='custom-menu menu-div'>
                                 <span className='menu-text'>Hey, {name}</span>
                                 <Popup wide
@@ -98,6 +136,9 @@ function Header(props) {
                             width='very wide'
                             direction='top'
                         >
+
+                            {/*------------------Search Filters--------------------*/}
+
                             <Container>
                                 Filters to be added
                             </Container>
