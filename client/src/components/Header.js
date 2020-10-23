@@ -48,6 +48,7 @@ function Header(props) {
                     visible={visible}
                     width='very wide'
                     direction='right'
+                    className='header-menu-tab'
                 >
 
                     {/*---------------Side Menu Tabs for Login and Register----------------*/}
@@ -58,7 +59,9 @@ function Header(props) {
                                 menuItem: 'Login',
                                 render: () => <Tab.Pane as={'div'}><Login setVisible={setVisible}/></Tab.Pane>
                             },
-                            {menuItem: 'Register', render: () => <Tab.Pane as={'div'}><SignUp/></Tab.Pane>},
+                            {
+                                menuItem: 'Register',
+                                render: () => <Tab.Pane as={'div'}><SignUp/></Tab.Pane>},
                         ]
                     }
                          activeIndex={activeIndex}

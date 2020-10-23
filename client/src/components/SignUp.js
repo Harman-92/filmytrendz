@@ -53,7 +53,7 @@ const SignUp = () => {
         }
     }
     const handleEmail = (e, {value}) => {
-        const pattern = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        const pattern = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (pattern.test(value) || value === "") {
             setEmail({
                 v: value,
@@ -155,7 +155,7 @@ const SignUp = () => {
                                     onChange={(e, {value}) => setPassword({v:value,e:false})}
                                     error={password.e}
                         />
-                        <Form.Button fluid size='large'>Submit</Form.Button>
+                        <Form.Button className='signup-button' fluid size='large'>Submit</Form.Button>
                     </Form>
                 </Grid.Column>
             </Grid>

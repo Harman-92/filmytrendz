@@ -17,7 +17,7 @@ const Home = () => {
         if(location.isLogin){
             setIsLogin(true)
         }
-    })
+    },[location.isSearch, location.isLogin, location.keyword])
     return (
         <Container className='container'>
 
