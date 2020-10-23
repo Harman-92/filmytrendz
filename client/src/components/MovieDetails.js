@@ -12,7 +12,7 @@ import {
     Grid,
     Form,
     Divider,
-    Comment, Menu, Statistic,
+    Comment, Menu, Statistic, Header, Segment,
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
 
@@ -276,20 +276,18 @@ export default class MovieDetails extends Component {
 
                 {/*-------------------------movie review-----------------------------*/}
                 <div className="movieHeader">
-                    <Grid verticalAlign="bottom" columns={2}>
-                        <Grid.Column floated='left'>
-                            <h2>Review</h2>
-                        </Grid.Column>
-                        <Grid.Column floated='right'>
-                            <Button inverted color='violet' icon='add' content='Add Review'
-                                    labelPosition='left'
-                                    onClick={() => {
-                                        this.setState({addReview: true})
-                                    }}
-                            />
-                        </Grid.Column>
-                    </Grid>
-                    <Divider/>
+                    <Segment clearing basic className='review-header'>
+                        <Header as='h2' floated='left'>
+                            Review
+                        </Header>
+                        <Button floated='right' inverted color='violet' icon='add' content='Add Review'
+                                labelPosition='left'
+                                onClick={() => {
+                                    this.setState({addReview: true})
+                                }}
+                        />
+                    </Segment>
+                    <Divider fitted/>
 
                     {
                         this.state.addReview ?
@@ -342,7 +340,6 @@ export default class MovieDetails extends Component {
                     }
                     <Review reviews={this.state.movieDetails.reviews}/>
                 </div>
-
                 {/*-------------------------similar movies-----------------------------*/}
                 <div className="movieHeader">
                     <h2>Similar Movies</h2>
