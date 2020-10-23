@@ -10,10 +10,10 @@
   font-size: 1.5em !important;
 }
 
-.button {
+.header-button {
   background-color: rgba(118,45,221,0.3)!important;
 }
-.button:hover {
+.header-button:hover {
   background-color: rgba(118,45,221,0.5)!important;
 }
 .header-segment {
@@ -28,15 +28,18 @@
   float: left!important;
   margin-top: 0.7em!important;
 }
-.search {
+.header-search {
   margin-left: 2%;
   width: 55%;
   margin-top: 1em!important;
 }
+.header-search.action.input:not([class*="left action"])>input:focus{
+  border-color: rgba(34,36,38,.35) !important;
+}
 .filter-icon {
   background-color: rgba(0,0,0,0) !important;
 }
-.ui.basic.button {
+.ui.basic.filter-button {
   background: white!important;
 }
 .custom-menu {

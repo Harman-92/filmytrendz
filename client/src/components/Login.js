@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
 import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
 import {useHistory} from 'react-router-dom';
+
 const Login = (props) => {
     const history = useHistory()
     const [email, setEmail] = useState({
@@ -58,12 +59,12 @@ const Login = (props) => {
             loginError: false,
             success: true
         })
-        setTimeout(function() {
+        setTimeout(function () {
             props.setVisible(false)
             history.push({
                 pathname: '/',
-                isLogin: 'True',
-                email:email.v
+                isLogin: true,
+                email: email.v
             })
         }, 500);
         //TODO: API call to Login
