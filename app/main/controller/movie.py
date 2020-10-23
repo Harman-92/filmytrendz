@@ -95,8 +95,8 @@ class MovieWatched(Resource):
 	@token_required
 	def put(self, user, mid):
 		"""
-			user take the movie id as the part of URL, then favorite the specific movie
-			If this specific movie is found, then it will be added to favorite list
+			user take the movie id as the part of URL, then watched the specific movie
+			If this specific movie is found, then it will be added to watched list
 		"""
 		if watched_movie_user(user, mid):
 			return jsonify({'watched': 'success'}, SUCCESS)
@@ -114,8 +114,9 @@ class MovieWishlist(Resource):
 	@token_required
 	def put(self, user, mid):
 		"""
-			user take the movie id as the part of URL, then favorite the specific movie
-			If this specific movie is found, then it will be added to favorite list
+			user take the movie id as the part of URL, then add the specific movie
+			to some wishlists. If this specific movie is found, then it will be
+			added to the wishlists given from user.
 		"""
 		if not request.data:
 			api.abort(BAD_REQUEST, 'no wishlist data found')
@@ -137,8 +138,8 @@ class MovieReview(Resource):
 	@token_required
 	def post(self, user, mid):
 		"""
-			user take the movie id as the part of URL, then favorite the specific movie
-			If this specific movie is found, then it will be added to favorite list
+			user may want to add reviews to the specific movie, which
+			given movie id and the new review data from user.
 		"""
 		if not request.data:
 			api.abort(BAD_REQUEST, 'no review data found')
@@ -150,7 +151,7 @@ class MovieReview(Resource):
 
 
 @api.route('/<mid>/recommend')
-class MovieReview(Resource):
+class MovieRecommend(Resource):
 	@api.doc('get recommendations for a specific movie')
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
@@ -159,8 +160,7 @@ class MovieReview(Resource):
 	@token_required
 	def get(self, user, mid):
 		"""
-			user take the movie id as the part of URL, then favorite the specific movie
-			If this specific movie is found, then it will be added to favorite list
+			recommendation for a specific movie
 		"""
 		data = request.args
 		if data and recommend_specific_movie(user, mid, data):
