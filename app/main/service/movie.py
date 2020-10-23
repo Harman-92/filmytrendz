@@ -1,26 +1,103 @@
+from datetime import datetime
 from .. import db
-from app.main.model.model import Movie, User, Wishlist, Review, favorite_movie
+from app.main.model.model import Movie, User, Wishlist, Review, Cast
 
 
-def search_movies(conditions):
+def search_movies(user, conditions):
 	"""
 		movie searching function, given name, descripton, genre, year, language
 		and country as the searching conditions. All of them are optional.
+
+		There are four cases:
+
+		case 1: /movie?favorite=true
+		case 2: /movie?watched=true
+		case 3: /movie?search=keyword&name=true&description=true...
+		case 4: /movie?latest=true
 	"""
-	movie_attr = ['name', 'description', 'genre', 'year', 'language', 'country']
-	movies, keys = [], []
-	for key in conditions.keys():
-		if key not in movie_attr:
-			keys.append(key)
-	for key in keys:
-		conditions.pop(key)
-	if conditions:
-		movies = Movie.query.filter_by(**conditions).all()
+
+	cur_user = User.query.filter_by(id=user['id']).first()
+	movies = []
+
+	if 'favorite' in conditions:
+		movies = get_all_favorites(cur_user)
+
+	if 'watched' in conditions:
+		movies = get_all_watched(cur_user)
+
+	if 'latest' in conditions:
+		movies = get_all_latest_movies()
+
+	if 'search' in conditions:
+		movies = get_all_keywords_movies(conditions)
 
 	return movies
 
 
-def retrive_movie(user, mid):
+def get_all_favorites(user):
+	movies = user.favorite_movies.all()
+
+	return movies
+
+
+def get_all_watched(user):
+	movies = user.watched_movies.all()
+
+	return movies
+
+
+def get_all_latest_movies():
+	"""
+		At this stage, for getting all the latest movies, it will return
+		all the movies with the year label = current year..eg.2020
+	"""
+	cur_year = int(datetime.now().year)
+	movies = Movie.query.filter_by(year=cur_year).all()
+	return movies
+
+
+def get_all_keywords_movies(conditions):
+	concopy = conditions
+	keywords = concopy['search']
+	concopy.pop('search')
+
+	"""
+		filter_1 = {
+			'name': keywords,
+			'description': keywords,
+		}
+	"""
+
+	result_1_1 = set(Movie.query.filter_by(name=keywords).all())
+	result_1_2 = set(Movie.query.filter_by(description=keywords).all())
+	result_1 = result_1_1 | result_1_2
+
+	"""
+		filter_2:
+		cast.name = keyword
+	"""
+	cast_list = Cast.query.filter_by(name=keywords).all()
+	result_2 = set()
+	for c in cast_list:
+		if c.acted_in not in result_2:
+			result_2.add(c.acted_in)
+
+	"""
+		filter_3:
+		This filter is for 'year' range from the user, there will be start of
+		the year and end of the year, it will find the movies which are meet:
+		year_start <= year <= year_end
+	"""
+	result_3_1, result_3_2 = set(), set()
+	if 'year_start' in conditions and 'year_end' in conditions:
+		result_3_1 = set(Movie.query.filter(Movie.year >= conditions['year_start']))
+		result_3_2 = set(Movie.query.filter(Movie.year <= conditions['year_end']))
+	result_3 = result_3_1 & result_3_2
+
+	return list((result_1 | result_2) & result_3)
+
+
+def retrieve_movie(user, mid):
 	"""
 		given mid, retrive the specific movie according to the movie id for
 		the specific user, the user information comes from the token.
@@ -74,6 +151,9 @@ def retrive_movie(user, mid):
 
 
 def favorite_movie_user(user, mid):
+	"""
+		given movie id, favorite the movie for the specific user
+	"""
 	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	success = False

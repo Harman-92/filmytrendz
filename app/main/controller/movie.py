@@ -22,14 +22,21 @@ class MoviesSearch(Resource):
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
 	@token_required
-	def get(self):
+	def get(self, user):
 		"""
 			receive request and get URL arguments including name, description, director
 			genre, year, language, country. All these searching conditions are optional
 			but if you want run search you need to input at least one searching condition
+
+			There are four cases:
+
+			case 1: /movie?favorite=true
+			case 2: /movie?watched=true
+			case 3: /movie?search=keyword&name=true&description=true...
+			case 4: /movie?latest=true
 		"""
 		conditions = request.args
-		movie_list = search_movies(dict(conditions))
+		movie_list = search_movies(user, dict(conditions))
 		movies = {
 			"movies": movie_list
 		}
@@ -52,7 +59,7 @@ class MovieRetrive(Resource):
 			This is for movie retrive from a specific user, mid as the parameter in the URL
 			If this specific movie is found, then it will return all the movie informaion
 		"""
-		movie = retrive_movie(user, mid)
+		movie = retrieve_movie(user, mid)
 		if movie:
 			return marshal(movie, retrive_result_model)
 		else:
@@ -120,7 +127,6 @@ class MovieWishlist(Resource):
 			api.abort(NOT_FOUND, 'movie or wishlist not found')
 
 
-# get a question here: does our user can delete the review?
 @api.route('/<mid>/review')
 class MovieReview(Resource):
 	@api.doc('add reviews to a specific movie')
