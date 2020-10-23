@@ -189,6 +189,10 @@ def watched_movie_user(user, mid):
 
 
 def add_movie_wishlist(user, mid, listwishlist):
+	"""
+		user may want to add the movie to his specific wishlist, which
+		given movie id and wishlist ids, then make the add operation
+	"""
 	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	success = False
@@ -213,6 +217,10 @@ def add_movie_wishlist(user, mid, listwishlist):
 
 
 def add_review_movie(user, mid, review_data):
+	"""
+		user may want to add reviews to the specific movie, which
+		given movie id and the new review data from user.
+	"""
 	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	success = False
@@ -235,4 +243,7 @@ def add_review_movie(user, mid, review_data):
 
 
 def recommend_specific_movie(user, mid, args):
+	"""
+		need suppor of recommendation model
+	"""
 	pass
