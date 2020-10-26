@@ -3,6 +3,7 @@ import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
 
 import moment from "moment";
+
 import {
     Button,
     Icon,
@@ -72,29 +73,11 @@ export default class MovieDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            movieDetails: {
-                title: 'Spider Man 3',
-                image: '/poster.jpg',
-                averageRating: 4.5,
-                description: 'Lorem ipsum dolor sit amet, cu principes  eloquentiam mea,' +
-                    'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-                    'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-                    'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-                    'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-                    'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-                    'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-                    'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-                    'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-                    'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-                    'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-                    'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-                    'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-                    'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-                    'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-                    'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-                    'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-                    'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-                    'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
+            movieDetails:{
+                title:'Spider Man 3',
+                image:'/poster.jpg',
+                averageRating:4.5,
+                description:'Lorem ipsum dolor sit amet, cu principes  eloquentiam mea,' +
                     'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
                     'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
                     'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
@@ -107,65 +90,35 @@ export default class MovieDetails extends Component {
                     {image: '/poster.jpg', name: 'Jon Favreau', role: 'Avebe'},
                     {image: '/poster.jpg', name: 'J. B. Smoove', role: 'Julius Dell'},
                 ],
-                reviews: [
-                    {
-                        avatar: '/logo192.png',
-                        user: 'Matt',
-                        createdTime: '2020-10-20 15:34',
-                        comment: 'How artistic!',
-                        rating: 4.5
-                    },
-                    {
-                        avatar: '/logo192.png',
-                        user: 'Elliot Fu',
-                        createdTime: '2020-10-18 15:34',
-                        comment: 'This has been very useful for my research. Thanks as well!',
-                        rating: 4
-                    },
-                    {
-                        avatar: '/logo192.png',
-                        user: 'Jenny Hess',
-                        createdTime: '2020-10-19 15:34',
-                        comment: 'Elliot you are always so right :)',
-                        rating: 3
-                    },
-                    {
-                        avatar: '/logo192.png',
-                        user: 'Joe Henderson',
-                        createdTime: '2020-10-20 15:34',
-                        comment: 'Dude, this is awesome. Thanks so much',
-                        rating: 1.5
-                    },
+                reviews:[
+                    {avatar:'/logo192.png', user:'Matt', createdTime:'2020-10-20 15:34', comment:'How artistic!', rate: 4},
+                    {avatar:'/logo192.png', user:'Elliot Fu', createdTime:'2020-10-18 15:34', comment:'This has been very useful for my research. Thanks as well!', rate: 4},
+                    {avatar:'/logo192.png', user:'Jenny Hess', createdTime:'2020-10-19 15:34', comment:'Elliot you are always so right :)', rate: 3},
+                    {avatar:'/logo192.png', user:'Joe Henderson', createdTime:'2020-10-20 15:34', comment:'Dude, this is awesome. Thanks so much', rate: 1.5},
                 ],
-                favorite: false,
-                wishLists: [{
-                    id: 2,
-                    name: 'dark fantasy'
-                }, {
-                    id: 5,
-                    name: 'cyberpunk'
-                }],
-                watched: false,
             },
-            myReview: {
-                review: '',
-                rating: 0
+            myReview:{
+                review:'',
+                rating:0
             },
-            userDetails: {
-                name: 'Natalie',
-                avatar: '/avatar.jpeg',
+            userDetails:{
+              name:'Natalie',
+              avatar:'/avatar.jpeg',
             },
-            similarMovies: [
-                {image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
-                {image: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
-                {image: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
-                {image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-                {image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-                {image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
-                {image: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
+            similarMovies:[
+                {image:'/poster.jpg',title:'Spider Man-1',Genre:'Fiction', Director:'Abc'},
+                {image:'/poster.jpg',title:'Spider Man-2',Genre:'Fiction', Director:'Abc'},
+                {image:'/poster.jpg',title:'Spider Man-3',Genre:'Fiction', Director:'Abc'},
+                {image:'/poster.jpg',title:'Spider Man-4',Genre:'Fiction', Director:'Abc'},
+                {image:'/poster.jpg',title:'Spider Man-5',Genre:'Fiction', Director:'Abc'},
+                {image:'/poster.jpg',title:'Spider Man-6',Genre:'Fiction', Director:'Abc'},
+                {image:'/poster.jpg',title:'Spider Man-7',Genre:'Fiction', Director:'Abc'},
             ],
-            sortedBy: 'g',
-            addReview: false
+            sortedBy:'g',
+            addReview:false,
+            favorite: false,
+            wish: false,
+            watched: false,
         }
     }
 
@@ -174,15 +127,18 @@ export default class MovieDetails extends Component {
         let time = moment().format('YYYY-MM-DD HH:mm').toString()
         copyReviews.push({
             avatar: this.state.userDetails.avatar,
-            user: this.state.userDetails.name,
-            createdTime: time,
-            comment: this.state.myReview.review,
+            user:this.state.userDetails.name,
+            createdTime:time,
+            comment:this.state.myReview.review,
             rate: this.state.myReview.rating
         })
 
         // TODO:call add review api
-        this.setState({movieDetails: {...this.state.movieDetails, reviews: copyReviews}})
+        this.setState({movieDetails:{...this.state.movieDetails, reviews:copyReviews}})
         this.setState({addReview: false})
+        this.setState({myReview: {...this.state.myReview,review: ''}})
+        this.setState({myReview: {...this.state.myReview,rating: 0}})
+
     }
 
     handleSortedByCheckbox = (e, {value}) => {
@@ -191,185 +147,181 @@ export default class MovieDetails extends Component {
         //TODO:sort the similarmovies
     }
 
-    handleShare = () => {
+    handleShare = () =>{
         alert("share a link")
         //TODO: create a link
     }
 
     ratingChanged = (newRating) => {
-        console.log(newRating);
-        this.setState({myReview: {...this.state.myReview, rating: newRating}})
+        this.setState({myReview: {...this.state.myReview, rating:newRating}})
+
     }
 
     render() {
         return (
-            <Container>
-                {/*-------------------------movie intro-----------------------------*/}
+            <div>
+                <Container className='container'>
+                    {/*-------------------------movie intro-----------------------------*/}
+                    <Grid columns={3} verticalAlign='middle'>
+                        <Grid.Row >
+                            <Grid.Column width={3}>
+                                <Image src={this.state.movieDetails.image} size='small' rounded alt={this.state.movieDetails.title}/>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <h1>{this.state.movieDetails.title}</h1>
+                                <p>{this.state.movieDetails.description}</p>
+                                <h3>Genre</h3>
+                                <p>{this.state.movieDetails.genre}</p>
+                            </Grid.Column>
+                            <Grid.Column width={3}>
+                                <div>
+                                    <Menu icon='labeled' size='mini' fluid text>
+                                        <Menu.Item color='violet'
+                                            name='fav'
+                                            active={this.state.favorite}
+                                            onClick={()=>this.setState({favorite: !this.state.favorite})}>
+                                            <Icon name='like' />
+                                            Favorite
+                                        </Menu.Item>
 
-                <Grid columns={3}>
-                    <Grid.Row>
-                        <Grid.Column width={3}>
-                            <Image src={this.state.movieDetails.image} size='small' rounded
-                                   alt={this.state.movieDetails.title}/>
-                        </Grid.Column>
-                        <Grid.Column width={10}>
-                            <h1>{this.state.movieDetails.title}</h1>
-                            <p>{this.state.movieDetails.description}</p>
-                            <h3>Genre</h3>
-                            <p>{this.state.movieDetails.genre}</p>
-                        </Grid.Column>
-                        <Grid.Column width={3} className='movie-details-right'>
-                                <Menu className='movie-menu' icon fluid text size='massive'>
-                                <Menu.Item
-                                           name='fav'
-                                           active={this.state.favorite}
-                                           onClick={() => this.setState({favorite: !this.state.movieDetails.favorite})}>
-                                    <Icon name='like'/>
-                                </Menu.Item>
-                                <Menu.Item
-                                           name='wish'
-                                           active
-                                >
-                                    <Icon name='star'/>
-                                </Menu.Item>
-                                <Menu.Item
-                                           name='watched'
-                                           active={this.state.movieDetails.watched}
-                                           onClick={() => this.setState({watched: !this.state.movieDetails.watched})}>
-                                    <Icon name='check square'/>
-                                </Menu.Item>
-                                <Menu.Item
-                                           name='share'
-                                           active={true}
-                                           onClick={this.handleShare}>
-                                    <Icon name='share alternate' color='blue'/>
-                                </Menu.Item>
-                            </Menu>
+                                        <Menu.Item color='violet'
+                                            name='wish'
+                                            active={this.state.wish}
+                                            onClick={()=>this.setState({wish: !this.state.wish})}>
+                                            <Icon name='star' />
+                                            Wish
+                                        </Menu.Item>
 
-                            <div className='movie-rating-wrapper'>
-                            {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
-                            <Statistic className='movie-rating'>
-                                <Statistic.Value>{this.state.movieDetails.averageRating}</Statistic.Value>
-                            </Statistic>
-                            {/*<Rating icon='star'*/}
-                            {/*              size='large'*/}
-                            {/*              maxRating={5} clearable*/}
-                            {/*/>*/}
-                            <ReactStars
-                                count={5}
-                                value={this.state.movieDetails.averageRating}
-                                size={26}
-                                isHalf={true}
-                                edit={false}
-                                activeColor="#7b68ee"
-                                color='lightgrey'
-                            />
-                            </div>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
+                                        <Menu.Item color='violet'
+                                            name='watched'
+                                            active={this.state.watched}
+                                            onClick={()=>this.setState({watched: !this.state.watched})}>
+                                            <Icon name='check square' />
+                                            Watched
+                                        </Menu.Item>
 
-                {/*-------------------------movie cast-----------------------------*/}
-                <h2 className='movieHeader'>Cast</h2>
-                <Divider/>
-                <Cast casts={this.state.movieDetails.cast}/>
+                                        <Menu.Item color='blue'
+                                            name='share'
+                                            active={true}
+                                            onClick={this.handleShare}>
+                                            <Icon name='share alternate' color='blue'/>
+                                            Share
+                                        </Menu.Item>
+                                    </Menu>
+                                </div>
 
-                {/*-------------------------movie review-----------------------------*/}
-                <div className="movieHeader">
-                    <Segment clearing basic className='review-header'>
-                        <Header as='h2' floated='left'>
-                            Review
-                        </Header>
-                        <Button floated='right' inverted color='violet' icon='add' content='Add Review'
-                                labelPosition='left'
-                                onClick={() => {
-                                    this.setState({addReview: true})
-                                }}
-                        />
-                    </Segment>
-                    <Divider fitted/>
 
-                    {
-                        this.state.addReview ?
-                            <div>
-                                <Grid verticalAlign='middle' padded>
-                                    <Grid.Column width={14}>
-                                        <Form>
-                                            <Form.TextArea style={{minHeight: 200}}
-                                                           placeholder="Tell us what you think about this movie..."
-                                                           onChange={(event) => this.setState({
-                                                               myReview: {
-                                                                   ...this.state.myReview,
-                                                                   review: event.target.value
-                                                               }
-                                                           })}
-                                            />
-                                            <Button onClick={() => {
-                                                this.setState({addReview: false})
-                                            }}>Cancel</Button>
-                                            <Button className='postButton' onClick={this.postReview}> Post </Button>
-                                        </Form>
-                                    </Grid.Column>
-                                    <Grid.Column width={2}>
-                                        <div>
-                                            <Image className='imageSize' circular src={this.state.userDetails.avatar}
-                                                   size='mini'/>
-                                        </div>
+                                <h1> {this.state.movieDetails.averageRating} </h1>
 
-                                        <div className='user'>
-                                            <h3>{this.state.userDetails.name}</h3>
-                                            {/*<Rating icon='star'*/}
-                                            {/*              size='large'*/}
-                                            {/*              maxRating={5} clearable />*/}
-                                            <ReactStars
-                                                count={5}
-                                                onChange={this.ratingChanged}
-                                                size={24}
-                                                isHalf={true}
-                                                emptyIcon={<Icon name='star outline'/>}
-                                                halfIcon={<Icon name='star half'/>}
-                                                fullIcon={<Icon name='star'/>}
-                                                activeColor="#7b68ee"
-                                                color='lightgrey'
-                                            />
-                                        </div>
-                                    </Grid.Column>
-                                </Grid>
-                            </div>
-                            : null
-                    }
-                    <Review reviews={this.state.movieDetails.reviews}/>
-                </div>
-                {/*-------------------------similar movies-----------------------------*/}
-                <div className="movieHeader">
-                    <h2>Similar Movies</h2>
+                                <ReactStars
+                                    count={5}
+                                    value={this.state.movieDetails.averageRating}
+                                    size={24}
+                                    isHalf={true}
+                                    edit={false}
+                                    activeColor="#7b68ee"
+                                    color='lightgrey'
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+
+                    {/*-------------------------movie cast-----------------------------*/}
+                    <h2 className='movieHeader'>Cast</h2>
                     <Divider/>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Form>
-                            <Form.Group inline>
-                                <label>Sorted by: </label>
-                                <Form.Radio
-                                    label='Genre'
-                                    value='g'
-                                    checked={this.state.sortedBy === 'g'}
-                                    onChange={this.handleSortedByCheckbox}
+                    <Cast casts={this.state.movieDetails.casts}/>
+
+                    {/*-------------------------movie review-----------------------------*/}
+                    <div className="movieHeader">
+                        <Grid  verticalAlign="bottom" columns={2}>
+                            <Grid.Column floated='left'>
+                                <h2>Review</h2>
+                            </Grid.Column>
+                            <Grid.Column floated='right'>
+                                <Button inverted color='violet' icon='add' content='Add Review'
+                                        labelPosition='left'
+                                        onClick={() =>{this.setState({addReview: true})}}
                                 />
-                                <Form.Radio
-                                    label='Director'
-                                    value='d'
-                                    checked={this.state.sortedBy === 'd'}
-                                    onChange={this.handleSortedByCheckbox}
-                                />
+                            </Grid.Column>
+                        </Grid>
+                        <Divider/>
 
-                            </Form.Group>
-                        </Form>
+                        {
+                            this.state.addReview ?
+                                <div>
 
-                        {/*TODO: call recommend movie api*/}
-                        <SimilarMovies recommendations={this.state.similarMovies}/>
-                    </Suspense>
-                </div>
+                                    <Grid verticalAlign='middle' padded>
+                                        <Grid.Column width={14}>
+                                            <Form>
+                                                <Form.TextArea style={{minHeight:200}}
+                                                            placeholder="Tell us what you think about this movie..."
+                                                               onChange={(event)=>this.setState({myReview: {...this.state.myReview,review:event.target.value}})}
+                                                />
+                                                <Button onClick={()=>{this.setState({addReview:false})}}>Cancel</Button>
+                                                <Button className='postButton' onClick={this.postReview}> Post </Button>
+                                            </Form>
+                                        </Grid.Column>
+                                        <Grid.Column width={2} >
+                                            <div >
+                                                <Image className='imageSize' circular src={this.state.userDetails.avatar} size='mini'/>
+                                            </div>
 
-            </Container>
+                                            <div className='user'>
+                                                <h3>{this.state.userDetails.name}</h3>
+                                                {/*<Rating icon='star'*/}
+                                                {/*              size='large'*/}
+                                                {/*              maxRating={5} clearable />*/}
+                                                <ReactStars
+                                                    count={5}
+                                                    onChange={this.ratingChanged}
+                                                    size={24}
+                                                    isHalf={true}
+                                                    emptyIcon={<Icon name='star outline'/>}
+                                                    halfIcon={<Icon name='star half'/>}
+                                                    fullIcon={<Icon name='star'/>}
+                                                    activeColor="#7b68ee"
+                                                    color='lightgrey'
+                                                />
+                                            </div>
+                                        </Grid.Column>
+                                    </Grid>
+                                </div>
+                                : null
+                        }
+                        <Review reviews={this.state.movieDetails.reviews}/>
+                    </div>
+
+                    {/*-------------------------similar movies-----------------------------*/}
+                    <div className="movieHeader">
+                        <h2>Similar Movies</h2>
+                        <Divider/>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Form>
+                                <Form.Group inline>
+                                    <label>Sorted by: </label>
+                                    <Form.Radio
+                                        label= 'Genre'
+                                        value= 'g'
+                                        checked={this.state.sortedBy === 'g'}
+                                        onChange={this.handleSortedByCheckbox}
+                                    />
+                                    <Form.Radio
+                                        label= 'Director'
+                                        value= 'd'
+                                        checked={this.state.sortedBy === 'd'}
+                                        onChange={this.handleSortedByCheckbox}
+                                    />
+
+                                </Form.Group>
+                            </Form>
+
+                            {/*TODO: call recommend movie api*/}
+                            <SimilarMovies recommendations={this.state.similarMovies}/>
+                        </Suspense>
+                    </div>
+
+                </Container>
+            </div>
         );
     }
 }
