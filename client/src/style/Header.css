@@ -5,10 +5,11 @@
   height: 100%;
   padding-top: 2%;
 }
-.header-menu-tab .item {
+.item {
   width: 50%;
   font-size: 1.5em !important;
 }
+
 .header-button {
   background-color: rgba(118,45,221,0.3)!important;
 }
