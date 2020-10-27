@@ -61,6 +61,10 @@ function Header(props) {
                 isSearch: true,
                 keyword: searchInput,
                 filters: {
+                    searchByTitle: searchByTitle,
+                    searchByWishlist: searchByWishlist,
+                    searchByCast: searchByCast,
+                    searchByDescription: searchByDescription,
                     genresKey: genresKey,
                     yearFrom: yearFrom,
                     yearTo: yearTo,
@@ -86,6 +90,8 @@ function Header(props) {
         setRatingTo(null)
         setRatingError(false)
     }
+
+    const yearPattern = new RegExp(/^\d+$/)
 
     useEffect(() => {
         if (location.isLogin) {
@@ -248,14 +254,15 @@ function Header(props) {
                                         <Grid.Column width={9}>
                                             <Form>
                                                 <Form.Group widths='equal' className='filter-form-group'>
-                                                    <Form.Input placeholder='From'
+                                                    <Form.Input placeholder='From YYYY'
                                                                 onChange={(e, {value}) => setYearFrom(value)}/>
-                                                    <Form.Input placeholder='To'
+                                                    <Form.Input placeholder='To YYYY'
                                                                 onChange={(e, {value}) => setYearTo(value)}/>
                                                 </Form.Group>
-                                                {parseInt(yearFrom) > parseInt(yearTo) ?
-                                                    <div className='errMsg'>Please enter correct year
-                                                        range...</div> : null}
+                                                {parseInt(yearFrom) > parseInt(yearTo) || !yearPattern.test(yearFrom) || !yearPattern.test(yearTo)
+                                                    ? (yearFrom === null && yearTo === null
+                                                        ? null: <div className='errMsg'>Please enter correct year range...</div>)
+                                                    : null}
                                             </Form>
                                         </Grid.Column>
                                     </Grid.Row>
