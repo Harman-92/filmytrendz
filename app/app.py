@@ -1,12 +1,11 @@
 from flask_restplus import Api
 from flask import Blueprint
 
+from .main.controller.auth import api as auth_ns
 from .main.controller.user import api as user_ns
 from .main.controller.movie import api as movie_ns
 from .main.controller.wishlist import api as wishlist_ns
-from .main.controller.favorite import api as favorite_ns
-from .main.controller.history import api as history_ns
-from .main.controller.auth_controller import api as auth_ns
+from .main.controller.recommend import api as recommendation_ns
 
 
 blueprint = Blueprint('api', __name__)
@@ -20,18 +19,17 @@ api = Api(blueprint,
                       '\r\n\r\n\r\n'
                       'Team V5',
           authorizations={
-              "apikey": {
+              "TOKEN-BASED": {
                   "type": "apiKey",
                   "name": "Authorization",
                   "in": "header"
               }
           },
-          security='apikey'
           )
-api.add_namespace(auth_ns, path='/authorization')
+
+api.add_namespace(auth_ns, path='/')
 api.add_namespace(user_ns, path='/user')
 api.add_namespace(movie_ns, path='/movie')
 api.add_namespace(wishlist_ns, path='/wishlist')
-api.add_namespace(favorite_ns, path='/favorite')
-api.add_namespace(history_ns, path='/history')
+api.add_namespace(recommendation_ns, path='/recommend')
 

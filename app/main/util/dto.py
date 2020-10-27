@@ -23,11 +23,13 @@ class UserDto:
     user_ban = api.model('user_ban', {
         'id': fields.Integer
     })
+
     banned_user = api.model('banned_user', {
         'id': fields.String,
         'first_name': fields.String,
         'last_name': fields.String
     })
+
     banned_list = api.model('banned_users', {
         'banned_users': fields.List(fields.Nested(banned_user))
     })
@@ -78,68 +80,54 @@ class MovieDto:
         'reviews': fields.List(fields.Nested(review_model))
     })
 
+    wish_list = api.model('wish-list', {
+        'id': fields.String,
+        'name': fields.String,
+        'isPublic': fields.Boolean
+    })
+
     search_result_model = api.model('movie-list', {
         'movies': fields.List(fields.Nested(movie_model))
     })
 
+    retrive_result_model = api.model('retrieve-movie', {
+        'favorite': fields.Boolean,
+        'watched': fields.Boolean,
+        'wishlist': fields.List(fields.Nested(wish_list)),
+        'reviews': fields.List(fields.Nested(review_model)),
+        'movie': fields.List(fields.Nested(movie_model))
+    })
+
     recommand_movie_model = api.model('movie-recommandations', {
         'movies_by_genre': fields.List(fields.Nested(movie_model)),
-        'movies_by_director': fields.List(fields.Nested(movie_model))
+        'movies_by_director': fields.List(fields.Nested(movie_model)),
+        'movies_by_both': fields.List(fields.Nested(movie_model))
     })
 
 
 class WishListDto:
     api = Namespace('wishlist', description='wish list')
 
-    wishlist_movie_model=api.model('movie-model',{
-        'id':fields.Integer,
-        'name':fields.String,
-    })
-
-    wish_list_model = api.model('wish-list', {
+    wish_list_model = api.model('wish-list-movies', {
         'id': fields.Integer,
-        'name':fields.String,
-        'movies': fields.List(fields.Nested(wishlist_movie_model))
-    })
-
-    wish_lists_model = api.model('wish-lists', {
-        'wishlists': fields.List(fields.Nested(wish_list_model))
-    })
-
-
-    new_wishlist_model=api.model('new-wish-list', {
-    'name' : fields.String,
-    'status' : fields.String,
-
-    })
-
-    new_wishlist_return_model=api.model('new-wish-list-return', {
-    'id':fields.Integer,
-    'name' : fields.String,
-    'status' : fields.String
-
-    })
-
-    wishlist_update_model = api.model('wish-list', {
-        'new_list': fields.List(fields.Integer),
-        'remove_list': fields.List(fields.Integer)
-    })
-
-
-
-
-
-class FavoriteListDto:
-    api = Namespace('favorite', description='favorite list')
-
-    favorite_list_model = api.model('favorite movie', {
+        'name': fields.String,
         'movies': fields.List(fields.Nested(MovieDto.movie_model))
     })
 
+# watched movies are the histories...
+# class HistoryListDto:
+#     api = Namespace('history', description='history list')
+#
+#     watched_history_model = api.model('watch history', {
+#         'movies': fields.List(fields.Nested(MovieDto.movie_model))
+#     })
 
-class HistoryListDto:
-    api = Namespace('history', description='history list')
 
-    watched_history_model = api.model('watch history', {
-        'movies': fields.List(fields.Nested(MovieDto.movie_model))
-    })
+class RecommendationDto:
+    api = Namespace('recommendation', description='movies recommendation for a specific user')
+
+    recommendation_movies_model = api.model('recommendation-movie-model',
+        {
+            'movies': fields.List(fields.Nested(MovieDto.movie_model)),
+        }
+    )

@@ -13,6 +13,7 @@ new_wishlist_model = WishListDto.new_wishlist_model
 new_wishlist_return_model = WishListDto.new_wishlist_return_model
 wishlist_update_model= WishListDto.wishlist_update_model
 
+
 @api.route('/wishlists')
 class Wishlist(Resource):
 

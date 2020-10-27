@@ -7,12 +7,12 @@ import json
 from ..http_status import *
 
 
-
 api = UserDto.api
 user_model = UserDto.user
-password_model =UserDto.pass_change
-ban_model= UserDto.user_ban
-ban_list_model=UserDto.banned_list
+password_model = UserDto.pass_change
+ban_model = UserDto.user_ban
+ban_list_model = UserDto.banned_list
+
 
 @api.route('/')
 class User(Resource):
@@ -28,14 +28,13 @@ class User(Resource):
 		else:
 			return marshal(user, user_model), SUCCESS
 
-
-	@token_required
 	@api.doc('update user details')
 	@api.response(200, 'success', model=user_model)
 	@api.response(404, 'not found')
 	@api.expect(api.model('update user info',{}))
 	@api.response(400, 'invalid')
-	def post(self,user):
+	@token_required
+	def post(self, user):
 
 		user_id = user['id']
 		if user_id:
@@ -46,15 +45,16 @@ class User(Resource):
 
 			api.abort(400, 'invalid operation')
 
-@api.route('/changepassword')
-class Changepassword(Resource):
+
+@api.route('/password')
+class ChangePassword(Resource):
 
 	@api.doc('change password for user')
 	@api.expect(password_model, validate=True)
 	@api.response(200, 'success')
 	@api.response(400, 'invalid')
 	@token_required
-	def post(self,user):
+	def post(self, user):
 		user_id = user['id']
 
 		if user_id:
@@ -67,7 +67,6 @@ class Changepassword(Resource):
 			api.abort(400, 'invalid operation')
 
 
-
 @api.route('/banneduser')
 class Banneduser(Resource):
 
@@ -75,7 +74,7 @@ class Banneduser(Resource):
 	@api.response(200, 'success')
 	@api.response(400, 'invalid')
 	@token_required
-	def get(self,user):
+	def get(self, user):
 		user_id = user['id']
 
 		if user_id:
@@ -86,14 +85,12 @@ class Banneduser(Resource):
 		else:
 			api.abort(400, 'invalid operation')
 
-
-
 	@api.doc('add ban user')
 	@api.expect(ban_model)
 	@api.response(200, 'success')
 	@api.response(400, 'invalid')
 	@token_required
-	def put(self,user):
+	def put(self, user):
 		user_id = user['id']
 
 		if user_id:
@@ -110,7 +107,7 @@ class Banneduser(Resource):
 	@api.response(200, 'success')
 	@api.response(400, 'invalid')
 	@token_required
-	def delete(self,user):
+	def delete(self, user):
 
 		user_id = user['id']
 
