@@ -1,7 +1,7 @@
-import React, {Component, Suspense, lazy, useState} from 'react';
+import React, {Suspense, useState, useEffect} from 'react';
 import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
-
+import {useLocation} from "react-router-dom";
 import moment from "moment";
 import {
     Button,
@@ -12,57 +12,24 @@ import {
     Grid,
     Form,
     Divider,
-    Comment,
     Menu,
     Statistic,
     Header,
     Segment,
-    Item
+    Item,
+    Popup,
+    Radio,
+    Input
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
-
-const Review = (props) => (
-    <div>
-    <Comment.Group>
-        {props.reviews.map((review,index) => (
-                <Comment key={index}>
-                    <Comment.Avatar  as='a' src={review.avatar}/>
-                    <Comment.Content>
-                        <Grid className='gridColumnMargin'>
-                            <Grid.Column width={5}>
-                                <h4>{review.user}</h4>
-                            </Grid.Column>
-                            <Grid.Column width={3}>
-                                <ReactStars
-                                count={5}
-                                value={review.rate}
-                                size={18}
-                                isHalf={true}
-                                edit={false}
-                                activeColor="#7b68ee"
-                                color='lightgrey'
-                            />
-                            </Grid.Column>
-                            <Grid.Column width={7}>
-                                <p className='dateTime'>Created at {review.createdTime}</p>
-                            </Grid.Column>
-                        </Grid>
-
-                        <Comment.Text><p>{review.comment}</p></Comment.Text>
-                    </Comment.Content>
-                </Comment>
-            )
-        )}
-    </Comment.Group>
-    </div>
-)
+import images from "../config/images";
 
 const Cast = (props) => (
     <Card.Group itemsPerRow={4}>
         {props.casts.map((cast, index) => (
                 <Card key={index}>
                     <Card.Content className='cast-content'>
-                        <Image fluid className='cast-image' floated='left' size='mini' verticalAlign='middle' src={cast.image}/>
+                        <Image className='cast-image' floated='left' size='mini' verticalAlign='middle' src={cast.image}/>
                         <Card.Header className='cast-name'>{cast.name}</Card.Header>
                         <Card.Meta>{cast.role}</Card.Meta>
                     </Card.Content>
@@ -72,28 +39,14 @@ const Cast = (props) => (
     </Card.Group>
 )
 
-
 const MovieDetails = () => {
+    const location = useLocation()
+    const [isLogin, setIsLogin] = useState(false)
     const [movieDetails, setMovieDetails] = useState({
         title: 'Spider Man 3',
         image: '/poster.jpg',
         averageRating: 4.5,
         description: 'Lorem ipsum dolor sit amet, cu principes  eloquentiam mea,' +
-            'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-            'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-            'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-            'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-            'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-            'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-            'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-            'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-            'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-            'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-            'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-            'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-            'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-            'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-            'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
             'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
             'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
             'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
@@ -148,18 +101,21 @@ const MovieDetails = () => {
             },
         ],
         favorite: false,
-        wishLists: [{
-            id: 2,
-            name: 'dark fantasy'
-        }, {
-            id: 5,
-            name: 'cyberpunk'
-        }],
-        watched: false,
+        watched: false
     })
+    const [wishList, setWishList] = useState([{
+        id: 2,
+        name: 'dark fantasy',
+        added: false
+    }, {
+        id: 5,
+        name: 'cyberpunk',
+        added: true
+    }])
+    const [isWishList, setIsWishList] = useState(false)
     const [myReview, setMyReview] = useState({
         title: '',
-        description:'',
+        description: '',
         rating: 0
     })
     const [user, setUser] = useState({
@@ -178,13 +134,14 @@ const MovieDetails = () => {
     ])
     const [addReview, setAddReview] = useState(false)
     const [sortedBy, setSortedBy] = useState('g')
-
+    const [addWishList, setAddWishList] = useState(false)
+    const [newWishList, setNewWishList] = useState('')
     const postReview = () => {
         const copyReviews = Object.assign([], movieDetails.reviews)
         let time = moment().format('YYYY-MM-DD HH:mm').toString()
         copyReviews.splice(0, 0, {
             avatar: user.avatar,
-            id:user.id,
+            id: user.id,
             name: user.name,
             createdTime: time,
             title: myReview.title,
@@ -204,8 +161,6 @@ const MovieDetails = () => {
             description: '',
             rating: 0
         })
-        // this.setState({movieDetails: {...movieDetails, reviews: copyReviews}})
-        // this.setState({addReview: false})
     }
 
     const handleSortedByCheckbox = (e, {value}) => {
@@ -214,15 +169,59 @@ const MovieDetails = () => {
         //TODO:sort the similarmovies
     }
 
-    const handleShare = () => {
-        alert("share a link")
-        //TODO: create a link
-    }
-
     const handleClickReviewer = (e) => {
         console.log(e.target.id)
     }
 
+    const checkWishListActive = () => {
+        let a = false
+        wishList.forEach(w => {
+            if (w.added) {
+                a = true
+            }
+        })
+        setIsWishList(a)
+    }
+    const handleWishListChange = (e, {id, value}) => {
+        let tempArr = [...wishList]
+        tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
+        setWishList(tempArr)
+
+        console.log(value)
+        //TODO:API to update wishlist of movie with wishlist id = value
+    }
+    const handleAddWishList = () => {
+        let tempArr = [...wishList]
+        tempArr.push({
+            id: 43,
+            name: newWishList,
+            added: true
+        })
+        setWishList(tempArr)
+        setNewWishList('')
+        //TODO:API to add new wishlist and add movie to it
+        setAddWishList(false)
+    }
+    const handleFavorite = () => {
+        //TODO: API to set movie favorite
+        setMovieDetails({
+            ...movieDetails,
+            favorite: !movieDetails.favorite
+        })
+    }
+    const handleWatched = () => {
+        //TODO: API to set movie watched
+        setMovieDetails({
+            ...movieDetails,
+            watched: !movieDetails.watched
+        })
+    }
+    useEffect(() => {
+        if (location.isLogin) {
+            setIsLogin(true)
+        }
+        checkWishListActive()
+    }, [location.isLogin, wishList])
     return (
         <Container>
             {/*-------------------------movie intro-----------------------------*/}
@@ -240,33 +239,105 @@ const MovieDetails = () => {
                         <p>{movieDetails.genre}</p>
                     </Grid.Column>
                     <Grid.Column width={3} className='movie-details-right'>
+                        {/*{isLogin ?*/}
                         <Menu className='movie-menu' icon fluid text size='massive'>
                             <Menu.Item
                                 name='fav'
                                 active={movieDetails.favorite}
-                                onClick={() => setMovieDetails({...movieDetails, favorite: !movieDetails.favorite})}>
-                                <Icon name='like'/>
+                                onClick={handleFavorite}>
+                                {movieDetails.favorite ?
+                                    <Icon name='heart' color='purple'/>
+                                    :
+                                    <Icon name='heart outline'/>
+                                }
                             </Menu.Item>
                             <Menu.Item
                                 name='wish'
-                                active
+                            ><Popup
+                                position='bottom right'
+                                trigger={isWishList ? <Icon name='star' color='purple'/> : <Icon name='star outline'/>}
+                                on='click'
+                                className='wishlist-popup'
+                                onClose={() => setAddWishList(false)}
+                                flowing={false}
+                                pinned={true}
                             >
-                                <Icon name='star'/>
+                                <Segment basic className='wishlist-container'>
+                                    {(wishList && wishList.length > 0) ?
+                                        <Form>
+                                            {wishList.map((w, index) => (
+                                                <Form.Field key={index}>
+                                                    <Radio
+                                                        id={index}
+                                                        label={w.name}
+                                                        value={w.id}
+                                                        checked={w.added}
+                                                        onClick={handleWishListChange}
+                                                    />
+                                                </Form.Field>
+                                            ))}
+                                            <Divider fitted/>
+                                        </Form>
+                                        : null}
+                                    {addWishList ?
+                                        <Input icon placeholder='Enter...' className='wishlist-input'
+                                               onChange={(e, {value}) => setNewWishList(value)}
+                                        >
+                                            <input onKeyPress={event => {
+                                                if (event.key === 'Enter') {
+                                                    handleAddWishList()
+                                                }
+                                            }}/>
+                                            <Icon name='terminal'/>
+                                        </Input>
+                                        :
+                                        <Button basic icon labelPosition='right' color='black' className='wishlist-add'
+                                                onClick={() => setAddWishList(true)}
+                                        >
+                                            Add Wish List
+                                            <Icon className='wishlist-add-icon' name='plus'/>
+                                        </Button>
+                                    }
+                                </Segment>
+                            </Popup>
+
                             </Menu.Item>
                             <Menu.Item
                                 name='watched'
                                 active={movieDetails.watched}
+                                onClick={handleWatched}
                             >
-                                <Icon name='check square'/>
+                                {movieDetails.watched ?
+                                    <Icon name='check circle' color='purple'/>
+                                    :
+                                    <Icon name='check circle outline'/>
+                                }
                             </Menu.Item>
                             <Menu.Item
                                 name='share'
                                 active={true}
-                                onClick={handleShare}
+                            ><Popup
+                                position='bottom right'
+                                trigger={<Icon name='share alternate' color='blue'/>}
+                                on='click'
+                                className='share-popup'
+                                onClose={() => setAddWishList(false)}
+                                flowing={false}
+                                pinned={true}
                             >
-                                <Icon name='share alternate' color='blue'/>
+                                <Segment basic className='share-link'>
+
+                                    {window.location.href}
+                                    <Button onClick={() => navigator.clipboard.writeText(window.location.href)}
+                                            className='wishlist-add share-link-button' basic icon='paperclip'
+                                    />
+                                </Segment>
+                            </Popup>
                             </Menu.Item>
                         </Menu>
+                        {/*    :*/}
+                        {/*    <Menu className='movie-menu' icon fluid text size='massive'/>*/}
+                        {/*}*/}
 
                         <div className='movie-rating-wrapper'>
                             {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
@@ -323,7 +394,7 @@ const MovieDetails = () => {
                             <Grid.Column width={10} className='review-content'>
                                 <Form onSubmit={postReview}>
                                     <Form.Input placeholder='Title'
-                                                onChange={(e,{value}) => setMyReview({
+                                                onChange={(e, {value}) => setMyReview({
                                                     ...myReview,
                                                     title: value
                                                 })}
@@ -347,8 +418,11 @@ const MovieDetails = () => {
                                                    })}
                                     />
                                     <Segment basic>
-                                    <Button floated='left' className='review-button post-button' type='submit'>Post</Button>
-                                    <Button floated='right' className='review-button' onClick={() => {setAddReview(false)}}>Cancel</Button>
+                                        <Button floated='left' className='review-button post-button'
+                                                type='submit'>Post</Button>
+                                        <Button floated='right' className='review-button' onClick={() => {
+                                            setAddReview(false)
+                                        }}>Cancel</Button>
                                     </Segment>
                                 </Form>
                             </Grid.Column>
@@ -359,62 +433,63 @@ const MovieDetails = () => {
             }
             {movieDetails.reviews.map((review, index) => (
                 <div key={index}>{
-                (addReview ? index % 2 !== 0 : index % 2 === 0) ?
-                    <Grid columns={2} className='review-grid'>
-                        <Grid.Row>
-                            <Grid.Column width={3} textAlign='center' className='reviewer'>
+                    (addReview ? index % 2 !== 0 : index % 2 === 0) ?
+                        <Grid columns={2} className='review-grid'>
+                            <Grid.Row>
+                                <Grid.Column width={3} textAlign='center' className='reviewer'>
 
-                                <Image className='reviewer-image' circular size='tiny' src={review.avatar}/>
+                                    <Image className='reviewer-image' circular size='tiny' src={review.avatar}/>
 
-                                <h4 id={review.id} className='reviewer-name'
-                                    onClick={handleClickReviewer}>{review.name}</h4>
-                                <Item.Description>{review.createdTime}</Item.Description>
-                            </Grid.Column>
-                            <Grid.Column width={10} className='review-content'>
-                                <Header as='a'>{review.title}</Header>
-                                <ReactStars
-                                    count={5}
-                                    value={review.rating}
-                                    size={18}
-                                    isHalf={true}
-                                    edit={false}
-                                    activeColor='#7b68ee'
-                                    color='lightgrey'
-                                />
-                                <Item.Description className='review-text'>{review.description}</Item.Description>
-                            </Grid.Column>
-
-                        </Grid.Row>
-                    </Grid>
-                    :
-                    <Grid columns={2} className='review-grid'>
-                        <Grid.Row>
-                            <Grid.Column width={3}>
-                            </Grid.Column>
-                            <Grid.Column width={10} textAlign={"right"} className='review-content review-right'>
-                                <Header as='a'>{review.title}</Header>
-                                <div>
+                                    <h4 id={review.id} className='reviewer-name'
+                                        onClick={handleClickReviewer}>{review.name}</h4>
+                                    <Item.Description>{review.createdTime}</Item.Description>
+                                </Grid.Column>
+                                <Grid.Column width={10} className='review-content'>
+                                    <Header as='a'>{review.title}</Header>
                                     <ReactStars
                                         count={5}
                                         value={review.rating}
                                         size={18}
                                         isHalf={true}
                                         edit={false}
-                                        activeColor="#7b68ee"
+                                        activeColor='#7b68ee'
                                         color='lightgrey'
-                                    /></div>
-                                <Item.Description className='review-text right'>{review.description}</Item.Description>
-                            </Grid.Column>
+                                    />
+                                    <Item.Description className='review-text'>{review.description}</Item.Description>
+                                </Grid.Column>
 
-                            <Grid.Column width={3} textAlign={"center"} className='reviewer'>
+                            </Grid.Row>
+                        </Grid>
+                        :
+                        <Grid columns={2} className='review-grid'>
+                            <Grid.Row>
+                                <Grid.Column width={3}>
+                                </Grid.Column>
+                                <Grid.Column width={10} textAlign={"right"} className='review-content review-right'>
+                                    <Header as='a'>{review.title}</Header>
+                                    <div>
+                                        <ReactStars
+                                            count={5}
+                                            value={review.rating}
+                                            size={18}
+                                            isHalf={true}
+                                            edit={false}
+                                            activeColor="#7b68ee"
+                                            color='lightgrey'
+                                        /></div>
+                                    <Item.Description
+                                        className='review-text right'>{review.description}</Item.Description>
+                                </Grid.Column>
 
-                                <Image className='reviewer-image' circular size='tiny' src={review.avatar}/>
+                                <Grid.Column width={3} textAlign={"center"} className='reviewer'>
 
-                                <h4 id={review.id} className='reviewer-name'>{review.name}</h4>
-                                <Item.Description>{review.createdTime}</Item.Description>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>}
+                                    <Image className='reviewer-image' circular size='tiny' src={review.avatar}/>
+
+                                    <h4 id={review.id} className='reviewer-name'>{review.name}</h4>
+                                    <Item.Description>{review.createdTime}</Item.Description>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>}
                 </div>
             ))}
 
