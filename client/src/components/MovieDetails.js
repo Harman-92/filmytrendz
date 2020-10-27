@@ -240,6 +240,10 @@ const MovieDetails = () => {
                     </Grid.Column>
                     <Grid.Column width={3} className='movie-details-right'>
                         {/*{isLogin ?*/}
+
+                        {/*-------------------------Movie Menu Options----------------------------*/}
+
+
                         <Menu className='movie-menu' icon fluid text size='massive'>
                             <Menu.Item
                                 name='fav'
@@ -251,6 +255,7 @@ const MovieDetails = () => {
                                     <Icon name='heart outline'/>
                                 }
                             </Menu.Item>
+                            {/*-----------------------Wish List popup----------------------*/}
                             <Menu.Item
                                 name='wish'
                             ><Popup
@@ -300,7 +305,7 @@ const MovieDetails = () => {
                                     }
                                 </Segment>
                             </Popup>
-
+                            {/*--------------------watched menu option------------------------*/}
                             </Menu.Item>
                             <Menu.Item
                                 name='watched'
@@ -313,6 +318,7 @@ const MovieDetails = () => {
                                     <Icon name='check circle outline'/>
                                 }
                             </Menu.Item>
+                            {/*------------------------share link popup-----------------------*/}
                             <Menu.Item
                                 name='share'
                                 active={true}
@@ -338,6 +344,9 @@ const MovieDetails = () => {
                         {/*    :*/}
                         {/*    <Menu className='movie-menu' icon fluid text size='massive'/>*/}
                         {/*}*/}
+
+
+                        {/*--------------------------Movie Rating--------------------------*/}
 
                         <div className='movie-rating-wrapper'>
                             {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
@@ -379,58 +388,61 @@ const MovieDetails = () => {
                 <Divider fitted/>
 
             </div>
-            {
-                addReview ?
-                    <Grid columns={2} className='review-grid'>
-                        <Grid.Row>
-                            <Grid.Column width={3} textAlign={"center"} className='reviewer'>
+            {/*---------------------Add new review-----------------------------*/}
+            {addReview ?
+                <Grid columns={2} className='review-grid'>
+                    <Grid.Row>
+                        <Grid.Column width={3} textAlign={"center"} className='reviewer'>
 
-                                <Image className='reviewer-image' circular size='tiny' src={user.avatar}/>
+                            <Image className='reviewer-image' circular size='tiny' src={user.avatar}/>
 
-                                <h4 id={user.id} className='reviewer-name'
-                                    onClick={handleClickReviewer}>{user.name}</h4>
-                                <Item.Description>{moment().format('YYYY-MM-DD HH:mm').toString()}</Item.Description>
-                            </Grid.Column>
-                            <Grid.Column width={10} className='review-content'>
-                                <Form onSubmit={postReview}>
-                                    <Form.Input placeholder='Title'
-                                                onChange={(e, {value}) => setMyReview({
-                                                    ...myReview,
-                                                    title: value
-                                                })}
-                                    />
-                                    <ReactStars
-                                        count={5}
-                                        onChange={(newRating) => setMyReview({
-                                            ...myReview,
-                                            rating: newRating
-                                        })}
-                                        size={18}
-                                        isHalf={true}
-                                        activeColor="#7b68ee"
-                                        color='lightgrey'
-                                    />
-                                    <Form.TextArea style={{minHeight: 150}}
-                                                   placeholder="Tell us what you think about this movie..."
-                                                   onChange={(e, {value}) => setMyReview({
-                                                       ...myReview,
-                                                       description: value
-                                                   })}
-                                    />
-                                    <Segment basic>
-                                        <Button floated='left' className='review-button post-button'
-                                                type='submit'>Post</Button>
-                                        <Button floated='right' className='review-button' onClick={() => {
-                                            setAddReview(false)
-                                        }}>Cancel</Button>
-                                    </Segment>
-                                </Form>
-                            </Grid.Column>
+                            <h4 id={user.id} className='reviewer-name'
+                                onClick={handleClickReviewer}>{user.name}</h4>
+                            <Item.Description>{moment().format('YYYY-MM-DD HH:mm').toString()}</Item.Description>
+                        </Grid.Column>
+                        <Grid.Column width={10} className='review-content'>
+                            <Form onSubmit={postReview}>
+                                <Form.Input placeholder='Title'
+                                            onChange={(e, {value}) => setMyReview({
+                                                ...myReview,
+                                                title: value
+                                            })}
+                                />
+                                <ReactStars
+                                    count={5}
+                                    onChange={(newRating) => setMyReview({
+                                        ...myReview,
+                                        rating: newRating
+                                    })}
+                                    size={18}
+                                    isHalf={true}
+                                    activeColor="#7b68ee"
+                                    color='lightgrey'
+                                />
+                                <Form.TextArea style={{minHeight: 150}}
+                                               placeholder="Tell us what you think about this movie..."
+                                               onChange={(e, {value}) => setMyReview({
+                                                   ...myReview,
+                                                   description: value
+                                               })}
+                                />
+                                <Segment basic>
+                                    <Button floated='left' className='review-button post-button'
+                                            type='submit'>Post</Button>
+                                    <Button floated='right' className='review-button' onClick={() => {
+                                        setAddReview(false)
+                                    }}>Cancel</Button>
+                                </Segment>
+                            </Form>
+                        </Grid.Column>
 
-                        </Grid.Row>
-                    </Grid>
-                    : null
+                    </Grid.Row>
+                </Grid>
+                : null
             }
+
+            {/*-------------------------Loading reviews--------------------------------*/}
+
             {movieDetails.reviews.map((review, index) => (
                 <div key={index}>{
                     (addReview ? index % 2 !== 0 : index % 2 === 0) ?
