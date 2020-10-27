@@ -83,5 +83,7 @@
 .errMsg {
   color: red;
 }
-
+.filter-genre-container{
+  padding-right: 2em!important;
+}
 
