@@ -1,0 +1,10 @@
+.homePageTitle {
+    color: lightgray !important;
+    font-size: 4em !important;
+    text-align: center;
+}
+
+.movieCard {
+    margin-left: 5%;
+    margin-right: 5%;
+}

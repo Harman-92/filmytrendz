@@ -1,4 +1,4 @@
-import React, {Component, Suspense, useState} from 'react';
+import React, {Component, Suspense, lazy, useState} from 'react';
 import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
 
@@ -12,43 +12,48 @@ import {
     Grid,
     Form,
     Divider,
-    Comment, Menu, Statistic, Header, Segment, Item, Input, ItemContent
+    Comment,
+    Menu,
+    Statistic,
+    Header,
+    Segment,
+    Item
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
 
 const Review = (props) => (
     <div>
-        <Comment.Group>
-            {props.reviews.map((review, index) => (
-                    <Comment key={index}>
-                        <Comment.Avatar as='a' src={review.avatar}/>
-                        <Comment.Content>
-                            <Grid className='gridColumnMargin'>
-                                <Grid.Column width={5}>
-                                    <h4>{review.user}</h4>
-                                </Grid.Column>
-                                <Grid.Column width={3}>
-                                    <ReactStars
-                                        count={5}
-                                        value={review.rate}
-                                        size={18}
-                                        isHalf={true}
-                                        edit={false}
-                                        activeColor="#7b68ee"
-                                        color='lightgrey'
-                                    />
-                                </Grid.Column>
-                                <Grid.Column width={7}>
-                                    <p className='dateTime'>Created at {review.createdTime}</p>
-                                </Grid.Column>
-                            </Grid>
+    <Comment.Group>
+        {props.reviews.map((review,index) => (
+                <Comment key={index}>
+                    <Comment.Avatar  as='a' src={review.avatar}/>
+                    <Comment.Content>
+                        <Grid className='gridColumnMargin'>
+                            <Grid.Column width={5}>
+                                <h4>{review.user}</h4>
+                            </Grid.Column>
+                            <Grid.Column width={3}>
+                                <ReactStars
+                                count={5}
+                                value={review.rate}
+                                size={18}
+                                isHalf={true}
+                                edit={false}
+                                activeColor="#7b68ee"
+                                color='lightgrey'
+                            />
+                            </Grid.Column>
+                            <Grid.Column width={7}>
+                                <p className='dateTime'>Created at {review.createdTime}</p>
+                            </Grid.Column>
+                        </Grid>
 
-                            <Comment.Text><p>{review.comment}</p></Comment.Text>
-                        </Comment.Content>
-                    </Comment>
-                )
-            )}
-        </Comment.Group>
+                        <Comment.Text><p>{review.comment}</p></Comment.Text>
+                    </Comment.Content>
+                </Comment>
+            )
+        )}
+    </Comment.Group>
     </div>
 )
 
@@ -193,6 +198,11 @@ const MovieDetails = () => {
         setMovieDetails({
             ...movieDetails,
             reviews: copyReviews
+        })
+        setMyReview({
+            title: '',
+            description: '',
+            rating: 0
         })
         // this.setState({movieDetails: {...movieDetails, reviews: copyReviews}})
         // this.setState({addReview: false})

@@ -5,10 +5,11 @@
   height: 100%;
   padding-top: 2%;
 }
-.header-menu-tab .item {
+.item {
   width: 50%;
   font-size: 1.5em !important;
 }
+
 .header-button {
   background-color: rgba(118,45,221,0.3)!important;
 }
@@ -37,7 +38,9 @@
 }
 .filter-icon {
   background-color: rgba(0,0,0,0) !important;
+  color: #6435C9 !important;
 }
+
 .ui.basic.filter-button {
   background: white!important;
 }
@@ -55,3 +58,21 @@
 .menu-text {
   font-size: 16px;
 }
+
+.filterHeader {
+  font-size: 1.2em !important;
+  font-weight: bold;
+}
+.itemFont {
+  font-size: 1.0em !important;
+}
+
+.ui.radio.checkbox input:checked~.box:after, .ui.radio.checkbox input:checked~label:after {
+  background-color: #7b68ee !important;
+}
+
+.errMsg {
+  color: red;
+}
+
+
