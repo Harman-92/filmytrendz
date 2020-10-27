@@ -123,3 +123,12 @@ class Cast(db.Model):
     __tablename__ = 'cast'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
+
+
+features = {
+    'Partner', 'Dependents', 
+    'PhoneService', 'MultipleLines',
+    'OnlineSecurity', 'OnlineBackup', 
+    'DeviceProtection', 'TechSupport', 
+    ...
+}
