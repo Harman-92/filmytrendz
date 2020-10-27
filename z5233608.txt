@@ -1,12 +1,12 @@
 Week 1
 
-Group formed. 
-I created the Jira account. 
+Group formed.
+I created the Jira account.
 Discussed with the whole team and decided to do the project "Film Finder" and all available software tools.
 
 
 Week 2
-Research on existing film finder website and anaylise their drawbacks. 
+Research on existing film finder website and anaylise their drawbacks.
 Worked with Song to create some user stories for the proposal
 
 
@@ -24,4 +24,8 @@ Week 5
 Finished RetrospectiveA and took notes
 Had a meeting to discuss the api architecture
 Finialised the UI and UX design
-Started developing feature cwv-85
+Started developing layout of feature cwv-85
+
+Week 6
+Finished developing layout of feature cwv-85
+Finsihed developing home page filter

@@ -3,6 +3,7 @@ import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
 
 import moment from "moment";
+
 import {
     Button,
     Icon,
@@ -12,9 +13,8 @@ import {
     Grid,
     Form,
     Divider,
-    Rating,
     Comment,
-    Item, Menu,
+    Menu,
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
 
@@ -92,7 +92,7 @@ export default class MovieDetails extends Component {
                     {image:'/poster.jpg', name:'J. B. Smoove', role: 'Julius Dell'},
                 ],
                 reviews:[
-                    {avatar:'/logo192.png', user:'Matt', createdTime:'2020-10-20 15:34', comment:'How artistic!', rate: 4.5},
+                    {avatar:'/logo192.png', user:'Matt', createdTime:'2020-10-20 15:34', comment:'How artistic!', rate: 4},
                     {avatar:'/logo192.png', user:'Elliot Fu', createdTime:'2020-10-18 15:34', comment:'This has been very useful for my research. Thanks as well!', rate: 4},
                     {avatar:'/logo192.png', user:'Jenny Hess', createdTime:'2020-10-19 15:34', comment:'Elliot you are always so right :)', rate: 3},
                     {avatar:'/logo192.png', user:'Joe Henderson', createdTime:'2020-10-20 15:34', comment:'Dude, this is awesome. Thanks so much', rate: 1.5},
@@ -137,6 +137,9 @@ export default class MovieDetails extends Component {
         // TODO:call add review api
         this.setState({movieDetails:{...this.state.movieDetails, reviews:copyReviews}})
         this.setState({addReview: false})
+        this.setState({myReview: {...this.state.myReview,review: ''}})
+        this.setState({myReview: {...this.state.myReview,rating: 0}})
+
     }
 
     handleSortedByCheckbox = (e, {value}) => {
@@ -151,21 +154,21 @@ export default class MovieDetails extends Component {
     }
 
     ratingChanged = (newRating) => {
-        console.log(newRating);
-        this.setState({myReview: {...this.state.myReview,rating:newRating}})
+        this.setState({myReview: {...this.state.myReview, rating:newRating}})
+
     }
 
     render() {
         return (
             <div>
-                <Container>
+                <Container className='container'>
                     {/*-------------------------movie intro-----------------------------*/}
                     <Grid columns={3} verticalAlign='middle'>
                         <Grid.Row >
                             <Grid.Column width={3}>
                                 <Image src={this.state.movieDetails.image} size='small' rounded alt={this.state.movieDetails.title}/>
                             </Grid.Column>
-                            <Grid.Column width={10}>
+                            <Grid.Column width={8}>
                                 <h1>{this.state.movieDetails.title}</h1>
                                 <p>{this.state.movieDetails.description}</p>
                                 <h3>Genre</h3>
@@ -178,7 +181,7 @@ export default class MovieDetails extends Component {
                                             name='fav'
                                             active={this.state.favorite}
                                             onClick={()=>this.setState({favorite: !this.state.favorite})}>
-                                            <Icon name='like'/>
+                                            <Icon name='like' />
                                             Favorite
                                         </Menu.Item>
 
@@ -210,10 +213,6 @@ export default class MovieDetails extends Component {
 
 
                                 <h1> {this.state.movieDetails.averageRating} </h1>
-                                {/*<Rating icon='star'*/}
-                                {/*              size='large'*/}
-                                {/*              maxRating={5} clearable*/}
-                                {/*/>*/}
 
                                 <ReactStars
                                     count={5}
@@ -251,6 +250,7 @@ export default class MovieDetails extends Component {
                         {
                             this.state.addReview ?
                                 <div>
+
                                     <Grid verticalAlign='middle' padded>
                                         <Grid.Column width={14}>
                                             <Form>

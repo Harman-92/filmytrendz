@@ -8,3 +8,9 @@
 .message-space-hide {
     display: none;
 }
+.signup-button .button {
+    background-color: rgba(118,45,221,0.3)!important;
+}
+.signup-button .button:hover {
+    background-color: rgba(118,45,221,0.5)!important;
+}

@@ -155,7 +155,7 @@ const SignUp = () => {
                                     onChange={(e, {value}) => setPassword({v:value,e:false})}
                                     error={password.e}
                         />
-                        <Form.Button fluid size='large'>Submit</Form.Button>
+                        <Form.Button fluid size='large' color='violet'>Submit</Form.Button>
                     </Form>
                 </Grid.Column>
             </Grid>

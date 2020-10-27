@@ -119,7 +119,7 @@ const Login = (props) => {
                             onChange={(e, {value}) => setPassword({v: value, e: false})}
                             error={password.e}
                         />
-                        <Button fluid size='large'>
+                        <Button fluid size='large' color='violet'>
                             Login
                         </Button>
                     </Form>
