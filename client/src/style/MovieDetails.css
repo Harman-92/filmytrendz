@@ -53,13 +53,6 @@
 .movie-rating, .movie-rating-wrapper div[class^="react-stars-wrapper"] {
     align-self: flex-end;
 }
-#menu-inactive{
-    color: lightgray !important;
-}
-#menu-active {
-    border-color: #7b68ee!important;
-    color: #7b68ee!important;
-}
 .review-header.ui.segment {
     padding-left: 0;
     padding-right: 0;
@@ -134,4 +127,40 @@
 
 .gridColumnMargin {
     margin-bottom: 4%;
+}
+.wishlist-popup {
+    width: 108% !important;
+}
+.wishlist-add.ui.basic.button {
+    box-shadow: none!important;
+    border-color: transparent!important;
+}
+.wishlist-add.ui.basic.button:hover {
+    color: rgba(100, 53, 201,0.8) !important;
+    box-shadow: none!important;
+}
+.wishlist-add.ui.basic.button:focus {
+    box-shadow: none!important;
+}
+.wishlist-add-icon {
+    background-color: transparent!important;
+}
+.wishlist-container {
+    width: 230px;
+}
+.wishlist-input>input {
+    border: none!important;
+}
+.share-link {
+    display: flex;
+    align-items: baseline;
+    padding: 0!important;
+}
+.wishlist-add.share-link-button.ui.basic.button{
+    margin-right: 0!important;
+}
+.share-popup{
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+    padding-right: 0!important;
 }
