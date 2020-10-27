@@ -11,7 +11,7 @@ import {
     Segment,
     Dropdown,
     Accordion,
-    Grid, Form
+    Grid, Form,Transition
 } from 'semantic-ui-react';
 import SignUp from "./SignUp";
 import Login from "./Login";
@@ -193,6 +193,9 @@ function Header(props) {
 
                             </Accordion.Title>
                             {/*---------------------Search Bar Filter ----------------------*/}
+
+                            <Transition.Group animation='fly down' duration={500}>
+                                {visible2 && (
                             <Accordion.Content active={visible2}>
 
                                 <Grid className='filter-grid'>
@@ -238,7 +241,7 @@ function Header(props) {
                                         <Grid.Column width={2} textAlign={'center'}>
                                             <div className='filterHeader'>Genre:</div>
                                         </Grid.Column>
-                                        <Grid.Column width={9}>
+                                        <Grid.Column width={9} className='filter-genre-container'>
                                             <Dropdown search selection multiple clearable fluid className='filter-genre'
                                                       options={genres}
                                                       placeholder="-- Select Genres --"
@@ -306,6 +309,8 @@ function Header(props) {
                                 </Grid>
 
                             </Accordion.Content>
+                                )}
+                            </Transition.Group>
                         </Accordion>
 
                     </Segment>

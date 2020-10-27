@@ -59,6 +59,8 @@ const Login = (props) => {
             loginError: false,
             success: true
         })
+        //TODO: API call to Login
+
         setTimeout(function () {
             props.setVisible(false)
             history.push({
@@ -67,7 +69,6 @@ const Login = (props) => {
                 email: email.v
             })
         }, 500);
-        //TODO: API call to Login
     }
     useEffect(() => {
         setSubmit({
