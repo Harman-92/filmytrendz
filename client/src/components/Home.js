@@ -10,6 +10,7 @@ const Home = () => {
     useEffect(() => {
         if(location.isSearch){
             console.log(location.keyword)
+            console.log(location.filters)
             //TODO:API call to search
         }
         if(location.isLogin){

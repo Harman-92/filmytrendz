@@ -61,6 +61,10 @@ function Header(props) {
                 isSearch: true,
                 keyword: searchInput,
                 filters: {
+                    searchByTitle: searchByTitle,
+                    searchByWishlist: searchByWishlist,
+                    searchByCast: searchByCast,
+                    searchByDescription: searchByDescription,
                     genresKey: genresKey,
                     yearFrom: yearFrom,
                     yearTo: yearTo,
@@ -86,6 +90,8 @@ function Header(props) {
         setRatingTo(null)
         setRatingError(false)
     }
+
+    const yearPattern = new RegExp(/^\d+$/)
 
     useEffect(() => {
         if (location.isLogin) {
@@ -253,8 +259,8 @@ function Header(props) {
                                                     <Form.Input placeholder='To'
                                                                 onChange={(e, {value}) => setYearTo(value)}/>
                                                 </Form.Group>
-                                                {parseInt(yearFrom) > parseInt(yearTo) ?
-                                                    <div className='errMsg'>Please enter correct year
+                                                {parseInt(yearFrom) > parseInt(yearTo) || !yearPattern.test(yearFrom) || !yearPattern.test(yearTo)
+                                                    ? <div className='errMsg'>Please enter correct year
                                                         range...</div> : null}
                                             </Form>
                                         </Grid.Column>
