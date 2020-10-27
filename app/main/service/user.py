@@ -93,17 +93,13 @@ def update_password(updated_info, userid):
         resp.status_code = BAD_REQUEST
         return resp
     else:
-        user.encrypt_password(oldpass)
+        user.encrypt_password(newpass)
         db.session.add(user)
         db.session.commit()
 
         resp = make_response(jsonify({'message': 'password changed sucessfully'}))
         resp.status_code = SUCCESS
         return resp
-
-
-
-
 
 
 def save_changes(data):
