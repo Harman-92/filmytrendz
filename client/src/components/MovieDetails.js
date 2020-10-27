@@ -1,4 +1,4 @@
-import React, {Component, Suspense} from 'react';
+import React, {Component, lazy, Suspense} from 'react';
 import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
 
@@ -13,7 +13,9 @@ import {
     Grid,
     Form,
     Divider,
-    Comment, Menu, Statistic, Header, Segment,
+    Rating,
+    Comment,
+    Item, Menu,
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
 
