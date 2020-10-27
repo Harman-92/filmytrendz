@@ -5,11 +5,10 @@
   height: 100%;
   padding-top: 2%;
 }
-.item {
+.header-menu-tab .item {
   width: 50%;
   font-size: 1.5em !important;
 }
-
 .header-button {
   background-color: rgba(118,45,221,0.3)!important;
 }
@@ -40,7 +39,17 @@
   background-color: rgba(0,0,0,0) !important;
   color: #6435C9 !important;
 }
-
+.filter-grid {
+  width: 100%;
+  margin-top: 2% !important;
+}
+.filter-form-group {
+  margin:0!important;
+}
+.filter-genre {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
 .ui.basic.filter-button {
   background: white!important;
 }

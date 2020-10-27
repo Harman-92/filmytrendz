@@ -3,8 +3,6 @@ import '../style/Home.css';
 import {Card, Container, Image} from "semantic-ui-react";
 
 import { useHistory, useLocation } from "react-router-dom";
-import images from "../config/images";
-const src = images.no_image
 const Home = () => {
     const history = useHistory()
     const location = useLocation()
@@ -17,7 +15,7 @@ const Home = () => {
         if(location.isLogin){
             setIsLogin(true)
         }
-    })
+    },[location.isSearch, location.isLogin, location.keyword])
 
     const [recommendMovies, setRecommendMovies] = useState([
         {id:1, image:'/poster.jpg',title:'Spider Man-1',Genre:'Fiction', Director:'Abc'},

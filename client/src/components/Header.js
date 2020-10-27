@@ -51,15 +51,15 @@ function Header(props) {
     }
     const handleSearch = () => {
         //send search keyword to home
-        if (parseInt(yearFrom) > parseInt(yearTo))  {
+        if (parseInt(yearFrom) > parseInt(yearTo)) {
             setYearError(true)
         } else if (parseInt(ratingFrom) > parseInt(ratingTo)) {
             setRatingError(true)
         } else if (searchInput !== '') {
             history.push({
                 pathname: location.pathname,
-                isSearch : true,
-                keyword : searchInput,
+                isSearch: true,
+                keyword: searchInput,
                 filters: {
                     genresKey: genresKey,
                     yearFrom: yearFrom,
@@ -70,8 +70,8 @@ function Header(props) {
             })
         }
 
-        alert("title: "+ searchByTitle + "\ndes: "+ searchByDescription + "\ncast: " + searchByCast + "\nwishlist: " + searchByWishlist +
-            "\ngenres: "+ genresKey + "\nyear from: " + yearFrom + "\nyear to: "+ yearTo + "\nrating from: " + ratingFrom +
+        alert("title: " + searchByTitle + "\ndes: " + searchByDescription + "\ncast: " + searchByCast + "\nwishlist: " + searchByWishlist +
+            "\ngenres: " + genresKey + "\nyear from: " + yearFrom + "\nyear to: " + yearTo + "\nrating from: " + ratingFrom +
             "\nrating to: " + ratingTo
         )
     }
@@ -105,6 +105,7 @@ function Header(props) {
                     visible={visible}
                     width='very wide'
                     direction='right'
+                    className='header-menu-tab'
                 >
 
                     {/*---------------Side Menu Tabs for Login and Register----------------*/}
@@ -115,7 +116,10 @@ function Header(props) {
                                 menuItem: 'Login',
                                 render: () => <Tab.Pane as={'div'}><Login setVisible={setVisible}/></Tab.Pane>
                             },
-                            {menuItem: 'Register', render: () => <Tab.Pane as={'div'}><SignUp/></Tab.Pane>},
+                            {
+                                menuItem: 'Register',
+                                render: () => <Tab.Pane as={'div'}><SignUp/></Tab.Pane>
+                            },
                         ]
                     }
                          activeIndex={activeIndex}
@@ -123,11 +127,11 @@ function Header(props) {
                 </Sidebar>
                 <Sidebar.Pusher>
 
-                    {/*-------------------------Logo-----------------------*/}
-
                     <Segment vertical className='header-segment'>
-                        <Grid>
-                            <Grid.Column width={2} >
+                        <Accordion>
+                            <Accordion.Title active={visible2} index={0}>
+
+                                {/*-------------------------Logo-----------------------*/}
                                 <Link to={{
                                     pathname: '/',
                                     email: name,
@@ -135,139 +139,26 @@ function Header(props) {
                                 }}>
                                     <Image className='logo' src={images.logo} floated='left' size={"small"}/>
                                 </Link>
-                            </Grid.Column>
-                            <Grid.Column width={11} textAlign={'center'} >
-                                <Accordion>
-                                    <Accordion.Title active={visible2} index={0}>
-                                        {/*---------------------Search Bar----------------------*/}
+                                {/*---------------------Search Bar----------------------*/}
 
-                                        <Input className='header-search' type='text' placeholder='Search...' action
-                                               onChange={(e, {value}) => {
-                                                   setSearchInput(value)
-                                               }}
-                                        >
-                                            <input fluid={'true'}
-                                                   onKeyPress={event => {
-                                                       if (event.key === 'Enter') {
-                                                           handleSearch()
-                                                       }
-                                                   }}
-                                            />
-                                            <Button icon basic className='filter-button' labelPosition='right'
-                                                    onClick={() => setVisible2(!visible2)}>
-                                                <Icon className='filter-icon' name='filter'/>Filter
-                                            </Button>
-                                            <Button className='header-button' type='submit' onClick={handleSearch}>Search</Button>
-                                        </Input>
-                                    </Accordion.Title>
-
-                                    {/*---------------------Search Bar Filter ----------------------*/}
-                                    <Accordion.Content active={visible2}>
-
-                                        <Grid>
-                                            {/*---------------------- Keywords -------------------------*/}
-                                            <Grid.Row centered verticalAlign={'middle'}>
-                                                <Form>
-                                                    <Form.Group inline>
-                                                        <label className='filterHeader'>Keyword: </label>
-                                                        <Form.Radio
-                                                            label= 'Title'
-                                                            value= 't'
-                                                            checked={searchByTitle}
-                                                            onClick={() => setSearchByTitle(!searchByTitle)}
-                                                        />
-                                                        <Form.Radio
-                                                            label= 'Description'
-                                                            value= 'd'
-                                                            checked={searchByDescription}
-                                                            onClick={() => setSearchByDescription(!searchByDescription)}
-                                                        />
-                                                        <Form.Radio
-                                                            label= 'Cast'
-                                                            value= 'c'
-                                                            checked={searchByCast}
-                                                            onClick={() => setSearchByCast(!searchByCast)}
-                                                        />
-                                                        <Form.Radio
-                                                            label= 'Wishlist'
-                                                            value= 'w'
-                                                            checked={searchByWishlist}
-                                                            onClick={() => setSearchByWishlist(!searchByWishlist)}
-                                                        />
-
-                                                    </Form.Group>
-                                                </Form>
-                                            </Grid.Row>
-                                            {/*---------------------- Genre, Year and Rating -------------------------*/}
-                                            <Grid.Row verticalAlign={'middle'}  centered>
-                                                <Grid.Column width={2} textAlign={'center'}>
-                                                    <div className='filterHeader'>Genre: </div>
-                                                </Grid.Column>
-                                                <Grid.Column width={9}>
-                                                    <Dropdown search selection multiple clearable fluid
-                                                              options={genres}
-                                                              placeholder="-- Select Genres --"
-                                                              value={genresKey}
-                                                              onChange={(e,{value}) => setGenresKey(value)}
-                                                    />
-                                                </Grid.Column>
-                                            </Grid.Row>
-                                            <Grid.Row verticalAlign={'middle'}  centered>
-                                                <Grid.Column width={2} textAlign={'center'}>
-                                                    <div className='filterHeader'>Year: </div>
-                                                </Grid.Column>
-                                                <Grid.Column width={9}>
-                                                    <Form>
-                                                        <Form.Group widths='equal'>
-                                                            <Form.Input placeholder='From'
-                                                                        onChange={(e,{value})=> setYearFrom(value)}/>
-                                                            <Form.Input placeholder='To'
-                                                                        onChange={(e,{value})=> setYearTo(value)}/>
-                                                        </Form.Group>
-                                                        { parseInt(yearFrom) > parseInt(yearTo) ? <div className='errMsg'>Please enter correct year range...</div>: null}
-                                                    </Form>
-                                                </Grid.Column>
-                                            </Grid.Row>
-                                            <Grid.Row verticalAlign={'middle'} centered>
-                                                <Grid.Column width={2} textAlign={'center'}>
-                                                    <div className='filterHeader'>Rating: </div>
-                                                </Grid.Column>
-                                                <Grid.Column width={9}>
-                                                    <Form>
-                                                        <Form.Group widths='equal'>
-                                                            <Form.Field>
-                                                                <Dropdown search selection clearable
-                                                                          options={rating}
-                                                                          placeholder='From'
-                                                                          value={ratingFrom}
-                                                                          onChange={(e,{value})=> setRatingFrom(value)}
-                                                                />
-                                                            </Form.Field>
-                                                            <Form.Field >
-                                                                <Dropdown search selection clearable
-                                                                          options={rating}
-                                                                          placeholder='To'
-                                                                          value={ratingTo}
-                                                                          onChange={(e,{value})=> setRatingTo(value)}
-                                                                />
-                                                            </Form.Field>
-                                                        </Form.Group>
-                                                        { parseInt(ratingFrom) > parseInt(ratingTo) ? <div className='errMsg'>Please enter correct rating range...</div>: null}
-                                                    </Form>
-
-                                                </Grid.Column>
-
-                                            </Grid.Row>
-                                            <Grid.Row centered>
-                                                <Button color='violet' onClick={clearFilter}>Clear Filters</Button>
-                                            </Grid.Row>
-                                        </Grid>
-
-                                    </Accordion.Content>
-                                </Accordion>
-
-                            </Grid.Column>
-                            <Grid.Column width={3} >
+                                <Input className='header-search' type='text' placeholder='Search...' action
+                                       onChange={(e, {value}) => {
+                                           setSearchInput(value)
+                                       }}
+                                >
+                                    <input onKeyPress={event => {
+                                        if (event.key === 'Enter') {
+                                            handleSearch()
+                                        }
+                                    }}
+                                    />
+                                    <Button icon basic className='filter-button' labelPosition='right'
+                                            onClick={() => setVisible2(!visible2)}>
+                                        <Icon className='filter-icon' name='filter'/>Filter
+                                    </Button>
+                                    <Button className='header-button' type='submit'
+                                            onClick={handleSearch}>Search</Button>
+                                </Input>
                                 {!isLogin ?
 
                                     /*---------------Login or Register Button----------------*/
@@ -293,8 +184,122 @@ function Header(props) {
                                         </Popup>
                                     </div>
                                 }
-                            </Grid.Column>
-                        </Grid>
+
+                            </Accordion.Title>
+                            {/*---------------------Search Bar Filter ----------------------*/}
+                            <Accordion.Content active={visible2}>
+
+                                <Grid className='filter-grid'>
+                                    {/*---------------------- Keywords -------------------------*/}
+                                    <Grid.Row centered verticalAlign={'middle'}>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <label className='filterHeader'>Keyword:</label>
+                                        </Grid.Column>
+                                        <Grid.Column width={9}>
+                                            <Form>
+                                                <Form.Group widths={'equal'} className='filter-form-group'>
+                                                    <Form.Radio
+                                                        label='Title'
+                                                        value='t'
+                                                        checked={searchByTitle}
+                                                        onClick={() => setSearchByTitle(!searchByTitle)}
+                                                    />
+                                                    <Form.Radio
+                                                        label='Description'
+                                                        value='d'
+                                                        checked={searchByDescription}
+                                                        onClick={() => setSearchByDescription(!searchByDescription)}
+                                                    />
+                                                    <Form.Radio
+                                                        label='Cast'
+                                                        value='c'
+                                                        checked={searchByCast}
+                                                        onClick={() => setSearchByCast(!searchByCast)}
+                                                    />
+                                                    <Form.Radio
+                                                        label='Wishlist'
+                                                        value='w'
+                                                        checked={searchByWishlist}
+                                                        onClick={() => setSearchByWishlist(!searchByWishlist)}
+                                                    />
+
+                                                </Form.Group>
+                                            </Form>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    {/*---------------------- Genre, Year and Rating -------------------------*/}
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <div className='filterHeader'>Genre:</div>
+                                        </Grid.Column>
+                                        <Grid.Column width={9}>
+                                            <Dropdown search selection multiple clearable fluid className='filter-genre'
+                                                      options={genres}
+                                                      placeholder="-- Select Genres --"
+                                                      value={genresKey}
+                                                      onChange={(e, {value}) => setGenresKey(value)}
+                                            />
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <div className='filterHeader'>Year:</div>
+                                        </Grid.Column>
+                                        <Grid.Column width={9}>
+                                            <Form>
+                                                <Form.Group widths='equal' className='filter-form-group'>
+                                                    <Form.Input placeholder='From'
+                                                                onChange={(e, {value}) => setYearFrom(value)}/>
+                                                    <Form.Input placeholder='To'
+                                                                onChange={(e, {value}) => setYearTo(value)}/>
+                                                </Form.Group>
+                                                {parseInt(yearFrom) > parseInt(yearTo) ?
+                                                    <div className='errMsg'>Please enter correct year
+                                                        range...</div> : null}
+                                            </Form>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <div className='filterHeader'>Rating:</div>
+                                        </Grid.Column>
+                                        <Grid.Column width={9}>
+                                            <Form>
+                                                <Form.Group widths='equal' className='filter-form-group'>
+                                                    <Form.Field>
+                                                        <Dropdown search selection clearable
+                                                                  options={rating}
+                                                                  placeholder='From'
+                                                                  value={ratingFrom}
+                                                                  onChange={(e, {value}) => setRatingFrom(value)}
+                                                        />
+                                                    </Form.Field>
+                                                    <Form.Field>
+                                                        <Dropdown search selection clearable
+                                                                  options={rating}
+                                                                  placeholder='To'
+                                                                  value={ratingTo}
+                                                                  onChange={(e, {value}) => setRatingTo(value)}
+                                                        />
+                                                    </Form.Field>
+                                                </Form.Group>
+                                                {parseInt(ratingFrom) > parseInt(ratingTo) ?
+                                                    <div className='errMsg'>Please enter correct rating
+                                                        range...</div> : null}
+                                            </Form>
+
+                                        </Grid.Column>
+
+                                    </Grid.Row>
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={11}>
+                                            <Button floated='right' color='violet' onClick={clearFilter}>Clear Filters</Button>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
+
+                            </Accordion.Content>
+                        </Accordion>
 
                     </Segment>
 

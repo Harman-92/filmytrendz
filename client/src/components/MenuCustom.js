@@ -18,7 +18,7 @@ const MenuCustom = () => {
         <div>
             <Grid padded className='menu-grid'>
                 <Grid.Row>
-                    <Menu compact icon='labeled' size='mini' fluid color='black' as='div' text>
+                    <Menu className='user-menu' compact icon='labeled' size='mini' fluid color='black' as='div' text>
                         <Menu.Item
                             name='fav'
                             active={activeItem === 'fav'}
@@ -51,7 +51,7 @@ const MenuCustom = () => {
                     </Menu>
                 </Grid.Row>
                 <Grid.Row>
-                    <Menu compact icon='labeled' size='mini' fluid color='black' as='div' text>
+                    <Menu className='user-menu'  compact icon='labeled' size='mini' fluid color='black' as='div' text>
                         <Menu.Item
                             name='review'
                             active={activeItem === 'review'}
