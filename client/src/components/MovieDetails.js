@@ -13,54 +13,53 @@ import {
     Grid,
     Form,
     Divider,
-    Rating,
     Comment,
-    Item, Menu,
+    Menu,
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
 
 const Review = (props) => (
     <div>
-        <Comment.Group>
-            {props.reviews.map((review, index) => (
-                    <Comment key={index}>
-                        <Comment.Avatar as='a' src={review.avatar}/>
-                        <Comment.Content>
-                            <Grid className='gridColumnMargin'>
-                                <Grid.Column width={5}>
-                                    <h4>{review.user}</h4>
-                                </Grid.Column>
-                                <Grid.Column width={3}>
-                                    <ReactStars
-                                        count={5}
-                                        value={review.rate}
-                                        size={18}
-                                        isHalf={true}
-                                        edit={false}
-                                        activeColor="#7b68ee"
-                                        color='lightgrey'
-                                    />
-                                </Grid.Column>
-                                <Grid.Column width={7}>
-                                    <p className='dateTime'>Created at {review.createdTime}</p>
-                                </Grid.Column>
-                            </Grid>
+    <Comment.Group>
+        {props.reviews.map((review,index) => (
+                <Comment key={index}>
+                    <Comment.Avatar  as='a' src={review.avatar}/>
+                    <Comment.Content>
+                        <Grid className='gridColumnMargin'>
+                            <Grid.Column width={5}>
+                                <h4>{review.user}</h4>
+                            </Grid.Column>
+                            <Grid.Column width={3}>
+                                <ReactStars
+                                count={5}
+                                value={review.rate}
+                                size={18}
+                                isHalf={true}
+                                edit={false}
+                                activeColor="#7b68ee"
+                                color='lightgrey'
+                            />
+                            </Grid.Column>
+                            <Grid.Column width={7}>
+                                <p className='dateTime'>Created at {review.createdTime}</p>
+                            </Grid.Column>
+                        </Grid>
 
-                            <Comment.Text><p>{review.comment}</p></Comment.Text>
-                        </Comment.Content>
-                    </Comment>
-                )
-            )}
-        </Comment.Group>
+                        <Comment.Text><p>{review.comment}</p></Comment.Text>
+                    </Comment.Content>
+                </Comment>
+            )
+        )}
+    </Comment.Group>
     </div>
 )
 
 const Cast = (props) => (
     <Card.Group itemsPerRow={4}>
-        {props.casts.map((cast, index) => (
+        {props.casts.map((cast,index) => (
                 <Card key={index}>
-                    <Card.Content>
-                        <Image floated='left' size='mini' verticalAlign='middle' src={cast.image}/>
+                    <Card.Content >
+                        <Image floated='left' size='mini' verticalAlign='middle' src= {cast.image} />
                         <Card.Header>{cast.name}</Card.Header>
                         <Card.Meta>{cast.role}</Card.Meta>
                     </Card.Content>
@@ -84,13 +83,13 @@ export default class MovieDetails extends Component {
                     'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
                     'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
                     'cum. Fugit prompta deleni in sed, singulis explicari vis cu.',
-                genre: ['Fiction', 'Horror'],
-                cast: [
-                    {image: '/poster.jpg', name: 'Tom Holland', role: 'Peter Parker / Spider-Man'},
-                    {image: '/poster.jpg', name: 'Samuel L. Jackson', role: 'Nick Fury long long long long long name'},
-                    {image: '/poster.jpg', name: 'Zendaya', role: 'Harold "Happy" Hogan'},
-                    {image: '/poster.jpg', name: 'Jon Favreau', role: 'Avebe'},
-                    {image: '/poster.jpg', name: 'J. B. Smoove', role: 'Julius Dell'},
+                genre:'Fiction',
+                casts: [
+                    {image:'/poster.jpg', name:'Tom Holland', role: 'Peter Parker / Spider-Man'},
+                    {image:'/poster.jpg', name:'Samuel L. Jackson', role: 'Nick Fury long long long long long name'},
+                    {image:'/poster.jpg', name:'Zendaya', role: 'Harold "Happy" Hogan'},
+                    {image:'/poster.jpg', name:'Jon Favreau', role: 'Avebe'},
+                    {image:'/poster.jpg', name:'J. B. Smoove', role: 'Julius Dell'},
                 ],
                 reviews:[
                     {avatar:'/logo192.png', user:'Matt', createdTime:'2020-10-20 15:34', comment:'How artistic!', rate: 4},
