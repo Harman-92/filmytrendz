@@ -18,7 +18,7 @@ import {
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
 import images from "../config/images";
-import {getUserInfo} from "../util/Session";
+import {getUserInfo} from "../config/session";
 
 const Banned = () => {
     const [activeIndex, setActiveIndex] = useState(0);

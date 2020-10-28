@@ -3,7 +3,7 @@ import '../style/MenuCustom.css';
 import {Grid, Menu, Divider} from "semantic-ui-react";
 import images from "../config/images";
 import {useHistory} from "react-router-dom";
-import {removeAccessToken} from "../util/Session";
+import {removeAccessToken} from "../config/session";
 
 const IconCustom = (props) => (
     <i className="">

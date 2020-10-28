@@ -17,7 +17,7 @@ import MenuCustom from "./MenuCustom";
 import genres from "../config/movieGenres";
 import rating from "../config/ratings";
 import React, {useEffect, useState} from "react";
-import {getUserInfo, isAuthenticated} from "../util/Session";
+import {getUserInfo, isAuthenticated} from "../config/session";
 
 const Header = ({setVisible, setActiveIndex}) => {
 

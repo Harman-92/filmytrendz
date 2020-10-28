@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
 import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
 import {useHistory} from 'react-router-dom';
-import {setAccessToken, setUserInfo} from "../util/Session";
+import {setAccessToken, setUserInfo} from "../config/session";
 
 const Login = (props) => {
     const history = useHistory()

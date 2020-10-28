@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../style/Home.css';
 import {Card, Container, Image} from "semantic-ui-react";
 import {useHistory, useLocation} from "react-router-dom";
-import {isAuthenticated} from "../util/Session";
+import {isAuthenticated} from "../config/session";
 
 const Home = () => {
     const history = useHistory()

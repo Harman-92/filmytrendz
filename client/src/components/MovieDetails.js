@@ -23,7 +23,7 @@ import {
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
 import images from "../config/images";
-import {getUserInfo, isAuthenticated} from "../util/Session";
+import {getUserInfo, isAuthenticated} from "../config/session";
 
 const checkWishListActive = (wishList) => {
     let a = false
