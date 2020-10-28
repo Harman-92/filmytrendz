@@ -23,13 +23,25 @@ import {
 } from "semantic-ui-react";
 import SimilarMovies from "./SimilarMovies";
 import images from "../config/images";
+import {getUserInfo, isAuthenticated} from "../util/Session";
+
+const checkWishListActive = (wishList) => {
+    let a = false
+    wishList.forEach(w => {
+        if (w.added) {
+            a = true
+        }
+    })
+    return a
+}
 
 const Cast = (props) => (
     <Card.Group itemsPerRow={4}>
         {props.casts.map((cast, index) => (
                 <Card key={index}>
                     <Card.Content className='cast-content'>
-                        <Image className='cast-image' floated='left' size='mini' verticalAlign='middle' src={cast.image}/>
+                        <Image className='cast-image' floated='left' size='mini' verticalAlign='middle'
+                               src={cast.image === '' ? images.no_profile : cast.image}/>
                         <Card.Header className='cast-name'>{cast.name}</Card.Header>
                         <Card.Meta>{cast.role}</Card.Meta>
                     </Card.Content>
@@ -120,8 +132,8 @@ const MovieDetails = () => {
     })
     const [user, setUser] = useState({
         id: '34',
-        name: 'Natalie',
-        avatar: '/avatar.jpeg',
+        firstName: 'Natalie',
+        url: '/avatar.jpeg',
     })
     const [similarMovies, setSimilarMovies] = useState([
         {image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
@@ -136,13 +148,14 @@ const MovieDetails = () => {
     const [sortedBy, setSortedBy] = useState('g')
     const [addWishList, setAddWishList] = useState(false)
     const [newWishList, setNewWishList] = useState('')
+
     const postReview = () => {
         const copyReviews = Object.assign([], movieDetails.reviews)
         let time = moment().format('YYYY-MM-DD HH:mm').toString()
         copyReviews.splice(0, 0, {
-            avatar: user.avatar,
+            avatar: user.url,
             id: user.id,
-            name: user.name,
+            name: user.firstName,
             createdTime: time,
             title: myReview.title,
             description: myReview.description,
@@ -173,15 +186,6 @@ const MovieDetails = () => {
         console.log(e.target.id)
     }
 
-    const checkWishListActive = () => {
-        let a = false
-        wishList.forEach(w => {
-            if (w.added) {
-                a = true
-            }
-        })
-        setIsWishList(a)
-    }
     const handleWishListChange = (e, {id, value}) => {
         let tempArr = [...wishList]
         tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
@@ -216,12 +220,17 @@ const MovieDetails = () => {
             watched: !movieDetails.watched
         })
     }
+
     useEffect(() => {
-        if (location.isLogin) {
-            setIsLogin(true)
+        setIsWishList(checkWishListActive(wishList))
+    }, [wishList])
+    useEffect(() => {
+        setIsLogin(isAuthenticated())
+        if(isLogin){
+            setUser(getUserInfo)
         }
-        checkWishListActive()
-    }, [location.isLogin, wishList])
+    }, [location, isLogin])
+
     return (
         <Container>
             {/*-------------------------movie intro-----------------------------*/}
@@ -229,8 +238,11 @@ const MovieDetails = () => {
             <Grid columns={3}>
                 <Grid.Row>
                     <Grid.Column width={3}>
-                        <Image src={movieDetails.image} size='small' rounded
-                               alt={movieDetails.title}/>
+                        <Image src={movieDetails.image === '' ? images.no_image : movieDetails.image}
+                               size='small'
+                               rounded
+                               alt={movieDetails.title}
+                        />
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <h1>{movieDetails.title}</h1>
@@ -239,111 +251,115 @@ const MovieDetails = () => {
                         <p>{movieDetails.genre}</p>
                     </Grid.Column>
                     <Grid.Column width={3} className='movie-details-right'>
-                        {/*{isLogin ?*/}
 
                         {/*-------------------------Movie Menu Options----------------------------*/}
 
+                        {isLogin ?
 
-                        <Menu className='movie-menu' icon fluid text size='massive'>
-                            <Menu.Item
-                                name='fav'
-                                active={movieDetails.favorite}
-                                onClick={handleFavorite}>
-                                {movieDetails.favorite ?
-                                    <Icon name='heart' color='purple'/>
-                                    :
-                                    <Icon name='heart outline'/>
-                                }
-                            </Menu.Item>
-                            {/*-----------------------Wish List popup----------------------*/}
-                            <Menu.Item
-                                name='wish'
-                            ><Popup
-                                position='bottom right'
-                                trigger={isWishList ? <Icon name='star' color='purple'/> : <Icon name='star outline'/>}
-                                on='click'
-                                className='wishlist-popup'
-                                onClose={() => setAddWishList(false)}
-                                flowing={false}
-                                pinned={true}
-                            >
-                                <Segment basic className='wishlist-container'>
-                                    {(wishList && wishList.length > 0) ?
-                                        <Form>
-                                            {wishList.map((w, index) => (
-                                                <Form.Field key={index}>
-                                                    <Radio
-                                                        id={index}
-                                                        label={w.name}
-                                                        value={w.id}
-                                                        checked={w.added}
-                                                        onClick={handleWishListChange}
-                                                    />
-                                                </Form.Field>
-                                            ))}
-                                            <Divider fitted/>
-                                        </Form>
-                                        : null}
-                                    {addWishList ?
-                                        <Input icon placeholder='Enter...' className='wishlist-input'
-                                               onChange={(e, {value}) => setNewWishList(value)}
-                                        >
-                                            <input onKeyPress={event => {
-                                                if (event.key === 'Enter') {
-                                                    handleAddWishList()
-                                                }
-                                            }}/>
-                                            <Icon name='terminal'/>
-                                        </Input>
+                            <Menu className='movie-menu' icon fluid text size='massive'>
+
+                                <Menu.Item
+                                    name='fav'
+                                    active={movieDetails.favorite}
+                                    onClick={handleFavorite}
+                                >
+                                    {movieDetails.favorite ?
+                                        <Icon name='heart' color='purple'/>
                                         :
-                                        <Button basic icon labelPosition='right' color='black' className='wishlist-add'
-                                                onClick={() => setAddWishList(true)}
-                                        >
-                                            Add Wish List
-                                            <Icon className='wishlist-add-icon' name='plus'/>
-                                        </Button>
+                                        <Icon name='heart outline'/>
                                     }
-                                </Segment>
-                            </Popup>
-                            {/*--------------------watched menu option------------------------*/}
-                            </Menu.Item>
-                            <Menu.Item
-                                name='watched'
-                                active={movieDetails.watched}
-                                onClick={handleWatched}
-                            >
-                                {movieDetails.watched ?
-                                    <Icon name='check circle' color='purple'/>
-                                    :
-                                    <Icon name='check circle outline'/>
-                                }
-                            </Menu.Item>
-                            {/*------------------------share link popup-----------------------*/}
-                            <Menu.Item
-                                name='share'
-                                active={true}
-                            ><Popup
-                                position='bottom right'
-                                trigger={<Icon name='share alternate' color='blue'/>}
-                                on='click'
-                                className='share-popup'
-                                onClose={() => setAddWishList(false)}
-                                flowing={false}
-                                pinned={true}
-                            >
-                                <Segment basic className='share-link'>
+                                </Menu.Item>
+                                {/*-----------------------Wish List popup----------------------*/}
+                                <Menu.Item
+                                    name='wish'
+                                ><Popup
+                                    position='bottom right'
+                                    trigger={isWishList ? <Icon name='star' color='purple'/> :
+                                        <Icon name='star outline'/>}
+                                    on='click'
+                                    className='wishlist-popup'
+                                    onClose={() => setAddWishList(false)}
+                                    flowing={false}
+                                    pinned={true}
+                                >
+                                    <Segment basic className='wishlist-container'>
+                                        {(wishList && wishList.length > 0) ?
+                                            <Form>
+                                                {wishList.map((w, index) => (
+                                                    <Form.Field key={index}>
+                                                        <Radio
+                                                            id={index}
+                                                            label={w.name}
+                                                            value={w.id}
+                                                            checked={w.added}
+                                                            onClick={handleWishListChange}
+                                                        />
+                                                    </Form.Field>
+                                                ))}
+                                                <Divider fitted/>
+                                            </Form>
+                                            : null}
+                                        {addWishList ?
+                                            <Input icon placeholder='Enter...' className='wishlist-input'
+                                                   onChange={(e, {value}) => setNewWishList(value)}
+                                            >
+                                                <input onKeyPress={event => {
+                                                    if (event.key === 'Enter') {
+                                                        handleAddWishList()
+                                                    }
+                                                }}/>
+                                                <Icon name='terminal'/>
+                                            </Input>
+                                            :
+                                            <Button basic icon labelPosition='right' color='black'
+                                                    className='wishlist-add'
+                                                    onClick={() => setAddWishList(true)}
+                                            >
+                                                Add Wish List
+                                                <Icon className='wishlist-add-icon' name='plus'/>
+                                            </Button>
+                                        }
+                                    </Segment>
+                                </Popup>
+                                    {/*--------------------watched menu option------------------------*/}
+                                </Menu.Item>
+                                <Menu.Item
+                                    name='watched'
+                                    active={movieDetails.watched}
+                                    onClick={handleWatched}
+                                >
+                                    {movieDetails.watched ?
+                                        <Icon name='check circle' color='purple'/>
+                                        :
+                                        <Icon name='check circle outline'/>
+                                    }
+                                </Menu.Item>
+                                {/*------------------------share link popup-----------------------*/}
+                                <Menu.Item
+                                    name='share'
+                                    active={true}
+                                ><Popup
+                                    position='bottom right'
+                                    trigger={<Icon name='share alternate' color='blue'/>}
+                                    on='click'
+                                    className='share-popup'
+                                    onClose={() => setAddWishList(false)}
+                                    flowing={false}
+                                    pinned={true}
+                                >
+                                    <Segment basic className='share-link'>
 
-                                    {window.location.href}
-                                    <Button onClick={() => navigator.clipboard.writeText(window.location.href)}
-                                            className='wishlist-add share-link-button' basic icon='paperclip'
-                                    />
-                                </Segment>
-                            </Popup>
-                            </Menu.Item>
-                        </Menu>
-                        {/*    :*/}
-                        {/*    <Menu className='movie-menu' icon fluid text size='massive'/>*/}
-                        {/*}*/}
+                                        {window.location.href}
+                                        <Button onClick={() => navigator.clipboard.writeText(window.location.href)}
+                                                className='wishlist-add share-link-button' basic icon='paperclip'
+                                        />
+                                    </Segment>
+                                </Popup>
+                                </Menu.Item>
+                            </Menu>
+                            :
+                            <Menu className='movie-menu' icon fluid text size='massive'/>
+                        }
 
 
                         {/*--------------------------Movie Rating--------------------------*/}
@@ -378,12 +394,13 @@ const MovieDetails = () => {
                     <Header as='h2' floated='left'>
                         Reviews
                     </Header>
-                    <Button floated='right' inverted color='violet' icon='add' content='Add Review'
-                            labelPosition='left'
-                            onClick={() => {
-                                setAddReview(true)
-                            }}
-                    />
+                    {isLogin ?
+                        <Button floated='right' inverted color='violet' icon='add' content='Add Review'
+                                labelPosition='left'
+                                onClick={() => {
+                                    setAddReview(true)
+                                }}
+                        /> : null}
                 </Segment>
                 <Divider fitted/>
 
@@ -394,10 +411,10 @@ const MovieDetails = () => {
                     <Grid.Row>
                         <Grid.Column width={3} textAlign={"center"} className='reviewer'>
 
-                            <Image className='reviewer-image' circular size='tiny' src={user.avatar}/>
+                            <Image className='reviewer-image' circular size='tiny' src={user.url===''?images.no_profile:user.url}/>
 
                             <h4 id={user.id} className='reviewer-name'
-                                onClick={handleClickReviewer}>{user.name}</h4>
+                                onClick={handleClickReviewer}>{user.firstName}</h4>
                             <Item.Description>{moment().format('YYYY-MM-DD HH:mm').toString()}</Item.Description>
                         </Grid.Column>
                         <Grid.Column width={10} className='review-content'>

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useLocation} from 'react-router-dom';
 import '../style/Profile.css';
 import {
     Accordion,
@@ -17,6 +18,7 @@ import {
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
 import images from "../config/images";
+import {getUserInfo} from "../util/Session";
 
 const Banned = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -38,7 +40,7 @@ const Banned = () => {
             </Accordion.Title>
             <Accordion.Content active={activeIndex === 0}>
                 <p>
-                    Faggot Adi
+                    Banned users list
                 </p>
             </Accordion.Content>
         </Accordion>
@@ -47,12 +49,14 @@ const Banned = () => {
 
 
 const Profile = () => {
+    const location = useLocation()
     const [user, setUser] = useState({
         id: '',
         email: 'timeisprecious@vision.com',
         firstName: 'Erwin',
         lastName: 'Schrodinger',
-        mobile: '0515387256'
+        mobile: '0515387256',
+        url: ''
     })
     const [newUser, setNewUser] = useState({
         firstName: user.firstName,
@@ -158,7 +162,7 @@ const Profile = () => {
     }
     const handleUpload = () => {
         if (isProfileEdit) {
-            alert('clicked')
+            alert('upload image')
         }
     }
     const handleFirstName = (e, {value}) => {
@@ -225,6 +229,10 @@ const Profile = () => {
             success: false
         })
     }, [oldPassword.v, newPassword.v, retypePassword.v])
+    useEffect(() => {
+        const userId = getUserInfo().id
+        //TODO : API to get user details
+    }, [location])
     return (
         <Container className="Profile">
             {/*--------------------Profile header------------------------*/}
@@ -265,7 +273,7 @@ const Profile = () => {
                                 <Image circular src={images.upload} size='small' onClick={handleUpload}/>
                             </Reveal.Content>
                             <Reveal.Content hidden>
-                                <Image circular src={images.no_profile} size='small'/>
+                                <Image circular src={user.url === '' ? images.no_profile : user.url} size='small'/>
                             </Reveal.Content>
                         </Reveal>
                     </Grid.Column>
@@ -290,7 +298,7 @@ const Profile = () => {
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
                                     <Input fluid placeholder='First Name' className='profile-input'
-                                           value={isProfileEdit?newUser.firstName:user.firstName}
+                                           value={isProfileEdit ? newUser.firstName : user.firstName}
                                            disabled={!isProfileEdit}
                                            onChange={handleFirstName}
                                            error={err.firstName}
@@ -303,7 +311,7 @@ const Profile = () => {
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
                                     <Input fluid placeholder='Last Name' className='profile-input'
-                                           value={isProfileEdit?newUser.lastName:user.lastName}
+                                           value={isProfileEdit ? newUser.lastName : user.lastName}
                                            disabled={!isProfileEdit}
                                            onChange={handleLastName}
                                            error={err.lastName}
@@ -316,7 +324,7 @@ const Profile = () => {
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
                                     <Input fluid placeholder='Mobile' className='profile-input'
-                                           value={isProfileEdit?newUser.mobile:user.mobile}
+                                           value={isProfileEdit ? newUser.mobile : user.mobile}
                                            disabled={!isProfileEdit}
                                            onChange={handleMobile}
                                            error={err.mobile}
@@ -333,7 +341,7 @@ const Profile = () => {
                         <Header icon as='h1' textAlign='center'>
                         </Header>
                         <Segment basic>
-                        <Banned/>
+                            <Banned/>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={7} verticalAlign={'middle'} className='change-password-form'>

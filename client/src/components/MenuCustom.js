@@ -2,7 +2,8 @@ import React from 'react';
 import '../style/MenuCustom.css';
 import {Grid, Menu, Divider} from "semantic-ui-react";
 import images from "../config/images";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import {removeAccessToken} from "../util/Session";
 
 const IconCustom = (props) => (
     <i className="">
@@ -15,7 +16,12 @@ const MenuCustom = () => {
     const [activeItem, setActiveItem] = React.useState('')
     const handleClick = (e, {name}) => {
         setActiveItem(name)
-        history.push('/'+name)
+        if (name === 'logout') {
+            removeAccessToken()
+            history.push('/')
+        } else {
+            history.push('/' + name)
+        }
     }
     return (
         <div>
@@ -54,7 +60,7 @@ const MenuCustom = () => {
                     </Menu>
                 </Grid.Row>
                 <Grid.Row>
-                    <Menu className='user-menu'  compact icon='labeled' size='mini' fluid color='black' as='div' text>
+                    <Menu className='user-menu' compact icon='labeled' size='mini' fluid color='black' as='div' text>
                         <Menu.Item
                             name='reviewed'
                             active={activeItem === 'reviewed'}
