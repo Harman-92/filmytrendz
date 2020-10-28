@@ -283,7 +283,7 @@ const Profile = () => {
                     <Grid.Column width={8} verticalAlign='middle'>
                         <Grid columns={2} textAlign='center' className='profile-details'>
                             <Grid.Row verticalAlign='middle'>
-                                <Grid.Column width={3} verticalAlign='middle' textAlign='right'>
+                                <Grid.Column width={4} verticalAlign='middle' textAlign='right'>
                                     <Header as={'h4'}>Email:</Header>
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
@@ -293,7 +293,7 @@ const Profile = () => {
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row verticalAlign='middle'>
-                                <Grid.Column width={3} verticalAlign='middle' textAlign='right'>
+                                <Grid.Column width={4} verticalAlign='middle' textAlign='right'>
                                     <Header as={'h4'}>First Name:</Header>
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
@@ -306,7 +306,7 @@ const Profile = () => {
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row verticalAlign='middle'>
-                                <Grid.Column width={3} verticalAlign='middle' textAlign='right'>
+                                <Grid.Column width={4} verticalAlign='middle' textAlign='right'>
                                     <Header as={'h4'}>Last Name:</Header>
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
@@ -319,7 +319,7 @@ const Profile = () => {
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row verticalAlign='middle'>
-                                <Grid.Column width={3} verticalAlign='middle' textAlign='right'>
+                                <Grid.Column width={4} verticalAlign='middle' textAlign='right'>
                                     <Header as={'h4'}>Mobile:</Header>
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>

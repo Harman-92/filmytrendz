@@ -12,6 +12,9 @@
 .profile-grid.ui.grid{
     padding-top: 2%;
 }
+.profile-details.ui.grid{
+    padding-top: 1.5em;
+}
 .profile-details.ui.grid>.row {
     padding-top: 0;
 }
