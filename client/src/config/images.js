@@ -9,7 +9,8 @@ const images = {
     profile : menu+'/user.png',
     logout : menu+'/logout.png',
     no_profile : '/empty_profile.png',
-    no_image : '/empty_image.png'
+    no_image : '/empty_image.png',
+    upload : '/upload.png'
 }
 
 export default images

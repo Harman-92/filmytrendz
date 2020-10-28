@@ -2,6 +2,7 @@ import React from 'react';
 import '../style/MenuCustom.css';
 import {Grid, Menu, Divider} from "semantic-ui-react";
 import images from "../config/images";
+import { useHistory } from "react-router-dom";
 
 const IconCustom = (props) => (
     <i className="">
@@ -10,9 +11,11 @@ const IconCustom = (props) => (
 );
 
 const MenuCustom = () => {
-    const [activeItem, setActiveItem] = React.useState('fav')
+    const history = useHistory()
+    const [activeItem, setActiveItem] = React.useState('')
     const handleClick = (e, {name}) => {
         setActiveItem(name)
+        history.push('/'+name)
     }
     return (
         <div>
@@ -20,8 +23,8 @@ const MenuCustom = () => {
                 <Grid.Row>
                     <Menu className='user-menu' compact icon='labeled' size='mini' fluid color='black' as='div' text>
                         <Menu.Item
-                            name='fav'
-                            active={activeItem === 'fav'}
+                            name='favorite'
+                            active={activeItem === 'favorite'}
                             onClick={handleClick}
                             className='menu-icon'
                         >
@@ -30,8 +33,8 @@ const MenuCustom = () => {
                         </Menu.Item>
 
                         <Menu.Item
-                            name='wish'
-                            active={activeItem === 'wish'}
+                            name='wishlist'
+                            active={activeItem === 'wishlist'}
                             onClick={handleClick}
                             className='menu-icon'
                         >
@@ -40,8 +43,8 @@ const MenuCustom = () => {
                         </Menu.Item>
 
                         <Menu.Item
-                            name='watch'
-                            active={activeItem === 'watch'}
+                            name='watched'
+                            active={activeItem === 'watched'}
                             onClick={handleClick}
                             className='menu-icon'
                         >
@@ -53,8 +56,8 @@ const MenuCustom = () => {
                 <Grid.Row>
                     <Menu className='user-menu'  compact icon='labeled' size='mini' fluid color='black' as='div' text>
                         <Menu.Item
-                            name='review'
-                            active={activeItem === 'review'}
+                            name='reviewed'
+                            active={activeItem === 'reviewed'}
                             onClick={handleClick}
                             className='menu-icon'
                         >

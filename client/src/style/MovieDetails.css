@@ -2,10 +2,6 @@
     padding-top: 5%;
 }
 
-.ui.form textarea {
-    marginleft: 4% !important;
-}
-
 /*----------------rating star format--------------*/
 .ui.star.rating .active.icon {
     color: #7b68ee !important;
@@ -147,6 +143,7 @@
 }
 .wishlist-container {
     width: 230px;
+    padding-bottom: 0!important;
 }
 .wishlist-input>input {
     border: none!important;
