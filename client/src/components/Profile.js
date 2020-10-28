@@ -109,6 +109,7 @@ const Profile = () => {
             lastName: newUser.lastName,
             mobile: newUser.mobile
         })
+        setIsProfileEdit(false)
     }
     const handleSubmit = () => {
         if (oldPassword.v === "" || newPassword.v === "" || retypePassword.v === "" || retypePassword.e) {
