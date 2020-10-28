@@ -11,11 +11,12 @@ const IconCustom = (props) => (
     </i>
 );
 
-const MenuCustom = () => {
+const MenuCustom = ({setOpen}) => {
     const history = useHistory()
     const [activeItem, setActiveItem] = React.useState('')
     const handleClick = (e, {name}) => {
         setActiveItem(name)
+        setOpen(false)
         if (name === 'logout') {
             removeAccessToken()
             history.push('/')

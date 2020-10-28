@@ -30,6 +30,7 @@ const Header = ({setVisible, setActiveIndex}) => {
     })
     const [isLogin, setIsLogin] = useState(false)
     const [filterVisible, setFilterVisible] = useState(false)
+    const [open, setOpen] = React.useState(false)
     const [searchInput, setSearchInput] = useState('')
     const [filter, setFilter] = useState({
         title: false,
@@ -146,8 +147,11 @@ const Header = ({setVisible, setActiveIndex}) => {
                                        />
                                    }
                                    on='click'
+                                   open={open}
+                                   onOpen={() => setOpen(true)}
+                                   onClose={() => setOpen(false)}
                             >
-                                <MenuCustom/>
+                                <MenuCustom setOpen={setOpen}/>
                             </Popup>
                         </div>
                     }
