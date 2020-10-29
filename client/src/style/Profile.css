@@ -12,6 +12,9 @@
 .profile-grid.ui.grid{
     padding-top: 2%;
 }
+.profile-details.ui.grid{
+    padding-top: 1.5em;
+}
 .profile-details.ui.grid>.row {
     padding-top: 0;
 }
@@ -35,7 +38,7 @@
     box-shadow: none!important;
 }
 .profile-header .button{
-    width: 10%;
+    width: 11%;
 }
 .profile-grid .ui.fade.reveal>.show{
     opacity: 1;
@@ -49,13 +52,17 @@
 .profile-grid .ui.fade.reveal:hover>.hide{
     opacity: 0;
 }
-.profile-container {
+.ui.container.profile-container {
     margin-top: 3%;
     margin-bottom: 5%;
+    min-height: 0;
+    padding: 0;
 }
 .change-password-form {
     padding-left: 10% !important;
 }
-.banned-user-container {
+.ui.container.banned-user-container, .ui.container.banned-user-container .ui.container {
     margin-bottom: 10%;
+    min-height: 0;
+    padding: 0;
 }
