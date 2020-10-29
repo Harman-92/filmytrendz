@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import MovieDetails from "./components/MovieDetails";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
-import searchResult from "./components/searchResult";
+import searchResult from "./components/SearchResult";
 
 const routing = (
     <Router>
