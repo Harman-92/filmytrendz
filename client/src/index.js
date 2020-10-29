@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import MovieDetails from "./components/MovieDetails";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
+import searchResult from "./components/searchResult";
 
 const routing = (
     <Router>
@@ -16,6 +17,7 @@ const routing = (
                 <Route exact path="/" render={(props) => <Home {...props}/>}/>
                 <Route exact path="/movie/:id" component={MovieDetails}/>
                 <Route exact path="/profile" component={Profile}/>
+                <Route exact path="/search" component={searchResult}/>
             </Switch>
         </Header>
     </Router>
