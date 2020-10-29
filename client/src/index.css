@@ -16,3 +16,12 @@ code {
 #root {
   height: 100%;
 }
+.App {
+  height: 100%;
+  /*background-color: rgba(118,45,221,0.05);*/
+}
+.App .ui.container {
+  background-color: white;
+  padding: 3%;
+  min-height: 100vh;
+}

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
 import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
 import {useHistory} from 'react-router-dom';
+import {setAccessToken, setUserInfo} from "../config/session";
 
 const Login = (props) => {
     const history = useHistory()
@@ -63,11 +64,15 @@ const Login = (props) => {
 
         setTimeout(function () {
             props.setVisible(false)
-            history.push({
-                pathname: '/',
-                isLogin: true,
-                email: email.v
-            })
+            // history.push({
+            //     pathname: '/',
+            //     isLogin: true,
+            //     email: email.v
+            // })
+            // set Login info to cookies session
+            setAccessToken('something')
+            setUserInfo('456', 'Schrodinger', '')
+            history.push('/')
         }, 500);
     }
     useEffect(() => {
