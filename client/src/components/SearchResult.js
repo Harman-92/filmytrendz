@@ -4,7 +4,7 @@ import '../style/searchResult.css';
 
 import { useHistory, useLocation } from "react-router-dom";
 
-const searchResult = () => {
+const SearchResult = () => {
     const history = useHistory()
     const location = useLocation()
     const [isLogin, setIsLogin] = useState(false)
@@ -78,8 +78,5 @@ const searchResult = () => {
     );
 }
 
-searchResult.propTypes = {};
 
-searchResult.defaultProps = {};
-
-export default searchResult;
+export default SearchResult;
