@@ -57,7 +57,7 @@ function Header(props) {
             setRatingError(true)
         } else if (searchInput !== '') {
             history.push({
-                pathname: location.pathname,
+                pathname: '/search',
                 isSearch: true,
                 keyword: searchInput,
                 filters: {
