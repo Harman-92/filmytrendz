@@ -44,3 +44,10 @@ Organised scrum meet for status update - wednesday.
 Worked on CWV 136 - User Menu options.
 Worked on CWV 63,65 - Sign-up and Login form validation.
 Worked on CWV 85 - Routing and Navigation.
+Worked on CWV 22 - Movie page, review, add to favorite, watched, wishlist, share
+Worked on CWV 17 - User Profile edit, change password
+
+Week 7
+
+Organised Sprint planning, retrospective - wednesday
+Worked on user session management using cookies - CWV 138,140
