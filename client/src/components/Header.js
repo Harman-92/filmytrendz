@@ -76,7 +76,8 @@ function Header(props) {
 
         alert("title: " + searchByTitle + "\ndes: " + searchByDescription + "\ncast: " + searchByCast + "\nwishlist: " + searchByWishlist +
             "\ngenres: " + genresKey + "\nyear from: " + yearFrom + "\nyear to: " + yearTo + "\nrating from: " + ratingFrom +
-            "\nrating to: " + ratingTo
+            "\nrating to: " + ratingTo + "\n" +
+            "path is: " + location.pathname
         )
     }
 
