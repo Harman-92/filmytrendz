@@ -395,7 +395,7 @@ const MovieDetails = () => {
                         Reviews
                     </Header>
                     {isLogin ?
-                        <Button floated='right' color='violet' icon='add' content='Add Review'
+                        <Button floated='right' basic color='violet' icon='add' content='Add Review'
                                 labelPosition='left'
                                 onClick={() => {
                                     setAddReview(true)
