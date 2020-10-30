@@ -9,29 +9,29 @@ const Home = () => {
     const location = useLocation()
     const [isLogin, setIsLogin] = useState(false)
     const [recommendMovies, setRecommendMovies] = useState([
-        {id: 1, image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
-        {id: 2, image: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
-        {id: 3, image: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
-        {id: 4, image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {id: 5, image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {id: 6, image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
-        {id: 7, image: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
-        {id: 8, image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {id: 9, image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {id: 10, image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
+        {id: 1, image: '/poster.jpg', title: 'Spider Man-1', genre: 'Fiction', director: 'Abc',},
+        {id: 2, image: '/poster.jpg', title: 'Spider Man-2', genre: 'Fiction', director: 'Abc'},
+        {id: 3, image: '/poster.jpg', title: 'Spider Man-3', genre: 'Fiction', director: 'Abc'},
+        {id: 4, image: '/poster.jpg', title: 'Spider Man-4', genre: 'Fiction', director: 'Abc'},
+        {id: 5, image: '/poster.jpg', title: 'Spider Man-5', genre: 'Fiction', director: 'Abc'},
+        {id: 6, image: '/poster.jpg', title: 'Spider Man-6', genre: 'Fiction', director: 'Abc'},
+        {id: 7, image: '/poster.jpg', title: 'Spider Man-7', genre: 'Fiction', director: 'Abc'},
+        {id: 8, image: '/poster.jpg', title: 'Spider Man-4', genre: 'Fiction', director: 'Abc'},
+        {id: 9, image: '/poster.jpg', title: 'Spider Man-5', genre: 'Fiction', director: 'Abc'},
+        {id: 10, image: '/poster.jpg', title: 'Spider Man-6', genre: 'Fiction', director: 'Abc'},
     ])
 
     const [lastestdMovies, setLastestdMovies] = useState([
-        {id: 1, image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
-        {id: 2, image: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
-        {id: 3, image: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
-        {id: 4, image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {id: 5, image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {id: 6, image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
-        {id: 7, image: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
-        {id: 8, image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {id: 9, image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {id: 10, image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
+        {id: 1, image: '/poster.jpg', title: 'Spider Man-1', genre: 'Fiction', director: 'Abc',},
+        {id: 2, image: '/poster.jpg', title: 'Spider Man-2', genre: 'Fiction', director: 'Abc'},
+        {id: 3, image: '/poster.jpg', title: 'Spider Man-3', genre: 'Fiction', director: 'Abc'},
+        {id: 4, image: '/poster.jpg', title: 'Spider Man-4', genre: 'Fiction', director: 'Abc'},
+        {id: 5, image: '/poster.jpg', title: 'Spider Man-5', genre: 'Fiction', director: 'Abc'},
+        {id: 6, image: '/poster.jpg', title: 'Spider Man-6', genre: 'Fiction', director: 'Abc'},
+        {id: 7, image: '/poster.jpg', title: 'Spider Man-7', genre: 'Fiction', director: 'Abc'},
+        {id: 8, image: '/poster.jpg', title: 'Spider Man-4', genre: 'Fiction', director: 'Abc'},
+        {id: 9, image: '/poster.jpg', title: 'Spider Man-5', genre: 'Fiction', director: 'Abc'},
+        {id: 10, image: '/poster.jpg', title: 'Spider Man-6', genre: 'Fiction', director: 'Abc'},
     ])
 
     useEffect(() => {
