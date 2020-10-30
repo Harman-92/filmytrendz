@@ -40,6 +40,10 @@
 .profile-header .button{
     width: 11%;
 }
+.change-password-form .ui.basic.segment {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
 .profile-grid .ui.fade.reveal>.show{
     opacity: 1;
 }
@@ -64,5 +68,30 @@
 .ui.container.banned-user-container, .ui.container.banned-user-container .ui.container {
     margin-bottom: 10%;
     min-height: 0;
-    padding: 0;
 }
+.banned-list.ui.basic.segment{
+    margin-left: 10%;
+}
+.banned-list-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0!important;
+}
+.banned-list-title {
+    margin-bottom: 0!important;
+}
+.banned-list-edit {
+    margin-top: 0!important;
+}
+.banned-list-edit .button.ui.basic.violet.button{
+    color: #a291fb!important;
+    box-shadow: none!important;
+    margin: 0;
+}
+.banned-list-edit .button.ui.basic.violet.button:hover{
+    color: #6435c9!important;
+    box-shadow: none!important;
+}
+

@@ -14,39 +14,12 @@ import {
     Image,
     Message,
     Segment,
-    Reveal
+    Reveal,
+    List
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
 import images from "../config/images";
 import {getUserInfo} from "../config/session";
-
-const Banned = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    const handleClick = (e, {index}) => {
-        const newIndex = activeIndex === index ? -1 : index
-        setActiveIndex(newIndex)
-    }
-
-    return (
-        <Accordion>
-            <Accordion.Title
-                active={activeIndex === 0}
-                index={0}
-                onClick={handleClick}
-            >
-                <Icon name='dropdown'/>
-                Banned list
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 0}>
-                <p>
-                    Banned users list
-                </p>
-            </Accordion.Content>
-        </Accordion>
-    )
-}
-
 
 const Profile = () => {
     const location = useLocation()
@@ -77,6 +50,14 @@ const Profile = () => {
         loginError: false,
         success: false
     });
+    const [isActive, setIsActive] = useState(false);
+    const [bannedUsers, setBannedUsers] = useState([
+        {id: 34, name: 'Dalton'},
+        {id: 45, name: 'Tesla'},
+        {id: 32, name: 'Darwin'},
+        {id: 92, name: 'Feynman'}
+    ])
+    const [isBannedUserEdit, setIsBannedUserEdit] = useState(false)
 
     const handleProfileSave = () => {
         if (err.firstName || err.lastName || err.mobile || user.firstName === "" || user.lastName === "" || user.mobile === "") {
@@ -222,6 +203,18 @@ const Profile = () => {
             })
         }
     }
+    const handleGetBannedUsers = () => {
+        if(!isActive) {
+            //TODO:API to get banned users
+            // setBannedUsers(bannedUsers)
+        }
+        setIsActive(!isActive)
+    }
+    const handleUnBanUser = (e, {id}) => {
+        // console.log(id)
+        //TODO:API to remove banned user
+        setBannedUsers(users => users.filter(user=>user.id!==id))
+    }
 
     useEffect(() => {
         setSubmit({
@@ -236,7 +229,9 @@ const Profile = () => {
     }, [location])
     return (
         <Container className="Profile">
+
             {/*--------------------Profile header------------------------*/}
+
             <Segment clearing basic className='review-header profile-header'>
                 <Header as='h2' floated='left'>
                     My Profile
@@ -336,20 +331,69 @@ const Profile = () => {
                     </Grid.Column>
                 </Grid>
             </Container>
+
+            {/*----------------------Banned Users--------------------------*/}
+
             <Container className='banned-user-container'>
                 <Grid columns={2} divided centered stackable>
                     <Grid.Column width={7}>
-                        <Header icon as='h1' textAlign='center'>
-                        </Header>
-                        <Segment basic>
-                            <Banned/>
-                        </Segment>
+                        <Accordion>
+                            <Segment basic className='banned-list-header'>
+                                <Accordion.Title
+                                    active={isActive}
+                                    index={0}
+                                    onClick={handleGetBannedUsers}
+                                >
+                                    <Header icon as='h1' className='banned-list-title'>
+                                        <Icon name='dropdown'/>
+                                        Banned list
+                                    </Header>
+                                </Accordion.Title>
+                                {isActive ?
+                                    <Header className='banned-list-edit'>
+                                        <Button icon basic size='mini' color='violet'
+                                                onClick={() => setIsBannedUserEdit(!isBannedUserEdit)}>
+                                            <Icon name='edit'/>
+                                        </Button>
+                                    </Header>
+                                    : null
+                                }
+                            </Segment>
+                            {isActive ?
+                                <Accordion.Content active={isActive}>
+                                    <Segment basic className='banned-list'>
+                                        <List>
+                                            {bannedUsers.map((bannedUser, index) => (
+
+                                                <List.Item key={index}>
+                                                    {isBannedUserEdit ?
+                                                        <List.Icon
+                                                            id={bannedUser.id}
+                                                            name='x'
+                                                            color='red'
+                                                            onClick={handleUnBanUser}
+                                                        />
+                                                        : null}
+                                                    <List.Content><h4>{bannedUser.name}</h4></List.Content>
+                                                </List.Item>
+                                            ))}
+                                        </List>
+                                    </Segment>
+                                </Accordion.Content>
+                                : null
+                            }
+                        </Accordion>
                     </Grid.Column>
+
+                    {/*---------------------------Change password------------------------------*/}
+
                     <Grid.Column width={7} verticalAlign={'middle'} className='change-password-form'>
                         <Container>
-                            <Header icon as='h1' textAlign='center'>
-                                Change password
-                            </Header>
+                            <Segment basic>
+                                <Header icon as='h1' textAlign='center'>
+                                    Change password
+                                </Header>
+                            </Segment>
                             <Form size='large'
                                   onSubmit={handleSubmit}
                                   warning={submit.formError}
