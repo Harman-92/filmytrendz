@@ -163,7 +163,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                 </Accordion.Title>
                 {/*---------------------Search Bar Filter ----------------------*/}
 
-                <Transition.Group animation='fly down' duration={500}>
+                <Transition.Group animation='slide down' duration={200}>
                     {filterVisible && (
                         <Accordion.Content active={filterVisible}>
 
