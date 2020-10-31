@@ -85,10 +85,12 @@
 .reviewer-name{
     margin: 0 !important;
 }
+.reviewer-name-user{
+     margin: 0 !important;
+ }
 .reviewer-name:hover{
     cursor: pointer;
-    text-decoration: underline;
-    color: blue;
+    color: #7b68ee;
 }
 .review-button {
     width: 20%;
@@ -160,4 +162,9 @@
     padding-top: 0!important;
     padding-bottom: 0!important;
     padding-right: 0!important;
+}
+.ban-reviewer:hover {
+    cursor: pointer;
+    color: navy;
+    text-decoration: underline;
 }

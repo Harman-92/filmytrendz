@@ -40,7 +40,19 @@
 .profile-header .button{
     width: 11%;
 }
-.profile-grid .ui.fade.reveal>.show{
+.change-password-form .ui.basic.segment {
+    margin-bottom: 0;
+}
+.change-password-form .ui.icon.header {
+    margin-bottom: 0;
+}
+.change-password-form .ui.large.form{
+    padding-left: 16%;
+}
+.change-password-form .ui.container{
+    padding-left: 0;
+}
+.profile-grid .ui.fade.reveal>.show {
     opacity: 1;
 }
 .profile-grid .ui.fade.reveal:hover>.show{
@@ -58,11 +70,33 @@
     min-height: 0;
     padding: 0;
 }
-.change-password-form {
-    padding-left: 10% !important;
-}
 .ui.container.banned-user-container, .ui.container.banned-user-container .ui.container {
     margin-bottom: 10%;
     min-height: 0;
-    padding: 0;
 }
+.banned-list.ui.basic.segment{
+    margin-left: 10%;
+}
+.banned-list-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0!important;
+}
+.banned-list-title {
+    margin-bottom: 0!important;
+}
+.banned-list-edit {
+    margin-top: 0!important;
+}
+.banned-list-edit .button.ui.basic.violet.button{
+    color: #a291fb!important;
+    box-shadow: none!important;
+    margin: 0;
+}
+.banned-list-edit .button.ui.basic.violet.button:hover{
+    color: #6435c9!important;
+    box-shadow: none!important;
+}
+
