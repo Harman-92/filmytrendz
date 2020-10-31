@@ -485,7 +485,7 @@ const MovieDetails = () => {
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Ban
+                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
@@ -543,7 +543,7 @@ const MovieDetails = () => {
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Ban
+                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
