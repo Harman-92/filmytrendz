@@ -32,3 +32,9 @@ Finished script to generate all the movies till Oct, 2020. It didn't work becaus
 Explored different ways to gather the data - data dumps and tmdb's discover api.
 
 ----------------------------------------------------------------------------------------------------
+
+Week 6 
+
+Finished Data collection. Finished preprocessing dataset. Started work on movie recommendation model.
+
+----------------------------------------------------------------------------------------------------
