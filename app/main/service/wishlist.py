@@ -29,7 +29,7 @@ def delete_wishlist(wishlist_id,user_id):
 
         db.session.delete(wishlist)
         db.session.commit()
-        resp = make_response(jsonify({'message': 'banned user deleted succesfully'}))
+        resp = make_response(jsonify({'message': 'wishlist of user deleted succesfully'}))
         resp.status_code = SUCCESS
         return resp
 
