@@ -108,11 +108,39 @@ class MovieDto:
 class WishListDto:
     api = Namespace('wishlist', description='wish list')
 
-    wish_list_model = api.model('wish-list-movies', {
+    wishlist_movie_model = api.model('movie-model', {
         'id': fields.Integer,
         'name': fields.String,
-        'movies': fields.List(fields.Nested(MovieDto.movie_model))
     })
+
+    wish_list_model = api.model('wish-list', {
+        'id': fields.Integer,
+        'name': fields.String,
+        'movies': fields.List(fields.Nested(wishlist_movie_model))
+    })
+
+    wish_lists_model = api.model('wish-lists', {
+        'wishlists': fields.List(fields.Nested(wish_list_model))
+    })
+
+    new_wishlist_model = api.model('new-wish-list', {
+        'name': fields.String,
+        'status': fields.String,
+
+    })
+
+    new_wishlist_return_model = api.model('new-wish-list-return', {
+        'id': fields.Integer,
+        'name': fields.String,
+        'status': fields.String
+
+    })
+
+    wishlist_update_model = api.model('wish-list', {
+        'new_list': fields.List(fields.Integer),
+        'remove_list': fields.List(fields.Integer)
+    })
+
 
 # watched movies are the histories...
 # class HistoryListDto:
