@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, Container, Dropdown, Form, Grid, Header, Icon, Image, Menu, Dimmer} from "semantic-ui-react";
+import {Button, Card, Container, Dropdown, Form, Header, Icon, Image, Menu, Label, Reveal} from "semantic-ui-react";
 import '../style/SearchResult.css';
 import { useHistory, useLocation } from "react-router-dom";
 import {isAuthenticated} from "../config/session";
-import rating from "../config/ratings";
+import ReactStars from "react-rating-stars-component";
+
 
 
 const SearchResult = () => {
@@ -118,15 +119,47 @@ const SearchResult = () => {
             <Card.Group itemsPerRow={5}>
                 {
                     searchResults.map((movie, index) => (
-                        <Card className='movieCard'
-                              key={index}
 
-                              onClick={() => history.push('/movie/' + movie.id)}>
-                            <Image src={movie.image}/>
-                            <Card.Description textAlign='center'>{movie.title}</Card.Description>
-                            <Card.Description textAlign='center'>{movie.averageRating}</Card.Description>
-                            <Card.Description textAlign='center'>{movie.releaseDate}</Card.Description>
-                        </Card>
+                                <Card className='movieCard' fluid
+                                      key={index}
+                                      onClick={() => history.push('/movie/' + movie.id)}>
+                                    <Image  src={movie.image} />
+                                    <Card.Content>
+                                        <Card.Header>{movie.title}</Card.Header>
+                                        <Card.Meta>Released in {movie.releaseDate}</Card.Meta>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <ReactStars
+                                            count={5}
+                                            value={movie.averageRating}
+                                            size={20}
+                                            isHalf={true}
+                                            edit={false}
+                                            activeColor="#7b68ee"
+                                            color='lightgrey'
+                                        />
+                                    </Card.Content>
+
+                                    {/*<Reveal animated='fade' >*/}
+                                    {/*    <Reveal.Content visible>*/}
+                                    {/*        <Image  src={movie.image} />*/}
+                                    {/*    </Reveal.Content>*/}
+                                    {/*    <Reveal.Content hidden>*/}
+                                    {/*        <Header>{movie.title}</Header>*/}
+                                    {/*        <p>Released in {movie.releaseDate}</p>*/}
+                                    {/*        <ReactStars*/}
+                                    {/*            count={5}*/}
+                                    {/*            value={movie.averageRating}*/}
+                                    {/*            size={20}*/}
+                                    {/*            isHalf={true}*/}
+                                    {/*            edit={false}*/}
+                                    {/*            activeColor="#7b68ee"*/}
+                                    {/*            color='lightgrey'*/}
+                                    {/*        />*/}
+                                    {/*    </Reveal.Content>*/}
+                                    {/*</Reveal>*/}
+                                </Card>
+
                     ))
                 }
             </Card.Group>
