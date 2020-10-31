@@ -52,10 +52,11 @@ const Profile = () => {
     });
     const [isActive, setIsActive] = useState(false);
     const [bannedUsers, setBannedUsers] = useState([
-        {id: 34, name: 'Dalton'},
-        {id: 45, name: 'Tesla'},
-        {id: 32, name: 'Darwin'},
-        {id: 92, name: 'Feynman'}
+        {id: 34, firstName: 'John' ,lastName: 'Dalton'},
+        {id: 45, firstName: 'Nikola' ,lastName: 'Tesla'},
+        {id: 32, firstName: 'Charles' ,lastName: 'Darwin'},
+        {id: 92, firstName: 'Richard' ,lastName: 'Feynman'},
+        {id: 43, firstName: 'Werner', lastName: 'Heisenberg'}
     ])
     const [isBannedUserEdit, setIsBannedUserEdit] = useState(false)
 
@@ -238,12 +239,12 @@ const Profile = () => {
                 </Header>
                 {isProfileEdit ?
                     <div>
-                        <Button floated='right' basic color='violet' icon='edit' content='Save'
+                        <Button floated='right' basic color='violet' icon='save' content='Save'
                                 active={false}
                                 labelPosition='left'
                                 onClick={handleProfileSave}
                         />
-                        <Button floated='right' basic color='grey' icon='edit' content='Cancel'
+                        <Button floated='right' basic color='grey' icon='cancel' content='Cancel'
                                 active={false}
                                 labelPosition='left'
                                 onClick={handleCancel}
@@ -359,6 +360,7 @@ const Profile = () => {
                                     : null
                                 }
                             </Segment>
+                            <Divider fitted/>
                             {isActive ?
                                 <Accordion.Content active={isActive}>
                                     <Segment basic className='banned-list'>
@@ -374,7 +376,7 @@ const Profile = () => {
                                                             onClick={handleUnBanUser}
                                                         />
                                                         : null}
-                                                    <List.Content><h4>{bannedUser.name}</h4></List.Content>
+                                                    <List.Content><h4>{bannedUser.firstName} {bannedUser.lastName}</h4></List.Content>
                                                 </List.Item>
                                             ))}
                                         </List>
@@ -390,10 +392,11 @@ const Profile = () => {
                     <Grid.Column width={7} verticalAlign={'middle'} className='change-password-form'>
                         <Container>
                             <Segment basic>
-                                <Header icon as='h1' textAlign='center'>
+                                <Header icon as='h1' textAlign='left'>
                                     Change password
                                 </Header>
                             </Segment>
+                            <Divider fitted/>
                             <Form size='large'
                                   onSubmit={handleSubmit}
                                   warning={submit.formError}

@@ -42,9 +42,17 @@
 }
 .change-password-form .ui.basic.segment {
     margin-bottom: 0;
-    padding-bottom: 0;
 }
-.profile-grid .ui.fade.reveal>.show{
+.change-password-form .ui.icon.header {
+    margin-bottom: 0;
+}
+.change-password-form .ui.large.form{
+    padding-left: 16%;
+}
+.change-password-form .ui.container{
+    padding-left: 0;
+}
+.profile-grid .ui.fade.reveal>.show {
     opacity: 1;
 }
 .profile-grid .ui.fade.reveal:hover>.show{
@@ -61,9 +69,6 @@
     margin-bottom: 5%;
     min-height: 0;
     padding: 0;
-}
-.change-password-form {
-    padding-left: 10% !important;
 }
 .ui.container.banned-user-container, .ui.container.banned-user-container .ui.container {
     margin-bottom: 10%;
