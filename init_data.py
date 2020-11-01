@@ -12,14 +12,19 @@ with app.app_context():
     user1.encrypt_password('venom')
     user2 = User(id=2, first_name='caitlin', last_name='dale', mobile_no='0490578628',
                  email='caitlin.jade.dale@gmail.com')
-    user2.encrypt_password('ass')
+    user2.encrypt_password('bomb')
     user3 = User(id=3, first_name='venom', last_name='belly', mobile_no='0490898628',
                  email='venom567@gmail.com')
-    user3.encrypt_password('tities')
+    user3.encrypt_password('thunder')
 
     movie1=Movie(name='harry potter',director='jk rowling')
     movie2=Movie(name='fast', director='furious')
     movie3 = Movie(name='code 8 ', director='idk')
     db.session.add_all([user1, user2,user3,movie1,movie2,movie3])
+
+    db.session.commit()
+
+    review= Review(id=1,review_text="magic movie",rating=5,movie=1,user=1)
+    db.session.add(review)
     db.session.commit()
 
