@@ -159,3 +159,6 @@ class RecommendationDto:
             'movies': fields.List(fields.Nested(MovieDto.movie_model)),
         }
     )
+
+class ReviewDto:
+    api = Namespace('review', description='review apis')
