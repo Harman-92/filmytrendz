@@ -1,7 +1,7 @@
 import React, {Suspense, useState, useEffect} from 'react';
 import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
-import {useLocation} from "react-router-dom";
+import {useLocation, useHistory} from "react-router-dom";
 import moment from "moment";
 import {
     Button,
@@ -24,6 +24,7 @@ import {
 import SimilarMovies from "./SimilarMovies";
 import images from "../config/images";
 import {getUserInfo, isAuthenticated} from "../config/session";
+
 
 const checkWishListActive = (wishList) => {
     let a = false
@@ -53,6 +54,7 @@ const Cast = (props) => (
 
 const MovieDetails = () => {
     const location = useLocation()
+    const history = useHistory()
     const [isLogin, setIsLogin] = useState(false)
     const [movieDetails, setMovieDetails] = useState({
         title: 'Spider Man 3',
@@ -76,7 +78,7 @@ const MovieDetails = () => {
         ],
         reviews: [
             {
-                avatar: '/empty_profile.png',
+                avatar: '',
                 id: 23,
                 name: 'Matt',
                 createdTime: '2020-10-20 15:34',
@@ -131,9 +133,9 @@ const MovieDetails = () => {
         rating: 0
     })
     const [user, setUser] = useState({
-        id: '34',
-        firstName: 'Natalie',
-        url: '/avatar.jpeg',
+        id: '',
+        firstName: '',
+        url: '',
     })
     const [similarMovies, setSimilarMovies] = useState([
         {image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
@@ -182,8 +184,11 @@ const MovieDetails = () => {
         //TODO:sort the similarmovies
     }
 
-    const handleClickReviewer = (e) => {
+    const handleBanReviewer = (e) => {
         console.log(e.target.id)
+        //TODO : API to ban reviewer
+        //and refresh
+        history.go(0)
     }
 
     const handleWishListChange = (e, {id, value}) => {
@@ -226,7 +231,7 @@ const MovieDetails = () => {
     }, [wishList])
     useEffect(() => {
         setIsLogin(isAuthenticated())
-        if(isLogin){
+        if (isLogin) {
             setUser(getUserInfo)
         }
     }, [location, isLogin])
@@ -280,7 +285,7 @@ const MovieDetails = () => {
                                     className='wishlist-popup'
                                     onClose={() => setAddWishList(false)}
                                     flowing={false}
-                                    pinned={true}
+                                    hideOnScroll
                                 >
                                     <Segment basic className='wishlist-container'>
                                         {(wishList && wishList.length > 0) ?
@@ -345,7 +350,7 @@ const MovieDetails = () => {
                                     className='share-popup'
                                     onClose={() => setAddWishList(false)}
                                     flowing={false}
-                                    pinned={true}
+                                    hideOnScroll
                                 >
                                     <Segment basic className='share-link'>
 
@@ -410,11 +415,11 @@ const MovieDetails = () => {
                 <Grid columns={2} className='review-grid'>
                     <Grid.Row>
                         <Grid.Column width={3} textAlign={"center"} className='reviewer'>
-
-                            <Image className='reviewer-image' circular size='tiny' src={user.url===''?images.no_profile:user.url}/>
-
-                            <h4 id={user.id} className='reviewer-name'
-                                onClick={handleClickReviewer}>{user.firstName}</h4>
+                            <Image className='reviewer-image'
+                                   circular size='tiny'
+                                   src={user.url === '' ? images.no_profile : user.url}
+                            />
+                            <h4 className='reviewer-name-user'>{user.firstName}</h4>
                             <Item.Description>{moment().format('YYYY-MM-DD HH:mm').toString()}</Item.Description>
                         </Grid.Column>
                         <Grid.Column width={10} className='review-content'>
@@ -467,10 +472,23 @@ const MovieDetails = () => {
                             <Grid.Row>
                                 <Grid.Column width={3} textAlign='center' className='reviewer'>
 
-                                    <Image className='reviewer-image' circular size='tiny' src={review.avatar}/>
-
-                                    <h4 id={review.id} className='reviewer-name'
-                                        onClick={handleClickReviewer}>{review.name}</h4>
+                                    <Image className='reviewer-image' circular size='tiny'
+                                           src={review.avatar === '' ? images.no_profile : review.avatar}/>
+                                    {review.id === user.id ?
+                                        <h4 className='reviewer-name-user'>{review.name}</h4>
+                                        :
+                                        <Popup wide
+                                               position='right center'
+                                               trigger={
+                                                   <h4 className='reviewer-name'>{review.name}</h4>
+                                               }
+                                               on='click'
+                                               hideOnScroll
+                                        >
+                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Block
+                                                Reviewer</p>
+                                        </Popup>
+                                    }
                                     <Item.Description>{review.createdTime}</Item.Description>
                                 </Grid.Column>
                                 <Grid.Column width={10} className='review-content'>
@@ -512,9 +530,23 @@ const MovieDetails = () => {
 
                                 <Grid.Column width={3} textAlign={"center"} className='reviewer'>
 
-                                    <Image className='reviewer-image' circular size='tiny' src={review.avatar}/>
-
-                                    <h4 id={review.id} className='reviewer-name'>{review.name}</h4>
+                                    <Image className='reviewer-image' circular size='tiny'
+                                           src={review.avatar === '' ? images.no_profile : review.avatar}/>
+                                    {review.id === user.id ?
+                                        <h4 className='reviewer-name-user'>{review.name}</h4>
+                                        :
+                                        <Popup wide
+                                               position='left center'
+                                               trigger={
+                                                   <h4 id={review.id} className='reviewer-name'>{review.name}</h4>
+                                               }
+                                               on='click'
+                                               hideOnScroll
+                                        >
+                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Block
+                                                Reviewer</p>
+                                        </Popup>
+                                    }
                                     <Item.Description>{review.createdTime}</Item.Description>
                                 </Grid.Column>
                             </Grid.Row>
