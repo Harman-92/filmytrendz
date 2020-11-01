@@ -238,8 +238,6 @@ const MovieDetails = () => {
         setIsLogin(isAuthenticated())
         if (isLogin) {
             setUser(getUserInfo)
-        }else{
-            history.push('/')
         }
     }, [location, isLogin])
 

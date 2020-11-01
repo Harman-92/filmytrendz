@@ -113,4 +113,4 @@ const MenuCustom = ({setOpen}) => {
     );
 }
 
-export default MenuCustom;
+export default MenuCustom

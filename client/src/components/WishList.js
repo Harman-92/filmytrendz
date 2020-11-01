@@ -9,10 +9,19 @@ import {
     Container,
     Input,
     Label,
-    Card, Image, Modal, Popup
+    Card, Image, Modal, Popup, List, Dropdown
 } from "semantic-ui-react";
 import {useHistory, useLocation, useParams} from 'react-router-dom';
 import {getUserInfo, isAuthenticated} from "../config/session";
+import images from "../config/images";
+
+const IconCustom = (props) => (
+    <i className="">
+        <img width={38} height={38} src={props.src} alt='User Menu Icon'/>
+    </i>
+);
+const PUBLIC = 'public'
+const PRIVATE = 'private'
 
 const WishList = () => {
     const history = useHistory()
@@ -92,19 +101,37 @@ const WishList = () => {
     const [open, setOpen] = useState(false)
     const [isAddWishList, setIsAddWishList] = useState(false)
     const [newWishList, setNewWishList] = useState({
-        name:'',
-        access:'',
-        movies:[]
+        name: '',
+        access: PUBLIC,
+        movies: []
     })
-    const handleEditClick = (e) => {
-        if (parseInt(e.target.offsetParent.parentElement.id) === isEditId) {
+    const accessOptions = [
+        {
+            key: PUBLIC,
+            text: 'Public',
+            value: PUBLIC,
+            image: {avatar: true, src: images.public},
+        },
+        {
+            key: PRIVATE,
+            text: 'Private',
+            value: PRIVATE,
+            image: {avatar: true, src: images.private},
+        },
+    ]
+    const handleEditClick = (wishListId) => {
+        if (wishListId === isEditId) {
             setIsEditId(0)
         } else {
-            setIsEditId(parseInt(e.target.offsetParent.parentElement.id))
+            setIsEditId(wishListId)
+            setNewWishList({
+                ...newWishList,
+                name: wishList.find(x => x.id === wishListId).name
+            })
         }
     }
-    const handleDeleteClick = (e) => {
-        setIsDeleteId(parseInt(e.target.offsetParent.parentElement.id))
+    const handleDeleteClick = (wishListId) => {
+        setIsDeleteId(wishListId)
     }
     const handleDeleteCancel = () => {
         setIsDeleteId(0)
@@ -112,16 +139,16 @@ const WishList = () => {
     }
     const handleDeleteConfirm = () => {
         //TODO: API to delete isDeleteId wishlist
-        setWishList(wishlist=>wishlist.filter(w=>w.id!==isDeleteId))
+        setWishList(wishlist => wishlist.filter(w => w.id !== isDeleteId))
         setOpen(false)
     }
-    const handleRemoveMovie = (e) => {
+    const handleRemoveMovie = (movieId) => {
         // console.log(e.target.parentElement.id)
         //TODO:API to remove movie from wishList isEditId
         let wishLists = [...wishList]
         for (let w of wishLists) {
             if (w.id === isEditId) {
-                w.movies = w.movies.filter(m => m.id !== parseInt(e.target.parentElement.id))
+                w.movies = w.movies.filter(m => m.id !== movieId)
             }
         }
         setWishList(wishLists)
@@ -132,42 +159,65 @@ const WishList = () => {
         copyWishList.splice(0, 0, {
             id: 44,
             name: newWishList.name,
-            access: 'private',//newWishList.access,
+            access: newWishList.access,
             movies: newWishList.movies
         })
         setWishList(copyWishList)
         setNewWishList({
             name: '',
-            access: '',
+            access: PUBLIC,
             movies: []
         })
         setIsAddWishList(false)
     }
-
+    const handleSaveEditWishlist = () => {
+        //TODO: API call to edit wishlist name
+        let copyWishList = [...wishList]
+        copyWishList.find(x => x.id === isEditId).name = newWishList.name
+        setWishList(copyWishList)
+        setNewWishList({...newWishList, name: ''})
+        setIsEditId(0)
+    }
+    const handleAccessChange = (wishListId, value) => {
+        let copyWishList = [...wishList]
+        copyWishList.find(x => x.id === wishListId).access = value
+        setWishList(copyWishList)
+        //TODO: API to change wishlist access
+    }
     useEffect(() => {
         console.log(id)
         //TODO:API to fetch wishlists details
-    },[])
+    }, [])
     useEffect(() => {
         setIsLogin(isAuthenticated())
         if (isLogin) {
             setUser(getUserInfo)
-        }else{
-            history.push('/')
         }
     }, [location, isLogin])
 
     return (
         <Container>
+
+            {/*-----------------------Add New Wishlist-------------------------------*/}
+
             <Segment basic clearing className='add-wishlist wishlist-header'>
                 {isAddWishList ?
                     <div>
                         <Header as='h4' floated='left' className='wishlist-name'>
                             <Input className='corner labeled' labelPosition='left' type='text'
                                    placeholder='Wish List Name'
-                                   onChange={(e, {value}) => setNewWishList({...newWishList,name: value})}
-                            >
-                                <Label basic><Icon name='lock' className='access'/></Label>
+                                   onChange={(e, {value}) => setNewWishList({...newWishList, name: value})}
+                            ><Dropdown
+                                className='access'
+                                trigger={
+                                    <Label basic>
+                                        <IconCustom src={images[newWishList.access]}/>
+                                    </Label>}
+                                value={newWishList.access}
+                                defaultValue={newWishList.access}
+                                onChange={(e, {value}) => setNewWishList({...newWishList, access: value})}
+                                options={accessOptions}
+                            />
                                 <input onKeyPress={event => {
                                     if (event.key === 'Enter') {
                                         handleCreateWishList()
@@ -189,62 +239,91 @@ const WishList = () => {
                     />
                 }
             </Segment>
+
+            {/*---------------------------Load Wish lists--------------------------------*/}
+
             {wishList.map((w, i) => (
-                <div id={w.id} key={i}>
+                <div key={i}>
                     <Segment basic className='wishlist-header flex'>
                         <Header as='h4' className='wishlist-name'>
                             <Input className='corner labeled' labelPosition='left' type='text'
-                                   placeholder='Wish List Name' disabled={isEditId !== w.id}>
-                                <Label basic><Icon name='lock' className='access'/></Label>
-                                <input value={w.name}/>
+                                   placeholder='Wish List Name'
+                                   disabled={isEditId !== w.id}
+                                   onChange={(e, {value}) => setNewWishList({...newWishList, name: value})}
+                            >
+                                {/*------------Access dropdown----------------*/}
+                                <Dropdown
+                                    className='access'
+                                    trigger={
+                                        <Label basic>
+                                            <IconCustom src={images[w.access]}/>
+                                        </Label>}
+                                    value={w.access}
+                                    defaultValue={w.access}
+                                    onChange={(e, {value}) => handleAccessChange(w.id, value)}
+                                    options={accessOptions}
+                                />
+                                {/*--------------wish list name------------------*/}
+                                <input value={isEditId !== w.id ? w.name : newWishList.name}
+                                       onKeyPress={event => {
+                                           if (event.key === 'Enter') {
+                                               handleSaveEditWishlist()
+                                           }
+                                       }}
+                                />
                             </Input>
                         </Header>
+                        {/*-----------------------wish list options edit,share,delete------------------------*/}
                         <Header as='h4' className='wishlist-option'>
-                            <Icon name='pencil' inverted color='violet' onClick={handleEditClick}/>
-                            <Popup
-                                position='bottom right'
-                                trigger={
-                            <Icon name='share alternate' color='blue'/>
-                                }
-                                on='click'
-                                className='share-popup'
-                                flowing={false}
-                                hideOnScroll
-                            >
-                                <Segment basic className='share-link'>
+                            <Icon name='pencil' inverted color='violet' onClick={() => handleEditClick(w.id)}/>
+                            {w.access === PUBLIC ?
+                                <Popup
+                                    position='bottom right'
+                                    trigger={
+                                        <Icon name='share alternate' color='blue'/>
+                                    }
+                                    on='click'
+                                    className='share-popup'
+                                    flowing={false}
+                                    hideOnScroll
+                                >
+                                    <Segment basic className='share-link'>
 
-                                    {window.location.href}/{w.id}
-                                    <Button onClick={() => navigator.clipboard.writeText(window.location.href+'/'+w.id)}
+                                        {window.location.href}/{w.id}
+                                        <Button
+                                            onClick={() => navigator.clipboard.writeText(window.location.href + '/' + w.id)}
                                             className='wishlist-add share-link-button' basic icon='paperclip'
-                                    />
-                                </Segment>
-                            </Popup>
-
+                                        />
+                                    </Segment>
+                                </Popup> : null
+                            }
                             <Modal
                                 onClose={() => setOpen(false)}
                                 onOpen={() => setOpen(true)}
                                 open={isDeleteId === w.id}
                                 trigger={
                                     <Icon name='trash alternate outline' inverted color='violet'
-                                          onClick={handleDeleteClick}/>
+                                          onClick={() => handleDeleteClick(w.id)}/>
                                 }
                                 size='tiny'
                             >
+                                {/*-----------------delete wish list modal-------------------------*/}
                                 <Segment basic clearing textAlign='center'>
                                     <Header>Do you wish to delete "{w.name}"?</Header>
                                     <Segment basic className='wishlist-header'>
-                                    <Button floated='left' color='grey' onClick={handleDeleteCancel}>
-                                        Cancel
-                                    </Button>
-                                    <Button color='violet' floated='right' onClick={handleDeleteConfirm}>
-                                        Confirm
-                                    </Button>
+                                        <Button floated='left' color='grey' onClick={handleDeleteCancel}>
+                                            Cancel
+                                        </Button>
+                                        <Button color='violet' floated='right' onClick={handleDeleteConfirm}>
+                                            Confirm
+                                        </Button>
                                     </Segment>
                                 </Segment>
                             </Modal>
                         </Header>
                     </Segment>
                     <Divider fitted/>
+                    {/*--------------------------Movies container-----------------------------------*/}
                     <Container className='wishlist-cards'>
                         <Card.Group itemsPerRow={5}>
                             {
@@ -256,7 +335,7 @@ const WishList = () => {
                                     >
                                         <Image src={movie.image}/>
                                         {isEditId === w.id ?
-                                            <Icon color='red' name='x' onClick={handleRemoveMovie}/>
+                                            <Icon color='red' name='x' onClick={() => handleRemoveMovie(movie.id)}/>
                                             : null
                                         }
                                     </Card>
