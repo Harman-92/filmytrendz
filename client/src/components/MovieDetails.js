@@ -1,7 +1,7 @@
 import React, {Suspense, useState, useEffect} from 'react';
 import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
-import {useLocation, useHistory} from "react-router-dom";
+import {useLocation, useHistory, useParams} from "react-router-dom";
 import moment from "moment";
 import {
     Button,
@@ -55,6 +55,7 @@ const Cast = (props) => (
 const MovieDetails = () => {
     const location = useLocation()
     const history = useHistory()
+    const { id } = useParams()
     const [isLogin, setIsLogin] = useState(false)
     const [movieDetails, setMovieDetails] = useState({
         title: 'Spider Man 3',
@@ -227,6 +228,10 @@ const MovieDetails = () => {
     }
 
     useEffect(() => {
+        //TODO:API to fetch movie details
+        console.log(id)
+    },[])
+    useEffect(() => {
         setIsWishList(checkWishListActive(wishList))
     }, [wishList])
     useEffect(() => {
@@ -343,23 +348,23 @@ const MovieDetails = () => {
                                 <Menu.Item
                                     name='share'
                                     active={true}
-                                ><Popup
-                                    position='bottom right'
-                                    trigger={<Icon name='share alternate' color='blue'/>}
-                                    on='click'
-                                    className='share-popup'
-                                    onClose={() => setAddWishList(false)}
-                                    flowing={false}
-                                    hideOnScroll
                                 >
-                                    <Segment basic className='share-link'>
+                                    <Popup
+                                        position='bottom right'
+                                        trigger={<Icon name='share alternate' color='blue'/>}
+                                        on='click'
+                                        className='share-popup'
+                                        flowing={false}
+                                        hideOnScroll
+                                    >
+                                        <Segment basic className='share-link'>
 
-                                        {window.location.href}
-                                        <Button onClick={() => navigator.clipboard.writeText(window.location.href)}
-                                                className='wishlist-add share-link-button' basic icon='paperclip'
-                                        />
-                                    </Segment>
-                                </Popup>
+                                            {window.location.href}
+                                            <Button onClick={() => navigator.clipboard.writeText(window.location.href)}
+                                                    className='wishlist-add share-link-button' basic icon='paperclip'
+                                            />
+                                        </Segment>
+                                    </Popup>
                                 </Menu.Item>
                             </Menu>
                             :

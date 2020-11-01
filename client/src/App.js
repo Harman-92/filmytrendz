@@ -13,6 +13,8 @@ import Home from "./components/Home";
 import MovieDetails from "./components/MovieDetails";
 import Profile from "./components/Profile";
 import ResultPage from "./components/ResultPage";
+import WishList from "./components/WishList";
+import WishListPublic from "./components/WishListPublic";
 
 function App() {
     const [visible, setVisible] = useState(false)
@@ -60,6 +62,8 @@ function App() {
                         <Route path="/favorite" component={ResultPage}/>
                         <Route path="/watched" component={ResultPage}/>
                         <Route path="/reviewed" component={ResultPage}/>
+                        <Route exact path="/wishlist" component={WishList}/>
+                        <Route path="/wishlist/:id" component={WishListPublic}/>
 
                     </Switch>
                 </Sidebar.Pusher>
