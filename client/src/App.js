@@ -12,7 +12,7 @@ import Header from './components/Header'
 import Home from "./components/Home";
 import MovieDetails from "./components/MovieDetails";
 import Profile from "./components/Profile";
-import SearchResult from "./components/SearchResult";
+import ResultPage from "./components/ResultPage";
 
 function App() {
     const [visible, setVisible] = useState(false)
@@ -56,7 +56,11 @@ function App() {
                         <Route exact path="/" render={(props) => <Home {...props}/>}/>
                         <Route path="/movie/:id" component={MovieDetails}/>
                         <Route path="/profile" component={Profile}/>
-                        <Route path="/search" component={SearchResult}/>
+                        <Route path="/search" component={ResultPage}/>
+                        <Route path="/favorite" component={ResultPage}/>
+                        <Route path="/watched" component={ResultPage}/>
+                        <Route path="/reviewed" component={ResultPage}/>
+
                     </Switch>
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
