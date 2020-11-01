@@ -29,3 +29,8 @@ Started developing layout of feature cwv-85
 Week 6
 Finished developing layout of feature cwv-85
 Finsihed developing home page filter
+
+Week7
+Had an introspective meeting for sprint3
+Finished developing search result page and sortby functionality
+Started working on favourite movie page.

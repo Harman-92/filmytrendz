@@ -1,17 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, Container, Dropdown, Form, Header, Icon, Image, Menu, Label, Reveal} from "semantic-ui-react";
+import {
+    Button,
+    Card,
+    Container,
+    Dropdown,
+    Header,
+    Icon,
+    Image,
+    Menu,
+    Modal
+} from "semantic-ui-react";
 import '../style/SearchResult.css';
 import { useHistory, useLocation } from "react-router-dom";
 import {isAuthenticated} from "../config/session";
 import ReactStars from "react-rating-stars-component";
 
-
-
-const SearchResult = () => {
+const ResultPage = () => {
     const history = useHistory()
     const location = useLocation()
-    const [isLogin, setIsLogin] = useState(false)
-    const [searchResults, setSearchResults] = useState([
+    const [isLogin, setIsLogin] = useState(isAuthenticated())
+    const [movieResults, setMovieResults] = useState([
         {id: 1, image: '/poster.jpg', title: 'A Spider Man-1', genre: 'Fiction', director: 'Abc', releaseDate:'1991-10-20', averageRating: 4.5},
         {id: 2, image: '/poster.jpg', title: 'B Spider Man-2', genre: 'Fiction', director: 'Abc', releaseDate:'1992-1-21', averageRating: 4.5},
         {id: 3, image: '/poster.jpg', title: 'C Spider Man-3', genre: 'Fiction', director: 'Abc', releaseDate:'1985-9-20', averageRating: 3},
@@ -35,59 +43,85 @@ const SearchResult = () => {
         {key:2, value: 'averageRating', text:'Average Rating', content:(<Header className='itemFont' subheader='Average Rating'/>)},
     ]
 
+    const [modalOpen, setModalOpen] = useState(false)
+    const [deleteItem, setDeleteItem] = useState({index:-1, title:''})
+
+    const pageType = history.location.pathname.slice(1)
+
     useEffect(() => {
+        setIsLogin(isAuthenticated())
         if (location.isSearch) {
-            console.log(location.keyword)
+            console.log("location: " + location.keyword)
             console.log(location.filter)
             //TODO:API call to search and get search results
+        } else {
+            if (isLogin) {
+                if (pageType === 'favorite') {
+                    //TODO:API call to favorite and get results
+                } else if (pageType === 'watched') {
+                    //TODO:API call to watched list and get results
+                } else if (pageType === 'reviewed') {
+                    //TODO:API call to reviewed list and get results
+                }
+            } else {
+                history.push('/')
+            }
         }
-    }, [location.isSearch, location.keyword, location.filter])
 
-    // useEffect(() => {
-    //     setIsLogin(isAuthenticated())
-    //     if (isLogin) {
-    //         //TODO: API to get user recommended movies
-    //     } else {
-    //         //TODO: API to get latest movies
-    //     }
-    // }, [location, isLogin])
+    }, [location.isSearch, location.keyword, location.filter, location, isLogin])
+
 
     /*----------------------------------- sort search results --------------------------------------*/
     useEffect(() => {
         console.log("sort keyword: " + sortFilter.keyword, " ascending: " + sortFilter.ascending)
-        let copy_SearchResults = [].concat(searchResults);
+        let copy_movieResults = [].concat(movieResults);
         let keyword = sortFilter.keyword;
         if (sortFilter.ascending) {
             if (keyword === 'title') {
-                copy_SearchResults = copy_SearchResults.sort(
+                copy_movieResults = copy_movieResults.sort(
                     (a,b) => a.title > b.title ? 1 : -1)
             } else if (keyword === 'releaseDate') {
-                copy_SearchResults = copy_SearchResults.sort(
+                copy_movieResults = copy_movieResults.sort(
                     (a,b) => a.releaseDate > b.releaseDate ? 1 : -1)
             } else if (keyword === 'averageRating') {
-                copy_SearchResults = copy_SearchResults.sort(
+                copy_movieResults = copy_movieResults.sort(
                     (a,b) => a.averageRating > b.averageRating ? 1 : -1)
             }
         } else {
             if (keyword === 'title') {
-                copy_SearchResults = copy_SearchResults.sort(
+                copy_movieResults = copy_movieResults.sort(
                     (a,b) => a.title > b.title ? -1 : 1)
             } else if (keyword === 'releaseDate') {
-                copy_SearchResults = copy_SearchResults.sort(
+                copy_movieResults = copy_movieResults.sort(
                     (a,b) => a.releaseDate > b.releaseDate ? -1 : 1)
             } else if (keyword === 'averageRating') {
-                copy_SearchResults = copy_SearchResults.sort(
+                copy_movieResults = copy_movieResults.sort(
                     (a,b) => a.averageRating > b.averageRating ? -1 : 1)
             }
         }
-        setSearchResults(copy_SearchResults)
-        // console.log(copy_SearchResults)
+        setMovieResults(copy_movieResults)
     }, [sortFilter.keyword, sortFilter.ascending])
+
+    const deteleCard = () => {
+        console.log(deleteItem.index)
+        setModalOpen(false)
+        const copy_resultList = [].concat(movieResults)
+        copy_resultList.splice(deleteItem.index, 1)
+        setMovieResults(copy_resultList)
+    }
 
     return (
         <Container className='container'>
+            {console.log('pageType: ' + pageType)}
+            {pageType === 'search' ?
+                <h1 className='homePageTitle'>Search Results</h1> :
+                pageType === 'favorite' ?
+                    <h1 className='homePageTitle'>Favorite Movies</h1> :
+                    pageType === 'watched' ?
+                        <h1 className='homePageTitle'>Watched Movies</h1> :
+                        <h1 className='homePageTitle'>Reviewed Movies</h1>
+            }
 
-            <h1 className='homePageTitle'>Search Results</h1>
             <Menu text>
                 <Menu.Menu position='right'>
                     <Menu.Item header>Sort by </Menu.Item>
@@ -118,13 +152,26 @@ const SearchResult = () => {
             </Menu>
             <Card.Group itemsPerRow={5}>
                 {
-                    searchResults.map((movie, index) => (
-
+                    movieResults.map((movie, index) => (
                                 <Card className='movieCard' fluid
                                       key={index}
-                                      onClick={() => history.push('/movie/' + movie.id)}>
-                                    <Image  src={movie.image} />
-                                    <Card.Content>
+                                      >
+                                    {pageType === 'search' ?
+                                        <Image src={movie.image}/> :
+                                        <Image
+                                            src={movie.image}
+                                            label={{as:'a', corner:'right', color:'violet',
+                                                icon:'trash alternate outline',
+                                                onClick: () => {
+                                                    setModalOpen(true)
+                                                    setDeleteItem({index: index,
+                                                        title: movie.title
+                                                    })
+                                            }
+                                            }}
+                                        />
+                                    }
+                                    <Card.Content as={'a'} onClick={() => history.push('/movie/' + movie.id)}>
                                         <Card.Header>{movie.title}</Card.Header>
                                         <Card.Meta>Released in {movie.releaseDate}</Card.Meta>
                                     </Card.Content>
@@ -139,33 +186,37 @@ const SearchResult = () => {
                                             color='lightgrey'
                                         />
                                     </Card.Content>
-
-                                    {/*<Reveal animated='fade' >*/}
-                                    {/*    <Reveal.Content visible>*/}
-                                    {/*        <Image  src={movie.image} />*/}
-                                    {/*    </Reveal.Content>*/}
-                                    {/*    <Reveal.Content hidden>*/}
-                                    {/*        <Header>{movie.title}</Header>*/}
-                                    {/*        <p>Released in {movie.releaseDate}</p>*/}
-                                    {/*        <ReactStars*/}
-                                    {/*            count={5}*/}
-                                    {/*            value={movie.averageRating}*/}
-                                    {/*            size={20}*/}
-                                    {/*            isHalf={true}*/}
-                                    {/*            edit={false}*/}
-                                    {/*            activeColor="#7b68ee"*/}
-                                    {/*            color='lightgrey'*/}
-                                    {/*        />*/}
-                                    {/*    </Reveal.Content>*/}
-                                    {/*</Reveal>*/}
                                 </Card>
-
                     ))
                 }
             </Card.Group>
+
+            <Modal
+                closeIcon
+                size='tiny'
+                // dimmer= {'inverted'}
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                onOpen={() => setModalOpen(true)}
+            >
+                {/*<Header icon='trash alternate outline' content='Delete movie'/>*/}
+                <Modal.Content>
+                    <h4>
+                        Are you sure  to remove
+                        <span className='spanStyle'>  {deleteItem.title}  </span>
+                        from <span className='spanStyle'>  {pageType.replace(/^\S/, s => s.toUpperCase())}  </span> list?
+                    </h4>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button color='red' onClick={deteleCard}>
+                        <Icon name='trash alternate outline' /> REMOVE
+                    </Button>
+                </Modal.Actions>
+            </Modal>
+
         </Container>
     );
 }
 
 
-export default SearchResult;
+export default ResultPage;
