@@ -51,3 +51,4 @@ Week 7
 
 Organised Sprint planning, retrospective - wednesday
 Worked on user session management using cookies - CWV 138,140
+Worked on CWV 26,27 - Adding and removing banned users
