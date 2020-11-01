@@ -55,18 +55,21 @@ const Header = ({setVisible, setActiveIndex}) => {
             setYearError(true)
         } else if (parseInt(filter.ratingFrom) > parseInt(filter.ratingTo)) {
             setRatingError(true)
-        } else if (searchInput !== '') {
+        } else if (searchInput !== '' && !yearError && !ratingError) {
             history.push({
-                pathname: '/',
+                pathname: '/search',
                 isSearch: true,
                 keyword: searchInput,
                 filter: filter
             })
+        } else {
+            alert("Please enter a keyword...")
         }
 
         alert("title: " + filter.title + "\ndes: " + filter.description + "\ncast: " + filter.cast + "\nwishlist: " + filter.wishList +
             "\ngenres: " + filter.genres + "\nyear from: " + filter.yearFrom + "\nyear to: " + filter.yearTo + "\nrating from: " + filter.ratingFrom +
-            "\nrating to: " + filter.ratingTo
+            "\nrating to: " + filter.ratingTo +
+            "\npath is: " + location.pathname
         )
     }
 
@@ -83,6 +86,7 @@ const Header = ({setVisible, setActiveIndex}) => {
             ratingFrom: null,
             ratingTo: null
         })
+        history.push('/')
     }
 
     const yearPattern = new RegExp(/^\d+$/)
@@ -159,7 +163,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                 </Accordion.Title>
                 {/*---------------------Search Bar Filter ----------------------*/}
 
-                <Transition.Group animation='fly down' duration={500}>
+                <Transition.Group animation='slide down' duration={200}>
                     {filterVisible && (
                         <Accordion.Content active={filterVisible}>
 
@@ -284,9 +288,10 @@ const Header = ({setVisible, setActiveIndex}) => {
                                     </Grid.Column>
 
                                 </Grid.Row>
-                                <Grid.Row verticalAlign={'middle'} centered>
-                                    <Grid.Column width={11}>
-                                        <Button floated='right' color='violet' onClick={clearFilter}>Clear
+                                <Grid.Row verticalAlign={'middle'} centered >
+                                    <Grid.Column width={11} >
+                                        <Button floated='right' color='violet' onClick={handleSearch}>Search</Button>
+                                        <Button floated='right' color='grey' onClick={clearFilter}>Clear
                                             Filters</Button>
                                     </Grid.Column>
                                 </Grid.Row>

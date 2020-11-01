@@ -59,8 +59,8 @@
     width: 105%;
 }
 .review-content {
-    border-radius: 30px;
-    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    border: 0.2px solid rgba(0, 0, 0, 0.1);
     padding: 2%;
 }
 .review-right div[class^="react-stars-wrapper"]{

@@ -269,9 +269,9 @@ const MovieDetails = () => {
                                     onClick={handleFavorite}
                                 >
                                     {movieDetails.favorite ?
-                                        <Icon name='heart' color='purple'/>
+                                        <Icon name='heart' color='violet'/>
                                         :
-                                        <Icon name='heart outline'/>
+                                        <Icon name='heart outline' inverted color='violet'/>
                                     }
                                 </Menu.Item>
                                 {/*-----------------------Wish List popup----------------------*/}
@@ -279,8 +279,8 @@ const MovieDetails = () => {
                                     name='wish'
                                 ><Popup
                                     position='bottom right'
-                                    trigger={isWishList ? <Icon name='star' color='purple'/> :
-                                        <Icon name='star outline'/>}
+                                    trigger={isWishList ? <Icon name='star' color='violet'/> :
+                                        <Icon name='star outline' inverted color='violet'/>}
                                     on='click'
                                     className='wishlist-popup'
                                     onClose={() => setAddWishList(false)}
@@ -334,9 +334,9 @@ const MovieDetails = () => {
                                     onClick={handleWatched}
                                 >
                                     {movieDetails.watched ?
-                                        <Icon name='check circle' color='purple'/>
+                                        <Icon name='check circle' color='violet'/>
                                         :
-                                        <Icon name='check circle outline'/>
+                                        <Icon name='check circle outline' inverted color='violet'/>
                                     }
                                 </Menu.Item>
                                 {/*------------------------share link popup-----------------------*/}
@@ -400,7 +400,7 @@ const MovieDetails = () => {
                         Reviews
                     </Header>
                     {isLogin ?
-                        <Button floated='right' inverted color='violet' icon='add' content='Add Review'
+                        <Button floated='right' basic color='violet' icon='add' content='Add Review'
                                 labelPosition='left'
                                 onClick={() => {
                                     setAddReview(true)
