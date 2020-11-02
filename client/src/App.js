@@ -6,7 +6,7 @@ import {
 } from 'semantic-ui-react';
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import {Switch, Route} from "react-router-dom";
+import {Switch, Route, Redirect} from "react-router-dom";
 import './style/Header.css';
 import Header from './components/Header'
 import Home from "./components/Home";
@@ -55,7 +55,7 @@ function App() {
                 <Sidebar.Pusher>
                     <Header setVisible={setVisible} setActiveIndex={setActiveIndex}/>
                     <Switch>
-                        <Route exact path="/" render={(props) => <Home {...props}/>}/>
+                        <Route exact path="/" component={Home}/>
                         <Route path="/movie/:id" component={MovieDetails}/>
                         <Route path="/profile" component={Profile}/>
                         <Route path="/search" component={ResultPage}/>
@@ -64,6 +64,9 @@ function App() {
                         <Route path="/reviewed" component={ResultPage}/>
                         <Route exact path="/wishlist" component={WishList}/>
                         <Route path="/wishlist/:id" component={WishListPublic}/>
+                        <Route>
+                            <Redirect to='/'/>
+                        </Route>
 
                     </Switch>
                 </Sidebar.Pusher>

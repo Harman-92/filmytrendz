@@ -9,10 +9,14 @@ import {
     Container,
     Input,
     Label,
-    Card, Image, Modal, Popup, List, Dropdown
+    Card,
+    Image,
+    Modal,
+    Popup,
+    Dropdown
 } from "semantic-ui-react";
 import {useHistory, useLocation, useParams} from 'react-router-dom';
-import {getUserInfo, isAuthenticated} from "../config/session";
+import {isAuthenticated} from "../config/session";
 import images from "../config/images";
 
 const IconCustom = (props) => (
@@ -27,7 +31,7 @@ const WishList = () => {
     const history = useHistory()
     const location = useLocation()
     const {id} = useParams()
-    const [isLogin, setIsLogin] = useState(false)
+    const [isLogin, setIsLogin] = useState(isAuthenticated)
     const [user, setUser] = useState({
         id: '',
         firstName: '',
@@ -189,9 +193,8 @@ const WishList = () => {
         //TODO:API to fetch wishlists details
     }, [])
     useEffect(() => {
-        setIsLogin(isAuthenticated())
-        if (isLogin) {
-            setUser(getUserInfo)
+        if (!isLogin) {
+            history.push('/')
         }
     }, [location, isLogin])
 
