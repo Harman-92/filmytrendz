@@ -5,6 +5,7 @@ from ..http_status import *
 from ..util.decorator import token_required
 from ..util.dto import RecommendationDto
 from ..service.movie import get_all_favorites
+from ..service.recommend import *
 
 api = RecommendationDto.api
 recommendation_movies_model = RecommendationDto.recommendation_movies_model
@@ -23,11 +24,6 @@ class MoviesSearch(Resource):
 	@api.response(401, 'unauthorized')
 	@api.param('mid', description='take the movie id need to be recommendation')
 	@api.param('genre', description='make recommendation according to genre')
-	# @api.param('year', description='make recommendation according to year')
-	# @api.param('language', description='make recommendation according to language')
-	# @api.param('country', description='make recommendation according to country')
-	# @api.param('name', description='make recommendation according to name')
-	# @api.param('description', description='make recommendation according to description')
 	@api.param('director', description='make recommendation according to director')
 	@token_required
 	def get(self, mid):
@@ -37,9 +33,19 @@ class MoviesSearch(Resource):
 			but if you want run search you need to input at least one searching condition
 		"""
 
+		conditions = request.args
 		target_movie = Movie.query.filter_by(id=mid).first()
+
+		flag = 0
+		if 'genre' in conditions:
+			flag = 1
+		if 'director' in conditions:
+			flag = 2
+
 		rec_movies = ['id', 'id'] # get from third party api
 
+		res = encapsolate_res(rec_movies)
+		return marshal(res, recommendation_movies_model)
 
 
 """
@@ -66,6 +72,6 @@ class MoviesUser(Resource):
 		favorite_movies = list(get_all_favorites(cur_user))[:5]
 
 		rec_movies = []
-
-		# give me a list of id
+		res = encapsolate_res(rec_movies)
+		return marshal(res, recommendation_movies_model)
 
