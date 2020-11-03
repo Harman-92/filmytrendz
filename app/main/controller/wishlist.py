@@ -14,7 +14,7 @@ new_wishlist_return_model = WishListDto.new_wishlist_return_model
 wishlist_update_model= WishListDto.wishlist_update_model
 
 
-@api.route('/wishlists')
+@api.route('/')
 class Wishlist(Resource):
 
 	@api.doc('adding new wishlist')
@@ -28,13 +28,19 @@ class Wishlist(Resource):
 		if user_id:
 			info = json.loads(request.get_data())
 			wishlist = create_wishlist(info, user_id)
-			return marshal(wishlist, new_wishlist_return_model), SUCCESS
+			if wishlist=={}:
+				resp = make_response(jsonify({'message': 'please enter valid status'}))
+				resp.status_code = BAD_REQUEST
+				return resp
+			else:
+
+				return marshal(wishlist, new_wishlist_return_model), SUCCESS
 
 		else:
 			api.abort(400, 'invalid operation')
 
 
-@api.route('/wishlists/<id>')
+@api.route('/<id>')
 class Wishlist(Resource):
 
 	@api.doc('get wishlist of user')
@@ -42,14 +48,15 @@ class Wishlist(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def get(self, user, id):
+
 		user_id = user['id']
 
 		if user_id:
 
 			wishlist = get_wishlist(id, user_id)
 			return marshal(wishlist, wish_list_model), SUCCESS
-
 		else:
+
 			api.abort(400, 'invalid operation')
 
 	@api.doc('deleting new wishlist')

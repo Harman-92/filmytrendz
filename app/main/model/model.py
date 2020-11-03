@@ -34,7 +34,7 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     mobile_no = db.Column(db.String(50), nullable=False)
-
+    image_url = db.Column(db.String(50))
     password = db.Column(db.String(100))
     reviews = db.relationship('Review', backref='by_user', lazy='dynamic')
     wish_lists = db.relationship('Wishlist', backref='of_user', lazy='dynamic')
@@ -123,5 +123,5 @@ class Wishlist(db.Model):
     id = db.Column(db.Integer, autoincrement=True , primary_key=True)
     name = db.Column(db.String(50))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    status = db.Column(db.Enum(Privacy), default=Privacy.PUBLIC, nullable=False)
+    status = db.Column(db.String(50), default="public", nullable=False)
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')

@@ -1,15 +1,12 @@
 week 1:
-
 finalised what project to do
 made a rough er diagram for database
 
 week 2:
-
 Study mongoDB
 Backend database design
 
 Week3:
-
 Learn how to define relations in sqlalchemy  for database
 
 week4:
@@ -25,5 +22,6 @@ week7:
 developed wishlist related functions
 
 week8:
+help song with review api
 study aws deployment
 developed review related operations
