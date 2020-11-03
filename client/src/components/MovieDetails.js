@@ -21,7 +21,6 @@ import {
     Radio,
     Input
 } from "semantic-ui-react";
-import SimilarMovies from "./SimilarMovies";
 import images from "../config/images";
 import {getUserInfo, isAuthenticated} from "../config/session";
 
@@ -139,16 +138,16 @@ const MovieDetails = () => {
         url: '',
     })
     const [similarMovies, setSimilarMovies] = useState([
-        {image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
-        {image: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
-        {image: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
-        {image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
-        {image: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
+        {id:1, image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
+        {id:2, image: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
+        {id:3, image: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
+        {id:4, image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
+        {id:5, image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
+        {id:6, image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
+        {id:7, image: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
     ])
     const [addReview, setAddReview] = useState(false)
-    const [sortedBy, setSortedBy] = useState('g')
+    const [searchBy, setSearchBy] = useState('g')
     const [addWishList, setAddWishList] = useState(false)
     const [newWishList, setNewWishList] = useState('')
 
@@ -179,10 +178,10 @@ const MovieDetails = () => {
         })
     }
 
-    const handleSortedByCheckbox = (e, {value}) => {
-        console.log("sorted by ", value)
-        setSortedBy(value)
-        //TODO:sort the similarmovies
+    const handleSearchByCheckbox = (e, {value}) => {
+        console.log("search by ", value)
+        setSearchBy(value)
+        //TODO:call similar movie api to get the similar movies
     }
 
     const handleBanReviewer = (e) => {
@@ -566,25 +565,39 @@ const MovieDetails = () => {
                 <Suspense fallback={<div>Loading...</div>}>
                     <Form>
                         <Form.Group inline>
-                            <label>Sorted by: </label>
+                            <label>Searched by: </label>
                             <Form.Radio
                                 label='Genre'
                                 value='g'
-                                checked={sortedBy === 'g'}
-                                onChange={handleSortedByCheckbox}
+                                checked={searchBy === 'g'}
+                                onChange={handleSearchByCheckbox}
                             />
                             <Form.Radio
                                 label='Director'
                                 value='d'
-                                checked={sortedBy === 'd'}
-                                onChange={handleSortedByCheckbox}
+                                checked={searchBy === 'd'}
+                                onChange={handleSearchByCheckbox}
                             />
 
                         </Form.Group>
                     </Form>
 
                     {/*TODO: call recommend movie api*/}
-                    <SimilarMovies recommendations={similarMovies}/>
+                    <Card.Group itemsPerRow={6}>
+                        {similarMovies.map((movie,index) => {
+                                if (index < 6) {
+                                    return (
+                                        <Card key={index} centered={true}
+                                            onClick={() => history.push('/movie/' + movie.id)}
+                                        >
+                                            <Image src={movie.image}/>
+                                            <Card.Description textAlign='center'>{movie.title}</Card.Description>
+                                        </Card>
+                                    )
+                                }
+                            }
+                        )}
+                    </Card.Group>
                 </Suspense>
             </div>
 
