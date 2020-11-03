@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useHistory} from 'react-router-dom';
 import '../style/Profile.css';
 import {
     Accordion,
@@ -19,10 +19,12 @@ import {
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
 import images from "../config/images";
-import {getUserInfo} from "../config/session";
+import {getUserInfo, isAuthenticated} from "../config/session";
 
 const Profile = () => {
+    const history = useHistory()
     const location = useLocation()
+    const isLogin = isAuthenticated()
     const [user, setUser] = useState({
         id: '',
         email: 'timeisprecious@vision.com',
@@ -225,8 +227,12 @@ const Profile = () => {
         })
     }, [oldPassword.v, newPassword.v, retypePassword.v])
     useEffect(() => {
-        const userId = getUserInfo().id
-        //TODO : API to get user details
+        if(isLogin) {
+            const userId = getUserInfo().id
+            //TODO : API to get user details
+        }else{
+            history.push('/')
+        }
     }, [location])
     return (
         <Container className="Profile">
