@@ -22,9 +22,7 @@ recommend_movie = db.Table('recommendmovie',
                            db.Column('userid', db.Integer, db.ForeignKey('user.id')),
                            db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-cast_movie = db.Table('castmovie',
-                      db.Column('castid', db.Integer, db.ForeignKey('cast.id')),
-                      db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
+
 
 
 class User(db.Model):
@@ -103,7 +101,7 @@ class Movie(db.Model):
     country = db.Column(db.String(250))
     reviews = db.relationship('Review', backref='for_movie', lazy='dynamic')
     actors = db.Column(db.String(500))
-    cast = db.relationship('Cast', secondary=cast_movie, backref='acted_in', lazy='dynamic')
+    
 
 
 class Review(db.Model):
@@ -130,10 +128,6 @@ class Wishlist(db.Model):
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')
 
 
-class Cast(db.Model):
-    __tablename__ = 'cast'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
 
 
 features = {
