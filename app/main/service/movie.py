@@ -1,6 +1,6 @@
 from datetime import datetime
 from .. import db
-from app.main.model.model import Movie, User, Wishlist, Review, Cast
+from app.main.model.model import Movie, User, Wishlist, Review
 
 
 def search_movies(user, conditions):

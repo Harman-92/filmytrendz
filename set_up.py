@@ -1,7 +1,7 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from flask_cors import CORS
-from app.main import create_app, db
+from app.main import *
 from app.app import blueprint
 from app.main.model.model import *
 

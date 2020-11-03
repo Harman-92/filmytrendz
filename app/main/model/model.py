@@ -101,7 +101,6 @@ class Movie(db.Model):
     country = db.Column(db.String(250))
     reviews = db.relationship('Review', backref='for_movie', lazy='dynamic')
     actors = db.Column(db.String(500))
-    
 
 
 class Review(db.Model):
@@ -126,14 +125,3 @@ class Wishlist(db.Model):
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     status = db.Column(db.Enum(Privacy), default=Privacy.PUBLIC, nullable=False)
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')
-
-
-
-
-features = {
-    'Partner', 'Dependents', 
-    'PhoneService', 'MultipleLines',
-    'OnlineSecurity', 'OnlineBackup', 
-    'DeviceProtection', 'TechSupport', 
-    ...
-}

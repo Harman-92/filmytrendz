@@ -9,7 +9,6 @@ import json
 api = MovieDto.api
 movie_model = MovieDto.movie_model
 review_model = MovieDto.review_model
-cast_model = MovieDto.cast_model
 recommand_movie_model = MovieDto.recommand_movie_model
 search_result_model = MovieDto.search_result_model
 retrive_result_model = MovieDto.retrive_result_model
@@ -21,6 +20,10 @@ class MoviesSearch(Resource):
 	@api.response(200, 'success', model=search_result_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
+	@api.param('favorite', description='search movie with favorite list')
+	@api.param('watched', description='search movie with watched list')
+	@api.param('search', description='search movie with keywords')
+	@api.param('latest', description='search the latest movies')
 	@token_required
 	def get(self, user):
 		"""
