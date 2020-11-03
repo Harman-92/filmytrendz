@@ -21,7 +21,7 @@ const Home = () => {
         {id: 10, image: '/poster.jpg', title: 'Spider Man-6', genre: 'Fiction', director: 'Abc'},
     ])
 
-    const [lastestdMovies, setLastestdMovies] = useState([
+    const [populardMovies, setPopularMovies] = useState([
         {id: 1, image: '/poster.jpg', title: 'Spider Man-1', genre: 'Fiction', director: 'Abc',},
         {id: 2, image: '/poster.jpg', title: 'Spider Man-2', genre: 'Fiction', director: 'Abc'},
         {id: 3, image: '/poster.jpg', title: 'Spider Man-3', genre: 'Fiction', director: 'Abc'},
@@ -33,6 +33,14 @@ const Home = () => {
         {id: 9, image: '/poster.jpg', title: 'Spider Man-5', genre: 'Fiction', director: 'Abc'},
         {id: 10, image: '/poster.jpg', title: 'Spider Man-6', genre: 'Fiction', director: 'Abc'},
     ])
+    const [lastestdMovies, setLastestdMovies] = useState([
+        {id: 1, image: '/poster.jpg', title: 'Spider Man-1', genre: 'Fiction', director: 'Abc',},
+        {id: 2, image: '/poster.jpg', title: 'Spider Man-2', genre: 'Fiction', director: 'Abc'},
+        {id: 3, image: '/poster.jpg', title: 'Spider Man-3', genre: 'Fiction', director: 'Abc'},
+        {id: 4, image: '/poster.jpg', title: 'Spider Man-4', genre: 'Fiction', director: 'Abc'},
+        {id: 5, image: '/poster.jpg', title: 'Spider Man-5', genre: 'Fiction', director: 'Abc'},
+    ])
+
 
     useEffect(() => {
         if (location.isSearch) {
@@ -69,6 +77,17 @@ const Home = () => {
                     </div> : null
             }
 
+            <h1 className='homePageTitle'>Popular Movies</h1>
+            <Card.Group itemsPerRow={5}>
+                {
+                    populardMovies.map((movie, index) => (
+                        <Card className='movieCard' key={index} onClick={() => history.push('/movie/' + movie.id)}>
+                            <Image src={movie.image}/>
+                        </Card>
+                    ))
+                }
+            </Card.Group>
+
             <h1 className='homePageTitle'>Latest Movies</h1>
             <Card.Group itemsPerRow={5}>
                 {
@@ -82,8 +101,5 @@ const Home = () => {
         </Container>
     );
 }
-Home.propTypes = {};
-
-Home.defaultProps = {};
 
 export default Home;
