@@ -22,9 +22,7 @@ recommend_movie = db.Table('recommendmovie',
                            db.Column('userid', db.Integer, db.ForeignKey('user.id')),
                            db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
 
-cast_movie = db.Table('castmovie',
-                      db.Column('castid', db.Integer, db.ForeignKey('cast.id')),
-                      db.Column('movieid', db.Integer, db.ForeignKey('movie.id')))
+
 
 
 class User(db.Model):
@@ -89,15 +87,21 @@ class BlacklistToken(db.Model):
 class Movie(db.Model):
     __tablename__ = 'movie'
     id = db.Column(db.Integer, autoincrement=True,  primary_key=True)
-    director = db.Column(db.String(50))
-    name = db.Column(db.String(50))
+    poster_path = db.Column(db.String(200))
+    imdb_id = db.Column(db.String(10))
+    tmdb_id = db.Column(db.String(15))
+    director = db.Column(db.String(400))
+    original_title = db.Column(db.String(200))
     description = db.Column(db.String(1000))
-    genre = db.Column(db.String(50))
+    genre = db.Column(db.String(120))
+    external_rating = db.Column(db.Float)
     year = db.Column(db.Integer)
-    language = db.Column(db.String(50))
-    country = db.Column(db.String(50))
+    popularity = db.Column(db.Float)
+    original_language = db.Column(db.String(50))
+    country = db.Column(db.String(250))
     reviews = db.relationship('Review', backref='for_movie', lazy='dynamic')
-    cast = db.relationship('Cast', secondary=cast_movie, backref='acted_in', lazy='dynamic')
+    actors = db.Column(db.String(500))
+    
 
 
 class Review(db.Model):
@@ -124,10 +128,6 @@ class Wishlist(db.Model):
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')
 
 
-class Cast(db.Model):
-    __tablename__ = 'cast'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
 
 
 features = {
