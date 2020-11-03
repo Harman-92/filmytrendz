@@ -101,7 +101,7 @@ class MovieDto:
     recommand_movie_model = api.model('movie-recommandations', {
         'movies_by_genre': fields.List(fields.Nested(movie_model)),
         'movies_by_director': fields.List(fields.Nested(movie_model)),
-        'movies_by_both': fields.List(fields.Nested(movie_model))
+        # 'movies_by_both': fields.List(fields.Nested(movie_model))
     })
 
 

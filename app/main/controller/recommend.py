@@ -38,7 +38,8 @@ class MoviesSearch(Resource):
 		"""
 
 		target_movie = Movie.query.filter_by(id=mid).first()
-		rec_movies = [] # get from third party api
+		rec_movies = ['id', 'id'] # get from third party api
+
 
 
 """
@@ -62,8 +63,9 @@ class MoviesUser(Resource):
 		user_id = user['id']
 		cur_user = User.query.filter_by(id=user['id']).first()
 		# list of movie ids for favorite, last 5
-		# list of movie ids according to reviews for this user, top 5 based on rating
 		favorite_movies = list(get_all_favorites(cur_user))[:5]
+
+		rec_movies = []
 
 		# give me a list of id
 
