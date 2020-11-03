@@ -76,11 +76,11 @@ def get_all_keywords_movies(conditions):
 		filter_2:
 		cast.name = keyword
 	"""
-	cast_list = Cast.query.filter_by(name=keywords).all()
-	result_2 = set()
-	for c in cast_list:
-		if c.acted_in not in result_2:
-			result_2.add(c.acted_in)
+	# cast_list = Cast.query.filter_by(name=keywords).all()
+	# result_2 = set()
+	# for c in cast_list:
+	# 	if c.acted_in not in result_2:
+	# 		result_2.add(c.acted_in)
 
 	"""
 		filter_3:
@@ -94,7 +94,7 @@ def get_all_keywords_movies(conditions):
 		result_3_2 = set(Movie.query.filter(Movie.year <= conditions['year_end']))
 	result_3 = result_3_1 & result_3_2
 
-	return list((result_1 | result_2) & result_3)
+	return list(result_1 & result_3)
 
 
 def retrieve_movie(user, mid):
