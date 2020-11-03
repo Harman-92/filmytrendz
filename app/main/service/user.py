@@ -20,9 +20,11 @@ def get_user(id):
 
 
 def ban_user(banid, id):
+
     user1 = User.query.filter_by(id=id).first()
 
-    if banid['id']:
+
+    if banid['id'] and (banid['id']!=id):
         user2 = User.query.filter_by(id=banid['id']).first()
         new_block = BannedUser(user_id=user1.id, banned_user_id=user2.id)
         db.session.add(new_block)

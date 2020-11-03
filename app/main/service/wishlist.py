@@ -10,10 +10,14 @@ def create_wishlist(data,user_id):
     wishlist_name, status = \
         data['name'], data['status']
     user = User.query.filter_by(id=user_id).first()
-    if status == 'public':
-        wishlist=Wishlist(name=wishlist_name, of_user=user)
+
+    if status == "private":
+        wishlist=Wishlist(name=wishlist_name, of_user=user, status="private")
+    elif status == "public":
+        wishlist = Wishlist(name=wishlist_name, of_user=user, status="public")
     else:
-        wishlist = Wishlist(name=wishlist_name, of_user=user, status=Privacy.PRIVATE)
+        return {}
+
     db.session.add(wishlist)
     db.session.commit()
 
@@ -39,8 +43,16 @@ def delete_wishlist(wishlist_id,user_id):
         return resp
 
 def update_wishlist(updated_info,wishlist_id,user_id):
-    new_list=updated_info['new_list']
-    remove_list = updated_info['remove_list']
+
+    if 'new_list' in updated_info.keys():
+        new_list=updated_info['new_list']
+    else:
+        new_list=[]
+    if 'remove_List' in updated_info.keys():
+        remove_list=updated_info['remove_list']
+    else:
+        remove_list=[]
+
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
 
     user = User.query.filter_by(id=user_id).first()
