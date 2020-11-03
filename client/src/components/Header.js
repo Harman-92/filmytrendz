@@ -49,6 +49,9 @@ const Header = ({setVisible, setActiveIndex}) => {
         setVisible(visible)
         setActiveIndex(index)
     }
+
+    const pageType = history.location.pathname.slice(1)
+
     const handleSearch = () => {
         //send search keyword to home
         if (parseInt(filter.yearFrom) > parseInt(filter.yearTo)) {
@@ -86,7 +89,10 @@ const Header = ({setVisible, setActiveIndex}) => {
             ratingFrom: null,
             ratingTo: null
         })
-        history.push('/')
+
+        if (pageType === 'search') {
+            history.push('/')
+        }
     }
 
     const yearPattern = new RegExp(/^\d+$/)
