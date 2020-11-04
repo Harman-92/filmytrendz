@@ -38,7 +38,22 @@ Week5:
  
 1. backend api design
 2. attend the group retrospective
-3. Worked on CWV-128, 129, 130
+3. Worked on CWV-128
 4. explore login with Facebook
 5. Worked on CWV-131
+--------------------------------------------------------------
+
+Week6:
+ 
+1. worked on CWV-128 - login
+2. worked on CWV-129 - logout
+3. Worked on CWV-130 - Get API for recommendations with filters
+4. worked on CWV-131 - add movie to watched for user
+--------------------------------------------------------------
+
+Week7:
+1. worked on CWV-132 - favorite movie for user
+2. Worked on CWV-133 - add to wish list for user
+3. Worked on CWV-119 - get movie details
+4. Worked on CWV-120 - search movie with filters
 --------------------------------------------------------------
