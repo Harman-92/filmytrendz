@@ -102,6 +102,27 @@ def get_wishlist(wishlist_id,user_id):
         return wishlist_info
 
 
+def get_all_wishlists(user_id):
+    wishlists_info = {"wishlists": []}
+    user = User.query.filter_by(id=user_id).first()
+
+    for wishlist in user.wish_lists:
+        wishlist_info = {"movies": []}
+
+        wishlist_info['name'] = wishlist.name
+        wishlist_info['id'] = wishlist.id
+        for x in wishlist.movies:
+
+            wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())
+
+        wishlists_info["wishlists"].append(wishlist_info)
+
+    return wishlists_info
+
+
+
+
+
 
 
 
