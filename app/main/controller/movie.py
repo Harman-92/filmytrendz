@@ -55,7 +55,6 @@ class MovieRetrive(Resource):
 	@api.response(200, 'success', model=retrive_result_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@api.param('mid', description='take movie id as parameter')
 	@token_required
 	def get(self, user, mid):
 		"""
@@ -75,7 +74,6 @@ class MovieFavorite(Resource):
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@api.param('mid', description='take movie id as parameter')
 	@token_required
 	def put(self, user, mid):
 		"""
@@ -94,7 +92,6 @@ class MovieWatched(Resource):
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@api.param('mid', description='take movie id as parameter')
 	@token_required
 	def put(self, user, mid):
 		"""
@@ -113,7 +110,6 @@ class MovieWishlist(Resource):
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@api.param('mid', description='take movie id as parameter')
 	@token_required
 	def put(self, user, mid):
 		"""
@@ -137,7 +133,6 @@ class MovieReview(Resource):
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@api.param('mid', description='take movie id as parameter')
 	@token_required
 	def post(self, user, mid):
 		"""
@@ -151,23 +146,4 @@ class MovieReview(Resource):
 			return jsonify({'addreview': 'success'}, SUCCESS)
 		else:
 			api.abort(NOT_FOUND, 'movie not found')
-
-
-# @api.route('/<mid>/recommend')
-# class MovieRecommend(Resource):
-# 	@api.doc('get recommendations for a specific movie')
-# 	@api.response(200, 'success')
-# 	@api.response(404, 'not found')
-# 	@api.response(401, 'unauthorized')
-# 	@api.param('mid', description='take movie id as parameter')
-# 	@token_required
-# 	def get(self, user, mid):
-# 		"""
-# 			recommendation for a specific movie
-# 		"""
-# 		data = request.args
-# 		if data and recommend_specific_movie(user, mid, data):
-# 			return jsonify({'recommend': 'success'}, SUCCESS)
-# 		else:
-# 			api.abort(NOT_FOUND, 'movie not found')
 

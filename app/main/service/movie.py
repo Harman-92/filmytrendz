@@ -49,10 +49,15 @@ def get_all_watched(user):
 def get_all_latest_movies():
 	"""
 		At this stage, for getting all the latest movies, it will return
-		all the movies with the year label = current year..eg.2020
+		all the movies published within the recent three years.
 	"""
 	cur_year = int(datetime.now().year)
-	movies = Movie.query.filter_by(year=cur_year).all()
+
+	movies_1 = Movie.query.filter_by(year=cur_year).all()
+	movies_2 = Movie.query.filter_by(year=cur_year-1).all()
+	movies_3 = Movie.query.filter_by(year=cur_year-2).all()
+	movies = movies_1 + movies_2 + movies_3
+
 	return movies
 
 
@@ -72,29 +77,20 @@ def get_all_keywords_movies(conditions):
 	result_1_2 = set(Movie.query.filter_by(description=keywords).all())
 	result_1 = result_1_1 | result_1_2
 
-	"""
-		filter_2:
-		cast.name = keyword
-	"""
-	# cast_list = Cast.query.filter_by(name=keywords).all()
-	# result_2 = set()
-	# for c in cast_list:
-	# 	if c.acted_in not in result_2:
-	# 		result_2.add(c.acted_in)
 
 	"""
-		filter_3:
+		filter_2:
 		This filter is for 'year' range from the user, there will be start of
 		the year and end of the year, it will find the movies which are meet:
 		year_start <= year <= year_end
 	"""
-	result_3_1, result_3_2 = set(), set()
+	result_2_1, result_2_2 = set(), set()
 	if 'year_start' in conditions and 'year_end' in conditions:
-		result_3_1 = set(Movie.query.filter(Movie.year >= conditions['year_start']))
-		result_3_2 = set(Movie.query.filter(Movie.year <= conditions['year_end']))
-	result_3 = result_3_1 & result_3_2
+		result_2_1 = set(Movie.query.filter(Movie.year >= conditions['year_start']))
+		result_2_2 = set(Movie.query.filter(Movie.year <= conditions['year_end']))
+	result_2 = result_2_1 & result_2_2
 
-	return list(result_1 | result_3)
+	return list(result_1 & result_2)
 
 
 def retrieve_movie(user, mid):
@@ -140,7 +136,7 @@ def retrieve_movie(user, mid):
 			reviews.append(redict)
 
 		result = {
-			'movie': [dict(cur_movie), ],
+			'movie': cur_movie,
 			'favorite': is_favorite,
 			'watched': is_watched,
 			'wishlist': wishlist,

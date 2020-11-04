@@ -31,7 +31,7 @@ class MoviesSearch(Resource):
 	@api.param('genre', description='make recommendation according to genre')
 	@api.param('director', description='make recommendation according to director')
 	@token_required
-	def get(self, mid):
+	def get(self, user, mid):
 		"""
 			receive request and get URL arguments including name, description, director
 			genre, year, language, country. All these searching conditions are optional
@@ -40,16 +40,14 @@ class MoviesSearch(Resource):
 
 		conditions = request.args
 		target_movie = Movie.query.filter_by(id=mid).first()
-
 		flag = 0
 		if 'genre' in conditions:
 			flag = 1
 		if 'director' in conditions:
 			flag = 2
 
-		# Get movie
-		movie_id = str(target_movie['tmdb_id'])
-		director = target_movie['director'].split()[0]
+		movie_id = str(target_movie.tmdb_id)
+		director = target_movie.tmdb_id.split()[0]
 
 		rec_gen = pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results']).id.tolist()
 		rec_genre = pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results']).id.tolist()
@@ -59,15 +57,13 @@ class MoviesSearch(Resource):
 		rec_movies = []
 		if flag == 0:
 			rec_movies = rec_gen
-			movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies))
 		elif flag == 1:
 			rec_movies = rec_genre
-			movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies))
 		else:
 			rec_movies = list(rec_dir)
-			movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies) and Movie.director.like(f'%{director}%'))
 
 		res = encapsolate_res(rec_movies)
+
 		return marshal(res, recommendation_movies_model)
 
 
@@ -88,19 +84,21 @@ class MoviesUser(Resource):
 			this will generate the recommendations for a specific user according to
 			the user favorites and user top ratings for some movies.
 		"""
-		user_id = user['id']
+
 		cur_user = User.query.filter_by(id=user['id']).first()
 		favorite_movies = list(get_all_favorites(cur_user))[:4]
+		favorites, rec_movies = [], []
 
-		rec_movies = []
+		for m in favorite_movies:
+			favorites.append(m.id)
 
-		for id in favorite_movies:
-			rec_movies.extend(pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results']).id.tolist()[:5])
+		for id in favorites:
+			if list(pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results']).columns):
+				rec_movies += list(pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results'])['id'])[:]
 
 		rec_movies = set(rec_movies)
 		rec_movies = list(rec_movies)
-		movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies))
-
 		res = encapsolate_res(rec_movies)
+
 		return marshal(res, recommendation_movies_model)
 
