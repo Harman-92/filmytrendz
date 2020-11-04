@@ -94,7 +94,7 @@ def get_all_keywords_movies(conditions):
 		result_3_2 = set(Movie.query.filter(Movie.year <= conditions['year_end']))
 	result_3 = result_3_1 & result_3_2
 
-	return list(result_1 & result_3)
+	return list(result_1 | result_3)
 
 
 def retrieve_movie(user, mid):

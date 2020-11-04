@@ -153,21 +153,21 @@ class MovieReview(Resource):
 			api.abort(NOT_FOUND, 'movie not found')
 
 
-@api.route('/<mid>/recommend')
-class MovieRecommend(Resource):
-	@api.doc('get recommendations for a specific movie')
-	@api.response(200, 'success')
-	@api.response(404, 'not found')
-	@api.response(401, 'unauthorized')
-	@api.param('mid', description='take movie id as parameter')
-	@token_required
-	def get(self, user, mid):
-		"""
-			recommendation for a specific movie
-		"""
-		data = request.args
-		if data and recommend_specific_movie(user, mid, data):
-			return jsonify({'recommend': 'success'}, SUCCESS)
-		else:
-			api.abort(NOT_FOUND, 'movie not found')
+# @api.route('/<mid>/recommend')
+# class MovieRecommend(Resource):
+# 	@api.doc('get recommendations for a specific movie')
+# 	@api.response(200, 'success')
+# 	@api.response(404, 'not found')
+# 	@api.response(401, 'unauthorized')
+# 	@api.param('mid', description='take movie id as parameter')
+# 	@token_required
+# 	def get(self, user, mid):
+# 		"""
+# 			recommendation for a specific movie
+# 		"""
+# 		data = request.args
+# 		if data and recommend_specific_movie(user, mid, data):
+# 			return jsonify({'recommend': 'success'}, SUCCESS)
+# 		else:
+# 			api.abort(NOT_FOUND, 'movie not found')
 
