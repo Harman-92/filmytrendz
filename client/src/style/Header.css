@@ -8,9 +8,11 @@
 }
 .header-button {
   background-color: rgba(118,45,221,0.3)!important;
+  color: #3a3255!important;
 }
 .header-button:hover {
-  background-color: rgba(118,45,221,0.5)!important;
+  background-color: #6435C9!important;
+  color: #ffffff !important;
 }
 .header-segment {
   padding-left: 20% !important;

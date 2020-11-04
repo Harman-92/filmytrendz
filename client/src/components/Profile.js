@@ -343,7 +343,7 @@ const Profile = () => {
 
             <Container className='banned-user-container'>
                 <Grid columns={2} divided centered stackable>
-                    <Grid.Column width={7}>
+                    <Grid.Column width={8}>
                         <Accordion>
                             <Segment basic className='banned-list-header'>
                                 <Accordion.Title
@@ -377,7 +377,7 @@ const Profile = () => {
                                                     {isBannedUserEdit ?
                                                         <List.Icon
                                                             id={bannedUser.id}
-                                                            name='x'
+                                                            name='trash alternate outline'
                                                             color='red'
                                                             onClick={handleUnBanUser}
                                                         />
@@ -395,7 +395,7 @@ const Profile = () => {
 
                     {/*---------------------------Change password------------------------------*/}
 
-                    <Grid.Column width={7} verticalAlign={'middle'} className='change-password-form'>
+                    <Grid.Column width={8} verticalAlign={'middle'} className='change-password-form'>
                         <Container>
                             <Segment basic>
                                 <Header icon as='h1' textAlign='left'>
