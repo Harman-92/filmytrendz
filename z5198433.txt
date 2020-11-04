@@ -33,3 +33,12 @@ Week4:
 4. explore login with Facebook
 5. explore user session management
 --------------------------------------------------------------
+
+Week5:
+ 
+1. backend api design
+2. attend the group retrospective
+3. Worked on CWV-128, 129, 130
+4. explore login with Facebook
+5. Worked on CWV-131
+--------------------------------------------------------------
