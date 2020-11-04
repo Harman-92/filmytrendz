@@ -194,24 +194,24 @@ const ResultPage = () => {
             </Card.Group>
 
             <Modal
-                closeIcon
                 size='tiny'
-                // dimmer= {'inverted'}
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
                 onOpen={() => setModalOpen(true)}
             >
-                {/*<Header icon='trash alternate outline' content='Delete movie'/>*/}
                 <Modal.Content>
                     <h4>
                         Are you sure  to remove
-                        <span className='spanStyle'>  {deleteItem.title}  </span>
+                        <span className='spanStyle'>  "{deleteItem.title}"  </span>
                         from <span className='spanStyle'>  {pageType.replace(/^\S/, s => s.toUpperCase())}  </span> list?
                     </h4>
                 </Modal.Content>
                 <Modal.Actions>
                     <Button color='red' onClick={deteleCard}>
                         <Icon name='trash alternate outline' /> REMOVE
+                    </Button>
+                    <Button onClick={() => setModalOpen(false)}>
+                        <Icon name='cancel' /> CANCEL
                     </Button>
                 </Modal.Actions>
             </Modal>

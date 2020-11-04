@@ -310,18 +310,21 @@ const WishList = () => {
                                 }
                                 size='tiny'
                             >
-                                {/*-----------------delete wish list modal-------------------------*/}
-                                <Segment basic clearing textAlign='center'>
-                                    <Header>Do you wish to delete "{w.name}"?</Header>
-                                    <Segment basic className='wishlist-header'>
-                                        <Button floated='left' color='grey' onClick={handleDeleteCancel}>
-                                            Cancel
-                                        </Button>
-                                        <Button color='violet' floated='right' onClick={handleDeleteConfirm}>
-                                            Confirm
-                                        </Button>
-                                    </Segment>
-                                </Segment>
+                                <Modal.Content>
+                                    <h4>
+                                        Are you sure  to remove
+                                        <span className='spanStyle'>  "{w.name}" </span>?
+                                    </h4>
+                                </Modal.Content>
+                                <Modal.Actions>
+                                    <Button color='red' onClick={handleDeleteConfirm}>
+                                        <Icon name='trash alternate outline' /> REMOVE
+                                    </Button>
+                                    <Button onClick={handleDeleteCancel}>
+                                        <Icon name='cancel' /> CANCEL
+                                    </Button>
+                                </Modal.Actions>
+
                             </Modal>
                         </Header>
                     </Segment>
