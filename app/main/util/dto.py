@@ -154,11 +154,11 @@ class WishListDto:
 class RecommendationDto:
 	api = Namespace('recommendation', description='movies recommendation for a specific user')
 
-	recommendation_movies_model = api.model('recommendation-movie-model',
-	                                        {
-		                                        'movies': fields.List(fields.Nested(MovieDto.movie_model)),
-	                                        }
-	                                        )
+    recommendation_movies_model = api.model('recommendation-movie-model',
+        {
+            'movies': fields.List(fields.Nested(MovieDto.movie_model)),
+        }
+    )
 
 
 class ReviewDto:
