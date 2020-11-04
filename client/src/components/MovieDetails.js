@@ -147,7 +147,7 @@ const MovieDetails = () => {
         {id:7, image: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
     ])
     const [addReview, setAddReview] = useState(false)
-    const [searchBy, setSearchBy] = useState('g')
+    const [searchBy, setSearchBy] = useState('a')
     const [addWishList, setAddWishList] = useState(false)
     const [newWishList, setNewWishList] = useState('')
 
@@ -176,12 +176,6 @@ const MovieDetails = () => {
             description: '',
             rating: 0
         })
-    }
-
-    const handleSearchByCheckbox = (e, {value}) => {
-        console.log("search by ", value)
-        setSearchBy(value)
-        //TODO:call similar movie api to get the similar movies
     }
 
     const handleBanReviewer = (e) => {
@@ -230,9 +224,16 @@ const MovieDetails = () => {
         //TODO:API to fetch movie details
         console.log(id)
     },[])
+
+    useEffect(() => {
+        {/*TODO: call recommend movie api*/}
+        console.log("searchBy: " + searchBy)
+    },[searchBy])
+
     useEffect(() => {
         setIsWishList(checkWishListActive(wishList))
     }, [wishList])
+
     useEffect(() => {
         setIsLogin(isAuthenticated())
         if (isLogin) {
@@ -567,22 +568,27 @@ const MovieDetails = () => {
                         <Form.Group inline>
                             <label>Searched by: </label>
                             <Form.Radio
+                                label='All'
+                                value='a'
+                                checked={searchBy === 'a'}
+                                onChange={() => setSearchBy('a')}
+                            />
+                            <Form.Radio
                                 label='Genre'
                                 value='g'
                                 checked={searchBy === 'g'}
-                                onChange={handleSearchByCheckbox}
+                                onChange={() => setSearchBy('g')}
                             />
                             <Form.Radio
                                 label='Director'
                                 value='d'
                                 checked={searchBy === 'd'}
-                                onChange={handleSearchByCheckbox}
+                                onChange={() => setSearchBy('d')}
                             />
-
                         </Form.Group>
                     </Form>
 
-                    {/*TODO: call recommend movie api*/}
+
                     <Card.Group itemsPerRow={6}>
                         {similarMovies.map((movie,index) => {
                                 if (index < 6) {
