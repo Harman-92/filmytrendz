@@ -1,10 +1,9 @@
 from flask import request
 from flask_restplus import Resource, marshal
 from ..service.movie import *
-from ..http_status import *
+from ..service.recommend import encapsolate_res
 from ..util.decorator import token_required
 from ..util.dto import RecommendationDto
-from ..service.movie import get_all_favorites
 from ..service.movie import get_all_favorites
 import pandas as pd
 import tmdbsimple as ts
