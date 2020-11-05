@@ -1,4 +1,4 @@
-import React, {useState,useLayoutEffect} from 'react';
+import React, {useState} from 'react';
 import {
     Sidebar,
     Menu,
@@ -15,7 +15,6 @@ import Profile from "./components/Profile";
 import ResultPage from "./components/ResultPage";
 import WishList from "./components/WishList";
 import WishListPublic from "./components/WishListPublic";
-import ScrollToTop from "./util/ScrollToTop";
 
 function App() {
     const location = useLocation()

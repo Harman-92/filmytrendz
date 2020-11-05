@@ -12,7 +12,6 @@ import {
     Card, Image, Modal, Popup, List, Dropdown
 } from "semantic-ui-react";
 import {useHistory, useLocation, useParams} from 'react-router-dom';
-import {getUserInfo, isAuthenticated} from "../config/session";
 import images from "../config/images";
 
 const IconCustom = (props) => (

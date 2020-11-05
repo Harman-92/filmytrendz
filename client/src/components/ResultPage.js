@@ -13,7 +13,6 @@ import {
 import '../style/ResultPage.css';
 import {useHistory, useLocation} from "react-router-dom";
 import {isAuthenticated} from "../config/session";
-import ReactStars from "react-rating-stars-component";
 
 const ResultPage = () => {
     const history = useHistory()
