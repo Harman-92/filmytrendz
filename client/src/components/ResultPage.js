@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
     Button,
     Card,
-    Container,
+    Container, Divider,
     Dropdown,
     Header,
     Icon,
@@ -262,9 +262,12 @@ const ResultPage = () => {
                             />
                             <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
                                           className='movie-card-content'>
-                                <Card.Header>{movie.title}</Card.Header>
-                                <Card.Meta>Released in {movie.releaseYear}</Card.Meta>
-                                Rating: {movie.averageRating}
+                                <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                <Divider className='cardDivider'/>
+                                <Card.Meta className='cardContext'>Released in {movie.releaseYear}</Card.Meta>
+                                <div>
+                                    <Icon name='star' inverted color='violet'/> {movie.averageRating}
+                                </div>
                             </Card.Content>
                         </Card>
                     ))
