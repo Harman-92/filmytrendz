@@ -3,6 +3,7 @@ import '../style/SignUp.css';
 import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
 import {useHistory} from 'react-router-dom';
 import {setAccessToken, setUserInfo} from "../config/session";
+import api,{setClientToken} from "../config/axios";
 
 const Login = (props) => {
     const history = useHistory()
@@ -53,27 +54,45 @@ const Login = (props) => {
                 success: false
             })
 
-        }
-        // on success
-        setSubmit({
-            formError: false,
-            loginError: false,
-            success: true
-        })
-        //TODO: API call to Login
+        }else{
 
-        setTimeout(function () {
-            props.setVisible(false)
-            // history.push({
-            //     pathname: '/',
-            //     isLogin: true,
-            //     email: email.v
-            // })
-            // set Login info to cookies session
-            setAccessToken('something')
-            setUserInfo('456', 'Schrodinger', '')
-            history.push('/')
-        }, 500);
+            api.post('/login',{
+                email: email.v,
+                password: password.v
+            }).then((res)=>{
+                if(res.status === 200) {
+                    const data = res.data
+                    const userInfo = data.user_info
+                    setEmail({...email,v:''})
+                    setPassword({...password,v:''})
+                    setSubmit({
+                        formError: false,
+                        loginError: false,
+                        success: true
+                    })
+                    setTimeout(function () {
+                        props.setVisible(false)
+                        setClientToken(data.token)
+                        setAccessToken(data.token)
+                        setUserInfo(userInfo.id, userInfo.first_name+' '+userInfo.last_name, userInfo.url)
+                        history.push('/')
+                    }, 500);
+                }else{
+                    setSubmit({
+                        formError: false,
+                        loginError: true,
+                        success: false
+                    })
+                }
+            }).catch((e)=>{
+                setSubmit({
+                    formError: false,
+                    loginError: true,
+                    success: false
+                })
+            })
+        }
+
     }
     useEffect(() => {
         setSubmit({
@@ -103,7 +122,7 @@ const Login = (props) => {
                         />
                         <Message
                             error
-                            header='Failed to Login!'
+                            header='Invalid email or password!'
                         />
                         <Message
                             success
