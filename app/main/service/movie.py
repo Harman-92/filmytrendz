@@ -16,19 +16,20 @@ def search_movies(user, conditions):
 		case 4: /movie?latest=true
 	"""
 
-	cur_user = User.query.filter_by(id=user['id']).first()
 	movies = []
 
 	if 'favorite' in conditions:
+		cur_user = User.query.filter_by(id=user['id']).first()
 		movies = get_all_favorites(cur_user)
 
-	if 'watched' in conditions:
+	elif 'watched' in conditions:
+		cur_user = User.query.filter_by(id=user['id']).first()
 		movies = get_all_watched(cur_user)
 
-	if 'latest' in conditions:
+	elif 'latest' in conditions:
 		movies = get_all_latest_movies()
 
-	if 'search' in conditions:
+	elif 'search' in conditions:
 		movies = get_all_keywords_movies(conditions)
 
 	return movies
@@ -101,31 +102,32 @@ def retrieve_movie(user, mid):
 
 	"""
 		look up the specific user and the specific movie according to ids.
-		There are five parts information need to be returned: 
+		There are five parts information need to be returned:
 		1. movie basic information
 		2. if the movie is favorited
 		3. if the movie is watched
 		4. wishlists this movies in
 		5. reviews related this movie
 	"""
-	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	result = {}
 	if cur_movie:
 		is_favorite, is_watched = False, False
-		if mid in cur_user.favorite_movies.all():
-			is_favorite = True
-
-		if mid in cur_user.watched_movies.all():
-			is_watched = True
-
-		wish_lists = Wishlist.query.filter_by(user=user['id']).all()
 		wishlist = []
-		for w in wish_lists:
-			wl = dict(w)
-			wl.pop('user')
-			wl.pop('movies')
-			wishlist.append(wl)
+		if user:
+			cur_user = User.query.filter_by(id=user['id']).first()
+			if mid in cur_user.favorite_movies.all():
+				is_favorite = True
+
+			if mid in cur_user.watched_movies.all():
+				is_watched = True
+
+			wish_lists = Wishlist.query.filter_by(user=user['id']).all()
+			for w in wish_lists:
+				wl = dict(w)
+				wl.pop('user')
+				wl.pop('movies')
+				wishlist.append(wl)
 
 		review_list = Review.query.filter_by(movie=mid).all()
 		reviews = []
@@ -153,7 +155,7 @@ def favorite_movie_user(user, mid):
 	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	success = False
-	""" 
+	"""
 		favorite_movies is a relationship table at the database, so in order
 		to label a movie as favorite, this table need to be updated.
 	"""
