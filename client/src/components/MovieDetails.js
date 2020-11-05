@@ -603,7 +603,7 @@ const MovieDetails = () => {
                 <Suspense fallback={<div>Loading...</div>}>
                     <Form>
                         <Form.Group inline>
-                            <label>Searched by: </label>
+                            <label>By: </label>
                             <Form.Radio
                                 label='All'
                                 value='a'
