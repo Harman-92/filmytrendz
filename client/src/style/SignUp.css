@@ -1,0 +1,16 @@
+.form-container {
+    padding: 5% 10% 20% !important;
+}
+.message-space-show {
+    margin-top: 1em !important;
+    visibility: hidden;
+}
+.message-space-hide {
+    display: none;
+}
+.signup-button .button {
+    background-color: rgba(118,45,221,0.3)!important;
+}
+.signup-button .button:hover {
+    background-color: rgba(118,45,221,0.5)!important;
+}
