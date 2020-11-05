@@ -147,7 +147,6 @@ const WishList = () => {
         setOpen(false)
     }
     const handleRemoveMovie = (movieId) => {
-        // console.log(e.target.parentElement.id)
         //TODO:API to remove movie from wishList isEditId
         let wishLists = [...wishList]
         for (let w of wishLists) {
@@ -300,6 +299,7 @@ const WishList = () => {
                                     </Segment>
                                 </Popup> : null
                             }
+                            {/*-----------------delete wish list modal-------------------------*/}
                             <Modal
                                 onClose={() => setOpen(false)}
                                 onOpen={() => setOpen(true)}
@@ -312,16 +312,16 @@ const WishList = () => {
                             >
                                 <Modal.Content>
                                     <h4>
-                                        Are you sure  to remove
+                                        Are you sure to remove
                                         <span className='spanStyle'>  "{w.name}" </span>?
                                     </h4>
                                 </Modal.Content>
                                 <Modal.Actions>
-                                    <Button color='red' onClick={handleDeleteConfirm}>
-                                        <Icon name='trash alternate outline' /> REMOVE
-                                    </Button>
                                     <Button onClick={handleDeleteCancel}>
-                                        <Icon name='cancel' /> CANCEL
+                                        <Icon name='cancel'/> CANCEL
+                                    </Button>
+                                    <Button color='red' onClick={handleDeleteConfirm}>
+                                        <Icon name='trash alternate outline'/> REMOVE
                                     </Button>
                                 </Modal.Actions>
 
@@ -334,18 +334,24 @@ const WishList = () => {
                         <Card.Group itemsPerRow={5}>
                             {
                                 w.movies.map((movie, j) => (
-
                                     <Card className='movieCard' fluid
                                           key={j}
-                                          id={movie.id}
                                     >
-                                        <Image src={movie.image}/>
-                                        {isEditId === w.id ?
-                                            <Icon color='red' name='x' onClick={() => handleRemoveMovie(movie.id)}/>
-                                            : null
-                                        }
+                                        <Image
+                                            src={movie.image}
+                                            label={isEditId === w.id?{
+                                                as: 'a', corner: 'right', color: 'violet',
+                                                icon: 'x',
+                                                onClick: () => handleRemoveMovie(movie.id)
+                                            }:null}
+                                        />
+                                        <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
+                                                      className='movie-card-content'>
+                                            <Card.Header>{movie.title}</Card.Header>
+                                            <Card.Meta>Released in {movie.releaseYear}</Card.Meta>
+                                            Rating: {movie.averageRating}
+                                        </Card.Content>
                                     </Card>
-
                                 ))
                             }
                         </Card.Group>

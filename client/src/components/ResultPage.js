@@ -10,41 +10,130 @@ import {
     Menu,
     Modal
 } from "semantic-ui-react";
-import '../style/SearchResult.css';
-import { useHistory, useLocation } from "react-router-dom";
+import '../style/ResultPage.css';
+import {useHistory, useLocation} from "react-router-dom";
 import {isAuthenticated} from "../config/session";
-import ReactStars from "react-rating-stars-component";
 
 const ResultPage = () => {
     const history = useHistory()
     const location = useLocation()
     const [isLogin, setIsLogin] = useState(isAuthenticated())
     const [movieResults, setMovieResults] = useState([
-        {id: 1, image: '/poster.jpg', title: 'A Spider Man-1', genre: 'Fiction', director: 'Abc', releaseYear:'1991', averageRating: 4.5},
-        {id: 2, image: '/poster.jpg', title: 'B Spider Man-2', genre: 'Fiction', director: 'Abc', releaseYear:'1992', averageRating: 4.5},
-        {id: 3, image: '/poster.jpg', title: 'C Spider Man-3', genre: 'Fiction', director: 'Abc', releaseYear:'1985', averageRating: 3},
-        {id: 4, image: '/poster.jpg', title: 'D Spider Man-4', genre: 'Fiction', director: 'Abc', releaseYear:'2001', averageRating: 4},
-        {id: 5, image: '/poster.jpg', title: 'E Spider Man-5', genre: 'Fiction', director: 'Abc', releaseYear:'1781', averageRating: 2.5},
-        {id: 6, image: '/poster.jpg', title: 'F Spider Man-6', genre: 'Fiction', director: 'Abc', releaseYear:'1991', averageRating: 4.3},
-        {id: 7, image: '/poster.jpg', title: 'G Spider Man-7', genre: 'Fiction', director: 'Abc', releaseYear:'1991', averageRating: 4.6},
-        {id: 8, image: '/poster.jpg', title: 'H Spider Man-8', genre: 'Fiction', director: 'Abc', releaseYear:'2009', averageRating: 3.6},
-        {id: 9, image: '/poster.jpg', title: 'I Spider Man-9', genre: 'Fiction', director: 'Abc', releaseYear:'2012', averageRating: 2.2},
-        {id: 10, image: '/poster.jpg', title: 'J Spider Man-10', genre: 'Fiction', director: 'Abc', releaseYear:'2011', averageRating: 4.5},
+        {
+            id: 1,
+            image: '/poster.jpg',
+            title: 'A Spider Man-1',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '1991',
+            averageRating: 4.5
+        },
+        {
+            id: 2,
+            image: '/poster.jpg',
+            title: 'B Spider Man-2',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '1992',
+            averageRating: 4.5
+        },
+        {
+            id: 3,
+            image: '/poster.jpg',
+            title: 'C Spider Man-3',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '1985',
+            averageRating: 3
+        },
+        {
+            id: 4,
+            image: '/poster.jpg',
+            title: 'D Spider Man-4',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '2001',
+            averageRating: 4
+        },
+        {
+            id: 5,
+            image: '/poster.jpg',
+            title: 'E Spider Man-5',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '1781',
+            averageRating: 2.5
+        },
+        {
+            id: 6,
+            image: '/poster.jpg',
+            title: 'F Spider Man-6',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '1991',
+            averageRating: 4.3
+        },
+        {
+            id: 7,
+            image: '/poster.jpg',
+            title: 'G Spider Man-7',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '1991',
+            averageRating: 4.6
+        },
+        {
+            id: 8,
+            image: '/poster.jpg',
+            title: 'H Spider Man-8',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '2009',
+            averageRating: 3.6
+        },
+        {
+            id: 9,
+            image: '/poster.jpg',
+            title: 'I Spider Man-9',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '2012',
+            averageRating: 2.2
+        },
+        {
+            id: 10,
+            image: '/poster.jpg',
+            title: 'J Spider Man-10',
+            genre: 'Fiction',
+            director: 'Abc',
+            releaseYear: '2011',
+            averageRating: 4.5
+        },
     ])
 
     const [sortFilter, setSortFilter] = useState({
-        keyword:'title',
-        ascending:true
+        keyword: 'title',
+        ascending: true
     })
 
     const sortByOptions = [
-        {key:0, value: 'title', text:'Title', content:(<Header className='itemFont' subheader='Title'/>)},
-        {key:1, value: 'releaseYear', text:'Release Year', content:(<Header className='itemFont' subheader='Release Year'/>)},
-        {key:2, value: 'averageRating', text:'Average Rating', content:(<Header className='itemFont' subheader='Average Rating'/>)},
+        {key: 0, value: 'title', text: 'Title', content: (<Header className='itemFont' subheader='Title'/>)},
+        {
+            key: 1,
+            value: 'releaseYear',
+            text: 'Release Year',
+            content: (<Header className='itemFont' subheader='Release Year'/>)
+        },
+        {
+            key: 2,
+            value: 'averageRating',
+            text: 'Average Rating',
+            content: (<Header className='itemFont' subheader='Average Rating'/>)
+        },
     ]
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [deleteItem, setDeleteItem] = useState({index:-1, title:''})
+    const [deleteItem, setDeleteItem] = useState({index: -1, title: ''})
 
     const pageType = history.location.pathname.slice(1)
 
@@ -79,24 +168,24 @@ const ResultPage = () => {
         if (sortFilter.ascending) {
             if (keyword === 'title') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a,b) => a.title > b.title ? 1 : -1)
+                    (a, b) => a.title > b.title ? 1 : -1)
             } else if (keyword === 'releaseYear') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a,b) => a.releaseYear > b.releaseYear ? 1 : -1)
+                    (a, b) => a.releaseYear > b.releaseYear ? 1 : -1)
             } else if (keyword === 'averageRating') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a,b) => a.averageRating > b.averageRating ? 1 : -1)
+                    (a, b) => a.averageRating > b.averageRating ? 1 : -1)
             }
         } else {
             if (keyword === 'title') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a,b) => a.title > b.title ? -1 : 1)
+                    (a, b) => a.title > b.title ? -1 : 1)
             } else if (keyword === 'releaseYear') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a,b) => a.releaseYear > b.releaseYear ? -1 : 1)
+                    (a, b) => a.releaseYear > b.releaseYear ? -1 : 1)
             } else if (keyword === 'averageRating') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a,b) => a.averageRating > b.averageRating ? -1 : 1)
+                    (a, b) => a.averageRating > b.averageRating ? -1 : 1)
             }
         }
         console.log(copy_movieResults)
@@ -138,14 +227,14 @@ const ResultPage = () => {
                             })}
                         />
                     </Menu.Item>
-                    <Menu.Item onClick={()=> setSortFilter({...sortFilter, ascending: !sortFilter.ascending})}>
+                    <Menu.Item onClick={() => setSortFilter({...sortFilter, ascending: !sortFilter.ascending})}>
                         {sortFilter.keyword === 'title' ?
                             (sortFilter.ascending ?
                                 <Icon name='sort alphabet ascending'/> :
                                 <Icon name='sort alphabet descending'/>) :
                             (sortFilter.ascending ?
-                                <Icon name='sort numeric ascending' /> :
-                                <Icon name='sort numeric descending' />)
+                                <Icon name='sort numeric ascending'/> :
+                                <Icon name='sort numeric descending'/>)
                         }
                     </Menu.Item>
                 </Menu.Menu>
@@ -154,41 +243,30 @@ const ResultPage = () => {
             <Card.Group itemsPerRow={5}>
                 {
                     movieResults.map((movie, index) => (
-                                <Card className='movieCard' fluid
-                                      key={index}
-                                      >
-                                    {pageType === 'search' ?
-                                        <Image src={movie.image}/> :
-                                        <Image
-                                            src={movie.image}
-                                            label={{as:'a', corner:'right', color:'violet',
-                                                icon:'trash alternate outline',
-                                                onClick: () => {
-                                                    setModalOpen(true)
-                                                    setDeleteItem({index: index,
-                                                        title: movie.title
-                                                    })
-                                            }
-                                            }}
-                                        />
+                        <Card className='movieCard' fluid
+                              key={index}
+                        >
+                            <Image
+                                src={movie.image}
+                                label={pageType !== 'search' ? {
+                                    as: 'a', corner: 'right', color: 'violet',
+                                    icon: 'x',
+                                    onClick: () => {
+                                        setModalOpen(true)
+                                        setDeleteItem({
+                                            index: index,
+                                            title: movie.title
+                                        })
                                     }
-                                    <Card.Content as={'a'} onClick={() => history.push('/movie/' + movie.id)}>
-                                        <Card.Header>{movie.title}</Card.Header>
-                                        <Card.Meta>Released in {movie.releaseYear}</Card.Meta>
-                                    </Card.Content>
-                                    <Card.Content extra>
-                                        {/*<ReactStars*/}
-                                        {/*    count={5}*/}
-                                        {/*    value={movie.averageRating}*/}
-                                        {/*    size={20}*/}
-                                        {/*    isHalf={true}*/}
-                                        {/*    edit={false}*/}
-                                        {/*    activeColor="#7b68ee"*/}
-                                        {/*    color='lightgrey'*/}
-                                        {/*/>*/}
-                                        Rating: {movie.averageRating}
-                                    </Card.Content>
-                                </Card>
+                                } : null}
+                            />
+                            <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
+                                          className='movie-card-content'>
+                                <Card.Header>{movie.title}</Card.Header>
+                                <Card.Meta>Released in {movie.releaseYear}</Card.Meta>
+                                Rating: {movie.averageRating}
+                            </Card.Content>
+                        </Card>
                     ))
                 }
             </Card.Group>
@@ -201,17 +279,18 @@ const ResultPage = () => {
             >
                 <Modal.Content>
                     <h4>
-                        Are you sure  to remove
+                        Are you sure to remove
                         <span className='spanStyle'>  "{deleteItem.title}"  </span>
-                        from <span className='spanStyle'>  {pageType.replace(/^\S/, s => s.toUpperCase())}  </span> list?
+                        from <span
+                        className='spanStyle'>  {pageType.replace(/^\S/, s => s.toUpperCase())}  </span> list?
                     </h4>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button color='red' onClick={deteleCard}>
-                        <Icon name='trash alternate outline' /> REMOVE
-                    </Button>
                     <Button onClick={() => setModalOpen(false)}>
-                        <Icon name='cancel' /> CANCEL
+                        <Icon name='cancel'/> CANCEL
+                    </Button>
+                    <Button color='red' onClick={deteleCard}>
+                        <Icon name='trash alternate outline'/> REMOVE
                     </Button>
                 </Modal.Actions>
             </Modal>

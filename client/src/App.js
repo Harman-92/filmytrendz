@@ -6,7 +6,7 @@ import {
 } from 'semantic-ui-react';
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import {Switch, Route, Redirect} from "react-router-dom";
+import {Switch, Route, Redirect, useLocation} from "react-router-dom";
 import './style/Header.css';
 import Header from './components/Header'
 import Home from "./components/Home";
@@ -17,9 +17,12 @@ import WishList from "./components/WishList";
 import WishListPublic from "./components/WishListPublic";
 
 function App() {
+    const location = useLocation()
     const [visible, setVisible] = useState(false)
     const [activeIndex, setActiveIndex] = useState(1)
-
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
     return (
         <div className="App">
             <Sidebar.Pushable as='div'>

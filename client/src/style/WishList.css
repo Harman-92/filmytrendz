@@ -48,12 +48,6 @@
 .wishlist-cards.ui.container {
     min-height: 0;
 }
-.wishlist-cards .ui.card.movieCard .icon{
-    position: fixed;
-}
-.wishlist-cards .ui.card.movieCard{
-    align-items: flex-end;
-}
 .add-wishlist.ui.segment{
     padding-top: 0;
 }

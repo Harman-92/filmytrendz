@@ -235,6 +235,7 @@ const MovieDetails = () => {
     }, [wishList])
 
     useEffect(() => {
+        window.scrollTo(0,0)
         setIsLogin(isAuthenticated())
         if (isLogin) {
             setUser(getUserInfo)
@@ -260,11 +261,7 @@ const MovieDetails = () => {
                         <h3>Genre</h3>
                         {
                             movieDetails.genre.map((genre, index) => {
-                                if (index < movieDetails.genre.length-1) {
-                                    return (<span>{genre + '  ,  '}</span>)
-                                } else {
-                                    return (<span>{genre}</span>)
-                                }
+                                return (<span key={index}>{index<movieDetails.genre.length-1?genre + '  ,  ':genre}</span>)
                             })
                         }
 
