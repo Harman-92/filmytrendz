@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
 import {Form, Container, Grid, Divider, Message} from "semantic-ui-react";
+import api from '../config/axios';
 
 const SignUp = () => {
     const [firstName, setFirstName] = useState({
@@ -21,7 +22,7 @@ const SignUp = () => {
     })
     const [submit, setSubmit] = useState({
         formError: false,
-        loginError: false,
+        signUpError: false,
         success: false
     })
     const handleFirstName = (e, {value}) => {
@@ -94,17 +95,48 @@ const SignUp = () => {
             }
             setSubmit({
                 formError: true,
-                loginError: false,
+                signUpError: false,
                 success: false
             })
 
+        }else{
+            api.post('/signup',{
+                email: email.v,
+                password: password.v,
+                first_name:firstName.v,
+                last_name:lastName.v,
+                mobile_no:''
+            }).then((res)=>{
+                if(res.status === 200) {
+                    setEmail({...email,v:''})
+                    setPassword({...password,v:''})
+                    setFirstName({...firstName,v:''})
+                    setLastName({...lastName,v:''})
+                    setSubmit({
+                        formError: false,
+                        signUpError: false,
+                        success: true
+                    })
+                }else{
+                    setSubmit({
+                        formError: false,
+                        signUpError: true,
+                        success: false
+                    })
+                }
+            }).catch((e)=>{
+                setSubmit({
+                    formError: false,
+                    signUpError: true,
+                    success: false
+                })
+            })
         }
-        //TODO: API call to Register
     }
     useEffect(() => {
         setSubmit({
             formError: false,
-            loginError: false,
+            signUpError: false,
             success: false
         })
     }, [firstName.v, lastName.v, email.v, password.v])
@@ -115,11 +147,11 @@ const SignUp = () => {
                     <Form size='large'
                           onSubmit={handleSubmit}
                           warning={submit.formError}
-                          error={submit.loginError}
+                          error={submit.signUpError}
                           success={submit.success}
                     >
                         <Message
-                            className={(submit.formError || submit.loginError || submit.success) ?
+                            className={(submit.formError || submit.signUpError || submit.success) ?
                                 'message-space-hide' : 'message-space-show'}
                             header='handle space'
                         />
@@ -129,11 +161,11 @@ const SignUp = () => {
                         />
                         <Message
                             error
-                            header='Failed to Register!'
+                            header='Failed to Register!!!'
                         />
                         <Message
                             success
-                            header='Register Success'
+                            header='Registration Success. Please Login.'
                         />
                         <Form.Input fluid placeholder='First name' name='firstName'
                                     value={firstName.v}

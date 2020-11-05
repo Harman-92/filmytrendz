@@ -23,7 +23,7 @@ import {
 } from "semantic-ui-react";
 import images from "../config/images";
 import {getUserInfo, isAuthenticated} from "../config/session";
-
+import api from "../config/axios"
 
 const checkWishListActive = (wishList) => {
     let a = false
@@ -54,12 +54,12 @@ const Cast = (props) => (
 const MovieDetails = () => {
     const location = useLocation()
     const history = useHistory()
-    const { id } = useParams()
-    const [isLogin, setIsLogin] = useState(false)
+    const {id} = useParams()
+    const [isLogin, setIsLogin] = useState(isAuthenticated)
     const [movieDetails, setMovieDetails] = useState({
         title: 'Spider Man 3',
-        image: '/poster.jpg',
-        averageRating: 4.5,
+        url: '/poster.jpg',
+        rating: 4.5,
         description: 'Lorem ipsum dolor sit amet, cu principes  eloquentiam mea,' +
             'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
             'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
@@ -68,7 +68,7 @@ const MovieDetails = () => {
             'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
             'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
             'cum. Fugit prompta deleni in sed, singulis explicari vis cu.',
-        genre: ['Fiction', 'Horror', 'Action-adventure', 'Superhero'],
+        genre: 'Fiction',
         cast: [
             {image: '/poster.jpg', name: 'Tom Holland', role: 'Peter Parker / Spider-Man'},
             {image: '/poster.jpg', name: 'Samuel L. Jackson', role: 'Nick Fury long long long long long name'},
@@ -138,13 +138,13 @@ const MovieDetails = () => {
         url: '',
     })
     const [similarMovies, setSimilarMovies] = useState([
-        {id:1, image: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
-        {id:2, image: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
-        {id:3, image: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
-        {id:4, image: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {id:5, image: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {id:6, image: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
-        {id:7, image: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
+        {id: 1, url: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
+        {id: 2, url: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
+        {id: 3, url: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
+        {id: 4, url: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
+        {id: 5, url: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
+        {id: 6, url: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
+        {id: 7, url: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
     ])
     const [addReview, setAddReview] = useState(false)
     const [searchBy, setSearchBy] = useState('a')
@@ -221,25 +221,36 @@ const MovieDetails = () => {
     }
 
     useEffect(() => {
-        //TODO:API to fetch movie details
-        console.log(id)
-    },[])
-
-    useEffect(() => {
-        {/*TODO: call recommend movie api*/}
+        {/*TODO: call recommend movie api*/
+        }
         console.log("searchBy: " + searchBy)
-    },[searchBy])
+    }, [searchBy])
 
     useEffect(() => {
         setIsWishList(checkWishListActive(wishList))
     }, [wishList])
 
     useEffect(() => {
-        window.scrollTo(0,0)
-        setIsLogin(isAuthenticated())
-        if (isLogin) {
+        if (isAuthenticated()) {
+            setIsLogin(isAuthenticated())
             setUser(getUserInfo)
         }
+        api.get('/movie/'+id).then((res) => {
+            if (res.status === 200) {
+                const data = res.data
+                setMovieDetails({
+                    ...data.movie,
+                    favorite: data.favorite,
+                    cast: [],
+                    watched: data.watched
+                })
+                setWishList(res.data.wishlist)
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
     }, [location, isLogin])
 
     return (
@@ -249,7 +260,7 @@ const MovieDetails = () => {
             <Grid columns={3}>
                 <Grid.Row>
                     <Grid.Column width={3}>
-                        <Image src={movieDetails.image === '' ? images.no_image : movieDetails.image}
+                        <Image src={movieDetails.url === '' ? images.no_image : movieDetails.url}
                                size='small'
                                rounded
                                alt={movieDetails.title}
@@ -259,11 +270,7 @@ const MovieDetails = () => {
                         <h1>{movieDetails.title}</h1>
                         <p>{movieDetails.description}</p>
                         <h3>Genre</h3>
-                        {
-                            movieDetails.genre.map((genre, index) => {
-                                return (<span key={index}>{index<movieDetails.genre.length-1?genre + '  ,  ':genre}</span>)
-                            })
-                        }
+                        <span>{movieDetails.genre}</span>
 
                     </Grid.Column>
                     <Grid.Column width={3} className='movie-details-right'>
@@ -389,8 +396,10 @@ const MovieDetails = () => {
                                                 <Segment basic className='share-link'>
 
                                                     {window.location.href}
-                                                    <Button onClick={() => navigator.clipboard.writeText(window.location.href)}
-                                                            className='wishlist-add share-link-button' basic icon='paperclip'
+                                                    <Button
+                                                        onClick={() => navigator.clipboard.writeText(window.location.href)}
+                                                        className='wishlist-add share-link-button' basic
+                                                        icon='paperclip'
                                                     />
                                                 </Segment>
                                             </Popup>
@@ -411,11 +420,11 @@ const MovieDetails = () => {
                         <div className='movie-rating-wrapper'>
                             {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
                             <Statistic className='movie-rating'>
-                                <Statistic.Value>{movieDetails.averageRating}</Statistic.Value>
+                                <Statistic.Value>{movieDetails.rating}</Statistic.Value>
                             </Statistic>
                             <ReactStars
                                 count={5}
-                                value={movieDetails.averageRating}
+                                value={movieDetails.rating}
                                 size={26}
                                 isHalf={true}
                                 edit={false}
@@ -430,7 +439,8 @@ const MovieDetails = () => {
             {/*-------------------------movie cast-----------------------------*/}
             <h2 className='movieHeader'>Cast</h2>
             <Divider/>
-            <Cast casts={movieDetails.cast}/>
+            {/*<Cast casts={movieDetails.cast}/>*/}
+            <span>{movieDetails.actors}</span>
 
             {/*-------------------------movie review-----------------------------*/}
             <div className="movieHeader">
@@ -624,13 +634,13 @@ const MovieDetails = () => {
 
 
                     <Card.Group itemsPerRow={6}>
-                        {similarMovies.map((movie,index) => {
+                        {similarMovies.map((movie, index) => {
                                 if (index < 6) {
                                     return (
                                         <Card key={index} centered={true}
-                                            onClick={() => history.push('/movie/' + movie.id)}
+                                              onClick={() => history.push('/movie/' + movie.id)}
                                         >
-                                            <Image src={movie.image}/>
+                                            <Image src={movie.url}/>
                                             <Card.Description textAlign='center'>{movie.title}</Card.Description>
                                         </Card>
                                     )
