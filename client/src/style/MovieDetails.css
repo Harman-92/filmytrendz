@@ -134,7 +134,7 @@
     border-color: transparent!important;
 }
 .wishlist-add.ui.basic.button:hover {
-    color: rgba(100, 53, 201,0.8) !important;
+    color: #7b68ee !important;
     box-shadow: none!important;
 }
 .wishlist-add.ui.basic.button:focus {

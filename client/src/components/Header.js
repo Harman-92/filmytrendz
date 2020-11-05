@@ -297,7 +297,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                                 <Grid.Row verticalAlign={'middle'} centered >
                                     <Grid.Column width={11} >
                                         <Button floated='right' color='violet' onClick={handleSearch}>Search</Button>
-                                        <Button floated='right' color='grey' onClick={clearFilter}>Clear
+                                        <Button floated='right' onClick={clearFilter}>Clear
                                             Filters</Button>
                                     </Grid.Column>
                                 </Grid.Row>
