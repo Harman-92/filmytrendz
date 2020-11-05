@@ -47,24 +47,28 @@ const WishList = () => {
                     id: 64,
                     title: 'Spider Man 1',
                     image: '/poster.jpg',
+                    releaseYear: 1991,
                     averageRating: 4,
                 },
                 {
                     id: 65,
                     title: 'Spider Man 2',
                     image: '/poster.jpg',
+                    releaseYear: 1999,
                     averageRating: 2.5,
                 },
                 {
                     id: 66,
                     title: 'Spider Man 3',
                     image: '/poster.jpg',
+                    releaseYear: 2001,
                     averageRating: 3.5,
                 },
                 {
                     id: 67,
                     title: 'Spider Man 4',
                     image: '/poster.jpg',
+                    releaseYear: 1992,
                     averageRating: 5,
                 }
             ]
@@ -77,24 +81,28 @@ const WishList = () => {
                     id: 68,
                     title: 'Spider Man 5',
                     image: '/poster.jpg',
+                    releaseYear: 1991,
                     averageRating: 4,
                 },
                 {
                     id: 69,
                     title: 'Spider Man 6',
                     image: '/poster.jpg',
+                    releaseYear: 1992,
                     averageRating: 2.5,
                 },
                 {
                     id: 61,
                     title: 'Spider Man 7',
                     image: '/poster.jpg',
+                    releaseYear: 2011,
                     averageRating: 3.5,
                 },
                 {
                     id: 62,
                     title: 'Spider Man 8',
                     image: '/poster.jpg',
+                    releaseYear: 2020,
                     averageRating: 5,
                 }
             ]
@@ -347,9 +355,12 @@ const WishList = () => {
                                         />
                                         <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
                                                       className='movie-card-content'>
-                                            <Card.Header>{movie.title}</Card.Header>
-                                            <Card.Meta>Released in {movie.releaseYear}</Card.Meta>
-                                            Rating: {movie.averageRating}
+                                            <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                            <Divider className='cardDivider'/>
+                                            <Card.Meta className='cardContext'>Released in {movie.releaseYear}</Card.Meta>
+                                            <div>
+                                                <Icon name='star' inverted color='violet'/> {movie.averageRating}
+                                            </div>
                                         </Card.Content>
                                     </Card>
                                 ))
