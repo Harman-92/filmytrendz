@@ -50,7 +50,7 @@ class MoviesSearch(Resource):
 		director = target_movie.tmdb_id.split()[0]
 
 		rec_gen = list(pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results'])['id'])
-		rec_genre = list(pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results'])['id])
+		rec_genre = list(pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results'])['id'])
 		rec_dir = set(rec_gen + rec_genre)
 		rec_dir = list(rec_dir)
 
