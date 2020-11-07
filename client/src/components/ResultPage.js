@@ -6,7 +6,7 @@ import {
     Dropdown,
     Header,
     Icon,
-    Image,
+    Image, Label,
     Menu,
     Modal
 } from "semantic-ui-react";
@@ -246,27 +246,27 @@ const ResultPage = () => {
                         <Card className='movieCard' fluid
                               key={index}
                         >
-                            <Image
-                                src={movie.image}
-                                label={pageType !== 'search' ? {
-                                    as: 'a', corner: 'right', color: 'violet',
-                                    icon: 'x',
-                                    onClick: () => {
-                                        setModalOpen(true)
-                                        setDeleteItem({
-                                            index: index,
-                                            title: movie.title
-                                        })
-                                    }
-                                } : null}
-                            />
-                            <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
-                                          className='movie-card-content'>
-                                <Card.Header className='cardContext'>{movie.title}</Card.Header>
-                                <Divider className='cardDivider'/>
-                                <Card.Meta className='cardContext'>Released in {movie.releaseYear}</Card.Meta>
-                                <div>
-                                    <Icon name='star' inverted color='violet'/> {movie.averageRating}
+                            <Image src={movie.image}/>
+                            <Card.Content as={'div'} className='movie-card-content'>
+                                {
+                                    pageType !== 'search'  && pageType !== 'reviewed'?
+                                        <Label as='a' corner='right' color='violet' icon='x'
+                                             onClick={() => {
+                                                    setModalOpen(true)
+                                                    setDeleteItem({
+                                                        index: index,
+                                                        title: movie.title
+                                                    })
+                                                }} />: null
+                                }
+                                <div className='cardContentView'
+                                    onClick={() => history.push('/movie/' + movie.id)}>
+                                    <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                    <Divider className='cardDivider'/>
+                                    <Card.Meta className='cardContext'>Released in {movie.releaseYear}</Card.Meta>
+                                    <div>
+                                        <Icon name='star' inverted color='violet'/> {movie.averageRating}
+                                    </div>
                                 </div>
                             </Card.Content>
                         </Card>

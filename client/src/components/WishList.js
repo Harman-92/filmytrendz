@@ -360,22 +360,23 @@ const WishList = () => {
                                     <Card className='movieCard' fluid
                                           key={j}
                                     >
-                                        <Image
-                                            src={movie.url}
-                                            label={isEditId === w.id ? {
-                                                as: 'a', corner: 'right', color: 'violet',
-                                                icon: 'x',
-                                                onClick: () => handleRemoveMovie(movie.id)
-                                            } : null}
-                                        />
-                                        <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
-                                                      className='movie-card-content'>
-                                            <Card.Header className='cardContext'>{movie.title}</Card.Header>
-                                            <Divider className='cardDivider'/>
-                                            <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
-                                            <div>
-                                                <Icon name='star' inverted color='violet'/> {movie.rating}
+                                        <Image src={movie.url}/>
+                                        <Card.Content as={'div'} className='movie-card-content'>
+                                            {
+                                                isEditId === w.id ?
+                                                    <Label as='a' corner='right' color='violet' icon='x'
+                                                         onClick={() => handleRemoveMovie(movie.id)} />: null
+                                            }
+                                            <div  className='cardContentView'
+                                                  onClick={() => history.push('/movie/' + movie.id)}>
+                                                <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                                <Divider className='cardDivider'/>
+                                                <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
+                                                <div>
+                                                    <Icon name='star' inverted color='violet'/> {movie.rating}
+                                                </div>
                                             </div>
+
                                         </Card.Content>
                                     </Card>
                                 ))
