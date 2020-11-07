@@ -15,7 +15,7 @@ with app.app_context():
 	conn = pymysql.connect(
 		host='localhost',
 		user='root',
-		password='112321',
+		password='Asdfghjkl834966827',
 		db='v5',
 		port=3306,
 		charset='utf8'
