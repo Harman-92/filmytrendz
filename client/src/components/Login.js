@@ -61,18 +61,17 @@ const Login = (props) => {
                 password: password.v
             }).then((res)=>{
                 if(res.status === 200) {
-                    const data = res.data
-                    const userInfo = data.user_info
-                    setEmail({...email,v:''})
-                    setPassword({...password,v:''})
                     setSubmit({
                         formError: false,
                         loginError: false,
                         success: true
                     })
+                    const data = res.data
+                    const userInfo = data.user_info
+                    // setEmail({...email,v:''})
+                    // setPassword({...password,v:''})
                     setTimeout(function () {
                         props.setVisible(false)
-                        setClientToken(data.token)
                         setAccessToken(data.token)
                         setUserInfo(userInfo.id, userInfo.first_name+' '+userInfo.last_name, userInfo.url)
                         history.push('/')

@@ -13,6 +13,7 @@ import {
 } from "semantic-ui-react";
 import {useHistory, useLocation, useParams} from 'react-router-dom';
 import images from "../config/images";
+import api from "../config/axios";
 
 const IconCustom = (props) => (
     <i className="">
@@ -30,37 +31,48 @@ const WishListPublic = () => {
         {
             id: 43,
             name: 'Nerves of Steel',
-            access: 'public',
+            status: 'public',
             movies: [
                 {
                     id: 64,
                     title: 'Spider Man 1',
-                    image: '/poster.jpg',
-                    averageRating: 4,
+                    url: '/poster.jpg',
+                    rating: 4,
                 },
                 {
                     id: 65,
                     title: 'Spider Man 2',
-                    image: '/poster.jpg',
-                    averageRating: 2.5,
+                    url: '/poster.jpg',
+                    rating: 2.5,
                 },
                 {
                     id: 66,
                     title: 'Spider Man 3',
-                    image: '/poster.jpg',
-                    averageRating: 3.5,
+                    url: '/poster.jpg',
+                    rating: 3.5,
                 },
                 {
                     id: 67,
                     title: 'Spider Man 4',
-                    image: '/poster.jpg',
-                    averageRating: 5,
+                    url: '/poster.jpg',
+                    rating: 5,
                 }
             ]
         });
     useEffect(() => {
-        //TODO: API to fetch wishlist by Id
-        //if public load else redirect to home
+        api.get('/wishlist/'+id).then((res) => {
+            if (res.status === 200) {
+                if(res.data.status === PUBLIC){
+                    history.push('/')
+                }else{
+                    setWishList(res.data)
+                }
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
     },[])
     return (
         <Container>
@@ -72,7 +84,7 @@ const WishListPublic = () => {
                     >
 
                         <Label basic>
-                            <IconCustom src={images[wishList.access]}/>
+                            <IconCustom src={images[wishList.status]}/>
                         </Label>
                         <input value={wishList.name}/>
                     </Input>
@@ -113,7 +125,7 @@ const WishListPublic = () => {
                                   key={i}
                                   id={movie.id}
                             >
-                                <Image src={movie.image}/>
+                                <Image src={movie.url}/>
                             </Card>
 
                         ))

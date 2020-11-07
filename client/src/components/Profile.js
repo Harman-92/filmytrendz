@@ -19,7 +19,8 @@ import {
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
 import images from "../config/images";
-import {getUserInfo, isAuthenticated} from "../config/session";
+import {getAccessToken, getUserInfo, isAuthenticated} from "../config/session";
+import api from "../config/axios";
 
 const Profile = () => {
     const history = useHistory()
@@ -27,21 +28,21 @@ const Profile = () => {
     const isLogin = isAuthenticated()
     const [user, setUser] = useState({
         id: '',
-        email: 'timeisprecious@vision.com',
-        firstName: 'Erwin',
-        lastName: 'Schrodinger',
-        mobile: '0515387256',
+        email: '',
+        first_name: '',
+        last_name: '',
+        mobile_no: '',
         url: ''
     })
     const [newUser, setNewUser] = useState({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        mobile: user.mobile
+        first_name: user.first_name,
+        last_name: user.last_name,
+        mobile_no: user.mobile_no
     })
     const [err, setErr] = useState({
-        firstName: false,
-        lastName: false,
-        mobile: false
+        first_name: false,
+        last_name: false,
+        mobile_no: false
     })
     const [isProfileEdit, setIsProfileEdit] = useState(false)
     const [oldPassword, setOldPassword] = useState({v: '', e: false});
@@ -54,46 +55,54 @@ const Profile = () => {
     });
     const [isActive, setIsActive] = useState(false);
     const [bannedUsers, setBannedUsers] = useState([
-        {id: 34, firstName: 'John' ,lastName: 'Dalton'},
-        {id: 45, firstName: 'Nikola' ,lastName: 'Tesla'},
-        {id: 32, firstName: 'Charles' ,lastName: 'Darwin'},
-        {id: 92, firstName: 'Richard' ,lastName: 'Feynman'},
-        {id: 43, firstName: 'Werner', lastName: 'Heisenberg'}
+        {id: 34, first_name: 'John', last_name: 'Dalton'},
+        {id: 45, first_name: 'Nikola', last_name: 'Tesla'},
+        {id: 32, first_name: 'Charles', last_name: 'Darwin'},
+        {id: 92, first_name: 'Richard', last_name: 'Feynman'},
+        {id: 43, first_name: 'Werner', last_name: 'Heisenberg'}
     ])
     const [isBannedUserEdit, setIsBannedUserEdit] = useState(false)
 
     const handleProfileSave = () => {
-        if (err.firstName || err.lastName || err.mobile || user.firstName === "" || user.lastName === "" || user.mobile === "") {
-            if (user.firstName === "") {
+        if (err.first_name || err.last_name || err.mobile_no || user.first_name === "" || user.last_name === "" || user.mobile_no === "") {
+            if (user.first_name === "") {
                 setErr({
                     ...err,
-                    firstName: true
+                    first_name: true
                 })
             }
-            if (user.lastName === "") {
+            if (user.last_name === "") {
 
                 setErr({
                     ...err,
-                    lastName: true
+                    last_name: true
                 })
             }
-            if (user.mobile === "") {
+            if (user.mobile_no === "") {
 
                 setErr({
                     ...err,
-                    mobile: true
+                    mobile_no: true
                 })
             }
             alert("please give valid input")
+        } else {
+            api.post('/user', newUser).then((res) => {
+                if (res.status === 200) {
+                    setUser({
+                        ...user,
+                        first_name: newUser.first_name,
+                        last_name: newUser.last_name,
+                        mobile_no: newUser.mobile_no
+                    })
+                    setIsProfileEdit(false)
+                } else {
+                    alert('error')
+                }
+            }).catch((e) => {
+                console.log('Internal server error')
+            })
         }
-        //TODO: API to update profile
-        setUser({
-            ...user,
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-            mobile: newUser.mobile
-        })
-        setIsProfileEdit(false)
     }
     const handleSubmit = () => {
         if (oldPassword.v === "" || newPassword.v === "" || retypePassword.v === "" || retypePassword.e) {
@@ -121,15 +130,31 @@ const Profile = () => {
                 loginError: false,
                 success: false
             })
+        } else {
+            api.post('/user/password', {
+                old_password: oldPassword.v,
+                new_password: newPassword.v
+            }).then((res) => {
+                if (res.status === 200) {
+                    setSubmit({
+                        formError: false,
+                        loginError: false,
+                        success: true
+                    })
+                } else {
+                    alert('error')
+                }
+            }).catch((e) => {
+                console.log('Internal server error')
+            })
         }
-        //TODO: API to change password
     }
     const handleCancel = () => {
         setIsProfileEdit(false)
         setNewUser({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            mobile: user.mobile
+            first_name: user.first_name,
+            last_name: user.last_name,
+            mobile_no: user.mobile_no
         })
     }
     const handlePasswordMatch = (e, {value}) => {
@@ -155,17 +180,17 @@ const Profile = () => {
         const pattern = new RegExp(/^[a-zA-Z ]+$/)
         setNewUser({
             ...newUser,
-            firstName: value
+            first_name: value
         })
         if (pattern.test(value) || value === "") {
             setErr({
                 ...err,
-                firstName: false
+                first_name: false
             })
         } else {
             setErr({
                 ...err,
-                firstName: true
+                first_name: true
             })
         }
     }
@@ -174,17 +199,17 @@ const Profile = () => {
         const pattern = new RegExp(/^[a-zA-Z ]+$/)
         setNewUser({
             ...newUser,
-            lastName: value
+            last_name: value
         })
         if (pattern.test(value) || value === "") {
             setErr({
                 ...err,
-                lastName: false
+                last_name: false
             })
         } else {
             setErr({
                 ...err,
-                lastName: true
+                last_name: true
             })
         }
     }
@@ -192,31 +217,50 @@ const Profile = () => {
         const pattern = new RegExp(/^[0-9]+$/)
         setNewUser({
             ...newUser,
-            mobile: value
+            mobile_no: value
         })
         if ((pattern.test(value) || value === "") && value.length === 10) {
             setErr({
                 ...err,
-                mobile: false
+                mobile_no: false
             })
         } else {
             setErr({
                 ...err,
-                mobile: true
+                mobile_no: true
             })
         }
     }
     const handleGetBannedUsers = () => {
-        if(!isActive) {
-            //TODO:API to get banned users
-            // setBannedUsers(bannedUsers)
+        if (!isActive) {
+            api.get('/user/banneduser').then((res) => {
+                if (res.status === 200) {
+                    setBannedUsers(res.data.banned_users)
+                } else {
+                    alert('error')
+                }
+            }).catch((e) => {
+                console.log('Internal server error')
+            })
         }
         setIsActive(!isActive)
     }
     const handleUnBanUser = (e, {id}) => {
-        // console.log(id)
-        //TODO:API to remove banned user
-        setBannedUsers(users => users.filter(user=>user.id!==id))
+        api.delete('/user/banneduser', {
+            id: id
+        }).then((res) => {
+            if (res.status === 200) {
+                setBannedUsers(users => users.filter(user => user.id !== id))
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
+    }
+    const handleClickEdit = () => {
+        setIsProfileEdit(true)
+        setNewUser(user)
     }
 
     useEffect(() => {
@@ -227,10 +271,17 @@ const Profile = () => {
         })
     }, [oldPassword.v, newPassword.v, retypePassword.v])
     useEffect(() => {
-        if(isLogin) {
-            const userId = getUserInfo().id
-            //TODO : API to get user details
-        }else{
+        if (isLogin) {
+            api.get('/user').then((res) => {
+                if (res.status === 200) {
+                    setUser(res.data)
+                } else {
+                    alert('error')
+                }
+            }).catch((e) => {
+                console.log('Internal server error')
+            })
+        } else {
             history.push('/')
         }
     }, [location])
@@ -260,7 +311,7 @@ const Profile = () => {
                     <Button floated='right' basic color='violet' icon='edit' content='Edit'
                             active={false}
                             labelPosition='left'
-                            onClick={() => setIsProfileEdit(true)}
+                            onClick={handleClickEdit}
                     />
                 }
             </Segment>
@@ -301,10 +352,10 @@ const Profile = () => {
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
                                     <Input fluid placeholder='First Name' className='profile-input'
-                                           value={isProfileEdit ? newUser.firstName : user.firstName}
+                                           value={isProfileEdit ? newUser.first_name : user.first_name}
                                            disabled={!isProfileEdit}
                                            onChange={handleFirstName}
-                                           error={err.firstName}
+                                           error={err.first_name}
                                     />
                                 </Grid.Column>
                             </Grid.Row>
@@ -314,10 +365,10 @@ const Profile = () => {
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
                                     <Input fluid placeholder='Last Name' className='profile-input'
-                                           value={isProfileEdit ? newUser.lastName : user.lastName}
+                                           value={isProfileEdit ? newUser.last_name : user.last_name}
                                            disabled={!isProfileEdit}
                                            onChange={handleLastName}
-                                           error={err.lastName}
+                                           error={err.last_name}
                                     />
                                 </Grid.Column>
                             </Grid.Row>
@@ -327,10 +378,10 @@ const Profile = () => {
                                 </Grid.Column>
                                 <Grid.Column width={10} verticalAlign='middle'>
                                     <Input fluid placeholder='Mobile' className='profile-input'
-                                           value={isProfileEdit ? newUser.mobile : user.mobile}
+                                           value={isProfileEdit ? newUser.mobile_no : user.mobile_no}
                                            disabled={!isProfileEdit}
                                            onChange={handleMobile}
-                                           error={err.mobile}
+                                           error={err.mobile_no}
                                     />
                                 </Grid.Column>
                             </Grid.Row>
@@ -382,7 +433,9 @@ const Profile = () => {
                                                             onClick={handleUnBanUser}
                                                         />
                                                         : null}
-                                                    <List.Content><h4>{bannedUser.firstName} {bannedUser.lastName}</h4></List.Content>
+                                                    <List.Content>
+                                                        <h4>{bannedUser.first_name} {bannedUser.last_name}</h4>
+                                                    </List.Content>
                                                 </List.Item>
                                             ))}
                                         </List>

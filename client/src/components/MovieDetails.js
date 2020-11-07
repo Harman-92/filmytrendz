@@ -179,10 +179,18 @@ const MovieDetails = () => {
     }
 
     const handleBanReviewer = (e) => {
-        console.log(e.target.id)
-        //TODO : API to ban reviewer
-        //and refresh
-        history.go(0)
+        api.put('/user/banneduser',{
+            id:e.target.id
+        }).then((res) => {
+            if (res.status === 200) {
+                alert("banned user successfully")
+                history.go(0)
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
     }
 
     const handleWishListChange = (e, {id, value}) => {

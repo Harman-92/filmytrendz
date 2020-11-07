@@ -113,12 +113,16 @@ class WishListDto:
 
     wishlist_movie_model = api.model('movie-model', {
         'id': fields.Integer,
-        'name': fields.String,
+        'title': fields.String,
+        'url': fields.String,
+        'rating': fields.Float,
+        'year': fields.Integer
     })
 
     wish_list_model = api.model('wish-list', {
         'id': fields.Integer,
         'name': fields.String,
+        'status': fields.String,
         'movies': fields.List(fields.Nested(wishlist_movie_model))
     })
 
@@ -139,7 +143,7 @@ class WishListDto:
 
     })
 
-    wishlist_update_model = api.model('wish-list', {
+    wishlist_update_model = api.model('wish-list-update', {
         'new_list': fields.List(fields.Integer),
         'remove_list': fields.List(fields.Integer)
     })
