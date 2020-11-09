@@ -52,3 +52,14 @@ Week 7
 Organised Sprint planning, retrospective - wednesday
 Worked on user session management using cookies - CWV 138,140
 Worked on CWV 26,27 - Adding and removing banned users
+Worked on CWV 31 - Wish lists
+Worked on CWV 32,33 - public or private wish list and sharing
+Organised a meeting to discuss API progress and testing
+
+Week 8
+
+Attended the Demo B.
+Submitted Retrospective B report.
+Fixed issues with navigation and some front-end bugs.
+Worked on Integrating front and backend while fixing bugs.
+Integrated - authentication, user, wish list, homepage.
