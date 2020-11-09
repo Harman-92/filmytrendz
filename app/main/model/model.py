@@ -106,7 +106,8 @@ class Movie(db.Model):
 class Review(db.Model):
     __tablename__ = 'review'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    review_text = db.Column(db.String(1000))
+    title = db.Column(db.String(50))
+    description = db.Column(db.String(1000))
     rating = db.Column(db.Float)
     created_date = db.Column(db.DateTime, default=func.now())
     user = db.Column(db.Integer, db.ForeignKey('user.id'))

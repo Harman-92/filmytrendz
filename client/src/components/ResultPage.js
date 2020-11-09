@@ -13,6 +13,7 @@ import {
 import '../style/ResultPage.css';
 import {useHistory, useLocation} from "react-router-dom";
 import {isAuthenticated} from "../config/session";
+import api from "../config/axios";
 
 const ResultPage = () => {
     const history = useHistory()
@@ -146,11 +147,35 @@ const ResultPage = () => {
         } else {
             if (isLogin) {
                 if (pageType === 'favorite') {
-                    //TODO:API call to favorite and get results
+                    api.get('/movie?favorite=true').then((res) => {
+                        if (res.status === 200) {
+                            setMovieResults(res.data.movies)
+                        } else {
+                            alert('error')
+                        }
+                    }).catch((e) => {
+                        console.log('Internal server error')
+                    })
                 } else if (pageType === 'watched') {
-                    //TODO:API call to watched list and get results
+                    api.get('/movie?watched=true').then((res) => {
+                        if (res.status === 200) {
+                            setMovieResults(res.data.movies)
+                        } else {
+                            alert('error')
+                        }
+                    }).catch((e) => {
+                        console.log('Internal server error')
+                    })
                 } else if (pageType === 'reviewed') {
-                    //TODO:API call to reviewed list and get results
+                    api.get('/movie?reviewed=true').then((res) => {
+                        if (res.status === 200) {
+                            setMovieResults(res.data.movies)
+                        } else {
+                            alert('error')
+                        }
+                    }).catch((e) => {
+                        console.log('Internal server error')
+                    })
                 }
             } else {
                 history.push('/')

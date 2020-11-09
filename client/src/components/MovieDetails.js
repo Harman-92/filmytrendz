@@ -152,35 +152,44 @@ const MovieDetails = () => {
     const [newWishList, setNewWishList] = useState('')
 
     const postReview = () => {
-        const copyReviews = Object.assign([], movieDetails.reviews)
-        let time = moment().format('YYYY-MM-DD HH:mm').toString()
-        copyReviews.splice(0, 0, {
-            avatar: user.url,
-            id: user.id,
-            name: user.firstName,
-            createdTime: time,
-            title: myReview.title,
-            description: myReview.description,
-            rating: myReview.rating
-        })
-
-        // TODO:call add review api
-        console.log(copyReviews)
-        setAddReview(false)
-        setMovieDetails({
-            ...movieDetails,
-            reviews: copyReviews
-        })
-        setMyReview({
-            title: '',
-            description: '',
-            rating: 0
+        api.post('/movie/' + movieDetails.id + '/review',{
+            'title': myReview.title,
+            'description': myReview.description,
+            'rating': myReview.rating
+        }).then(res => {
+            if (res.status === 200) {
+                const copyReviews = Object.assign([], movieDetails.reviews)
+                let time = moment().format('YYYY-MM-DD HH:mm').toString()
+                copyReviews.splice(0, 0, {
+                    avatar: user.url,
+                    id: user.id,
+                    name: user.firstName,
+                    createdTime: time,
+                    title: myReview.title,
+                    description: myReview.description,
+                    rating: myReview.rating
+                })
+                setAddReview(false)
+                setMovieDetails({
+                    ...movieDetails,
+                    reviews: copyReviews
+                })
+                setMyReview({
+                    title: '',
+                    description: '',
+                    rating: 0
+                })
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
         })
     }
 
     const handleBanReviewer = (e) => {
-        api.put('/user/banneduser',{
-            id:e.target.id
+        api.put('/user/banneduser', {
+            id: e.target.id
         }).then((res) => {
             if (res.status === 200) {
                 alert("banned user successfully")
@@ -198,33 +207,75 @@ const MovieDetails = () => {
         tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
         setWishList(tempArr)
 
-        console.log(value)
         //TODO:API to update wishlist of movie with wishlist id = value
+
+        // api.post('/wishlist/'+value,{
+        //     'remove_list': [movieId]
+        // }).then((res) => {
+        //     if (res.status === 200) {
+        //         let wishLists = [...wishList]
+        //         for (let w of wishLists) {
+        //             if (w.id === isEditId) {
+        //                 w.movies = w.movies.filter(m => m.id !== movieId)
+        //             }
+        //         }
+        //         setWishList(wishLists)
+        //     } else {
+        //         alert('error')
+        //     }
+        // }).catch((e) => {
+        //     console.log('Internal server error')
+        // })
     }
     const handleAddWishList = () => {
-        let tempArr = [...wishList]
-        tempArr.push({
-            id: 43,
-            name: newWishList,
-            added: true
+        api.put('/wishlist',{
+            'name': newWishList,
+            'status': 'public',
+            'new_list': [movieDetails.id]
+        }).then(res => {
+            if (res.status === 200) {
+                let tempArr = [...wishList]
+                tempArr.push({
+                    id: 43,
+                    name: newWishList,
+                    added: true
+                })
+                setWishList(tempArr)
+                setNewWishList('')
+                setAddWishList(false)
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
         })
-        setWishList(tempArr)
-        setNewWishList('')
-        //TODO:API to add new wishlist and add movie to it
-        setAddWishList(false)
     }
     const handleFavorite = () => {
-        //TODO: API to set movie favorite
-        setMovieDetails({
-            ...movieDetails,
-            favorite: !movieDetails.favorite
+        api.put('/movie/' + movieDetails.id + '/favorite').then(res => {
+            if (res.status === 200) {
+                setMovieDetails({
+                    ...movieDetails,
+                    favorite: !movieDetails.favorite
+                })
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
         })
     }
     const handleWatched = () => {
-        //TODO: API to set movie watched
-        setMovieDetails({
-            ...movieDetails,
-            watched: !movieDetails.watched
+        api.put('/movie/' + movieDetails.id + '/watched').then(res => {
+            if (res.status === 200) {
+                setMovieDetails({
+                    ...movieDetails,
+                    watched: !movieDetails.watched
+                })
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
         })
     }
 
@@ -243,7 +294,7 @@ const MovieDetails = () => {
             setIsLogin(isAuthenticated())
             setUser(getUserInfo)
         }
-        api.get('/movie/'+id).then((res) => {
+        api.get('/movie/' + id).then((res) => {
             if (res.status === 200) {
                 const data = res.data
                 setMovieDetails({

@@ -25,7 +25,6 @@ const Home = () => {
     useEffect(() => {
         if (isAuthenticated()) {
             setIsLogin(isAuthenticated())
-            //TODO: API to get user recommended movies
             api.get('/recommend/user', {
                 headers: {'Authorization': getAccessToken()}
                 }).then((res) => {
