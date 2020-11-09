@@ -14,7 +14,7 @@ ban_model = UserDto.user_ban
 ban_list_model = UserDto.banned_list
 
 
-@api.route('/')
+@api.route('')
 class User(Resource):
 	@api.doc('retrieve a user profile')
 	@api.response(200, 'success', model=user_model)

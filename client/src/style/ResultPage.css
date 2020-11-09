@@ -27,3 +27,10 @@
 .cardDivider {
     margin: 0.5rem 0!important;
 }
+
+.cardContentView {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1;
+}
