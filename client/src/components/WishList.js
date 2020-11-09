@@ -18,6 +18,7 @@ import {
 import {useHistory, useLocation, useParams} from 'react-router-dom';
 import {isAuthenticated} from "../config/session";
 import images from "../config/images";
+import api from "../config/axios";
 
 const IconCustom = (props) => (
     <i className="">
@@ -41,69 +42,69 @@ const WishList = () => {
         {
             id: 43,
             name: 'Nerves of Steel',
-            access: 'public',
+            status: 'public',
             movies: [
                 {
                     id: 64,
                     title: 'Spider Man 1',
-                    image: '/poster.jpg',
-                    releaseYear: 1991,
-                    averageRating: 4,
+                    url: '/poster.jpg',
+                    year: 1991,
+                    rating: 4,
                 },
                 {
                     id: 65,
                     title: 'Spider Man 2',
-                    image: '/poster.jpg',
-                    releaseYear: 1999,
-                    averageRating: 2.5,
+                    url: '/poster.jpg',
+                    year: 1999,
+                    rating: 2.5,
                 },
                 {
                     id: 66,
                     title: 'Spider Man 3',
-                    image: '/poster.jpg',
-                    releaseYear: 2001,
-                    averageRating: 3.5,
+                    url: '/poster.jpg',
+                    year: 2001,
+                    rating: 3.5,
                 },
                 {
                     id: 67,
                     title: 'Spider Man 4',
-                    image: '/poster.jpg',
-                    releaseYear: 1992,
-                    averageRating: 5,
+                    url: '/poster.jpg',
+                    year: 1992,
+                    rating: 5,
                 }
             ]
         }, {
             id: 42,
             name: 'Cyberpunk',
-            access: 'private',
+            status: 'private',
             movies: [
                 {
                     id: 68,
                     title: 'Spider Man 5',
-                    image: '/poster.jpg',
-                    releaseYear: 1991,
-                    averageRating: 4,
+                    url: '/poster.jpg',
+                    year: 1991,
+                    rating: 4,
                 },
                 {
                     id: 69,
                     title: 'Spider Man 6',
-                    image: '/poster.jpg',
-                    releaseYear: 1992,
-                    averageRating: 2.5,
+                    url: '/poster.jpg',
+                    year: 1992,
+                    rating: 2.5,
                 },
                 {
                     id: 61,
                     title: 'Spider Man 7',
-                    image: '/poster.jpg',
-                    releaseYear: 2011,
-                    averageRating: 3.5,
+                    url: '/poster.jpg',
+                    year: 2011,
+                    rating: 3.5,
                 },
                 {
                     id: 62,
                     title: 'Spider Man 8',
-                    image: '/poster.jpg',
-                    releaseYear: 2020,
-                    averageRating: 5,
+                    url: '/poster.jpg',
+                    year: 2020,
+                    rating: 5,
                 }
             ]
         }
@@ -114,7 +115,7 @@ const WishList = () => {
     const [isAddWishList, setIsAddWishList] = useState(false)
     const [newWishList, setNewWishList] = useState({
         name: '',
-        access: PUBLIC,
+        status: PUBLIC,
         movies: []
     })
     const accessOptions = [
@@ -150,19 +151,35 @@ const WishList = () => {
         setOpen(false)
     }
     const handleDeleteConfirm = () => {
-        //TODO: API to delete isDeleteId wishlist
-        setWishList(wishlist => wishlist.filter(w => w.id !== isDeleteId))
-        setOpen(false)
+        api.delete('/wishlist/'+isDeleteId).then((res) => {
+            if (res.status === 200) {
+                setWishList(wishlist => wishlist.filter(w => w.id !== isDeleteId))
+                setOpen(false)
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
     }
     const handleRemoveMovie = (movieId) => {
-        //TODO:API to remove movie from wishList isEditId
-        let wishLists = [...wishList]
-        for (let w of wishLists) {
-            if (w.id === isEditId) {
-                w.movies = w.movies.filter(m => m.id !== movieId)
+        api.post('/wishlist/'+isEditId,{
+            'remove_list': [movieId]
+        }).then((res) => {
+            if (res.status === 200) {
+                let wishLists = [...wishList]
+                for (let w of wishLists) {
+                    if (w.id === isEditId) {
+                        w.movies = w.movies.filter(m => m.id !== movieId)
+                    }
+                }
+                setWishList(wishLists)
+            } else {
+                alert('error')
             }
-        }
-        setWishList(wishLists)
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
 
     }
     const handleCreateWishList = () => {
@@ -170,34 +187,59 @@ const WishList = () => {
         copyWishList.splice(0, 0, {
             id: 44,
             name: newWishList.name,
-            access: newWishList.access,
+            status: newWishList.status,
             movies: newWishList.movies
         })
         setWishList(copyWishList)
         setNewWishList({
             name: '',
-            access: PUBLIC,
+            status: PUBLIC,
             movies: []
         })
         setIsAddWishList(false)
     }
     const handleSaveEditWishlist = () => {
-        //TODO: API call to edit wishlist name
-        let copyWishList = [...wishList]
-        copyWishList.find(x => x.id === isEditId).name = newWishList.name
-        setWishList(copyWishList)
-        setNewWishList({...newWishList, name: ''})
-        setIsEditId(0)
+        api.post('/wishlist/'+isEditId,{
+            'name': newWishList.name
+        }).then((res) => {
+            if (res.status === 200) {
+                let copyWishList = [...wishList]
+                copyWishList.find(x => x.id === isEditId).name = newWishList.name
+                setWishList(copyWishList)
+                setNewWishList({...newWishList, name: ''})
+                setIsEditId(0)
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
     }
     const handleAccessChange = (wishListId, value) => {
-        let copyWishList = [...wishList]
-        copyWishList.find(x => x.id === wishListId).access = value
-        setWishList(copyWishList)
-        //TODO: API to change wishlist access
+        api.post('/wishlist/'+wishListId,{
+            'status': value
+        }).then((res) => {
+            if (res.status === 200) {
+                let copyWishList = [...wishList]
+                copyWishList.find(x => x.id === wishListId).status = value
+                setWishList(copyWishList)
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
     }
     useEffect(() => {
-        console.log(id)
-        //TODO:API to fetch wishlists details
+        api.get('/wishlist').then((res) => {
+            if (res.status === 200) {
+                setWishList(res.data.wishlists)
+            } else {
+                alert('error')
+            }
+        }).catch((e) => {
+            console.log('Internal server error')
+        })
     }, [])
     useEffect(() => {
         if (!isLogin) {
@@ -221,11 +263,11 @@ const WishList = () => {
                                 className='access'
                                 trigger={
                                     <Label basic>
-                                        <IconCustom src={images[newWishList.access]}/>
+                                        <IconCustom src={images[newWishList.status]}/>
                                     </Label>}
-                                value={newWishList.access}
-                                defaultValue={newWishList.access}
-                                onChange={(e, {value}) => setNewWishList({...newWishList, access: value})}
+                                value={newWishList.status}
+                                defaultValue={newWishList.status}
+                                onChange={(e, {value}) => setNewWishList({...newWishList, status: value})}
                                 options={accessOptions}
                             />
                                 <input onKeyPress={event => {
@@ -266,10 +308,10 @@ const WishList = () => {
                                     className='access'
                                     trigger={
                                         <Label basic>
-                                            <IconCustom src={images[w.access]}/>
+                                            <IconCustom src={images[w.status]}/>
                                         </Label>}
-                                    value={w.access}
-                                    defaultValue={w.access}
+                                    value={w.status}
+                                    defaultValue={w.status}
                                     onChange={(e, {value}) => handleAccessChange(w.id, value)}
                                     options={accessOptions}
                                 />
@@ -286,7 +328,7 @@ const WishList = () => {
                         {/*-----------------------wish list options edit,share,delete------------------------*/}
                         <Header as='h4' className='wishlist-option'>
                             <Icon name='pencil' inverted color='violet' onClick={() => handleEditClick(w.id)}/>
-                            {w.access === PUBLIC ?
+                            {w.status === PUBLIC ?
                                 <Popup
                                     position='bottom right'
                                     trigger={
@@ -346,20 +388,20 @@ const WishList = () => {
                                           key={j}
                                     >
                                         <Image
-                                            src={movie.image}
-                                            label={isEditId === w.id?{
+                                            src={movie.url}
+                                            label={isEditId === w.id ? {
                                                 as: 'a', corner: 'right', color: 'violet',
                                                 icon: 'x',
                                                 onClick: () => handleRemoveMovie(movie.id)
-                                            }:null}
+                                            } : null}
                                         />
                                         <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
                                                       className='movie-card-content'>
                                             <Card.Header className='cardContext'>{movie.title}</Card.Header>
                                             <Divider className='cardDivider'/>
-                                            <Card.Meta className='cardContext'>Released in {movie.releaseYear}</Card.Meta>
+                                            <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
                                             <div>
-                                                <Icon name='star' inverted color='violet'/> {movie.averageRating}
+                                                <Icon name='star' inverted color='violet'/> {movie.rating}
                                             </div>
                                         </Card.Content>
                                     </Card>
