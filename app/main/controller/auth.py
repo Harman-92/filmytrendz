@@ -1,10 +1,17 @@
 from flask import request
 from flask_restplus import Resource
 import json
-
 from app.main.service.auth import Auth
 from ..util.dto import AuthDto
 from ..util.decorator import token_required
+
+
+"""
+	Authentication Api:
+	signup -- provide the api for user to signup with the application
+	login  -- provide the api for user to login the application, and will get a token
+	logout -- provide the api for user to logout the application, revoke the token
+"""
 
 api = AuthDto.api
 auth_login_model = AuthDto.user_login_auth
@@ -15,7 +22,7 @@ auth_signup_model = AuthDto.user_signup_auth
 class UsersignUp(Resource):
     @api.expect(auth_signup_model, validate=True)
     @api.doc(
-        description="signup with email, password, name"
+        description="signup with email, password, names"
     )
     @api.response(201, 'success')
     @api.response(400, 'badrequest')
@@ -28,7 +35,7 @@ class UsersignUp(Resource):
 class UserLogin(Resource):
     @api.expect(auth_login_model, validate=True)
     @api.doc(
-        description="Login with email and password"
+        description="login with email and password"
     )
     @api.response(201, 'success')
     @api.response(401, 'unauthorized')
@@ -39,7 +46,7 @@ class UserLogin(Resource):
 
 @api.route('logout')
 class UserLogout(Resource):
-    @api.doc(description="Logout the session")
+    @api.doc(description="logout")
     @api.response(201, 'success')
     @api.response(401, 'unauthorized')
     @token_required

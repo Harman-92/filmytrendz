@@ -29,6 +29,7 @@ class User(db.Model):
     """ User Model for storing user information """
 
     __tablename__ = 'user'
+
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
@@ -47,15 +48,12 @@ class User(db.Model):
 
     def check_password(self, password):
         return flask_bcrypt.check_password_hash(self.password, password)
-    #
-    # def __repr__(self):
-    #     return "<User '{}'>".format(self.first_name)
 
 
 class BannedUser(db.Model):
     __tablename__ = 'bannedlist'
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
-    banned_user_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    banned_user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
 
 
 class BlacklistToken(db.Model):
@@ -76,7 +74,6 @@ class BlacklistToken(db.Model):
 
     @staticmethod
     def check_blacklist(auth_token):
-        # check whether auth token has been blacklisted
         res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
         if res:
             return True
@@ -86,6 +83,7 @@ class BlacklistToken(db.Model):
 
 class Movie(db.Model):
     __tablename__ = 'movie'
+
     id = db.Column(db.Integer, autoincrement=True,  primary_key=True)
     poster_path = db.Column(db.String(200))
     imdb_id = db.Column(db.String(10))
@@ -105,6 +103,7 @@ class Movie(db.Model):
 
 class Review(db.Model):
     __tablename__ = 'review'
+
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     review_text = db.Column(db.String(1000))
     rating = db.Column(db.Float)
@@ -120,8 +119,10 @@ class Privacy(enum.Enum):
 
 class Wishlist(db.Model):
     __tablename__ = 'wishlist'
-    id = db.Column(db.Integer, autoincrement=True , primary_key=True)
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(50))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     status = db.Column(db.String(50), default="public", nullable=False)
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')
+
