@@ -17,7 +17,9 @@ recommendation_movies_model = RecommendationDto.recommendation_movies_model
 
 
 """
-	recommendation for a specific movie
+	There are two recommendation api:
+	1. make recommendation according to a specific movie
+	2. make recommendation for a specific user
 """
 
 
@@ -33,13 +35,12 @@ class MoviesSearch(Resource):
 	@token_required
 	def get(self, user, mid):
 		"""
-			receive request and get URL arguments including name, description, director
-			genre, year, language, country. All these searching conditions are optional
-			but if you want run search you need to input at least one searching condition
+			make recommendation for a specific movie according to movie genre and director
 		"""
 
 		conditions = request.args
 		target_movie = Movie.query.filter_by(id=mid).first()
+
 		flag = 0
 		if 'genre' in conditions:
 			flag = 1
@@ -49,12 +50,13 @@ class MoviesSearch(Resource):
 		movie_id = str(target_movie.tmdb_id)
 		director = target_movie.tmdb_id.split()[0]
 
-		rec_gen = pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results']).id.tolist()
-		rec_genre = pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results']).id.tolist()
+		rec_gen = list(pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results'])['id'])
+		rec_genre = list(pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results'])['id'])
 		rec_dir = set(rec_gen + rec_genre)
 		rec_dir = list(rec_dir)
 
 		rec_movies = []
+
 		if flag == 0:
 			rec_movies = rec_gen
 		elif flag == 1:
@@ -65,11 +67,6 @@ class MoviesSearch(Resource):
 		res = encapsolate_res(rec_movies)
 
 		return marshal(res, recommendation_movies_model)
-
-
-"""
-specific user
-"""
 
 
 @api.route('/user')

@@ -58,7 +58,7 @@ class BannedUser(db.Model):
 
 class BlacklistToken(db.Model):
     """
-    Token Model for storing JWT tokens
+        Token Model for storing JWT tokens
     """
     __tablename__ = 'blacklist_token'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
