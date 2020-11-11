@@ -250,10 +250,17 @@ const MovieDetails = () => {
     }
     const handleFavorite = () => {
         if(movieDetails.favorite){
-            //TODO: API to unfavorite a movie
-            setMovieDetails({
-                ...movieDetails,
-                favorite: !movieDetails.favorite
+            api.put('/movie/' + movieDetails.id + '/unfavorite').then(res => {
+                if (res.status === 200) {
+                    setMovieDetails({
+                        ...movieDetails,
+                        favorite: !movieDetails.favorite
+                    })
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
             })
         }else {
             api.put('/movie/' + movieDetails.id + '/favorite').then(res => {

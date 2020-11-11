@@ -87,7 +87,6 @@ class MovieFavorite(Resource):
 		return jsonify({'favorite': 'success'}, SUCCESS)
 
 
-
 @api.route('/<mid>/unfavorite')
 class MovieUnfavorite(Resource):
 	@api.doc('movie unfavorite')
