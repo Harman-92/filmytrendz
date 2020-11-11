@@ -16,11 +16,12 @@ retrive_result_model = MovieDto.retrive_result_model
 
 """
 	Movie Api:
-	search -- search movies according to keywords
-	retrieve -- retrieve specific movie according to movie id
-	favorite -- add specific movie to favorite list
-	watched -- add specific movie to watched history
-	review -- add new review to a specific movie
+	search      -- search movies according to keywords
+	retrieve    -- retrieve specific movie according to movie id
+	favorite    -- add specific movie to favorite list
+	unfavorite  -- unfavorite a movie
+	watched     -- add specific movie to watched history
+	review      -- add new review to a specific movie
 """
 
 
@@ -34,6 +35,7 @@ class MoviesSearch(Resource):
 	@api.param('watched', description='search movie with watched list')
 	@api.param('search', description='search movie with keywords')
 	@api.param('latest', description='search the latest movies')
+	@api.param('reviewed', description='return all reviewed movies')
 	@token_required
 	def get(self, user):
 		"""
@@ -47,6 +49,7 @@ class MoviesSearch(Resource):
 			case 2: /movie?watched=true
 			case 3: /movie?search=keyword&name=true&description=true...
 			case 4: /movie?latest=true
+			case 5: /movie?reviewed=true
 		"""
 		conditions = request.args
 		movie_list = search_movies(user, dict(conditions))
@@ -91,6 +94,24 @@ class MovieFavorite(Resource):
 			If this specific movie is found, then it will be added to favorite list
 		"""
 		if favorite_movie_user(user, mid):
+			return jsonify({'favorite': 'success'}, SUCCESS)
+		else:
+			api.abort(404, 'movie not found')
+
+
+@api.route('/<mid>/unfavorite')
+class MovieUnfavorite(Resource):
+	@api.doc('movie unfavorite')
+	@api.response(200, 'success')
+	@api.response(404, 'not found')
+	@api.response(401, 'unauthorized')
+	@token_required
+	def put(self, user, mid):
+		"""
+			user take the movie id as the part of URL, then unfavorite the specific movie
+			If this specific movie is found, then it will be added to favorite list
+		"""
+		if unfavorite_movie_user(user, mid):
 			return jsonify({'favorite': 'success'}, SUCCESS)
 		else:
 			api.abort(404, 'movie not found')
