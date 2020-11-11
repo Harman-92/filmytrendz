@@ -7,6 +7,10 @@ from ..http_status import *
 
 
 def create_wishlist(data, user_id):
+    """
+    params: data, user_id
+    creates a wishlist with its name and status linked to a particular user
+    """
     user = User.query.filter_by(id=user_id).first()
     wishlist = Wishlist(name=data['name'], of_user=user)
     try:
@@ -22,6 +26,10 @@ def create_wishlist(data, user_id):
 
 
 def delete_wishlist(wishlist_id, user_id):
+    """
+    	params: wishlist_id, user_id
+    	this is the functionality to delete a wishlist linked to a user
+    """
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
     user = User.query.filter_by(id=user_id).first()
 
@@ -40,6 +48,12 @@ def delete_wishlist(wishlist_id, user_id):
 
 
 def update_wishlist(updated_info, wishlist_id, user_id):
+     """
+        	params: id,updated_info,wishlish_id
+        	this is the function to update a wishlist linked to a user with its updated info
+
+        	update functionalities include, adding/deleting moving, updating name and statud.
+        """
     if 'new_list' in updated_info.keys():
         new_list = updated_info['new_list']
     else:
@@ -60,10 +74,10 @@ def update_wishlist(updated_info, wishlist_id, user_id):
 
         for x in remove_list:
             movie = Movie.query.filter_by(id=x).first()
-            wishlist.movies.delete(movie)
+            wishlist.movies.remove(movie)
 
         if 'name' in updated_info.keys():
-            wishlist.name = updated_info['name']
+            wishlist.name=updated_info['name']
 
         if 'status' in updated_info.keys():
             try:
@@ -83,6 +97,10 @@ def update_wishlist(updated_info, wishlist_id, user_id):
 
 
 def get_wishlist(wishlist_id, user):
+    """
+       	params: wishlist_id, user_id
+       	this is the function to get all information of a wishlist linked to a user.
+    """
     wishlist_info = {"movies": []}
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
     if user:
@@ -104,6 +122,10 @@ def get_wishlist(wishlist_id, user):
 
 
 def get_all_wishlists(user_id):
+    """
+        params: user_id
+        this is the function to get all information of every wishlists linked to a user with its
+    """
     wishlists_info = {"wishlists": []}
     user = User.query.filter_by(id=user_id).first()
 

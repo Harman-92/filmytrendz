@@ -23,6 +23,9 @@ class Wishlist(Resource):
 	@api.response(400, 'unauthorized')
 	@token_required
 	def put(self, user):
+		"""
+			This is a functionality to add new wishlist for the logged in user.
+		"""
 		user_id = user['id']
 		info = json.loads(request.get_data())
 		wishlist = create_wishlist(info, user_id)
@@ -38,11 +41,12 @@ class Wishlist(Resource):
 	@api.response(401, 'unauthorized')
 	@token_required
 	def get(self, user):
+		"""
+			This is the functionality to add new wishlist for the logged in user.
+		"""
 		user_id = user['id']
 		wishlist = get_all_wishlists(user_id)
 		return marshal(wishlist, wish_lists_model), SUCCESS
-
-
 
 
 @api.route('/<id>')
@@ -53,6 +57,9 @@ class Wishlist(Resource):
 	@api.response(401, 'unauthorized')
 	@token_optional
 	def get(self, user, id):
+		"""
+		this is the functionality to get all information of a wishlist given its id
+		"""
 		wishlist = get_wishlist(id, user)
 		return marshal(wishlist, wish_list_model), SUCCESS
 
@@ -61,8 +68,10 @@ class Wishlist(Resource):
 	@api.response(400, 'unauthorized')
 	@token_required
 	def delete(self, user, id):
+		"""
+		this is the functionality to delete a wishlist linked to a user
+		"""
 		user_id = user['id']
-
 
 		if user_id:
 
@@ -78,6 +87,9 @@ class Wishlist(Resource):
 	@api.response(401, 'unauthorized')
 	@token_required
 	def post(self, user, id):
+		"""
+		this is the functionality to update a wishlist linked to a user
+		"""
 		user_id = user['id']
 		updated_info = json.loads(request.get_data())
 		response = update_wishlist(updated_info, id, user_id)

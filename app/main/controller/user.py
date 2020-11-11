@@ -25,20 +25,25 @@ ban_list_model = UserDto.banned_list
 class User(Resource):
     @api.doc('retrieve a user profile')
     @api.response(200, 'success', model=user_model)
-    @api.response(404, 'not found')
     @api.response(401, 'unauthorized')
     @token_required
     def get(self, user):
+		"""
+			This is to retrive information of a specific user, user as the parameter in the URL
+			If this  user is found, then it will return all the user informaion.
+		"""
         user = get_user(user['id'])
         return marshal(user, user_model), SUCCESS
 
     @api.doc('update user details')
     @api.response(200, 'success', model=user_model)
-    @api.response(404, 'not found')
     @api.expect(api.model('update user info', {}))
     @api.response(401, 'unauthorized')
     @token_required
     def post(self, user):
+		"""
+		user may want to modify user details
+		"""
         user_id = user['id']
         updated_info = json.loads(request.get_data())
         user = update_user(updated_info, user_id)
@@ -54,6 +59,9 @@ class ChangePassword(Resource):
     @api.response(401, 'unauthorized')
     @token_required
     def post(self, user):
+		"""
+		This is to give functionality of changing password to the logged in user,
+		"""
         user_id = user['id']
         updated_info = json.loads(request.get_data())
         response = update_password(updated_info, user_id)
@@ -68,6 +76,9 @@ class Banneduser(Resource):
     @api.response(401, 'unauthorized')
     @token_required
     def get(self, user):
+		"""
+		This is to view all the users a logged in user has marked banned
+		"""
         user_id = user['id']
         banned_users = get_banned_user(user_id)
         return marshal(banned_users, ban_list_model), SUCCESS
@@ -78,6 +89,9 @@ class Banneduser(Resource):
     @api.response(401, 'unauthorized')
     @token_required
     def put(self, user):
+		"""
+		logged in user can add users to his banned list
+		"""
         user_id = user['id']
         updated_info = json.loads(request.get_data())
         response = ban_user(updated_info, user_id)
@@ -89,6 +103,9 @@ class Banneduser(Resource):
     @api.response(401, 'unauthorized')
     @token_required
     def delete(self, user):
+		"""
+		user can delete another user from their list of banned users
+		"""
         user_id = user['id']
         updated_info = json.loads(request.get_data())
         response = del_ban_user(updated_info, user_id)

@@ -40,6 +40,10 @@ def ban_user(banid, id):
 
 
 def del_ban_user(banid, user_id):
+	"""
+		params: userid ,banid
+		return: this function lets the logged in user ban the user with id as banid.
+	"""
 	if 'id' in banid.keys():
 
 		banned_row = BannedUser.query.filter_by(user_id=user_id, banned_user_id=banid['id']).first()
@@ -59,6 +63,10 @@ def del_ban_user(banid, user_id):
 
 
 def get_banned_user(userid):
+	"""
+		params: userid
+		return: this function returns users the logged in user has banned.
+	"""
 	banned_users = {'banned_users': []}
 	for row in BannedUser.query.filter_by(user_id=userid).all():
 		banned_users['banned_users'].append(User.query.filter_by(id=row.banned_user_id).first())
@@ -67,6 +75,10 @@ def get_banned_user(userid):
 
 
 def update_user(updated_info, userid):
+	"""
+		params: userid , updated_info
+		return: this function updates the user info in our database with updated user info
+	"""
 	user = User.query.filter_by(id=userid).first()
 
 	for key, value in updated_info.items():
@@ -83,6 +95,10 @@ def update_user(updated_info, userid):
 
 
 def update_password(updated_info, userid):
+	"""
+		params: userid , updated_info
+		return: this function updates the user info in our database with updated user password
+	"""
 	user = User.query.filter_by(id=userid).first()
 	oldpass = updated_info['old_password']
 	newpass = updated_info['new_password']
@@ -111,6 +127,9 @@ def get_all_users():
 
 
 def get_user(id):
+	"""
+	function to retrieve user information from the database
+	"""
 	return User.query.filter_by(id=id).first()
 
 
@@ -121,6 +140,10 @@ class AuthenticationToken:
 		self.serializer = JSONWebSignatureSerializer(secret_key)
 
 	def generate_token(self, userid):
+		"""
+			params: userid:
+			return: returns a token for the user for a session
+		"""
 		serializer = JWTSerializer(
 			secret_key=key,
 			expires_in=self.expires_in
@@ -135,6 +158,10 @@ class AuthenticationToken:
 		return token.decode()
 
 	def validate_token(self, token):
+		"""
+			params: token
+			return: validates whether a token is valid for a logged in user
+		"""
 		try:
 			payload = self.serializer.loads(token.encode())
 		except SignatureExpired:
