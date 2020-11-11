@@ -28,19 +28,20 @@ def search_movies(user, conditions):
 		- all the movie objects according to search conditions
 	"""
 
-	cur_user = User.query.filter_by(id=user['id']).first()
 	movies = []
 
 	if 'favorite' in conditions:
+		cur_user = User.query.filter_by(id=user['id']).first()
 		movies = get_all_favorites(cur_user)
 
-	if 'watched' in conditions:
+	elif 'watched' in conditions:
+		cur_user = User.query.filter_by(id=user['id']).first()
 		movies = get_all_watched(cur_user)
 
-	if 'latest' in conditions:
+	elif 'latest' in conditions:
 		movies = get_all_latest_movies()
 
-	if 'search' in conditions:
+	elif 'search' in conditions:
 		movies = get_all_keywords_movies(conditions)
 
 	return movies
@@ -138,27 +139,27 @@ def retrieve_movie(user, mid):
 		return: result
 		- all movie information
 	"""
-
-	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 
 	result = {}
 
 	if cur_movie:
 		is_favorite, is_watched = False, False
-		if mid in cur_user.favorite_movies.all():
-			is_favorite = True
-
-		if mid in cur_user.watched_movies.all():
-			is_watched = True
-
-		wish_lists = Wishlist.query.filter_by(user=user['id']).all()
 		wishlist = []
-		for w in wish_lists:
-			wl = dict(w)
-			wl.pop('user')
-			wl.pop('movies')
-			wishlist.append(wl)
+		if user:
+			cur_user = User.query.filter_by(id=user['id']).first()
+			if mid in cur_user.favorite_movies.all():
+				is_favorite = True
+
+			if mid in cur_user.watched_movies.all():
+				is_watched = True
+
+			wish_lists = Wishlist.query.filter_by(user=user['id']).all()
+			for w in wish_lists:
+				wl = dict(w)
+				wl.pop('user')
+				wl.pop('movies')
+				wishlist.append(wl)
 
 		review_list = Review.query.filter_by(movie=mid).all()
 		reviews = []

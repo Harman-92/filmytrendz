@@ -35,7 +35,7 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     mobile_no = db.Column(db.String(50), nullable=False)
-    image_url = db.Column(db.String(50))
+    url = db.Column(db.String(50), default='')
     password = db.Column(db.String(100))
     reviews = db.relationship('Review', backref='by_user', lazy='dynamic')
     wish_lists = db.relationship('Wishlist', backref='of_user', lazy='dynamic')
@@ -85,14 +85,14 @@ class Movie(db.Model):
     __tablename__ = 'movie'
 
     id = db.Column(db.Integer, autoincrement=True,  primary_key=True)
-    poster_path = db.Column(db.String(200))
+    url = db.Column(db.String(200))
     imdb_id = db.Column(db.String(10))
     tmdb_id = db.Column(db.String(15))
     director = db.Column(db.String(400))
-    original_title = db.Column(db.String(200))
+    title = db.Column(db.String(200))
     description = db.Column(db.String(1000))
     genre = db.Column(db.String(120))
-    external_rating = db.Column(db.Float)
+    rating = db.Column(db.Float)
     year = db.Column(db.Integer)
     popularity = db.Column(db.Float)
     original_language = db.Column(db.String(50))
@@ -105,7 +105,8 @@ class Review(db.Model):
     __tablename__ = 'review'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    review_text = db.Column(db.String(1000))
+    title = db.Column(db.String(50))
+    description = db.Column(db.String(1000))
     rating = db.Column(db.Float)
     created_date = db.Column(db.DateTime, default=func.now())
     user = db.Column(db.Integer, db.ForeignKey('user.id'))

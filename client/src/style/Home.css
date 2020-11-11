@@ -1,0 +1,17 @@
+.homePageTitle {
+    color: lightgray !important;
+    font-size: 4em !important;
+    text-align: center;
+    font-family: "Century Gothic", sans-serif;
+}
+
+.movieCard {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.recommendText {
+    text-align: center;
+    font-size: 16px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

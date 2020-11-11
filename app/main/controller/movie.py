@@ -24,7 +24,7 @@ retrive_result_model = MovieDto.retrive_result_model
 """
 
 
-@api.route('/')
+@api.route('')
 class MoviesSearch(Resource):
 	@api.doc('search movies')
 	@api.response(200, 'success', model=search_result_model)
@@ -34,8 +34,7 @@ class MoviesSearch(Resource):
 	@api.param('watched', description='search movie with watched list')
 	@api.param('search', description='search movie with keywords')
 	@api.param('latest', description='search the latest movies')
-	@token_required
-	def get(self, user):
+	def get(self, user=None):
 		"""
 			receive request and get URL arguments including name, description, director
 			genre, year, language, country. All these searching conditions are optional
@@ -65,8 +64,7 @@ class MovieRetrive(Resource):
 	@api.response(200, 'success', model=retrive_result_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@token_required
-	def get(self, user, mid):
+	def get(self, mid, user=None):
 		"""
 			This is for movie retrive from a specific user, mid as the parameter in the URL
 			If this specific movie is found, then it will return all the movie informaion

@@ -114,6 +114,7 @@ def get_all_wishlists(user_id):
 
         wishlist_info['name'] = wishlist.name
         wishlist_info['id'] = wishlist.id
+        wishlist_info['status'] = wishlist.status
         for x in wishlist.movies:
 
             wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())

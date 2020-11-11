@@ -1,0 +1,24 @@
+.menu-icon-row {
+    max-width: fit-content;
+    color: rgba(118,45,221,0.3);
+}
+.menu-grid {
+    width: 70%;
+}
+.active.menu-icon {
+    color: rgb(0,0,0) !important;
+    font-family: "Century Gothic", sans-serif;
+    filter: drop-shadow(0 0 0.3rem grey);
+}
+.menu-icon {
+    color: rgb(0,0,0) !important;
+    font-family: "Century Gothic", sans-serif;
+}
+.menu-icon:hover{
+    font-family: "Century Gothic", sans-serif;
+    filter: drop-shadow(0 0 0.3rem grey);
+}
+.user-menu .item{
+    width: 47.5%;
+    font-size: 1.5em !important;
+}
