@@ -49,6 +49,6 @@ class UserLogout(Resource):
     @api.response(201, 'success')
     @api.response(401, 'unauthorized')
     @token_required
-    def post(self):
-        token = request.headers.get('token')
+    def post(self, user):
+        token = request.headers.get('Authorization')
         return Auth.logout(token)
