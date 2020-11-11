@@ -1,0 +1,92 @@
+.wishlist-header.flex.ui.basic.segment {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wishlist-header .ui.header .icon.access {
+    margin: 0
+}
+
+.wishlist-header .ui.header .ui.input > input {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+    font-size: 30px;
+}
+
+.wishlist-header .ui.header.wishlist-name {
+    margin-bottom: 0;
+    height: fit-content;
+}
+
+.wishlist-header .ui.header.wishlist-option {
+    margin-top: 0;
+}
+.ui.header.wishlist-option .violet.icon:hover{
+    color: #6435c9!important
+}
+.wishlist-header .ui.header.wishlist-option .icon {
+    padding: 0.5em;
+}
+
+.wishlist-header .ui.header .ui.disabled.input {
+    opacity: 1;
+}
+
+.wishlist-header .ui.header .ui.disabled.input > input {
+    border: none;
+}
+
+.wishlist-header .ui.header .ui.basic.label {
+    padding: 0;
+    border: none;
+}
+
+.wishlist-cards.ui.container {
+    min-height: 0;
+}
+.add-wishlist.ui.segment{
+    padding-top: 0;
+}
+.wishlist-header .button.ui.basic.violet.button{
+    background-color: transparent!important;
+    box-shadow: 0 0 0 2px #a291fb inset!important;
+    color: #a291fb!important;
+}
+.wishlist-header .button.ui.basic.grey.button{
+    box-shadow: 0 0 0 2px #d4d4d5 inset!important;
+    color: #767676!important
+}
+.wishlist-header .button.ui.basic.violet.button:hover{
+    background-color: #7d64ff!important;
+    color: #fff!important;
+    box-shadow: none!important;
+}
+.wishlist-header .button.ui.basic.grey.button:hover{
+    background-color: #d4d4d5!important;
+    color: #fff!important;
+    box-shadow: none!important;
+}
+/*.access-popup .access:hover{*/
+/*    background-color: rgba(100, 53, 201,0.1)*/
+/*}*/
+/*.access-popup{*/
+/*    padding: 0!important;*/
+/*}*/
+/*.access-popup .access {*/
+/*    padding: 0.5em 1em 0em 1em!important;*/
+/*}*/
+.access.ui.dropdown>.dropdown.icon{
+    margin: 0;
+}
+.access.ui.dropdown .access-option{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.access.ui.dropdown .menu .active.item{
+    background-color: rgba(100, 53, 201,0.05)
+}

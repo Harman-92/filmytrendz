@@ -14,7 +14,7 @@ new_wishlist_return_model = WishListDto.new_wishlist_return_model
 wishlist_update_model= WishListDto.wishlist_update_model
 wish_lists_model=WishListDto.wish_lists_model
 
-@api.route('/')
+@api.route('')
 class Wishlist(Resource):
 
 	@api.doc('adding new wishlist')
@@ -40,7 +40,7 @@ class Wishlist(Resource):
 			api.abort(400, 'invalid operation')
 
 	@api.doc('get all wishlists of user')
-	@api.response(200, 'Success')
+	@api.response(200, 'success', model=wish_lists_model)
 	@api.response(400, 'unauthorized')
 	@token_required
 	def get(self,user):
@@ -61,7 +61,7 @@ class Wishlist(Resource):
 class Wishlist(Resource):
 
 	@api.doc('get wishlist of user')
-	@api.response(200, 'success')
+	@api.response(200, 'success', model=wish_list_model)
 	@api.response(400, 'invalid')
 	@token_required
 	def get(self, user, id):

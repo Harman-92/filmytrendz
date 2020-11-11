@@ -155,19 +155,21 @@ def retrieve_movie(user, mid):
 
 	if cur_movie:
 		is_favorite, is_watched = False, False
-		if mid in cur_user.favorite_movies.all():
-			is_favorite = True
-
-		if mid in cur_user.watched_movies.all():
-			is_watched = True
-
-		wish_lists = Wishlist.query.filter_by(user=user['id']).all()
 		wishlist = []
-		for w in wish_lists:
-			wl = dict(w)
-			wl.pop('user')
-			wl.pop('movies')
-			wishlist.append(wl)
+		if user:
+			cur_user = User.query.filter_by(id=user['id']).first()
+			if mid in cur_user.favorite_movies.all():
+				is_favorite = True
+
+			if mid in cur_user.watched_movies.all():
+				is_watched = True
+
+			wish_lists = Wishlist.query.filter_by(user=user['id']).all()
+			for w in wish_lists:
+				wl = dict(w)
+				wl.pop('user')
+				wl.pop('movies')
+				wishlist.append(wl)
 
 		review_list = Review.query.filter_by(movie=mid).all()
 		reviews = []

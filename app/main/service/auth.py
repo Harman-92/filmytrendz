@@ -70,7 +70,8 @@ class Auth:
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'mobile_no': user.mobile_no
+                'mobile_no': user.mobile_no,
+                'url': user.url
             },
             'token': token,
         }

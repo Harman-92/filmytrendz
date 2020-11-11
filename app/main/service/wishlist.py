@@ -70,6 +70,9 @@ def update_wishlist(updated_info,wishlist_id,user_id):
         if 'name' in updated_info.keys():
             wishlist.name=updated_info['name']
 
+        if 'status' in updated_info.keys():
+            wishlist.status=updated_info['status']
+
         db.session.commit()
         resp = make_response(jsonify({'message': 'updated wishlist succesfully'}))
         resp.status_code = SUCCESS
@@ -111,6 +114,7 @@ def get_all_wishlists(user_id):
 
         wishlist_info['name'] = wishlist.name
         wishlist_info['id'] = wishlist.id
+        wishlist_info['status'] = wishlist.status
         for x in wishlist.movies:
 
             wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())

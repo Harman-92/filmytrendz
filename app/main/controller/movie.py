@@ -68,8 +68,7 @@ class MovieRetrive(Resource):
 	@api.response(200, 'success', model=retrive_result_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@token_required
-	def get(self, user, mid):
+	def get(self, mid, user=None):
 		"""
 			This is for movie retrive from a specific user, mid as the parameter in the URL
 			If this specific movie is found, then it will return all the movie informaion

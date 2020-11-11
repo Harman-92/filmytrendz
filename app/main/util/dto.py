@@ -8,7 +8,8 @@ class UserDto:
         'email': fields.String,
         'first_name': fields.String,
         'last_name': fields.String,
-        'mobile_no': fields.String
+        'mobile_no': fields.String,
+        'url': fields.String
     })
 
     update_user = api.model('update_user', {
@@ -70,14 +71,16 @@ class MovieDto:
     movie_model = api.model('movie', {
         'id': fields.Integer,
         'director': fields.String,
-        'name': fields.String,
+        'title': fields.String,
         'description': fields.String,
         'genre': fields.String,
         'year': fields.Integer,
         'language': fields.String,
         'country': fields.String,
         'reviews': fields.List(fields.Nested(review_model)),
-        'actors': fields.String
+        'actors': fields.String,
+        'url': fields.String,
+        'rating': fields.Float
     })
 
     wish_list = api.model('wish-list', {
@@ -95,7 +98,7 @@ class MovieDto:
         'watched': fields.Boolean,
         'wishlist': fields.List(fields.Nested(wish_list)),
         'reviews': fields.List(fields.Nested(review_model)),
-        'movie': fields.List(fields.Nested(movie_model))
+        'movie': fields.Nested(movie_model)
     })
 
     recommand_movie_model = api.model('movie-recommandations', {
@@ -110,12 +113,16 @@ class WishListDto:
 
     wishlist_movie_model = api.model('movie-model', {
         'id': fields.Integer,
-        'name': fields.String,
+        'title': fields.String,
+        'url': fields.String,
+        'rating': fields.Float,
+        'year': fields.Integer
     })
 
     wish_list_model = api.model('wish-list', {
         'id': fields.Integer,
         'name': fields.String,
+        'status': fields.String,
         'movies': fields.List(fields.Nested(wishlist_movie_model))
     })
 
@@ -136,9 +143,9 @@ class WishListDto:
 
     })
 
-    wishlist_update_model = api.model('wish-list', {
+    wishlist_update_model = api.model('wish-list-update', {
         'new_list': fields.List(fields.Integer),
-        'remove_list': fields.List(fields.Integer)
+        'remove_list': fields.List(fields.Integer),
     })
 
 
