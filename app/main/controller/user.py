@@ -14,6 +14,15 @@ ban_model = UserDto.user_ban
 ban_list_model = UserDto.banned_list
 
 
+"""
+	user api
+	retrieve   -- retrieve a user profile
+	update     -- update a user profile
+	password   -- modify the password
+	banneduser -- retrieve banned user, add user to banned list, delete
+"""
+
+
 @api.route('')
 class User(Resource):
 	@api.doc('retrieve a user profile')
@@ -21,17 +30,18 @@ class User(Resource):
 	@api.response(404, 'not found')
 	@api.response(400, 'invalid')
 	@token_required
-	def get(self,user):
+	def get(self, user):
 		user = get_user(user['id'])
 		if not user:
-			api.abort(404, 'user not exist')
+			api.abort(NOT_FOUND, 'user not exist')
 		else:
 			return marshal(user, user_model), SUCCESS
+
 
 	@api.doc('update user details')
 	@api.response(200, 'success', model=user_model)
 	@api.response(404, 'not found')
-	@api.expect(api.model('update user info',{}))
+	@api.expect(api.model('update user info', {}))
 	@api.response(400, 'invalid')
 	@token_required
 	def post(self, user):
@@ -43,7 +53,7 @@ class User(Resource):
 			return marshal(user, user_model), SUCCESS
 		else:
 
-			api.abort(400, 'invalid operation')
+			api.abort(BAD_REQUEST, 'invalid operation')
 
 
 @api.route('/password')
@@ -64,7 +74,7 @@ class ChangePassword(Resource):
 			return response
 
 		else:
-			api.abort(400, 'invalid operation')
+			api.abort(BAD_REQUEST, 'invalid operation')
 
 
 @api.route('/banneduser')
@@ -85,6 +95,7 @@ class Banneduser(Resource):
 		else:
 			api.abort(400, 'invalid operation')
 
+
 	@api.doc('add ban user')
 	@api.expect(ban_model)
 	@api.response(200, 'success')
@@ -100,7 +111,8 @@ class Banneduser(Resource):
 			return response
 
 		else:
-			api.abort(400, 'invalid operation')
+			api.abort(BAD_REQUEST, 'invalid operation')
+
 
 	@api.doc('delete ban user')
 	@api.expect(ban_model)
@@ -118,5 +130,5 @@ class Banneduser(Resource):
 			return response
 
 		else:
-			api.abort(400, 'invalid operation')
+			api.abort(BAD_REQUEST, 'invalid operation')
 

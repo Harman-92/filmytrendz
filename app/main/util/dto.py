@@ -145,7 +145,7 @@ class WishListDto:
 
     wishlist_update_model = api.model('wish-list-update', {
         'new_list': fields.List(fields.Integer),
-        'remove_list': fields.List(fields.Integer)
+        'remove_list': fields.List(fields.Integer),
     })
 
 

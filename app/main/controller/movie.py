@@ -14,6 +14,16 @@ search_result_model = MovieDto.search_result_model
 retrive_result_model = MovieDto.retrive_result_model
 
 
+"""
+	Movie Api:
+	search -- search movies according to keywords
+	retrieve -- retrieve specific movie according to movie id
+	favorite -- add specific movie to favorite list
+	watched -- add specific movie to watched history
+	review -- add new review to a specific movie
+"""
+
+
 @api.route('')
 class MoviesSearch(Resource):
 	@api.doc('search movies')

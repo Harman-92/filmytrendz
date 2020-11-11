@@ -70,6 +70,9 @@ def update_wishlist(updated_info,wishlist_id,user_id):
         if 'name' in updated_info.keys():
             wishlist.name=updated_info['name']
 
+        if 'status' in updated_info.keys():
+            wishlist.status=updated_info['status']
+
         db.session.commit()
         resp = make_response(jsonify({'message': 'updated wishlist succesfully'}))
         resp.status_code = SUCCESS

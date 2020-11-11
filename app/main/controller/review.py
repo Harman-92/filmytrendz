@@ -1,4 +1,3 @@
-
 from flask import request
 from flask_restplus import Resource, marshal
 from ..util.dto import ReviewDto
@@ -11,6 +10,13 @@ from ..http_status import *
 api = ReviewDto.api
 
 
+"""
+	review api:
+	delete -- help user to delete a review
+	update -- help user to update a review
+"""
+
+
 @api.route('/<rid>')
 class Review(Resource):
 
@@ -19,7 +25,7 @@ class Review(Resource):
     @api.response(400, 'invalid')
     @api.response(401, 'unauthorized')
     @token_required
-    def delete(self, user,rid):
+    def delete(self, user, rid):
 
         user_id = user['id']
 
@@ -29,14 +35,15 @@ class Review(Resource):
             return response
 
         else:
-            api.abort(400, 'invalid operation')
+            api.abort(BAD_REQUEST, 'invalid operation')
+
 
     @api.doc('delete review')
     @api.response(200, 'success')
     @api.response(400, 'invalid')
     @api.response(401, 'unauthorized')
     @token_required
-    def post(self,user,rid):
+    def post(self, user, rid):
 
         user_id = user['id']
 
@@ -46,6 +53,5 @@ class Review(Resource):
             return response
 
         else:
-            api.abort(400, 'invalid operation')
-
+            api.abort(BAD_REQUEST, 'invalid operation')
 

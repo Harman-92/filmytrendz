@@ -3,8 +3,17 @@ from .. import db
 from app.main.model.model import Movie, User, Wishlist, Review
 
 
+"""
+	service.movie provides supported functions for controll.movie:
+"""
+
+
 def search_movies(user, conditions):
 	"""
+		param: user, conditions
+		- user is a dictionary object containing id and username
+		- conditions is a object containing search keywords and search conditions
+
 		movie searching function, given name, descripton, genre, year, language
 		and country as the searching conditions. All of them are optional.
 
@@ -14,6 +23,9 @@ def search_movies(user, conditions):
 		case 2: /movie?watched=true
 		case 3: /movie?search=keyword&name=true&description=true...
 		case 4: /movie?latest=true
+
+		return: movies
+		- all the movie objects according to search conditions
 	"""
 
 	movies = []
@@ -57,12 +69,24 @@ def get_all_latest_movies():
 	movies_1 = Movie.query.filter_by(year=cur_year).all()
 	movies_2 = Movie.query.filter_by(year=cur_year-1).all()
 	movies_3 = Movie.query.filter_by(year=cur_year-2).all()
+
 	movies = movies_1 + movies_2 + movies_3
 
 	return movies
 
 
 def get_all_keywords_movies(conditions):
+	"""
+		param: conditions
+
+		given conditions, search according to the keywords
+
+		1. take the keyword as the name, do the search
+		2. take the keyword as the description, do the search
+		3. filter movies according to start year and end year
+
+		return: list of movies
+	"""
 	concopy = conditions
 	keywords = concopy['search']
 	concopy.pop('search')
@@ -78,14 +102,15 @@ def get_all_keywords_movies(conditions):
 	result_1_2 = set(Movie.query.filter_by(description=keywords).all())
 	result_1 = result_1_1 | result_1_2
 
-
 	"""
 		filter_2:
 		This filter is for 'year' range from the user, there will be start of
 		the year and end of the year, it will find the movies which are meet:
 		year_start <= year <= year_end
 	"""
+
 	result_2_1, result_2_2 = set(), set()
+
 	if 'year_start' in conditions and 'year_end' in conditions:
 		result_2_1 = set(Movie.query.filter(Movie.year >= conditions['year_start']))
 		result_2_2 = set(Movie.query.filter(Movie.year <= conditions['year_end']))
@@ -96,11 +121,13 @@ def get_all_keywords_movies(conditions):
 
 def retrieve_movie(user, mid):
 	"""
+		param: user, mid
+		- user is a dictiony object containing user id and user name
+		- mid is the movie id user want to retrieve
+
 		given mid, retrive the specific movie according to the movie id for
 		the specific user, the user information comes from the token.
-	"""
 
-	"""
 		look up the specific user and the specific movie according to ids.
 		There are five parts information need to be returned:
 		1. movie basic information
@@ -108,9 +135,14 @@ def retrieve_movie(user, mid):
 		3. if the movie is watched
 		4. wishlists this movies in
 		5. reviews related this movie
+
+		return: result
+		- all movie information
 	"""
 	cur_movie = Movie.query.filter_by(id=mid).first()
+
 	result = {}
+
 	if cur_movie:
 		is_favorite, is_watched = False, False
 		wishlist = []
@@ -155,7 +187,8 @@ def favorite_movie_user(user, mid):
 	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	success = False
-	"""
+
+	""" 
 		favorite_movies is a relationship table at the database, so in order
 		to label a movie as favorite, this table need to be updated.
 	"""
@@ -216,6 +249,8 @@ def add_movie_wishlist(user, mid, listwishlist):
 
 def add_review_movie(user, mid, review_data):
 	"""
+		param: user, mid, review_data
+
 		user may want to add reviews to the specific movie, which
 		given movie id and the new review data from user.
 	"""
@@ -231,17 +266,13 @@ def add_review_movie(user, mid, review_data):
 		review.user = cur_user.id
 		review.movie = cur_movie.id
 		cur_movie.reviews.append(review)
+
 		db.session.add(review)
 		db.session.commit()
 		db.session.add(cur_movie)
 		db.session.commit()
+
 		success = True
 
 	return success
 
-
-def recommend_specific_movie(user, mid, args):
-	"""
-		need suppor of recommendation model
-	"""
-	pass
