@@ -1,6 +1,6 @@
 from datetime import datetime
 from .. import db
-from app.main.model.model import Movie, User, Wishlist, Review
+from app.main.model.model import Movie, User, Wishlist, Review,BannedUser
 
 
 """
@@ -139,35 +139,47 @@ def retrieve_movie(user, mid):
 		return: result
 		- all movie information
 	"""
+	cur_user = None
+	banned_user_ids = []
+	if user:
+		cur_user = User.query.filter_by(id=user['id']).first()
+		for b in BannedUser.query.filter_by(user_id=user['id']).all():
+			banned_user_ids.append(b.banned_user_id)
 	cur_movie = Movie.query.filter_by(id=mid).first()
-
 	result = {}
-
 	if cur_movie:
 		is_favorite, is_watched = False, False
 		wishlist = []
 		if user:
-			cur_user = User.query.filter_by(id=user['id']).first()
-			if mid in cur_user.favorite_movies.all():
-				is_favorite = True
+			for fav_movie in cur_user.favorite_movies.all():
+				if fav_movie.id == mid:
+					is_favorite = True
 
-			if mid in cur_user.watched_movies.all():
-				is_watched = True
+			for watched_movie in cur_user.watched_movies.all():
+				if watched_movie.id == mid:
+					is_watched = True
 
 			wish_lists = Wishlist.query.filter_by(user=user['id']).all()
 			for w in wish_lists:
-				wl = dict(w)
-				wl.pop('user')
-				wl.pop('movies')
-				wishlist.append(wl)
+				for m in w.movies.all():
+					if m.id == mid:
+						wishlist.append(w.id)
 
 		review_list = Review.query.filter_by(movie=mid).all()
 		reviews = []
 		for r in review_list:
-			redict = dict(r)
-			redict.pop('user')
-			redict.pop('movie')
-			reviews.append(redict)
+			if r.by_user.id not in banned_user_ids:
+				review = {
+					'userId': r.by_user.id,
+					'url': r.by_user.url,
+					'name': r.by_user.first_name+' '+r.by_user.last_name,
+					'title': r.title,
+					'description': r.description,
+					'id': r.id,
+					'rating': r.rating,
+					'createdDate': r.created_date
+				}
+				reviews.append(review)
 
 		result = {
 			'movie': cur_movie,

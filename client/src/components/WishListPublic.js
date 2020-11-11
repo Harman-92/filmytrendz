@@ -9,11 +9,14 @@ import {
     Container,
     Input,
     Label,
-    Card, Image, Modal, Popup, List, Dropdown
+    Card,
+    Image,
+    Popup
 } from "semantic-ui-react";
 import {useHistory, useLocation, useParams} from 'react-router-dom';
 import images from "../config/images";
 import api from "../config/axios";
+import response from "../config/response";
 
 const IconCustom = (props) => (
     <i className="">
@@ -62,16 +65,17 @@ const WishListPublic = () => {
     useEffect(() => {
         api.get('/wishlist/'+id).then((res) => {
             if (res.status === 200) {
-                if(res.data.status === PUBLIC){
+                if(res.data.error){
+                    alert(res.data.error)
                     history.push('/')
                 }else{
                     setWishList(res.data)
                 }
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     },[])
     return (

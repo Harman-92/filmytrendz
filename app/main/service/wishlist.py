@@ -6,26 +6,22 @@ from app.main.config import key
 from ..http_status import *
 
 
-def create_wishlist(data,user_id):
-    wishlist_name, status = \
-        data['name'], data['status']
+def create_wishlist(data, user_id):
     user = User.query.filter_by(id=user_id).first()
-
-    if status == "private":
-        wishlist=Wishlist(name=wishlist_name, of_user=user, status="private")
-    elif status == "public":
-        wishlist = Wishlist(name=wishlist_name, of_user=user, status="public")
-    else:
-        return {}
+    wishlist = Wishlist(name=data['name'], of_user=user)
+    try:
+        if 'status' in data.keys():
+            wishlist.status = Access[data['status']]
+    except KeyError:
+        resp = make_response(jsonify({'error': 'Invalid Access parameter'}))
+        return resp
 
     db.session.add(wishlist)
     db.session.commit()
-
     return wishlist
 
 
-def delete_wishlist(wishlist_id,user_id):
-
+def delete_wishlist(wishlist_id, user_id):
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
     user = User.query.filter_by(id=user_id).first()
 
@@ -42,21 +38,20 @@ def delete_wishlist(wishlist_id,user_id):
         resp.status_code = NOT_FOUND
         return resp
 
-def update_wishlist(updated_info,wishlist_id,user_id):
 
+def update_wishlist(updated_info, wishlist_id, user_id):
     if 'new_list' in updated_info.keys():
-        new_list=updated_info['new_list']
+        new_list = updated_info['new_list']
     else:
-        new_list=[]
+        new_list = []
     if 'remove_List' in updated_info.keys():
-        remove_list=updated_info['remove_list']
+        remove_list = updated_info['remove_list']
     else:
-        remove_list=[]
+        remove_list = []
 
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
 
     user = User.query.filter_by(id=user_id).first()
-
 
     if wishlist in user.wish_lists:
         for x in new_list:
@@ -65,14 +60,17 @@ def update_wishlist(updated_info,wishlist_id,user_id):
 
         for x in remove_list:
             movie = Movie.query.filter_by(id=x).first()
-            wishlist.movies.remove(movie)
+            wishlist.movies.delete(movie)
 
         if 'name' in updated_info.keys():
-            wishlist.name=updated_info['name']
+            wishlist.name = updated_info['name']
 
         if 'status' in updated_info.keys():
-            wishlist.status=updated_info['status']
-
+            try:
+                wishlist.status = Access[updated_info['status']]
+            except KeyError:
+                resp = make_response(jsonify({'error': 'Invalid Access parameter'}))
+                return resp
         db.session.commit()
         resp = make_response(jsonify({'message': 'updated wishlist succesfully'}))
         resp.status_code = SUCCESS
@@ -83,26 +81,26 @@ def update_wishlist(updated_info,wishlist_id,user_id):
         resp.status_code = NOT_FOUND
         return resp
 
-def get_wishlist(wishlist_id,user_id):
-    wishlist_info = {"movies":[]}
 
+def get_wishlist(wishlist_id, user):
+    wishlist_info = {"movies": []}
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
+    if user:
+        user = User.query.filter_by(id=user['id']).first()
 
-    user = User.query.filter_by(id=user_id).first()
+    if wishlist.status == Access.PRIVATE:
+        if (not user) or (user and wishlist not in user.wish_lists):
+            resp = make_response(jsonify({'error': 'Access to Wish list is denied'}))
+            resp.status_code = SUCCESS
+            return resp
 
     wishlist_info['name'] = wishlist.name
     wishlist_info['id'] = wishlist.id
+    wishlist_info['status'] = wishlist.status.name
 
-    if wishlist in user.wish_lists:
-        for x in wishlist.movies:
-
-            wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())
-
-        return wishlist_info
-
-    else:
-
-        return wishlist_info
+    for x in wishlist.movies:
+        wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())
+    return wishlist_info
 
 
 def get_all_wishlists(user_id):
@@ -114,19 +112,10 @@ def get_all_wishlists(user_id):
 
         wishlist_info['name'] = wishlist.name
         wishlist_info['id'] = wishlist.id
-        wishlist_info['status'] = wishlist.status
+        wishlist_info['status'] = wishlist.status.name
         for x in wishlist.movies:
-
             wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())
 
         wishlists_info["wishlists"].append(wishlist_info)
 
     return wishlists_info
-
-
-
-
-
-
-
-

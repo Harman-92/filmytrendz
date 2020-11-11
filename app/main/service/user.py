@@ -21,7 +21,7 @@ def ban_user(banid, id):
 
 	user1 = User.query.filter_by(id=id).first()
 
-	if banid['id'] and (banid['id'] != id):
+	if 'id' in banid.keys() and (banid['id'] != id):
 		user2 = User.query.filter_by(id=banid['id']).first()
 
 		new_block = BannedUser(user_id=user1.id, banned_user_id=user2.id)
@@ -33,14 +33,14 @@ def ban_user(banid, id):
 
 		return resp
 	else:
-		resp = make_response(jsonify({'message': 'no access'}))
+		resp = make_response(jsonify({'error': 'Unable to ban the user'}))
 		resp.status_code = UNAUTHORIZED
 
 		return resp
 
 
 def del_ban_user(banid, user_id):
-	if banid['id']:
+	if 'id' in banid.keys():
 
 		banned_row = BannedUser.query.filter_by(user_id=user_id, banned_user_id=banid['id']).first()
 		db.session.delete(banned_row)
@@ -52,7 +52,7 @@ def del_ban_user(banid, user_id):
 		return resp
 	else:
 
-		resp = make_response(jsonify({'message': 'no access'}))
+		resp = make_response(jsonify({'error': 'Unable to ban the user'}))
 		resp.status_code = UNAUTHORIZED
 
 		return resp
@@ -88,8 +88,8 @@ def update_password(updated_info, userid):
 	newpass = updated_info['new_password']
 
 	if not user.check_password(oldpass):
-		resp = make_response(jsonify({'message': 'incorrect old password'}))
-		resp.status_code = BAD_REQUEST
+		resp = make_response(jsonify({'error': 'Old Password Incorrect'}))
+		resp.status_code = SUCCESS
 		return resp
 	else:
 		user.encrypt_password(newpass)

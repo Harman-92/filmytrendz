@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import '../style/SignUp.css';
 import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
 import {useHistory} from 'react-router-dom';
 import {setAccessToken, setUserInfo} from "../config/session";
-import api,{setClientToken} from "../config/axios";
+import api from "../config/axios";
+import response from "../config/response";
 
-const Login = (props) => {
+const Login = ({setVisible}) => {
     const history = useHistory()
     const [email, setEmail] = useState({
         v: '',
@@ -61,32 +63,38 @@ const Login = (props) => {
                 password: password.v
             }).then((res)=>{
                 if(res.status === 200) {
-                    setSubmit({
-                        formError: false,
-                        loginError: false,
-                        success: true
-                    })
-                    const data = res.data
-                    const userInfo = data.user_info
-                    // setEmail({...email,v:''})
-                    // setPassword({...password,v:''})
-                    setTimeout(function () {
-                        props.setVisible(false)
-                        setAccessToken(data.token)
-                        setUserInfo(userInfo.id, userInfo.first_name+' '+userInfo.last_name, userInfo.url)
-                        history.push('/')
-                    }, 500);
+                    if(res.data.error){
+                        setSubmit({
+                            formError: false,
+                            loginError: res.data.error,
+                            success: false
+                        })
+                    }else {
+                        setSubmit({
+                            formError: false,
+                            loginError: false,
+                            success: true
+                        })
+                        const data = res.data
+                        const userInfo = data.user_info
+                        setTimeout(function () {
+                            setVisible(false)
+                            setAccessToken(data.token)
+                            setUserInfo(userInfo.id, userInfo.first_name + ' ' + userInfo.last_name, userInfo.url)
+                            history.go(0)
+                        }, 500);
+                    }
                 }else{
                     setSubmit({
                         formError: false,
-                        loginError: true,
+                        loginError: response.LOGIN_ERROR,
                         success: false
                     })
                 }
             }).catch((e)=>{
                 setSubmit({
                     formError: false,
-                    loginError: true,
+                    loginError: response.SERVER_UNAVAILABLE,
                     success: false
                 })
             })
@@ -121,7 +129,7 @@ const Login = (props) => {
                         />
                         <Message
                             error
-                            header='Invalid email or password!'
+                            header={submit.loginError}
                         />
                         <Message
                             success
@@ -153,4 +161,9 @@ const Login = (props) => {
         </Container>
     );
 }
+
+Login.propTypes = {
+    setVisible: PropTypes.func.isRequired
+}
+
 export default Login;
