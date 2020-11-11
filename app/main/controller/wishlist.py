@@ -23,6 +23,9 @@ class Wishlist(Resource):
 	@api.response(400, 'unauthorized')
 	@token_required
 	def put(self, user):
+		"""
+			This is a functionality to add new wishlist for the logged in user.
+		"""
 		user_id = user['id']
 
 		if user_id:
@@ -44,6 +47,9 @@ class Wishlist(Resource):
 	@api.response(400, 'unauthorized')
 	@token_required
 	def get(self,user):
+		"""
+			This is the functionality to add new wishlist for the logged in user.
+		"""
 		user_id = user['id']
 
 		if user_id:
@@ -55,8 +61,6 @@ class Wishlist(Resource):
 			api.abort(400, 'invalid operation')
 
 
-
-
 @api.route('/<id>')
 class Wishlist(Resource):
 
@@ -65,7 +69,9 @@ class Wishlist(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def get(self, user, id):
-
+		"""
+		this is the functionality to get all information of a wishlist given its id
+		"""
 		user_id = user['id']
 
 		if user_id:
@@ -81,8 +87,10 @@ class Wishlist(Resource):
 	@api.response(400, 'unauthorized')
 	@token_required
 	def delete(self, user, id):
+		"""
+		this is the functionality to delete a wishlist linked to a user
+		"""
 		user_id = user['id']
-
 
 		if user_id:
 
@@ -98,6 +106,9 @@ class Wishlist(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def post(self, user, id):
+		"""
+		this is the functionality to update a wishlist linked to a user
+		"""
 		user_id = user['id']
 
 		if user_id:

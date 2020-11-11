@@ -31,6 +31,10 @@ class User(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def get(self, user):
+		"""
+			This is to retrive information of a specific user, user as the parameter in the URL
+			If this  user is found, then it will return all the user informaion.
+		"""
 		user = get_user(user['id'])
 		if not user:
 			api.abort(NOT_FOUND, 'user not exist')
@@ -45,7 +49,9 @@ class User(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def post(self, user):
-
+		"""
+		user may want to modify user details
+		"""
 		user_id = user['id']
 		if user_id:
 			updated_info = json.loads(request.get_data())
@@ -65,6 +71,9 @@ class ChangePassword(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def post(self, user):
+		"""
+		This is to give functionality of changing password to the logged in user,
+		"""
 		user_id = user['id']
 
 		if user_id:
@@ -85,6 +94,9 @@ class Banneduser(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def get(self, user):
+		"""
+		This is to view all the users a logged in user has marked banned
+		"""
 		user_id = user['id']
 
 		if user_id:
@@ -102,6 +114,9 @@ class Banneduser(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def put(self, user):
+		"""
+		logged in user can add users to his banned list
+		"""
 		user_id = user['id']
 
 		if user_id:
@@ -120,7 +135,9 @@ class Banneduser(Resource):
 	@api.response(400, 'invalid')
 	@token_required
 	def delete(self, user):
-
+		"""
+		user can delete another user from their list of banned users
+		"""
 		user_id = user['id']
 
 		if user_id:
