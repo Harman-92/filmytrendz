@@ -63,3 +63,8 @@ Submitted Retrospective B report.
 Fixed issues with navigation and some front-end bugs.
 Worked on Integrating front and backend while fixing bugs.
 Integrated - authentication, user, wish list, homepage.
+Finished Integration and testing and raised JIRA tickets for bugs in API.
+
+Week 9
+
+Implemented the fixed bugs and refactored the code.
