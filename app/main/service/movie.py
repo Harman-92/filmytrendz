@@ -28,20 +28,22 @@ def search_movies(user, conditions):
 		- all the movie objects according to search conditions
 	"""
 
+	cur_user = User.query.filter_by(id=user['id']).first()
 	movies = []
 
 	if 'favorite' in conditions:
-		cur_user = User.query.filter_by(id=user['id']).first()
 		movies = get_all_favorites(cur_user)
 
-	elif 'watched' in conditions:
-		cur_user = User.query.filter_by(id=user['id']).first()
+	if 'watched' in conditions:
 		movies = get_all_watched(cur_user)
 
-	elif 'latest' in conditions:
+	if 'latest' in conditions:
 		movies = get_all_latest_movies()
 
-	elif 'search' in conditions:
+	if 'reviewed' in conditions:
+		movies = get_all_reviewed_movies(cur_user)
+
+	if 'search' in conditions:
 		movies = get_all_keywords_movies(conditions)
 
 	return movies
@@ -71,6 +73,12 @@ def get_all_latest_movies():
 	movies_3 = Movie.query.filter_by(year=cur_year-2).all()
 
 	movies = movies_1 + movies_2 + movies_3
+
+	return movies
+
+
+def get_all_reviewed_movies(cur_user):
+	movies = Review.query.filter_by(user=cur_user.id).all()
 
 	return movies
 
@@ -139,6 +147,8 @@ def retrieve_movie(user, mid):
 		return: result
 		- all movie information
 	"""
+
+	cur_user = User.query.filter_by(id=user['id']).first()
 	cur_movie = Movie.query.filter_by(id=mid).first()
 
 	result = {}
@@ -194,6 +204,27 @@ def favorite_movie_user(user, mid):
 	"""
 	if cur_movie:
 		cur_user.favorite_movies.append(cur_movie)
+		db.session.add(cur_user)
+		db.session.commit()
+		success = True
+
+	return success
+
+
+def unfavorite_movie_user(user, mid):
+	"""
+
+	"""
+	cur_user = User.query.filter_by(id=user['id']).first()
+	cur_movie = Movie.query.filter_by(id=mid).first()
+	success = False
+
+	""" 
+		favorite_movies is a relationship table at the database, so in order
+		to label a movie as favorite, this table need to be updated.
+	"""
+	if cur_movie:
+		cur_user.favorite_movies.remove(cur_movie)
 		db.session.add(cur_user)
 		db.session.commit()
 		success = True
