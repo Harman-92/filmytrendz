@@ -29,9 +29,9 @@ def search_movies(user, conditions):
 	"""
 
 	movies = []
-    cur_user = None
-    if user:
-        cur_user = User.query.filter_by(id=user['id']).first()
+	cur_user = None
+	if user:
+		cur_user = User.query.filter_by(id=user['id']).first()
 	if 'favorite' in conditions:
 		movies = get_all_favorites(cur_user)
 
@@ -41,7 +41,7 @@ def search_movies(user, conditions):
 	elif 'latest' in conditions:
 		movies = get_all_latest_movies()
 
-    elif 'reviewed' in conditions:
+	elif 'reviewed' in conditions:
 		movies = get_all_reviewed_movies(cur_user)
 
 	elif 'search' in conditions:

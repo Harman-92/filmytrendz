@@ -27,8 +27,8 @@ def create_wishlist(data, user_id):
 
 def delete_wishlist(wishlist_id, user_id):
     """
-    	params: wishlist_id, user_id
-    	this is the functionality to delete a wishlist linked to a user
+        params: wishlist_id, user_id
+        this is the functionality to delete a wishlist linked to a user
     """
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
     user = User.query.filter_by(id=user_id).first()
@@ -48,12 +48,12 @@ def delete_wishlist(wishlist_id, user_id):
 
 
 def update_wishlist(updated_info, wishlist_id, user_id):
-     """
-        	params: id,updated_info,wishlish_id
-        	this is the function to update a wishlist linked to a user with its updated info
+    """
+        params: id,updated_info,wishlish_id
+        this is the function to update a wishlist linked to a user with its updated info
 
-        	update functionalities include, adding/deleting moving, updating name and statud.
-        """
+        update functionalities include, adding/deleting moving, updating name and statud.
+    """
     if 'new_list' in updated_info.keys():
         new_list = updated_info['new_list']
     else:
@@ -98,8 +98,8 @@ def update_wishlist(updated_info, wishlist_id, user_id):
 
 def get_wishlist(wishlist_id, user):
     """
-       	params: wishlist_id, user_id
-       	this is the function to get all information of a wishlist linked to a user.
+        params: wishlist_id, user_id
+        this is the function to get all information of a wishlist linked to a user.
     """
     wishlist_info = {"movies": []}
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
@@ -130,11 +130,8 @@ def get_all_wishlists(user_id):
     user = User.query.filter_by(id=user_id).first()
 
     for wishlist in user.wish_lists:
-        wishlist_info = {"movies": []}
+        wishlist_info = {"movies": [], 'name': wishlist.name, 'id': wishlist.id, 'status': wishlist.status.name}
 
-        wishlist_info['name'] = wishlist.name
-        wishlist_info['id'] = wishlist.id
-        wishlist_info['status'] = wishlist.status.name
         for x in wishlist.movies:
             wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())
 

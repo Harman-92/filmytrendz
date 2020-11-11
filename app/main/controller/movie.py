@@ -35,7 +35,7 @@ class MoviesSearch(Resource):
 	@api.param('search', description='search movie with keywords')
 	@api.param('latest', description='search the latest movies')
 	@api.param('reviewed', description='return all reviewed movies')
-    @token_optional
+	@token_optional
 	def get(self, user):
 		"""
 			receive request and get URL arguments including name, description, director
@@ -56,7 +56,6 @@ class MoviesSearch(Resource):
 			"movies": movie_list
 		}
 		return marshal(movies, search_result_model), SUCCESS
-
 
 
 @api.route('/<mid>')
@@ -84,7 +83,7 @@ class MovieFavorite(Resource):
 			user take the movie id as the part of URL, then favorite the specific movie
 			If this specific movie is found, then it will be added to favorite list
 		"""
-		favorite_movie_user(user, mid):
+		favorite_movie_user(user, mid)
 		return jsonify({'favorite': 'success'}, SUCCESS)
 
 
@@ -100,7 +99,7 @@ class MovieUnfavorite(Resource):
 			user take the movie id as the part of URL, then unfavorite the specific movie
 			If this specific movie is found, then it will be added to favorite list
 		"""
-		unfavorite_movie_user(user, mid):
+		unfavorite_movie_user(user, mid)
 		return jsonify({'favorite': 'success'}, SUCCESS)
 
 
