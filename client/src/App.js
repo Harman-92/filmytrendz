@@ -15,6 +15,7 @@ import Profile from "./components/Profile";
 import ResultPage from "./components/ResultPage";
 import WishList from "./components/WishList";
 import WishListPublic from "./components/WishListPublic";
+import Logout from "./components/Logout";
 
 function App() {
     const location = useLocation()
@@ -67,6 +68,7 @@ function App() {
                         <Route path="/reviewed" component={ResultPage}/>
                         <Route exact path="/wishlist" component={WishList}/>
                         <Route path="/wishlist/:id" component={WishListPublic}/>
+                        <Route path="/logout" component={Logout}/>
                         <Route>
                             <Redirect to='/'/>
                         </Route>

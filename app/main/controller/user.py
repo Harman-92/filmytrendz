@@ -6,13 +6,11 @@ from ..util.decorator import token_required
 import json
 from ..http_status import *
 
-
 api = UserDto.api
 user_model = UserDto.user
 password_model = UserDto.pass_change
 ban_model = UserDto.user_ban
 ban_list_model = UserDto.banned_list
-
 
 """
 	user api
@@ -25,127 +23,90 @@ ban_list_model = UserDto.banned_list
 
 @api.route('')
 class User(Resource):
-	@api.doc('retrieve a user profile')
-	@api.response(200, 'success', model=user_model)
-	@api.response(404, 'not found')
-	@api.response(400, 'invalid')
-	@token_required
-	def get(self, user):
+    @api.doc('retrieve a user profile')
+    @api.response(200, 'success', model=user_model)
+    @api.response(401, 'unauthorized')
+    @token_required
+    def get(self, user):
 		"""
 			This is to retrive information of a specific user, user as the parameter in the URL
 			If this  user is found, then it will return all the user informaion.
 		"""
-		user = get_user(user['id'])
-		if not user:
-			api.abort(NOT_FOUND, 'user not exist')
-		else:
-			return marshal(user, user_model), SUCCESS
+        user = get_user(user['id'])
+        return marshal(user, user_model), SUCCESS
 
-
-	@api.doc('update user details')
-	@api.response(200, 'success', model=user_model)
-	@api.response(404, 'not found')
-	@api.expect(api.model('update user info', {}))
-	@api.response(400, 'invalid')
-	@token_required
-	def post(self, user):
+    @api.doc('update user details')
+    @api.response(200, 'success', model=user_model)
+    @api.expect(api.model('update user info', {}))
+    @api.response(401, 'unauthorized')
+    @token_required
+    def post(self, user):
 		"""
 		user may want to modify user details
 		"""
-		user_id = user['id']
-		if user_id:
-			updated_info = json.loads(request.get_data())
-			user = update_user(updated_info,  user_id)
-			return marshal(user, user_model), SUCCESS
-		else:
-
-			api.abort(BAD_REQUEST, 'invalid operation')
+        user_id = user['id']
+        updated_info = json.loads(request.get_data())
+        user = update_user(updated_info, user_id)
+        return marshal(user, user_model), SUCCESS
 
 
 @api.route('/password')
 class ChangePassword(Resource):
 
-	@api.doc('change password for user')
-	@api.expect(password_model, validate=True)
-	@api.response(200, 'success')
-	@api.response(400, 'invalid')
-	@token_required
-	def post(self, user):
+    @api.doc('change password for user')
+    @api.expect(password_model, validate=True)
+    @api.response(200, 'success')
+    @api.response(401, 'unauthorized')
+    @token_required
+    def post(self, user):
 		"""
 		This is to give functionality of changing password to the logged in user,
 		"""
-		user_id = user['id']
-
-		if user_id:
-
-			updated_info = json.loads(request.get_data())
-			response = update_password(updated_info, user_id)
-			return response
-
-		else:
-			api.abort(BAD_REQUEST, 'invalid operation')
+        user_id = user['id']
+        updated_info = json.loads(request.get_data())
+        response = update_password(updated_info, user_id)
+        return response
 
 
 @api.route('/banneduser')
 class Banneduser(Resource):
 
-	@api.doc('get banned users')
-	@api.response(200, 'success')
-	@api.response(400, 'invalid')
-	@token_required
-	def get(self, user):
+    @api.doc('get banned users')
+    @api.response(200, 'success')
+    @api.response(401, 'unauthorized')
+    @token_required
+    def get(self, user):
 		"""
 		This is to view all the users a logged in user has marked banned
 		"""
-		user_id = user['id']
+        user_id = user['id']
+        banned_users = get_banned_user(user_id)
+        return marshal(banned_users, ban_list_model), SUCCESS
 
-		if user_id:
-
-			banned_users = get_banned_user(user_id)
-			return marshal(banned_users, ban_list_model), SUCCESS
-
-		else:
-			api.abort(400, 'invalid operation')
-
-
-	@api.doc('add ban user')
-	@api.expect(ban_model)
-	@api.response(200, 'success')
-	@api.response(400, 'invalid')
-	@token_required
-	def put(self, user):
+    @api.doc('add ban user')
+    @api.expect(ban_model)
+    @api.response(200, 'success')
+    @api.response(401, 'unauthorized')
+    @token_required
+    def put(self, user):
 		"""
 		logged in user can add users to his banned list
 		"""
-		user_id = user['id']
+        user_id = user['id']
+        updated_info = json.loads(request.get_data())
+        response = ban_user(updated_info, user_id)
+        return response
 
-		if user_id:
-
-			updated_info = json.loads(request.get_data())
-			response = ban_user(updated_info, user_id)
-			return response
-
-		else:
-			api.abort(BAD_REQUEST, 'invalid operation')
-
-
-	@api.doc('delete ban user')
-	@api.expect(ban_model)
-	@api.response(200, 'success')
-	@api.response(400, 'invalid')
-	@token_required
-	def delete(self, user):
+    @api.doc('delete ban user')
+    @api.expect(ban_model)
+    @api.response(200, 'success')
+    @api.response(401, 'unauthorized')
+    @token_required
+    def delete(self, user):
 		"""
 		user can delete another user from their list of banned users
 		"""
-		user_id = user['id']
-
-		if user_id:
-
-			updated_info = json.loads(request.get_data())
-			response = del_ban_user(updated_info, user_id)
-			return response
-
-		else:
-			api.abort(BAD_REQUEST, 'invalid operation')
-
+        user_id = user['id']
+        updated_info = json.loads(request.get_data())
+        response = del_ban_user(updated_info, user_id)
+        return response

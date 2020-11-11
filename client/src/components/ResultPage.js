@@ -14,6 +14,7 @@ import '../style/ResultPage.css';
 import {useHistory, useLocation} from "react-router-dom";
 import {isAuthenticated} from "../config/session";
 import api from "../config/axios";
+import response from "../config/response";
 
 const ResultPage = () => {
     const history = useHistory()
@@ -151,30 +152,30 @@ const ResultPage = () => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
                         } else {
-                            alert('error')
+                            console.log(response.SERVER_ERROR)
                         }
                     }).catch((e) => {
-                        console.log('Internal server error')
+                        console.log(response.SERVER_ERROR)
                     })
                 } else if (pageType === 'watched') {
                     api.get('/movie?watched=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
                         } else {
-                            alert('error')
+                            console.log(response.SERVER_ERROR)
                         }
                     }).catch((e) => {
-                        console.log('Internal server error')
+                        console.log(response.SERVER_ERROR)
                     })
                 } else if (pageType === 'reviewed') {
                     api.get('/movie?reviewed=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
                         } else {
-                            alert('error')
+                            console.log(response.SERVER_ERROR)
                         }
                     }).catch((e) => {
-                        console.log('Internal server error')
+                        console.log(response.SERVER_ERROR)
                     })
                 }
             } else {

@@ -24,6 +24,7 @@ import {
 import images from "../config/images";
 import {getUserInfo, isAuthenticated} from "../config/session";
 import api from "../config/axios"
+import response from "../config/response";
 
 const checkWishListActive = (wishList) => {
     let a = false
@@ -57,6 +58,7 @@ const MovieDetails = () => {
     const {id} = useParams()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
     const [movieDetails, setMovieDetails] = useState({
+        id: 34,
         title: 'Spider Man 3',
         url: '/poster.jpg',
         rating: 4.5,
@@ -78,37 +80,37 @@ const MovieDetails = () => {
         ],
         reviews: [
             {
-                avatar: '',
-                id: 23,
+                url: '',
+                userId: 23,
                 name: 'Matt',
-                createdTime: '2020-10-20 15:34',
+                createdDate: '2020-10-20 15:34',
                 title: 'How artistic!',
                 description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
                 rating: 4.5
             },
             {
-                avatar: '/empty_profile.png',
-                id: 25,
+                url: '/empty_profile.png',
+                userId: 25,
                 name: 'Elliot Fu',
-                createdTime: '2020-10-18 15:34',
+                createdDate: '2020-10-18 15:34',
                 title: 'This has been very useful for my research. Thanks as well!',
                 description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
                 rating: 4
             },
             {
-                avatar: '/empty_profile.png',
-                id: 21,
+                url: '/empty_profile.png',
+                userId: 21,
                 name: 'Jenny Hess',
-                createdTime: '2020-10-19 15:34',
+                createdDate: '2020-10-19 15:34',
                 title: 'Elliot you are always so right :)',
                 description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
                 rating: 3
             },
             {
-                avatar: '/empty_profile.png',
-                id: 56,
+                url: '/empty_profile.png',
+                userId: 56,
                 name: 'Joe Henderson',
-                createdTime: '2020-10-20 15:34',
+                createdDate: '2020-10-20 15:34',
                 title: 'Dude, this is awesome. Thanks so much',
                 description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
                 rating: 1.5
@@ -132,11 +134,7 @@ const MovieDetails = () => {
         description: '',
         rating: 0
     })
-    const [user, setUser] = useState({
-        id: '',
-        firstName: '',
-        url: '',
-    })
+    const [user, setUser] = useState(getUserInfo)
     const [similarMovies, setSimilarMovies] = useState([
         {id: 1, url: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
         {id: 2, url: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
@@ -161,10 +159,10 @@ const MovieDetails = () => {
                 const copyReviews = Object.assign([], movieDetails.reviews)
                 let time = moment().format('YYYY-MM-DD HH:mm').toString()
                 copyReviews.splice(0, 0, {
-                    avatar: user.url,
-                    id: user.id,
+                    url: user.url,
+                    userId: user.id,
                     name: user.firstName,
-                    createdTime: time,
+                    createdDate: time,
                     title: myReview.title,
                     description: myReview.description,
                     rating: myReview.rating
@@ -180,103 +178,119 @@ const MovieDetails = () => {
                     rating: 0
                 })
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }
 
-    const handleBanReviewer = (e) => {
+    const handleBanReviewer = (id) => {
         api.put('/user/banneduser', {
-            id: e.target.id
+            id: id
         }).then((res) => {
             if (res.status === 200) {
                 alert("banned user successfully")
                 history.go(0)
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }
 
     const handleWishListChange = (e, {id, value}) => {
-        let tempArr = [...wishList]
-        tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
-        setWishList(tempArr)
-
-        //TODO:API to update wishlist of movie with wishlist id = value
-
-        // api.post('/wishlist/'+value,{
-        //     'remove_list': [movieId]
-        // }).then((res) => {
-        //     if (res.status === 200) {
-        //         let wishLists = [...wishList]
-        //         for (let w of wishLists) {
-        //             if (w.id === isEditId) {
-        //                 w.movies = w.movies.filter(m => m.id !== movieId)
-        //             }
-        //         }
-        //         setWishList(wishLists)
-        //     } else {
-        //         alert('error')
-        //     }
-        // }).catch((e) => {
-        //     console.log('Internal server error')
-        // })
+        api.post('/wishlist/'+value,{
+            'remove_list': [movieDetails.id]
+        }).then((res) => {
+            if (res.status === 200) {
+                let tempArr = [...wishList]
+                tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
+                setWishList(tempArr)
+            } else {
+                console.log(response.SERVER_ERROR)
+            }
+        }).catch((e) => {
+            console.log(response.SERVER_ERROR)
+        })
     }
     const handleAddWishList = () => {
         api.put('/wishlist',{
-            'name': newWishList,
-            'status': 'public',
-            'new_list': [movieDetails.id]
+            'name': newWishList
         }).then(res => {
             if (res.status === 200) {
-                let tempArr = [...wishList]
-                tempArr.push({
-                    id: 43,
-                    name: newWishList,
-                    added: true
+
+                api.post('/wishlist/'+res.data.id,{
+                    'new_list': [movieDetails.id]
+                }).then(res => {
+                    if (res.status === 200) {
+                        let tempArr = [...wishList]
+                        tempArr.push({
+                            id: 43,
+                            name: newWishList,
+                            added: true
+                        })
+                        setWishList(tempArr)
+                        setNewWishList('')
+                        setAddWishList(false)
+                    } else {
+                        console.log(response.SERVER_ERROR)
+                    }
+                }).catch((e) => {
+                    console.log(response.SERVER_ERROR)
                 })
-                setWishList(tempArr)
-                setNewWishList('')
-                setAddWishList(false)
+
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }
     const handleFavorite = () => {
-        api.put('/movie/' + movieDetails.id + '/favorite').then(res => {
-            if (res.status === 200) {
-                setMovieDetails({
-                    ...movieDetails,
-                    favorite: !movieDetails.favorite
-                })
-            } else {
-                alert('error')
-            }
-        }).catch((e) => {
-            console.log('Internal server error')
-        })
+        if(movieDetails.favorite){
+            //TODO: API to unfavorite a movie
+            setMovieDetails({
+                ...movieDetails,
+                favorite: !movieDetails.favorite
+            })
+        }else {
+            api.put('/movie/' + movieDetails.id + '/favorite').then(res => {
+                if (res.status === 200) {
+                    setMovieDetails({
+                        ...movieDetails,
+                        favorite: !movieDetails.favorite
+                    })
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
+            })
+        }
     }
     const handleWatched = () => {
-        api.put('/movie/' + movieDetails.id + '/watched').then(res => {
-            if (res.status === 200) {
-                setMovieDetails({
-                    ...movieDetails,
-                    watched: !movieDetails.watched
-                })
-            } else {
-                alert('error')
-            }
-        }).catch((e) => {
-            console.log('Internal server error')
-        })
+        if(movieDetails.watched){
+        //TODO: API to remove movie from watched
+            setMovieDetails({
+                ...movieDetails,
+                watched: !movieDetails.watched
+            })
+        }else {
+            api.put('/movie/' + movieDetails.id + '/watched').then(res => {
+                if (res.status === 200) {
+                    setMovieDetails({
+                        ...movieDetails,
+                        watched: !movieDetails.watched
+                    })
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
+            })
+        }
     }
 
     useEffect(() => {
@@ -290,10 +304,7 @@ const MovieDetails = () => {
     }, [wishList])
 
     useEffect(() => {
-        if (isAuthenticated()) {
-            setIsLogin(isAuthenticated())
-            setUser(getUserInfo)
-        }
+
         api.get('/movie/' + id).then((res) => {
             if (res.status === 200) {
                 const data = res.data
@@ -301,14 +312,34 @@ const MovieDetails = () => {
                     ...data.movie,
                     favorite: data.favorite,
                     cast: [],
-                    watched: data.watched
+                    watched: data.watched,
+                    reviews: data.reviews
                 })
-                setWishList(res.data.wishlist)
+                if (isAuthenticated()) {
+                    setIsLogin(isAuthenticated())
+                    setUser(getUserInfo)
+                    api.get('/wishlist').then((res) => {
+                        if (res.status === 200) {
+                            let wishLists = res.data.wishlists
+                            wishLists.forEach(w => {
+                                if(data.wishlist.includes(w.id)){
+                                    w.added = true
+                                }
+                            })
+                            setWishList(wishLists)
+                        } else {
+                            console.log(response.SERVER_ERROR)
+                        }
+                    }).catch((e) => {
+                        console.log(response.SERVER_ERROR)
+                    })
+                }
+
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }, [location, isLogin])
 
@@ -581,8 +612,8 @@ const MovieDetails = () => {
                                 <Grid.Column width={3} textAlign='center' className='reviewer'>
 
                                     <Image className='reviewer-image' circular size='tiny'
-                                           src={review.avatar === '' ? images.no_profile : review.avatar}/>
-                                    {review.id === user.id ?
+                                           src={review.url === '' ? images.no_profile : review.url}/>
+                                    {review.userId === parseInt(user.id) ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
                                         <Popup wide
@@ -593,11 +624,11 @@ const MovieDetails = () => {
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Block
+                                            <p className='ban-reviewer' onClick={() => handleBanReviewer(review.userId)}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
-                                    <Item.Description>{review.createdTime}</Item.Description>
+                                    <Item.Description>{review.createdDate}</Item.Description>
                                 </Grid.Column>
                                 <Grid.Column width={10} className='review-content'>
                                     <Header as='a'>{review.title}</Header>
@@ -639,23 +670,23 @@ const MovieDetails = () => {
                                 <Grid.Column width={3} textAlign={"center"} className='reviewer'>
 
                                     <Image className='reviewer-image' circular size='tiny'
-                                           src={review.avatar === '' ? images.no_profile : review.avatar}/>
-                                    {review.id === user.id ?
+                                           src={review.url === '' ? images.no_profile : review.url}/>
+                                    {review.userId === parseInt(user.id) ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
                                         <Popup wide
                                                position='left center'
                                                trigger={
-                                                   <h4 id={review.id} className='reviewer-name'>{review.name}</h4>
+                                                   <h4 id={review.userId} className='reviewer-name'>{review.name}</h4>
                                                }
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' id={review.id} onClick={handleBanReviewer}>Block
+                                            <p className='ban-reviewer' onClick={() => handleBanReviewer(review.userId)}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
-                                    <Item.Description>{review.createdTime}</Item.Description>
+                                    <Item.Description>{review.createdDate}</Item.Description>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>}

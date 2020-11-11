@@ -55,12 +55,21 @@ class AuthDto:
 
 class MovieDto:
     api = Namespace('movie', description='movie related operations')
-
+    user_model = api.model('reviewed_user',{
+        'id': fields.Integer,
+        'first_name': fields.String,
+        'last_name': fields.String,
+        'url': fields.String
+    })
     review_model = api.model('review', {
         'id': fields.Integer,
-        'review_text': fields.String,
+        'title': fields.String,
+        'description': fields.String,
         'rating': fields.Float,
-        'create_date': fields.DateTime
+        'createdDate': fields.DateTime,
+        'userId': fields.Integer,
+        'name': fields.String,
+        'url': fields.String
     })
 
     # cast_model = api.model('cast', {
@@ -83,12 +92,6 @@ class MovieDto:
         'rating': fields.Float
     })
 
-    wish_list = api.model('wish-list', {
-        'id': fields.String,
-        'name': fields.String,
-        'isPublic': fields.Boolean
-    })
-
     search_result_model = api.model('movie-list', {
         'movies': fields.List(fields.Nested(movie_model))
     })
@@ -96,7 +99,7 @@ class MovieDto:
     retrive_result_model = api.model('retrieve-movie', {
         'favorite': fields.Boolean,
         'watched': fields.Boolean,
-        'wishlist': fields.List(fields.Nested(wish_list)),
+        'wishlist': fields.List(fields.Integer),
         'reviews': fields.List(fields.Nested(review_model)),
         'movie': fields.Nested(movie_model)
     })

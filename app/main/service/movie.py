@@ -1,6 +1,6 @@
 from datetime import datetime
 from .. import db
-from app.main.model.model import Movie, User, Wishlist, Review
+from app.main.model.model import Movie, User, Wishlist, Review,BannedUser
 
 
 """
@@ -28,22 +28,23 @@ def search_movies(user, conditions):
 		- all the movie objects according to search conditions
 	"""
 
-	cur_user = User.query.filter_by(id=user['id']).first()
 	movies = []
-
+    cur_user = None
+    if user:
+        cur_user = User.query.filter_by(id=user['id']).first()
 	if 'favorite' in conditions:
 		movies = get_all_favorites(cur_user)
 
-	if 'watched' in conditions:
+	elif 'watched' in conditions:
 		movies = get_all_watched(cur_user)
 
-	if 'latest' in conditions:
+	elif 'latest' in conditions:
 		movies = get_all_latest_movies()
 
-	if 'reviewed' in conditions:
+    elif 'reviewed' in conditions:
 		movies = get_all_reviewed_movies(cur_user)
 
-	if 'search' in conditions:
+	elif 'search' in conditions:
 		movies = get_all_keywords_movies(conditions)
 
 	return movies
@@ -147,37 +148,47 @@ def retrieve_movie(user, mid):
 		return: result
 		- all movie information
 	"""
-
-	cur_user = User.query.filter_by(id=user['id']).first()
+	cur_user = None
+	banned_user_ids = []
+	if user:
+		cur_user = User.query.filter_by(id=user['id']).first()
+		for b in BannedUser.query.filter_by(user_id=user['id']).all():
+			banned_user_ids.append(b.banned_user_id)
 	cur_movie = Movie.query.filter_by(id=mid).first()
-
 	result = {}
-
 	if cur_movie:
 		is_favorite, is_watched = False, False
 		wishlist = []
 		if user:
-			cur_user = User.query.filter_by(id=user['id']).first()
-			if mid in cur_user.favorite_movies.all():
-				is_favorite = True
+			for fav_movie in cur_user.favorite_movies.all():
+				if fav_movie.id == mid:
+					is_favorite = True
 
-			if mid in cur_user.watched_movies.all():
-				is_watched = True
+			for watched_movie in cur_user.watched_movies.all():
+				if watched_movie.id == mid:
+					is_watched = True
 
 			wish_lists = Wishlist.query.filter_by(user=user['id']).all()
 			for w in wish_lists:
-				wl = dict(w)
-				wl.pop('user')
-				wl.pop('movies')
-				wishlist.append(wl)
+				for m in w.movies.all():
+					if m.id == mid:
+						wishlist.append(w.id)
 
 		review_list = Review.query.filter_by(movie=mid).all()
 		reviews = []
 		for r in review_list:
-			redict = dict(r)
-			redict.pop('user')
-			redict.pop('movie')
-			reviews.append(redict)
+			if r.by_user.id not in banned_user_ids:
+				review = {
+					'userId': r.by_user.id,
+					'url': r.by_user.url,
+					'name': r.by_user.first_name+' '+r.by_user.last_name,
+					'title': r.title,
+					'description': r.description,
+					'id': r.id,
+					'rating': r.rating,
+					'createdDate': r.created_date
+				}
+				reviews.append(review)
 
 		result = {
 			'movie': cur_movie,
@@ -198,7 +209,7 @@ def favorite_movie_user(user, mid):
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	success = False
 
-	""" 
+	"""
 		favorite_movies is a relationship table at the database, so in order
 		to label a movie as favorite, this table need to be updated.
 	"""
@@ -219,7 +230,7 @@ def unfavorite_movie_user(user, mid):
 	cur_movie = Movie.query.filter_by(id=mid).first()
 	success = False
 
-	""" 
+	"""
 		favorite_movies is a relationship table at the database, so in order
 		to label a movie as favorite, this table need to be updated.
 	"""

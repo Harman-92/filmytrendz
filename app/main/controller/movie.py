@@ -3,7 +3,7 @@ from flask_restplus import Resource, marshal
 from ..util.dto import MovieDto
 from ..service.movie import *
 from ..http_status import *
-from ..util.decorator import token_required
+from ..util.decorator import token_required,token_optional
 import json
 
 api = MovieDto.api
@@ -25,18 +25,17 @@ retrive_result_model = MovieDto.retrive_result_model
 """
 
 
-@api.route('/')
+@api.route('')
 class MoviesSearch(Resource):
 	@api.doc('search movies')
 	@api.response(200, 'success', model=search_result_model)
-	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
 	@api.param('favorite', description='search movie with favorite list')
 	@api.param('watched', description='search movie with watched list')
 	@api.param('search', description='search movie with keywords')
 	@api.param('latest', description='search the latest movies')
 	@api.param('reviewed', description='return all reviewed movies')
-	@token_required
+    @token_optional
 	def get(self, user):
 		"""
 			receive request and get URL arguments including name, description, director
@@ -56,35 +55,28 @@ class MoviesSearch(Resource):
 		movies = {
 			"movies": movie_list
 		}
-		if movie_list:
-			return marshal(movies, search_result_model), SUCCESS
-		else:
-			return marshal(movies, search_result_model), NOT_FOUND
+		return marshal(movies, search_result_model), SUCCESS
+
 
 
 @api.route('/<mid>')
 class MovieRetrive(Resource):
 	@api.doc('retrive movies')
 	@api.response(200, 'success', model=retrive_result_model)
-	@api.response(404, 'not found')
-	@api.response(401, 'unauthorized')
-	def get(self, mid, user=None):
+	@token_optional
+	def get(self, user, mid):
 		"""
 			This is for movie retrive from a specific user, mid as the parameter in the URL
 			If this specific movie is found, then it will return all the movie informaion
 		"""
-		movie = retrieve_movie(user, mid)
-		if movie:
-			return marshal(movie, retrive_result_model)
-		else:
-			api.abort(404, 'movie not found')
+		movie = retrieve_movie(user, int(mid))
+		return marshal(movie, retrive_result_model)
 
 
 @api.route('/<mid>/favorite')
 class MovieFavorite(Resource):
 	@api.doc('movie favorite')
 	@api.response(200, 'success')
-	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
 	@token_required
 	def put(self, user, mid):
@@ -92,17 +84,15 @@ class MovieFavorite(Resource):
 			user take the movie id as the part of URL, then favorite the specific movie
 			If this specific movie is found, then it will be added to favorite list
 		"""
-		if favorite_movie_user(user, mid):
-			return jsonify({'favorite': 'success'}, SUCCESS)
-		else:
-			api.abort(404, 'movie not found')
+		favorite_movie_user(user, mid):
+		return jsonify({'favorite': 'success'}, SUCCESS)
+
 
 
 @api.route('/<mid>/unfavorite')
 class MovieUnfavorite(Resource):
 	@api.doc('movie unfavorite')
 	@api.response(200, 'success')
-	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
 	@token_required
 	def put(self, user, mid):
@@ -110,10 +100,8 @@ class MovieUnfavorite(Resource):
 			user take the movie id as the part of URL, then unfavorite the specific movie
 			If this specific movie is found, then it will be added to favorite list
 		"""
-		if unfavorite_movie_user(user, mid):
-			return jsonify({'favorite': 'success'}, SUCCESS)
-		else:
-			api.abort(404, 'movie not found')
+		unfavorite_movie_user(user, mid):
+		return jsonify({'favorite': 'success'}, SUCCESS)
 
 
 @api.route('/<mid>/watched')
@@ -128,10 +116,8 @@ class MovieWatched(Resource):
 			user take the movie id as the part of URL, then watched the specific movie
 			If this specific movie is found, then it will be added to watched list
 		"""
-		if watched_movie_user(user, mid):
-			return jsonify({'watched': 'success'}, SUCCESS)
-		else:
-			api.abort(NOT_FOUND, 'movie not found')
+		watched_movie_user(user, mid)
+		return jsonify({'watched': 'success'}, SUCCESS)
 
 
 @api.route('/<mid>/wishlist')

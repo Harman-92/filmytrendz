@@ -19,8 +19,9 @@ import {
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
 import images from "../config/images";
-import {getAccessToken, getUserInfo, isAuthenticated} from "../config/session";
+import {isAuthenticated, setUserInfo} from "../config/session";
 import api from "../config/axios";
+import response from "../config/response";
 
 const Profile = () => {
     const history = useHistory()
@@ -50,7 +51,7 @@ const Profile = () => {
     const [retypePassword, setRetypePassword] = useState({v: '', e: false});
     const [submit, setSubmit] = useState({
         formError: false,
-        loginError: false,
+        passwordError: false,
         success: false
     });
     const [isActive, setIsActive] = useState(false);
@@ -64,21 +65,21 @@ const Profile = () => {
     const [isBannedUserEdit, setIsBannedUserEdit] = useState(false)
 
     const handleProfileSave = () => {
-        if (err.first_name || err.last_name || err.mobile_no || user.first_name === "" || user.last_name === "" || user.mobile_no === "") {
-            if (user.first_name === "") {
+        if (err.first_name || err.last_name || err.mobile_no || newUser.first_name === "" || newUser.last_name === "" || newUser.mobile_no === "") {
+            if (newUser.first_name === "") {
                 setErr({
                     ...err,
                     first_name: true
                 })
             }
-            if (user.last_name === "") {
+            if (newUser.last_name === "") {
 
                 setErr({
                     ...err,
                     last_name: true
                 })
             }
-            if (user.mobile_no === "") {
+            if (newUser.mobile_no === "") {
 
                 setErr({
                     ...err,
@@ -89,6 +90,7 @@ const Profile = () => {
         } else {
             api.post('/user', newUser).then((res) => {
                 if (res.status === 200) {
+                    setUserInfo(user.id,newUser.first_name+' '+newUser.last_name, user.url)
                     setUser({
                         ...user,
                         first_name: newUser.first_name,
@@ -97,10 +99,10 @@ const Profile = () => {
                     })
                     setIsProfileEdit(false)
                 } else {
-                    alert('error')
+                    console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log('Internal server error')
+            }).catch(() => {
+                console.log(response.SERVER_ERROR)
             })
         }
     }
@@ -127,7 +129,7 @@ const Profile = () => {
 
             setSubmit({
                 formError: true,
-                loginError: false,
+                passwordError: false,
                 success: false
             })
         } else {
@@ -136,16 +138,34 @@ const Profile = () => {
                 new_password: newPassword.v
             }).then((res) => {
                 if (res.status === 200) {
+                    if(res.data.error){
+                        setSubmit({
+                            formError: false,
+                            passwordError: res.data.error,
+                            success: false
+                        })
+                    } else {
+                        setSubmit({
+                            formError: false,
+                            passwordError: false,
+                            success: true
+                        })
+                    }
+                } else {
                     setSubmit({
                         formError: false,
-                        loginError: false,
-                        success: true
+                        passwordError: response.SERVER_ERROR,
+                        success: false
                     })
-                } else {
-                    alert('error')
+                    console.log(response.SERVER_ERROR)
                 }
             }).catch((e) => {
-                console.log('Internal server error')
+                setSubmit({
+                    formError: false,
+                    passwordError: response.SERVER_ERROR,
+                    success: false
+                })
+                console.log(response.SERVER_ERROR)
             })
         }
     }
@@ -237,10 +257,10 @@ const Profile = () => {
                 if (res.status === 200) {
                     setBannedUsers(res.data.banned_users)
                 } else {
-                    alert('error')
+                    console.log(response.SERVER_ERROR)
                 }
             }).catch((e) => {
-                console.log('Internal server error')
+                console.log(response.SERVER_ERROR)
             })
         }
         setIsActive(!isActive)
@@ -252,10 +272,10 @@ const Profile = () => {
             if (res.status === 200) {
                 setBannedUsers(users => users.filter(user => user.id !== id))
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }
     const handleClickEdit = () => {
@@ -266,7 +286,7 @@ const Profile = () => {
     useEffect(() => {
         setSubmit({
             formError: false,
-            loginError: false,
+            passwordError: false,
             success: false
         })
     }, [oldPassword.v, newPassword.v, retypePassword.v])
@@ -276,10 +296,10 @@ const Profile = () => {
                 if (res.status === 200) {
                     setUser(res.data)
                 } else {
-                    alert('error')
+                    console.log(response.SERVER_ERROR)
                 }
             }).catch((e) => {
-                console.log('Internal server error')
+                console.log(response.SERVER_ERROR)
             })
         } else {
             history.push('/')
@@ -459,11 +479,11 @@ const Profile = () => {
                             <Form size='large'
                                   onSubmit={handleSubmit}
                                   warning={submit.formError}
-                                  error={submit.loginError}
+                                  error={submit.passwordError}
                                   success={submit.success}
                             >
                                 <Message
-                                    className={(submit.formError || submit.loginError || submit.success) ?
+                                    className={(submit.formError || submit.passwordError || submit.success) ?
                                         'message-space-hide' : 'message-space-show'}
                                     header='handle space'
                                 />
@@ -473,11 +493,11 @@ const Profile = () => {
                                 />
                                 <Message
                                     error
-                                    header='Failed to Register!'
+                                    header={submit.passwordError}
                                 />
                                 <Message
                                     success
-                                    header='Register Success'
+                                    header='Password Successfully changed'
                                 />
                                 <Form.Input placeholder='Old password' type='password' name='password' size='mini'
                                             value={oldPassword.v}

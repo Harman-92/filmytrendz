@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '../style/WishList.css';
 import {
     Button,
@@ -15,100 +15,25 @@ import {
     Popup,
     Dropdown
 } from "semantic-ui-react";
-import {useHistory, useLocation, useParams} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 import {isAuthenticated} from "../config/session";
 import images from "../config/images";
 import api from "../config/axios";
+import response from "../config/response";
 
 const IconCustom = (props) => (
     <i className="">
         <img width={38} height={38} src={props.src} alt='User Menu Icon'/>
     </i>
 );
-const PUBLIC = 'public'
-const PRIVATE = 'private'
+const PUBLIC = 'PUBLIC'
+const PRIVATE = 'PRIVATE'
 
 const WishList = () => {
     const history = useHistory()
     const location = useLocation()
-    const {id} = useParams()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
-    const [user, setUser] = useState({
-        id: '',
-        firstName: '',
-        url: '',
-    })
-    const [wishList, setWishList] = useState([
-        {
-            id: 43,
-            name: 'Nerves of Steel',
-            status: 'public',
-            movies: [
-                {
-                    id: 64,
-                    title: 'Spider Man 1',
-                    url: '/poster.jpg',
-                    year: 1991,
-                    rating: 4,
-                },
-                {
-                    id: 65,
-                    title: 'Spider Man 2',
-                    url: '/poster.jpg',
-                    year: 1999,
-                    rating: 2.5,
-                },
-                {
-                    id: 66,
-                    title: 'Spider Man 3',
-                    url: '/poster.jpg',
-                    year: 2001,
-                    rating: 3.5,
-                },
-                {
-                    id: 67,
-                    title: 'Spider Man 4',
-                    url: '/poster.jpg',
-                    year: 1992,
-                    rating: 5,
-                }
-            ]
-        }, {
-            id: 42,
-            name: 'Cyberpunk',
-            status: 'private',
-            movies: [
-                {
-                    id: 68,
-                    title: 'Spider Man 5',
-                    url: '/poster.jpg',
-                    year: 1991,
-                    rating: 4,
-                },
-                {
-                    id: 69,
-                    title: 'Spider Man 6',
-                    url: '/poster.jpg',
-                    year: 1992,
-                    rating: 2.5,
-                },
-                {
-                    id: 61,
-                    title: 'Spider Man 7',
-                    url: '/poster.jpg',
-                    year: 2011,
-                    rating: 3.5,
-                },
-                {
-                    id: 62,
-                    title: 'Spider Man 8',
-                    url: '/poster.jpg',
-                    year: 2020,
-                    rating: 5,
-                }
-            ]
-        }
-    ]);
+    const [wishList, setWishList] = useState([]);
     const [isEditId, setIsEditId] = useState(0)
     const [isDeleteId, setIsDeleteId] = useState(0)
     const [open, setOpen] = useState(false)
@@ -156,10 +81,10 @@ const WishList = () => {
                 setWishList(wishlist => wishlist.filter(w => w.id !== isDeleteId))
                 setOpen(false)
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }
     const handleRemoveMovie = (movieId) => {
@@ -175,10 +100,10 @@ const WishList = () => {
                 }
                 setWishList(wishLists)
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
 
     }
@@ -209,10 +134,10 @@ const WishList = () => {
                 setNewWishList({...newWishList, name: ''})
                 setIsEditId(0)
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }
     const handleAccessChange = (wishListId, value) => {
@@ -224,28 +149,27 @@ const WishList = () => {
                 copyWishList.find(x => x.id === wishListId).status = value
                 setWishList(copyWishList)
             } else {
-                alert('error')
+                console.log(response.SERVER_ERROR)
             }
         }).catch((e) => {
-            console.log('Internal server error')
+            console.log(response.SERVER_ERROR)
         })
     }
     useEffect(() => {
-        api.get('/wishlist').then((res) => {
-            if (res.status === 200) {
-                setWishList(res.data.wishlists)
-            } else {
-                alert('error')
-            }
-        }).catch((e) => {
-            console.log('Internal server error')
-        })
-    }, [])
-    useEffect(() => {
-        if (!isLogin) {
+        if (isAuthenticated()) {
+            api.get('/wishlist').then((res) => {
+                if (res.status === 200) {
+                    setWishList(res.data.wishlists)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
+            })
+        }else{
             history.push('/')
         }
-    }, [location, isLogin])
+    }, [location])
 
     return (
         <Container>
@@ -266,7 +190,6 @@ const WishList = () => {
                                         <IconCustom src={images[newWishList.status]}/>
                                     </Label>}
                                 value={newWishList.status}
-                                defaultValue={newWishList.status}
                                 onChange={(e, {value}) => setNewWishList({...newWishList, status: value})}
                                 options={accessOptions}
                             />
@@ -311,7 +234,6 @@ const WishList = () => {
                                             <IconCustom src={images[w.status]}/>
                                         </Label>}
                                     value={w.status}
-                                    defaultValue={w.status}
                                     onChange={(e, {value}) => handleAccessChange(w.id, value)}
                                     options={accessOptions}
                                 />
