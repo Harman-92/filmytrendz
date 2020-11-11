@@ -38,3 +38,16 @@ Week 6
 Finished Data collection. Finished preprocessing dataset. Started work on movie recommendation model.
 
 ----------------------------------------------------------------------------------------------------
+
+Week 7
+
+Finished movie recommendation model. Finished user specific recommendation model. Participated in restrospective.
+Held a mock demo.
+
+----------------------------------------------------------------------------------------------------
+
+Week 8
+
+Worked on recommendation api. Started work on report.
+
+-----------------------------------------------------------------------------------------------------
