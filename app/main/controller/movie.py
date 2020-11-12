@@ -134,6 +134,21 @@ class MovieWatched(Resource):
 			api.abort(NOT_FOUND, 'movie not found')
 
 
+	@api.doc('remove movie from watched list')
+	@api.response(200, 'success')
+	@api.response(404, 'not found')
+	@api.response(401, 'unauthorized')
+	@token_required
+	def delete(self, user, mid):
+		"""
+			remove the movie from user watched list
+		"""
+		if remove_watched_movie_user(user, mid):
+			return jsonify({'remove watched': 'success'}, SUCCESS)
+		else:
+			api.abort(NOT_FOUND, 'movie not found')
+
+
 @api.route('/<mid>/wishlist')
 class MovieWishlist(Resource):
 	@api.doc('movie watched')
