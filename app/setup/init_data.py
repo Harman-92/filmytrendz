@@ -1,21 +1,21 @@
-from set_up import app
+from app.setup.set_up import app
 import xlrd
 import pymysql
 import pandas
 
-df = pandas.read_csv("movie_data.csv", index_col=0)
+df = pandas.read_csv("../movie_datasets/movie_data.csv", index_col=0)
 df.dropna(axis=0, how='any', inplace=True)
 samples = df.head(50000)
-samples.to_excel("movies.xls")
+samples.to_excel("../movie_datasets/movies.xls")
 
 
 with app.app_context():
-	book = xlrd.open_workbook("movies.xls")
+	book = xlrd.open_workbook("../movie_datasets/movies.xls")
 	sheet = book.sheet_by_name("Sheet1")
 	conn = pymysql.connect(
 		host='localhost',
 		user='root',
-		password='Asdfghjkl834966827',
+		password='112321',
 		db='v5',
 		port=3306,
 		charset='utf8'
