@@ -44,22 +44,15 @@ def del_ban_user(banid, user_id):
 		params: userid ,banid
 		return: this function lets the logged in user ban the user with id as banid.
 	"""
-	if 'id' in banid.keys():
 
-		banned_row = BannedUser.query.filter_by(user_id=user_id, banned_user_id=banid['id']).first()
-		db.session.delete(banned_row)
-		db.session.commit()
+	banned_row = BannedUser.query.filter_by(user_id=user_id, banned_user_id=banid).first()
+	db.session.delete(banned_row)
+	db.session.commit()
 
-		resp = make_response(jsonify({'message': 'banned user deleted succesfully'}))
-		resp.status_code = SUCCESS
+	resp = make_response(jsonify({'message': 'banned user deleted succesfully'}))
+	resp.status_code = SUCCESS
 
-		return resp
-	else:
-
-		resp = make_response(jsonify({'error': 'Unable to ban the user'}))
-		resp.status_code = UNAUTHORIZED
-
-		return resp
+	return resp
 
 
 def get_banned_user(userid):
