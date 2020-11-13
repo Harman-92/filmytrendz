@@ -25,23 +25,23 @@ const Home = () => {
     }, [location.isSearch, location.keyword, location.filter])
 
     useEffect(() => {
-        if (isAuthenticated()) {
-            setIsLogin(isAuthenticated())
-            api.get('/recommend/user').then((res) => {
-                if (res.status === 200) {
-                    console.log("recommend results: " + res.data.movies)
-                    setRecommendMovies(res.data.movies)
-                } else {
-                    console.log(response.SERVER_ERROR)
-                }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
-            })
-        }
 
         api.get('/movie?latest=true').then((res) => {
             if (res.status === 200) {
                 setLatestMovies(res.data.movies)
+                if (isAuthenticated()) {
+                    setIsLogin(isAuthenticated())
+                    api.get('/recommend/user').then((res) => {
+                        if (res.status === 200) {
+                            console.log("recommend results: " + res.data.movies)
+                            setRecommendMovies(res.data.movies)
+                        } else {
+                            console.log(response.SERVER_ERROR)
+                        }
+                    }).catch((e) => {
+                        console.log(response.SERVER_ERROR)
+                    })
+                }
             } else {
                 console.log(response.SERVER_ERROR)
             }
@@ -49,7 +49,7 @@ const Home = () => {
             console.log(response.SERVER_ERROR)
         })
 
-    }, [location, isLogin])
+    }, [location])
 
     return (
         <Container className='container'>

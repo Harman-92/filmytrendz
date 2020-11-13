@@ -69,11 +69,11 @@ const Header = ({setVisible, setActiveIndex}) => {
             alert("Please enter a keyword...")
         }
 
-        alert("title: " + filter.title + "\ndes: " + filter.description + "\ncast: " + filter.cast + "\nwishlist: " + filter.wishList +
-            "\ngenres: " + filter.genres + "\nyear from: " + filter.yearFrom + "\nyear to: " + filter.yearTo + "\nrating from: " + filter.ratingFrom +
-            "\nrating to: " + filter.ratingTo +
-            "\npath is: " + location.pathname
-        )
+        // alert("title: " + filter.title + "\ndes: " + filter.description + "\ncast: " + filter.cast + "\nwishlist: " + filter.wishList +
+        //     "\ngenres: " + filter.genres + "\nyear from: " + filter.yearFrom + "\nyear to: " + filter.yearTo + "\nrating from: " + filter.ratingFrom +
+        //     "\nrating to: " + filter.ratingTo +
+        //     "\npath is: " + location.pathname
+        // )
     }
 
     const clearFilter = () => {
@@ -177,7 +177,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                         </Grid>
                     </Container>
                 </Accordion.Title>
-                {/*---------------------Search Bar Filter ----------------------*/}
+                {/*---------------------slide down Filter ----------------------*/}
 
                 <Transition.Group animation='slide down' duration={200}>
                     {filterVisible && (
@@ -192,12 +192,6 @@ const Header = ({setVisible, setActiveIndex}) => {
                                     <Grid.Column width={9}>
                                         <Form>
                                             <Form.Group widths={'equal'} className='filter-form-group'>
-                                                <Form.Radio
-                                                    label='Title'
-                                                    value='t'
-                                                    checked={filter.title}
-                                                    onClick={() => setFilter({...filter, title: !filter.title})}
-                                                />
                                                 <Form.Radio
                                                     label='Description'
                                                     value='d'
@@ -219,7 +213,6 @@ const Header = ({setVisible, setActiveIndex}) => {
                                                     checked={filter.wishList}
                                                     onClick={() => setFilter({...filter, wishList: !filter.wishList})}
                                                 />
-
                                             </Form.Group>
                                         </Form>
                                     </Grid.Column>

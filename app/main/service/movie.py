@@ -101,7 +101,7 @@ def get_all_keywords_movies(conditions):
 		return: list of movies
 	"""
 	concopy = conditions
-	keywords = concopy['search']
+	keyword = '%{}%'.format(concopy['search'])
 	concopy.pop('search')
 
 	"""
@@ -111,9 +111,10 @@ def get_all_keywords_movies(conditions):
 		}
 	"""
 
-	result_1_1 = set(Movie.query.filter_by(name=keywords).all())
-	result_1_2 = set(Movie.query.filter_by(description=keywords).all())
-	result_1 = result_1_1 | result_1_2
+	result_1 = set(Movie.query.filter(Movie.title.like(keyword)).all())
+	result_2 = set()
+	if 'description' in conditions:
+		result_2 = set(Movie.query.filter(Movie.description.like(keyword)).all())
 
 	"""
 		filter_2:
@@ -122,14 +123,17 @@ def get_all_keywords_movies(conditions):
 		year_start <= year <= year_end
 	"""
 
-	result_2_1, result_2_2 = set(), set()
+	result_3 = set()
 
 	if 'year_start' in conditions and 'year_end' in conditions:
-		result_2_1 = set(Movie.query.filter(Movie.year >= conditions['year_start']))
-		result_2_2 = set(Movie.query.filter(Movie.year <= conditions['year_end']))
-	result_2 = result_2_1 & result_2_2
+		result_3 = set(Movie.query.filter(Movie.year >= conditions['year_start']).filter(Movie.year <= conditions['year_end']).all())
 
-	return list(result_1 & result_2)
+	result_4 = set()
+
+	if 'rating_start' in conditions and 'rating_end' in conditions:
+		result_4 = set(Movie.query.filter(Movie.rating >= conditions['rating_start']).filter(Movie.rating <= conditions['rating_end']).all())
+
+	return list(result_1 | result_2 | result_3 | result_4)
 
 
 def retrieve_movie(user, mid):

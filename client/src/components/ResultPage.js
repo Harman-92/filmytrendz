@@ -53,7 +53,26 @@ const ResultPage = () => {
         if (location.isSearch) {
             console.log("location: " + location.keyword)
             console.log(location.filter)
-            //TODO:API call to search and get search results
+            let filterString = "search="+location.keyword
+            const filter = location.filter
+            if(filter.description){
+                filterString += "&description="+filter.description
+            }
+            if(filter.yearFrom && filter.yearTo){
+                filterString += "&year_start="+filter.yearFrom+"&year_end="+filter.yearTo
+            }
+            if(filter.ratingFrom && filter.ratingTo){
+                filterString += "&rating_start="+filter.ratingFrom+"&rating_end="+filter.ratingTo
+            }
+            api.get('/movie?'+filterString).then((res) => {
+                if (res.status === 200) {
+                    setMovieResults(res.data.movies)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
+            })
         } else {
             if (isLogin) {
                 if (pageType === 'favorite') {

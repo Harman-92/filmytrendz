@@ -57,7 +57,9 @@ const MovieDetails = () => {
     const history = useHistory()
     const {id} = useParams()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
-    const [movieDetails, setMovieDetails] = useState({})
+    const [movieDetails, setMovieDetails] = useState({
+        reviews:[]
+    })
     const [wishList, setWishList] = useState([])
     const [isWishList, setIsWishList] = useState(false)
     const [myReview, setMyReview] = useState({
@@ -551,9 +553,7 @@ const MovieDetails = () => {
                                 <Segment basic>
                                     <Button floated='right' className='review-button post-button'
                                             type='submit'>Post</Button>
-                                    <Button floated='right' className='review-button' onClick={() => {
-                                        setAddReview(false)
-                                    }}>Cancel</Button>
+                                    <Button floated='right' className='review-button' onClick={() => setAddReview(false)}>Cancel</Button>
                                 </Segment>
                             </Form>
                         </Grid.Column>
