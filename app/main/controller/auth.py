@@ -1,7 +1,7 @@
 from flask import request
 from flask_restplus import Resource
 import json
-from app.main.service.auth import Auth
+from ..service.auth import Auth
 from ..util.dto import AuthDto
 from ..util.decorator import token_required
 

@@ -1,4 +1,4 @@
-from app.main.model.model import Movie, Review
+from ..model.model import Movie, Review
 
 
 def encapsolate_res(movies,director=None):

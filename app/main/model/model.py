@@ -92,7 +92,7 @@ class Movie(db.Model):
     title = db.Column(db.String(200))
     description = db.Column(db.String(1000))
     genre = db.Column(db.String(120))
-    rating = db.Column(db.Float, default=0)
+    rating = db.Column(db.Float, default=0.0)
     external_rating = db.Column(db.Float)
     year = db.Column(db.Integer)
     popularity = db.Column(db.Float)

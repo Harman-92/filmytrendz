@@ -11,18 +11,8 @@ const Home = () => {
     const history = useHistory()
     const location = useLocation()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
-
     const [recommendMovies, setRecommendMovies] = useState([])
-
     const [latestMovies, setLatestMovies] = useState([])
-
-    useEffect(() => {
-        if (location.isSearch) {
-            console.log(location.keyword)
-            console.log(location.filter)
-            //TODO:API call to search
-        }
-    }, [location.isSearch, location.keyword, location.filter])
 
     useEffect(() => {
 

@@ -7,7 +7,7 @@ import axios from 'axios'
  **/
 const api = axios.create({
     baseURL: 'http://localhost:5000',
-    timeout: 10000
+    timeout: 20000
 });
 
 // Set JSON Web Token in Client to be included in all calls

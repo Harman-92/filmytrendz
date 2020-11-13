@@ -2,9 +2,9 @@ from flask import request
 from flask_restplus import Resource, marshal
 from ..util.dto import WishListDto
 from ..util.decorator import token_required, token_optional
-from app.main.service.wishlist import *
+from ..service.wishlist import *
 import json
-from ..http_status import *
+from ..util.http_status import *
 
 
 api = WishListDto.api

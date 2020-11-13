@@ -1,10 +1,10 @@
 from flask import request
-from flask_restplus import Resource, marshal
+from flask_restplus import Resource
 from ..util.dto import ReviewDto
-from app.main.service.review import *
+from ..service.review import *
 from ..util.decorator import token_required
 import json
-from ..http_status import *
+from ..util.http_status import *
 
 
 api = ReviewDto.api

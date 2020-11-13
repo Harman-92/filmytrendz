@@ -25,6 +25,7 @@ import images from "../config/images";
 import {getUserInfo, isAuthenticated} from "../config/session";
 import api from "../config/axios"
 import response from "../config/response";
+import StarRatingComponent from 'react-star-rating-component';
 
 const checkWishListActive = (wishList) => {
     let a = false
@@ -68,15 +69,7 @@ const MovieDetails = () => {
         rating: 0
     })
     const [user, setUser] = useState(getUserInfo)
-    const [similarMovies, setSimilarMovies] = useState([
-        {id: 1, url: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
-        {id: 2, url: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
-        {id: 3, url: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
-        {id: 4, url: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {id: 5, url: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {id: 6, url: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
-        {id: 7, url: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
-    ])
+    const [similarMovies, setSimilarMovies] = useState([])
     const [addReview, setAddReview] = useState(false)
     const [searchBy, setSearchBy] = useState('a')
     const [addWishList, setAddWishList] = useState(false)
@@ -257,9 +250,21 @@ const MovieDetails = () => {
     }
 
     useEffect(() => {
-        {/*TODO: call recommend movie api*/
+        let filterString = ""
+        if(searchBy === "g"){
+            filterString += "genre=true"
+        }else if(searchBy === "d"){
+            filterString += "director=true"
         }
-        console.log("searchBy: " + searchBy)
+        api.get('/recommend/'+movieDetails.id+'/?'+filterString).then((res) => {
+            if (res.status === 200) {
+                setSimilarMovies(res.data.movies)
+            } else {
+                console.log(response.SERVER_ERROR)
+            }
+        }).catch((e) => {
+            console.log(response.SERVER_ERROR)
+        })
     }, [searchBy])
 
     useEffect(() => {
@@ -271,6 +276,7 @@ const MovieDetails = () => {
         api.get('/movie/' + id).then((res) => {
             if (res.status === 200) {
                 const data = res.data
+                const rating = data.movie.rating?data.movie.rating:Math.round(data.movie.external_rating * 10) / 10
                 setMovieDetails({
                     ...data.movie,
                     favorite: data.favorite,
@@ -471,19 +477,21 @@ const MovieDetails = () => {
                         {/*--------------------------Movie Rating--------------------------*/}
 
                         <div className='movie-rating-wrapper'>
-                            {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
                             <Statistic className='movie-rating'>
-                                <Statistic.Value>{movieDetails.rating?movieDetails.rating:movieDetails.external_rating}</Statistic.Value>
+                                <Statistic.Value>{movieDetails.rating?movieDetails.rating:Math.round(movieDetails.external_rating * 10) / 10}</Statistic.Value>
                             </Statistic>
-                            <ReactStars
-                                count={5}
-                                value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
-                                size={26}
-                                isHalf={true}
-                                edit={false}
-                                activeColor="#7b68ee"
-                                color='lightgrey'
-                            />
+
+                            <div style={{fontSize: 26, display: 'flex', justifyContent:'flex-end'}}>
+                                <StarRatingComponent
+                                  name="rate2"
+                                  editing={false}
+                                  starCount={5}
+                                  starColor="#7b68ee"
+                                  emptyStarColor="lightgrey"
+                                  value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
+                                />
+                            </div>
+
                         </div>
                     </Grid.Column>
                 </Grid.Row>

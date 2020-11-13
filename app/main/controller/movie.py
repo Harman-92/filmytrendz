@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_restplus import Resource, marshal
 from ..util.dto import MovieDto
 from ..service.movie import *
-from ..http_status import *
+from ..util.http_status import *
 from ..util.decorator import token_required,token_optional
 import json
 
