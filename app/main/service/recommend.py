@@ -40,6 +40,6 @@ def get_best_reviews(id):
 	id_list = [x.movie for x in reviews]
 	res = []
 	if id_list:
-		res = Movie.query.filter(Movie.tmdb_id.in_(movies).limit(4))
+		res = Movie.query.filter(Movie.tmdb_id.in_(movies)).limit(4)
 
 	return res
