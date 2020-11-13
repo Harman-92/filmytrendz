@@ -6,7 +6,7 @@ import axios from 'axios'
  * Replace the below baseUrl with your local IP to connect to local backend server
  **/
 const api = axios.create({
-    baseURL: 'http://ec2-user@ec2-18-188-47-194.us-east-2.compute.amazonaws.com:5000',
+    baseURL: 'http://ec2-18-188-47-194.us-east-2.compute.amazonaws.com:5000',
     timeout: 20000
 });
 
