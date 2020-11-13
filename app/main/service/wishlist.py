@@ -58,7 +58,7 @@ def update_wishlist(updated_info, wishlist_id, user_id):
         new_list = updated_info['new_list']
     else:
         new_list = []
-    if 'remove_List' in updated_info.keys():
+    if 'remove_list' in updated_info.keys():
         remove_list = updated_info['remove_list']
     else:
         remove_list = []

@@ -97,16 +97,17 @@ class Banneduser(Resource):
         response = ban_user(updated_info, user_id)
         return response
 
+@api.route('/banneduser/<id>')
+class Banneduser(Resource):
     @api.doc('delete ban user')
     @api.expect(ban_model)
     @api.response(200, 'success')
     @api.response(401, 'unauthorized')
     @token_required
-    def delete(self, user):
+    def delete(self, user, id):
         """
         user can delete another user from their list of banned users
         """
         user_id = user['id']
-        updated_info = json.loads(request.get_data())
-        response = del_ban_user(updated_info, user_id)
+        response = del_ban_user(id, user_id)
         return response

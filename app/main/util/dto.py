@@ -89,8 +89,7 @@ class MovieDto:
         'reviews': fields.List(fields.Nested(review_model)),
         'actors': fields.String,
         'url': fields.String,
-        'rating': fields.Float,
-        'external_rating': fields.Float
+        'rating': fields.Float
     })
 
     search_result_model = api.model('movie-list', {
@@ -120,7 +119,6 @@ class WishListDto:
         'title': fields.String,
         'url': fields.String,
         'rating': fields.Float,
-        'external_rating': fields.Float,
         'year': fields.Integer
     })
 

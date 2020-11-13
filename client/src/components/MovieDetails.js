@@ -271,6 +271,7 @@ const MovieDetails = () => {
         api.get('/movie/' + id).then((res) => {
             if (res.status === 200) {
                 const data = res.data
+                const rating = data.movie.rating?data.movie.rating:Math.round(data.movie.external_rating * 10) / 10
                 setMovieDetails({
                     ...data.movie,
                     favorite: data.favorite,
@@ -473,11 +474,11 @@ const MovieDetails = () => {
                         <div className='movie-rating-wrapper'>
                             {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
                             <Statistic className='movie-rating'>
-                                <Statistic.Value>{movieDetails.rating?movieDetails.rating:movieDetails.external_rating}</Statistic.Value>
+                                <Statistic.Value>{movieDetails.rating?movieDetails.rating:Math.round(movieDetails.external_rating * 10) / 10}</Statistic.Value>
                             </Statistic>
                             <ReactStars
                                 count={5}
-                                value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
+                                value={movieDetails.rating?movieDetails.rating:Math.round(movieDetails.external_rating * 10) / 10}
                                 size={26}
                                 isHalf={true}
                                 edit={false}

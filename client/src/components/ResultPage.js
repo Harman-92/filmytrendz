@@ -64,6 +64,12 @@ const ResultPage = () => {
             if(filter.ratingFrom && filter.ratingTo){
                 filterString += "&rating_start="+filter.ratingFrom+"&rating_end="+filter.ratingTo
             }
+            if(filter.cast){
+                filterString += "&cast="+filter.cast
+            }
+            if(filter.genres){
+                filterString += "&genre="+filter.genres
+            }
             api.get('/movie?'+filterString).then((res) => {
                 if (res.status === 200) {
                     setMovieResults(res.data.movies)

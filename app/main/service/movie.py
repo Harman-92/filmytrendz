@@ -133,7 +133,16 @@ def get_all_keywords_movies(conditions):
 	if 'rating_start' in conditions and 'rating_end' in conditions:
 		result_4 = set(Movie.query.filter(Movie.rating >= conditions['rating_start']).filter(Movie.rating <= conditions['rating_end']).all())
 
-	return list(result_1 | result_2 | result_3 | result_4)
+	result_5 = set()
+
+	if 'cast' in conditions:
+		result_5 = set(Movie.query.filter(Movie.actors.like(keyword)).all())
+
+	result_6 = set()
+	if 'genre' in conditions:
+		result_6 = set(Movie.query.filter(Movie.genre.in_(tuple(conditions['genre'].split(',')))).all())
+
+	return list(result_1 | result_2 | result_3 | result_4 | result_5 | result_6)
 
 
 def retrieve_movie(user, mid):
