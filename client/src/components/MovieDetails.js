@@ -473,11 +473,11 @@ const MovieDetails = () => {
                         <div className='movie-rating-wrapper'>
                             {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
                             <Statistic className='movie-rating'>
-                                <Statistic.Value>{movieDetails.rating}</Statistic.Value>
+                                <Statistic.Value>{movieDetails.rating?movieDetails.rating:movieDetails.external_rating}</Statistic.Value>
                             </Statistic>
                             <ReactStars
                                 count={5}
-                                value={movieDetails.rating}
+                                value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
                                 size={26}
                                 isHalf={true}
                                 edit={false}

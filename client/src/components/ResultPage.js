@@ -219,6 +219,7 @@ const ResultPage = () => {
             <Card.Group itemsPerRow={5}>
                 {
                     movieResults.map((movie, index) => (
+                        index<20?
                         <Card className='movieCard' fluid
                               key={index}
                         >
@@ -246,7 +247,7 @@ const ResultPage = () => {
                                     </div>
                                 </div>
                             </Card.Content>
-                        </Card>
+                        </Card>:null
                     ))
                 }
             </Card.Group>
