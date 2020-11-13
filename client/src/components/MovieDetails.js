@@ -25,6 +25,7 @@ import images from "../config/images";
 import {getUserInfo, isAuthenticated} from "../config/session";
 import api from "../config/axios"
 import response from "../config/response";
+import StarRatingComponent from 'react-star-rating-component';
 
 const checkWishListActive = (wishList) => {
     let a = false
@@ -471,19 +472,19 @@ const MovieDetails = () => {
                         {/*--------------------------Movie Rating--------------------------*/}
 
                         <div className='movie-rating-wrapper'>
-                            {/*<p className='movie-rating'> {this.state.movieDetails.averageRating} </p>*/}
                             <Statistic className='movie-rating'>
                                 <Statistic.Value>{movieDetails.rating?movieDetails.rating:movieDetails.external_rating}</Statistic.Value>
                             </Statistic>
-                            <ReactStars
-                                count={5}
-                                value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
-                                size={26}
-                                isHalf={true}
-                                edit={false}
-                                activeColor="#7b68ee"
-                                color='lightgrey'
-                            />
+                            <div style={{fontSize: 26, display: 'flex', justifyContent:'flex-end'}}>
+                                <StarRatingComponent
+                                  name="rate2"
+                                  editing={false}
+                                  starCount={5}
+                                  starColor="#7b68ee"
+                                  emptyStarColor="lightgrey"
+                                  value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
+                                />
+                            </div>
                         </div>
                     </Grid.Column>
                 </Grid.Row>
