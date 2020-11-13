@@ -59,7 +59,7 @@ const MovieDetails = () => {
     const {id} = useParams()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
     const [movieDetails, setMovieDetails] = useState({
-        reviews:[]
+        reviews: []
     })
     const [wishList, setWishList] = useState([])
     const [isWishList, setIsWishList] = useState(false)
@@ -76,7 +76,7 @@ const MovieDetails = () => {
     const [newWishList, setNewWishList] = useState('')
 
     const postReview = () => {
-        api.post('/movie/' + movieDetails.id + '/review',{
+        api.post('/movie/' + movieDetails.id + '/review', {
             'title': myReview.title,
             'description': myReview.description,
             'rating': myReview.rating
@@ -127,7 +127,7 @@ const MovieDetails = () => {
     }
 
     const handleWishListChange = (e, {id, value}) => {
-        if(wishList[id].added) {
+        if (wishList[id].added) {
             api.post('/wishlist/' + value, {
                 'remove_list': [movieDetails.id]
             }).then((res) => {
@@ -141,7 +141,7 @@ const MovieDetails = () => {
             }).catch((e) => {
                 console.log(response.SERVER_ERROR)
             })
-        }else{
+        } else {
             api.post('/wishlist/' + value, {
                 'new_list': [movieDetails.id]
             }).then((res) => {
@@ -158,12 +158,12 @@ const MovieDetails = () => {
         }
     }
     const handleAddWishList = () => {
-        api.put('/wishlist',{
+        api.put('/wishlist', {
             'name': newWishList
         }).then(res => {
             if (res.status === 200) {
 
-                api.post('/wishlist/'+res.data.id,{
+                api.post('/wishlist/' + res.data.id, {
                     'new_list': [movieDetails.id]
                 }).then(res => {
                     if (res.status === 200) {
@@ -191,7 +191,7 @@ const MovieDetails = () => {
         })
     }
     const handleFavorite = () => {
-        if(movieDetails.favorite){
+        if (movieDetails.favorite) {
             api.put('/movie/' + movieDetails.id + '/unfavorite').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
@@ -204,7 +204,7 @@ const MovieDetails = () => {
             }).catch((e) => {
                 console.log(response.SERVER_ERROR)
             })
-        }else {
+        } else {
             api.put('/movie/' + movieDetails.id + '/favorite').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
@@ -220,7 +220,7 @@ const MovieDetails = () => {
         }
     }
     const handleWatched = () => {
-        if(movieDetails.watched){
+        if (movieDetails.watched) {
             api.delete('/movie/' + movieDetails.id + '/watched').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
@@ -233,7 +233,7 @@ const MovieDetails = () => {
             }).catch((e) => {
                 console.log(response.SERVER_ERROR)
             })
-        }else {
+        } else {
             api.put('/movie/' + movieDetails.id + '/watched').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
@@ -250,33 +250,11 @@ const MovieDetails = () => {
     }
 
     useEffect(() => {
-        let filterString = ""
-        if(searchBy === "g"){
-            filterString += "genre=true"
-        }else if(searchBy === "d"){
-            filterString += "director=true"
-        }
-        api.get('/recommend/'+movieDetails.id+'/?'+filterString).then((res) => {
-            if (res.status === 200) {
-                setSimilarMovies(res.data.movies)
-            } else {
-                console.log(response.SERVER_ERROR)
-            }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
-        })
-    }, [searchBy])
-
-    useEffect(() => {
-        setIsWishList(checkWishListActive(wishList))
-    }, [wishList])
-
-    useEffect(() => {
 
         api.get('/movie/' + id).then((res) => {
             if (res.status === 200) {
                 const data = res.data
-                const rating = data.movie.rating?data.movie.rating:Math.round(data.movie.external_rating * 10) / 10
+                const rating = data.movie.rating ? data.movie.rating : Math.round(data.movie.external_rating * 10) / 10
                 setMovieDetails({
                     ...data.movie,
                     favorite: data.favorite,
@@ -291,7 +269,7 @@ const MovieDetails = () => {
                         if (res.status === 200) {
                             let wishLists = res.data.wishlists
                             wishLists.forEach(w => {
-                                if(data.wishlist.includes(w.id)){
+                                if (data.wishlist.includes(w.id)) {
                                     w.added = true
                                 }
                             })
@@ -311,6 +289,28 @@ const MovieDetails = () => {
             console.log(response.SERVER_ERROR)
         })
     }, [location, isLogin])
+
+    useEffect(() => {
+        setIsWishList(checkWishListActive(wishList))
+    }, [wishList])
+
+    useEffect(() => {
+        let filterString = ""
+        if (searchBy === "g") {
+            filterString += "genre=true"
+        } else if (searchBy === "d") {
+            filterString += "director=true"
+        }
+        api.get('/recommend/' + movieDetails.id + '?' + filterString).then((res) => {
+            if (res.status === 200) {
+                setSimilarMovies(res.data.movies)
+            } else {
+                console.log(response.SERVER_ERROR)
+            }
+        }).catch((e) => {
+            console.log(response.SERVER_ERROR)
+        })
+    }, [searchBy])
 
     return (
         <Container>
@@ -478,17 +478,17 @@ const MovieDetails = () => {
 
                         <div className='movie-rating-wrapper'>
                             <Statistic className='movie-rating'>
-                                <Statistic.Value>{movieDetails.rating?movieDetails.rating:Math.round(movieDetails.external_rating * 10) / 10}</Statistic.Value>
+                                <Statistic.Value>{movieDetails.rating ? movieDetails.rating : Math.round(movieDetails.external_rating * 10) / 10}</Statistic.Value>
                             </Statistic>
 
-                            <div style={{fontSize: 26, display: 'flex', justifyContent:'flex-end'}}>
+                            <div style={{fontSize: 26, display: 'flex', justifyContent: 'flex-end'}}>
                                 <StarRatingComponent
-                                  name="rate2"
-                                  editing={false}
-                                  starCount={5}
-                                  starColor="#7b68ee"
-                                  emptyStarColor="lightgrey"
-                                  value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
+                                    name="rate2"
+                                    editing={false}
+                                    starCount={5}
+                                    starColor="#7b68ee"
+                                    emptyStarColor="lightgrey"
+                                    value={movieDetails.rating ? movieDetails.rating : movieDetails.external_rating}
                                 />
                             </div>
 
@@ -561,7 +561,8 @@ const MovieDetails = () => {
                                 <Segment basic>
                                     <Button floated='right' className='review-button post-button'
                                             type='submit'>Post</Button>
-                                    <Button floated='right' className='review-button' onClick={() => setAddReview(false)}>Cancel</Button>
+                                    <Button floated='right' className='review-button'
+                                            onClick={() => setAddReview(false)}>Cancel</Button>
                                 </Segment>
                             </Form>
                         </Grid.Column>
@@ -593,7 +594,8 @@ const MovieDetails = () => {
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' onClick={() => handleBanReviewer(review.userId)}>Block
+                                            <p className='ban-reviewer'
+                                               onClick={() => handleBanReviewer(review.userId)}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
@@ -651,7 +653,8 @@ const MovieDetails = () => {
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' onClick={() => handleBanReviewer(review.userId)}>Block
+                                            <p className='ban-reviewer'
+                                               onClick={() => handleBanReviewer(review.userId)}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
