@@ -1,7 +1,7 @@
 from flask import request
 from flask_restplus import Resource, marshal
 from ..service.movie import *
-from ..service.recommend import encapsolate_res
+from ..service.recommend import encapsolate_res , get_best_reviews
 from ..util.decorator import token_required
 from ..util.dto import RecommendationDto
 from ..service.movie import get_all_favorites
@@ -92,19 +92,29 @@ class MoviesUser(Resource):
 		"""
 
 		cur_user = User.query.filter_by(id=user['id']).first()
-		favorite_movies = list(get_all_favorites(cur_user))[:4]
+		favorite_movies = list(get_all_favorites(cur_user))[-4:]
+		reviewed_movies = get_best_reviews(user['id'])
 		favorites, rec_movies = [], []
 
 		for m in favorite_movies:
 			favorites.append(m.tmdb_id)
-
+		for m in reviewed_movies:
+			if m.tmdb_id not in favorites:
+				favorites.append(m.tmdb_id)
+		if len(favorites) > 4:
+			favorites = favorites[:2] + favorites[-2:]
 		for id in favorites:
-			if list(pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results']).columns):
-				rec_movies += list(pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results'])['id'])[:]
+			temp_res = pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results'])
+			if list(temp_res.columns):
+				rec_movies += list(temp_res['id'])
 
 		rec_movies = set(rec_movies)
 		rec_movies = list(rec_movies)
-		res = encapsolate_res(rec_movies)
 
+		if rec_movies:
+			res = encapsolate_res(rec_movies)
+		else:
+			rec_movies = list(pd.json_normalize(ts.Movies().popular()['results'])['id'])
+			res = encapsolate_res(rec_movies)
 		return marshal(res, recommendation_movies_model)
 
