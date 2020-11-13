@@ -39,10 +39,10 @@ with app.app_context():
 		director = str(sheet.cell(r, 9).value)
 		actors = str(sheet.cell(r, 10).value)
 		description = str(sheet.cell(r, 11).value)
-		rating = float(sheet.cell(r, 12).value) / 2.0
+		external_rating = float(sheet.cell(r, 12).value) / 2.0
 
 		values = (url, imdb_id, tmdb_id, director, title,
-		          description, genre, rating, year, popularity, original_language, country, actors)
+		          description, genre, external_rating, year, popularity, original_language, country, actors)
 
 		cursor.execute(query, values)
 
