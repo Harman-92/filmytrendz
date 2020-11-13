@@ -13,9 +13,9 @@ with app.app_context():
 	book = xlrd.open_workbook("movie_datasets/movies.xls")
 	sheet = book.sheet_by_name("Sheet1")
 	conn = pymysql.connect(
-		host='localhost',
-		user='root',
-		password='112321',
+		host='v5-team.c4nceu0tb2ci.us-east-2.rds.amazonaws.com',
+		user='admin',
+		password='frontendbackend',
 		db='v5',
 		port=3306,
 		charset='utf8'
