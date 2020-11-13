@@ -113,7 +113,7 @@ class Review(db.Model):
     movie = db.Column(db.Integer, db.ForeignKey('movie.id'))
 
 
-class Privacy(enum.Enum):
+class Access(enum.Enum):
     PRIVATE = 'private'
     PUBLIC = 'public'
 
@@ -124,6 +124,6 @@ class Wishlist(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(50))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    status = db.Column(db.String(50), default="public", nullable=False)
+    status = db.Column(db.Enum(Access), default=Access.PUBLIC, nullable=False)
     movies = db.relationship('Movie', secondary=wishlist_movie, backref='wish_list', lazy='dynamic')
 

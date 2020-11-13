@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
 import {Form, Container, Grid, Divider, Message} from "semantic-ui-react";
 import api from '../config/axios';
+import response from '../config/response'
 
 const SignUp = () => {
     const [firstName, setFirstName] = useState({
@@ -108,26 +109,30 @@ const SignUp = () => {
                 mobile_no:''
             }).then((res)=>{
                 if(res.status === 200) {
-                    setEmail({...email,v:''})
-                    setPassword({...password,v:''})
-                    setFirstName({...firstName,v:''})
-                    setLastName({...lastName,v:''})
-                    setSubmit({
-                        formError: false,
-                        signUpError: false,
-                        success: true
-                    })
+                    if(res.data.error){
+                        setSubmit({
+                            formError: false,
+                            signUpError: res.data.error,
+                            success: false
+                        })
+                    }else {
+                        setSubmit({
+                            formError: false,
+                            signUpError: false,
+                            success: true
+                        })
+                    }
                 }else{
                     setSubmit({
                         formError: false,
-                        signUpError: true,
+                        signUpError: response.REGISTRATION_ERROR,
                         success: false
                     })
                 }
             }).catch((e)=>{
                 setSubmit({
                     formError: false,
-                    signUpError: true,
+                    signUpError: response.SERVER_UNAVAILABLE,
                     success: false
                 })
             })
@@ -161,7 +166,7 @@ const SignUp = () => {
                         />
                         <Message
                             error
-                            header='Failed to Register!!!'
+                            header={submit.signUpError}
                         />
                         <Message
                             success

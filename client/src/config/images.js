@@ -12,8 +12,8 @@ const images = {
     no_profile : '/empty_profile.png',
     no_image : '/empty_image.png',
     upload : '/upload.png',
-    public : access+'/public.png',
-    private : access+'/private.png'
+    PUBLIC : access+'/public.png',
+    PRIVATE : access+'/private.png'
 }
 
 export default images

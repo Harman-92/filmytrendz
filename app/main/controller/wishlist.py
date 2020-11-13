@@ -1,7 +1,7 @@
 from flask import request
 from flask_restplus import Resource, marshal
 from ..util.dto import WishListDto
-from ..util.decorator import token_required
+from ..util.decorator import token_required, token_optional
 from app.main.service.wishlist import *
 import json
 from ..http_status import *
@@ -23,38 +23,30 @@ class Wishlist(Resource):
 	@api.response(400, 'unauthorized')
 	@token_required
 	def put(self, user):
+		"""
+			This is a functionality to add new wishlist for the logged in user.
+		"""
 		user_id = user['id']
-
-		if user_id:
-			info = json.loads(request.get_data())
-			wishlist = create_wishlist(info, user_id)
-			if wishlist=={}:
-				resp = make_response(jsonify({'message': 'please enter valid status'}))
-				resp.status_code = BAD_REQUEST
-				return resp
-			else:
-
-				return marshal(wishlist, new_wishlist_return_model), SUCCESS
-
+		info = json.loads(request.get_data())
+		wishlist = create_wishlist(info, user_id)
+		if not wishlist:
+			resp = make_response(jsonify({'message': 'please enter valid status'}))
+			resp.status_code = BAD_REQUEST
+			return resp
 		else:
-			api.abort(400, 'invalid operation')
+			return marshal(wishlist, new_wishlist_return_model), SUCCESS
 
 	@api.doc('get all wishlists of user')
 	@api.response(200, 'success', model=wish_lists_model)
-	@api.response(400, 'unauthorized')
+	@api.response(401, 'unauthorized')
 	@token_required
-	def get(self,user):
+	def get(self, user):
+		"""
+			This is the functionality to add new wishlist for the logged in user.
+		"""
 		user_id = user['id']
-
-		if user_id:
-
-			wishlist = get_all_wishlists(user_id)
-			return marshal(wishlist, wish_lists_model), SUCCESS
-		else:
-
-			api.abort(400, 'invalid operation')
-
-
+		wishlist = get_all_wishlists(user_id)
+		return marshal(wishlist, wish_lists_model), SUCCESS
 
 
 @api.route('/<id>')
@@ -62,27 +54,24 @@ class Wishlist(Resource):
 
 	@api.doc('get wishlist of user')
 	@api.response(200, 'success', model=wish_list_model)
-	@api.response(400, 'invalid')
-	@token_required
+	@api.response(401, 'unauthorized')
+	@token_optional
 	def get(self, user, id):
-
-		user_id = user['id']
-
-		if user_id:
-
-			wishlist = get_wishlist(id, user_id)
-			return marshal(wishlist, wish_list_model), SUCCESS
-		else:
-
-			api.abort(400, 'invalid operation')
+		"""
+		this is the functionality to get all information of a wishlist given its id
+		"""
+		wishlist = get_wishlist(id, user)
+		return marshal(wishlist, wish_list_model), SUCCESS
 
 	@api.doc('deleting new wishlist')
 	@api.response(200, 'Success')
 	@api.response(400, 'unauthorized')
 	@token_required
 	def delete(self, user, id):
+		"""
+		this is the functionality to delete a wishlist linked to a user
+		"""
 		user_id = user['id']
-
 
 		if user_id:
 
@@ -95,18 +84,14 @@ class Wishlist(Resource):
 	@api.doc('update wishlist of user')
 	@api.expect(wishlist_update_model)
 	@api.response(200, 'success')
-	@api.response(400, 'invalid')
+	@api.response(401, 'unauthorized')
 	@token_required
 	def post(self, user, id):
+		"""
+		this is the functionality to update a wishlist linked to a user
+		"""
 		user_id = user['id']
-
-		if user_id:
-
-			updated_info = json.loads(request.get_data())
-
-			response = update_wishlist(updated_info, id, user_id)
-			return response
-
-		else:
-			api.abort(400, 'invalid operation')
+		updated_info = json.loads(request.get_data())
+		response = update_wishlist(updated_info, id, user_id)
+		return response
 

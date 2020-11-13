@@ -3,7 +3,6 @@ import '../style/MenuCustom.css';
 import {Grid, Menu, Divider} from "semantic-ui-react";
 import images from "../config/images";
 import {useHistory} from "react-router-dom";
-import {removeAccessToken} from "../config/session";
 
 const IconCustom = (props) => (
     <i className="">
@@ -18,8 +17,7 @@ const MenuCustom = ({setOpen}) => {
         setActiveItem(name)
         setOpen(false)
         if (name === 'logout') {
-            removeAccessToken()
-            history.push('/')
+            history.push('/logout')
         } else {
             history.push('/' + name)
         }

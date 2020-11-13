@@ -1,4 +1,3 @@
-
 from flask import jsonify, make_response, request
 from functools import wraps
 from app.main.service.user import TOKEN
@@ -16,10 +15,21 @@ def token_required(f):
 
         user = TOKEN.validate_token(token)
         if not user:
-            resp = make_response(jsonify({'message': 'Invalid Authorization Token'}))
+            resp = make_response(jsonify({'error': 'Invalid Authorization Token'}))
             resp.status_code = UNAUTHORIZED
             return resp
         return f(*args, user, **kargs)
 
     return decorate
 
+
+def token_optional(f):
+    @wraps(f)
+    def decorate(*args, **kargs):
+        token = request.headers.get('Authorization')
+        user = None
+        if token:
+            user = TOKEN.validate_token(token)
+        return f(*args, user, **kargs)
+
+    return decorate

@@ -53,12 +53,12 @@ class Auth:
         user = User.query.filter_by(email=email).first()
 
         if not user:
-            resp = make_response(jsonify({'message': 'user does not exist'}))
+            resp = make_response(jsonify({'error': 'Email does not exist'}))
             resp.status_code = UNAUTHORIZED
             return resp
 
         if not user.check_password(password):
-            resp = make_response(jsonify({'message': 'incorrect password'}))
+            resp = make_response(jsonify({'error': 'Incorrect password'}))
             resp.status_code = UNAUTHORIZED
             return resp
 
@@ -141,7 +141,7 @@ class Auth:
         user = User.query.filter_by(email=email).first()
 
         if user:
-            resp = make_response(jsonify({'message': 'user alreay exist'}))
+            resp = make_response(jsonify({'error': 'User already exists'}))
             resp.status_code = SUCCESS
 
             return resp

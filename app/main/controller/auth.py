@@ -5,7 +5,6 @@ from app.main.service.auth import Auth
 from ..util.dto import AuthDto
 from ..util.decorator import token_required
 
-
 """
 	Authentication Api:
 	signup -- provide the api for user to signup with the application
@@ -24,7 +23,7 @@ class UsersignUp(Resource):
     @api.doc(
         description="signup with email, password, names"
     )
-    @api.response(201, 'success')
+    @api.response(200, 'success')
     @api.response(400, 'badrequest')
     def post(self):
         user_info = json.loads(request.data)
@@ -37,7 +36,7 @@ class UserLogin(Resource):
     @api.doc(
         description="login with email and password"
     )
-    @api.response(201, 'success')
+    @api.response(200, 'success')
     @api.response(401, 'unauthorized')
     def post(self):
         user_info = json.loads(request.data)
@@ -50,7 +49,6 @@ class UserLogout(Resource):
     @api.response(201, 'success')
     @api.response(401, 'unauthorized')
     @token_required
-    def post(self):
-        token = request.headers.get('token')
+    def post(self, user):
+        token = request.headers.get('Authorization')
         return Auth.logout(token)
-
