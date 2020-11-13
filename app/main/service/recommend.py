@@ -1,4 +1,4 @@
-from ..model.model import Movie
+from ..model.model import Movie, Review
 
 
 def encapsolate_res(movies,director=None):
@@ -28,3 +28,18 @@ def encapsolate_res(movies,director=None):
 
 	return res
 
+
+def get_best_reviews(id):
+	"""
+		param: user id
+
+		return: res
+		- list of movie objects
+	"""
+	reviews = Review.query.filter(Review.user == user['id'], Review.rating >= 3).order_by(Review.id.desc())
+	id_list = [x.movie for x in reviews]
+	res = []
+	if id_list:
+		res = Movie.query.filter(Movie.tmdb_id.in_(movies)).limit(4)
+
+	return res
