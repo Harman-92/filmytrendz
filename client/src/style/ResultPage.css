@@ -1,0 +1,36 @@
+.spanStyle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #7b68ee;
+}
+.ui.card>.movie-card-content.content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: rgba(26, 25, 25, 0.81);
+    color: white !important;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+    border-radius: 5px!important;
+    opacity: 0;
+}
+.ui.card>.movie-card-content.content:hover {
+    opacity: 1;
+}
+
+.cardContext {
+    color: white !important;
+    margin-bottom: 2%;
+}
+
+.cardDivider {
+    margin: 0.5rem 0!important;
+}
+
+.cardContentView {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1;
+}

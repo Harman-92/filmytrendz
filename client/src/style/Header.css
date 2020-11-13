@@ -1,0 +1,84 @@
+.container {
+  height: 100%;
+  padding-top: 2%;
+}
+.header-menu-tab .item {
+  width: 50%;
+  font-size: 1.5em !important;
+}
+.header-button {
+  background-color: rgba(118,45,221,0.3)!important;
+  color: #3a3255!important;
+}
+.header-button:hover {
+  background-color: #6435C9!important;
+  color: #ffffff !important;
+}
+.header-segment {
+  background-color: rgba(118,45,221,0.05)!important;
+}
+.header-container.ui.container {
+  min-height: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  background-color: inherit;
+}
+.logo{
+  float: left!important;
+}
+.header-search {
+  margin-left: 2%;
+}
+.header-search.action.input:not([class*="left action"])>input:focus{
+  border-color: rgba(34,36,38,.35) !important;
+}
+.filter-icon {
+  background-color: rgba(0,0,0,0) !important;
+  color: #6435C9 !important;
+}
+.filter-grid {
+  width: 100%;
+  margin-top: 2% !important;
+}
+.filter-form-group {
+  margin:0!important;
+}
+.filter-genre {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+.ui.basic.filter-button {
+  background: white!important;
+}
+.menu-div {
+  float: right;
+  display: flex;
+  align-items: center;
+}
+.menu-text {
+  font-size: 16px;
+}
+.menu-text>p,.menu-text>h3 {
+  margin: 0;
+}
+.filterHeader {
+  font-size: 1.2em !important;
+  font-weight: bold;
+}
+.itemFont {
+  font-size: 1.0em !important;
+}
+
+.ui.radio.checkbox input:checked~.box:after, .ui.radio.checkbox input:checked~label:after {
+  background-color: #7b68ee !important;
+}
+
+.errMsg {
+  color: red;
+  padding-left: 2%;
+  padding-top: 2%;
+}
+.filter-genre-container{
+  padding-right: 2em!important;
+}
+
