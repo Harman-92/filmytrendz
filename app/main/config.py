@@ -18,7 +18,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = mysql_aws_db
+    SQLALCHEMY_DATABASE_URI = local_db
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     RESTPLUS_MASK_SWAGGER = False
 
