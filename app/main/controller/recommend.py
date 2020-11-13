@@ -59,10 +59,13 @@ class MoviesSearch(Resource):
 
 		if flag == 0:
 			rec_movies = rec_gen
+			movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies))
 		elif flag == 1:
 			rec_movies = rec_genre
+			movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies))
 		else:
 			rec_movies = list(rec_dir)
+			movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies))
 
 		res = encapsolate_res(rec_movies)
 
@@ -95,6 +98,7 @@ class MoviesUser(Resource):
 
 		rec_movies = set(rec_movies)
 		rec_movies = list(rec_movies)
+		movie_instance = Movie.query.filter(Movie.tmdb_id.in_(rec_movies))
 		res = encapsolate_res(rec_movies)
 
 		return marshal(res, recommendation_movies_model)
