@@ -1,7 +1,7 @@
 from app.main.model.model import Movie
 
 
-def encapsolate_res(movies):
+def encapsolate_res(movies,director=None):
 	"""
 		param: movies
 		- movies is a list of movies' tmdb_id
@@ -13,10 +13,14 @@ def encapsolate_res(movies):
 		- list of movie objects
 	"""
 	movies_list = []
-	for id in movies:
-		m = Movie.query.filter_by(tmdb_id=id).first()
-		if m:
-			movies_list.append(m)
+	if director:
+		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies) and Movie.director.like(f'%{director}%'))
+	else:
+		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies))
+
+	for m in movie_res:
+		movies_list.append(m)	
+
 
 	res = {
 		'movies': movies_list
