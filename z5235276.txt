@@ -21,5 +21,50 @@ Updated UI UX design wire frames.
 Updated user stories, added more information to backlog.
 Formatted the project proposal document.
 Created cloud server architecture and technology stack diagram.
+Organised story point estimation meeting with team for user stories.
 
 Week 4
+
+Finished story point estimation with team.
+Worked on frontend boiler code which includes initial page, routing and server.
+Conducted Scrum meeting and discussed about the Demo.
+
+Week 5
+
+Presented the Demo. Organised a Retrospective.
+Organised Sprint planning and started new sprint.
+Worked on Retrospective report and submitted.
+Worked on CWV 61, 136, 64
+    - Home page layout, SignUp and Login page, Header components.
+Organised scrum meet for status update - monday.
+
+Week 6
+
+Organised scrum meet for status update - wednesday.
+Worked on CWV 136 - User Menu options.
+Worked on CWV 63,65 - Sign-up and Login form validation.
+Worked on CWV 85 - Routing and Navigation.
+Worked on CWV 22 - Movie page, review, add to favorite, watched, wishlist, share
+Worked on CWV 17 - User Profile edit, change password
+
+Week 7
+
+Organised Sprint planning, retrospective - wednesday
+Worked on user session management using cookies - CWV 138,140
+Worked on CWV 26,27 - Adding and removing banned users
+Worked on CWV 31 - Wish lists
+Worked on CWV 32,33 - public or private wish list and sharing
+Organised a meeting to discuss API progress and testing
+
+Week 8
+
+Attended the Demo B.
+Submitted Retrospective B report.
+Fixed issues with navigation and some front-end bugs.
+Worked on Integrating front and backend while fixing bugs.
+Integrated - authentication, user, wish list, homepage.
+Finished Integration and testing and raised JIRA tickets for bugs in API.
+
+Week 9
+
+Implemented the fixed bugs and refactored the code.

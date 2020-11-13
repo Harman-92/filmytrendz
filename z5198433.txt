@@ -17,3 +17,43 @@ Week2:
 4. Draft user stories
 5. UI/UX design
 --------------------------------------------------------------
+
+Week3:
+ 
+1. discuss user stories
+2. learn how to design database schema
+3. start working on backend boiler template
+--------------------------------------------------------------
+
+Week4:
+ 
+1. code backend boiler template
+2. review and improve the database design
+3. build data object with ORM
+4. explore login with Facebook
+5. explore user session management
+--------------------------------------------------------------
+
+Week5:
+ 
+1. backend api design
+2. attend the group retrospective
+3. Worked on CWV-128
+4. explore login with Facebook
+5. Worked on CWV-131
+--------------------------------------------------------------
+
+Week6:
+ 
+1. worked on CWV-128 - login
+2. worked on CWV-129 - logout
+3. Worked on CWV-130 - Get API for recommendations with filters
+4. worked on CWV-131 - add movie to watched for user
+--------------------------------------------------------------
+
+Week7:
+1. worked on CWV-132 - favorite movie for user
+2. Worked on CWV-133 - add to wish list for user
+3. Worked on CWV-119 - get movie details
+4. Worked on CWV-120 - search movie with filters
+--------------------------------------------------------------

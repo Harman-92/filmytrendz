@@ -2,3 +2,52 @@ Week 1
 
 Held two meetings with the group to decide on the project. Finalised the project. 
 Discussed on possible tech stack to use. I also had a brief look at various recommender systems.
+
+----------------------------------------------------------------------------------------------------
+
+Week 2 
+
+Worked on the System Architecture Diagram. In the retrospective meeting, agreed to change back to Flask from Django.
+Updated the diagram accordingly.
+
+----------------------------------------------------------------------------------------------------
+
+Week 3
+
+Finished the architecture diagram. Reviewed the proposal. Did background research on available movie data sources.
+Applied for TMDB api access and got it.
+
+----------------------------------------------------------------------------------------------------
+
+Week 4 
+
+Worked on creating a script to extract data from TMDB api. Dicussed api design for our project with the team.
+
+----------------------------------------------------------------------------------------------------
+
+Week 5
+
+Finished generating all the movie data till Jan1, 2020. Applied for omdb api access and got it. 
+Finished script to generate all the movies till Oct, 2020. It didn't work because of a request rate limit enforced by omdb.
+Explored different ways to gather the data - data dumps and tmdb's discover api.
+
+----------------------------------------------------------------------------------------------------
+
+Week 6 
+
+Finished Data collection. Finished preprocessing dataset. Started work on movie recommendation model.
+
+----------------------------------------------------------------------------------------------------
+
+Week 7
+
+Finished movie recommendation model. Finished user specific recommendation model. Participated in restrospective.
+Held a mock demo.
+
+----------------------------------------------------------------------------------------------------
+
+Week 8
+
+Worked on recommendation api. Started work on report.
+
+-----------------------------------------------------------------------------------------------------
