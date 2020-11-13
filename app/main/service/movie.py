@@ -79,8 +79,12 @@ def get_all_latest_movies():
 
 
 def get_all_reviewed_movies(cur_user):
-	movies = Review.query.filter_by(user=cur_user.id).all()
-
+	movies = []
+	movie_ids = []
+	reviews = Review.query.filter_by(user=cur_user.id).all()
+	for r in reviews:
+		if r.movie not in movie_ids:
+			movies.append(Movie.query.filter_by(id=r.movie).first())
 	return movies
 
 

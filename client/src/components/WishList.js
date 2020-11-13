@@ -108,20 +108,32 @@ const WishList = () => {
 
     }
     const handleCreateWishList = () => {
-        let copyWishList = [...wishList]
-        copyWishList.splice(0, 0, {
-            id: 44,
-            name: newWishList.name,
-            status: newWishList.status,
-            movies: newWishList.movies
+        api.put('/wishlist',{
+            'name': newWishList.name,
+            'status': newWishList.status
+        }).then((res) => {
+            if (res.status === 200) {
+                let copyWishList = [...wishList]
+                copyWishList.splice(0, 0, {
+                    id: 44,
+                    name: newWishList.name,
+                    status: newWishList.status,
+                    movies: newWishList.movies
+                })
+                setWishList(copyWishList)
+                setNewWishList({
+                    name: '',
+                    status: PUBLIC,
+                    movies: []
+                })
+                setIsAddWishList(false)
+            } else {
+                console.log(response.SERVER_ERROR)
+            }
+        }).catch((e) => {
+            console.log(response.SERVER_ERROR)
         })
-        setWishList(copyWishList)
-        setNewWishList({
-            name: '',
-            status: PUBLIC,
-            movies: []
-        })
-        setIsAddWishList(false)
+
     }
     const handleSaveEditWishlist = () => {
         api.post('/wishlist/'+isEditId,{

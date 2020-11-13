@@ -201,19 +201,35 @@ const MovieDetails = () => {
     }
 
     const handleWishListChange = (e, {id, value}) => {
-        api.post('/wishlist/'+value,{
-            'remove_list': [movieDetails.id]
-        }).then((res) => {
-            if (res.status === 200) {
-                let tempArr = [...wishList]
-                tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
-                setWishList(tempArr)
-            } else {
+        if(wishList[id].added) {
+            api.post('/wishlist/' + value, {
+                'remove_list': [movieDetails.id]
+            }).then((res) => {
+                if (res.status === 200) {
+                    let tempArr = [...wishList]
+                    tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
+                    setWishList(tempArr)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
                 console.log(response.SERVER_ERROR)
-            }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
-        })
+            })
+        }else{
+            api.post('/wishlist/' + value, {
+                'new_list': [movieDetails.id]
+            }).then((res) => {
+                if (res.status === 200) {
+                    let tempArr = [...wishList]
+                    tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
+                    setWishList(tempArr)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
+            })
+        }
     }
     const handleAddWishList = () => {
         api.put('/wishlist',{
@@ -279,10 +295,17 @@ const MovieDetails = () => {
     }
     const handleWatched = () => {
         if(movieDetails.watched){
-        //TODO: API to remove movie from watched
-            setMovieDetails({
-                ...movieDetails,
-                watched: !movieDetails.watched
+            api.delete('/movie/' + movieDetails.id + '/watched').then(res => {
+                if (res.status === 200) {
+                    setMovieDetails({
+                        ...movieDetails,
+                        watched: !movieDetails.watched
+                    })
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
             })
         }else {
             api.put('/movie/' + movieDetails.id + '/watched').then(res => {

@@ -219,11 +219,33 @@ const ResultPage = () => {
     }, [sortFilter.keyword, sortFilter.ascending])
 
     const deteleCard = () => {
-        console.log(deleteItem.index)
-        setModalOpen(false)
-        const copy_resultList = [].concat(movieResults)
-        copy_resultList.splice(deleteItem.index, 1)
-        setMovieResults(copy_resultList)
+        if (pageType === 'favorite') {
+            api.put('/movie/' + deleteItem.id + '/unfavorite').then(res => {
+                if (res.status === 200) {
+                    setModalOpen(false)
+                    const copy_resultList = [].concat(movieResults)
+                    copy_resultList.splice(deleteItem.index, 1)
+                    setMovieResults(copy_resultList)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
+            })
+        } else if (pageType === 'watched') {
+            api.delete('/movie/' + deleteItem.id + '/watched').then(res => {
+                if (res.status === 200) {
+                    setModalOpen(false)
+                    const copy_resultList = [].concat(movieResults)
+                    copy_resultList.splice(deleteItem.index, 1)
+                    setMovieResults(copy_resultList)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch((e) => {
+                console.log(response.SERVER_ERROR)
+            })
+        }
     }
 
     return (
@@ -272,26 +294,27 @@ const ResultPage = () => {
                         <Card className='movieCard' fluid
                               key={index}
                         >
-                            <Image src={movie.image}/>
+                            <Image src={movie.url}/>
                             <Card.Content as={'div'} className='movie-card-content'>
                                 {
-                                    pageType !== 'search'  && pageType !== 'reviewed'?
+                                    pageType !== 'search' && pageType !== 'reviewed' ?
                                         <Label as='a' corner='right' color='violet' icon='x'
-                                             onClick={() => {
-                                                    setModalOpen(true)
-                                                    setDeleteItem({
-                                                        index: index,
-                                                        title: movie.title
-                                                    })
-                                                }} />: null
+                                               onClick={() => {
+                                                   setModalOpen(true)
+                                                   setDeleteItem({
+                                                       index: index,
+                                                       id: movie.id
+                                                   })
+                                               }}/>
+                                        : null
                                 }
                                 <div className='cardContentView'
-                                    onClick={() => history.push('/movie/' + movie.id)}>
+                                     onClick={() => history.push('/movie/' + movie.id)}>
                                     <Card.Header className='cardContext'>{movie.title}</Card.Header>
                                     <Divider className='cardDivider'/>
-                                    <Card.Meta className='cardContext'>Released in {movie.releaseYear}</Card.Meta>
+                                    <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
                                     <div>
-                                        <Icon name='star' inverted color='violet'/> {movie.averageRating}
+                                        <Icon name='star' inverted color='violet'/> {movie.rating}
                                     </div>
                                 </div>
                             </Card.Content>

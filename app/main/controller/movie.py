@@ -117,7 +117,6 @@ class MovieWatched(Resource):
 		watched_movie_user(user, mid)
 		return jsonify({'watched': 'success'}, SUCCESS)
 
-
 	@api.doc('remove movie from watched list')
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
@@ -127,10 +126,8 @@ class MovieWatched(Resource):
 		"""
 			remove the movie from user watched list
 		"""
-		if remove_watched_movie_user(user, mid):
-			return jsonify({'remove watched': 'success'}, SUCCESS)
-		else:
-			api.abort(NOT_FOUND, 'movie not found')
+		remove_watched_movie_user(user, mid)
+		return jsonify({'remove watched': 'success'}, SUCCESS)
 
 
 @api.route('/<mid>/wishlist')
