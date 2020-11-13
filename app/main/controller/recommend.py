@@ -87,7 +87,7 @@ class MoviesUser(Resource):
 		favorites, rec_movies = [], []
 
 		for m in favorite_movies:
-			favorites.append(m.id)
+			favorites.append(m.tmdb_id)
 
 		for id in favorites:
 			if list(pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results']).columns):
