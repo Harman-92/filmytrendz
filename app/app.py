@@ -9,7 +9,7 @@ from main.model.model import *
     Create App with Environment
     ('production', 'development', 'test')
 """
-app = create_app('production')
+app = create_app('development')
 CORS(app)
 app.register_blueprint(blueprint)
 
