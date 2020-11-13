@@ -48,7 +48,10 @@ class MoviesSearch(Resource):
 			flag = 2
 
 		movie_id = str(target_movie.tmdb_id)
-		director = target_movie.director.split()[0]
+		try:
+			director = target_movie.director.split()[0]
+		except:
+			director = None	
 
 		rec_gen = list(pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results'])['id'])
 		rec_genre = list(pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results'])['id'])
@@ -59,12 +62,18 @@ class MoviesSearch(Resource):
 
 		if flag == 0:
 			rec_movies = rec_gen
+			
 		elif flag == 1:
 			rec_movies = rec_genre
+			
 		else:
-			rec_movies = list(rec_dir)
-
-		res = encapsolate_res(rec_movies)
+			rec_movies = rec_dir
+			
+		if flag == 2 and director:
+			res = encapsolate_res(rec_movies, director=director)
+		else:
+			res = encapsolate_res(rec_movies)	
+		
 
 		return marshal(res, recommendation_movies_model)
 
