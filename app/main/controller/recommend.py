@@ -70,7 +70,7 @@ class MoviesSearch(Resource):
 			rec_movies = rec_dir
 			
 		if flag == 2 and director:
-			res = encapsolate_res(rec_movies, director)
+			res = encapsolate_res(rec_movies, director=director)
 		else:
 			res = encapsolate_res(rec_movies)	
 		
