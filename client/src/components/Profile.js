@@ -260,7 +260,7 @@ const Profile = () => {
     }
     const handleUnBanUser = (e, {id}) => {
         api.delete('/user/banneduser', {
-            id: id
+            'id': id
         }).then((res) => {
             if (res.status === 200) {
                 setBannedUsers(users => users.filter(user => user.id !== id))
