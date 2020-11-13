@@ -92,7 +92,7 @@ class MoviesUser(Resource):
 		"""
 
 		cur_user = User.query.filter_by(id=user['id']).first()
-		favorite_movies = list(get_all_favorites(cur_user))[:4]
+		favorite_movies = list(get_all_favorites(cur_user))[-4:]
 		reviewed_movies = get_best_reviews(user['id'])
 		favorites, rec_movies = [], []
 
