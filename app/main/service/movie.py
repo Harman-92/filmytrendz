@@ -261,6 +261,24 @@ def watched_movie_user(user, mid):
 	return success
 
 
+def remove_watched_movie_user(user, mid):
+	"""
+		user label the specific movie as watched movie, which will be
+		removed from the watched movies relationship table
+	"""
+	cur_user = User.query.filter_by(id=user['id']).first()
+	cur_movie = Movie.query.filter_by(id=mid).first()
+	success = False
+
+	if cur_movie:
+		cur_user.watched_movies.remove(cur_movie)
+		db.session.add(cur_user)
+		db.session.commit()
+		success = True
+
+	return success
+
+
 def add_movie_wishlist(user, mid, listwishlist):
 	"""
 		user may want to add the movie to his specific wishlist, which
