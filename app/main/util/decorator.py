@@ -1,7 +1,7 @@
 from flask import jsonify, make_response, request
 from functools import wraps
-from app.main.service.user import TOKEN
-from ..http_status import *
+from ..service.user import TOKEN
+from ..util.http_status import *
 
 
 def token_required(f):

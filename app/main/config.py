@@ -7,7 +7,7 @@ import os
 """
 
 local_db = 'mysql+pymysql://root:112321@127.0.0.1:3306/v5'
-mysql_aws_db = 'mysql+pymysql://NOT HAVE YET'
+mysql_aws_db = 'mysql+pymysql://admin:frontendbackend@v5-team.c4nceu0tb2ci.us-east-2.rds.amazonaws.com:3306/v5'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 

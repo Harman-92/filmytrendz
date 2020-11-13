@@ -1,9 +1,6 @@
-from time import time
 from flask import jsonify, make_response
-from app.main import db
-from app.main.model.model import *
-from app.main.config import key
-from ..http_status import *
+from ..model.model import *
+from ..util.http_status import *
 
 
 def create_wishlist(data, user_id):

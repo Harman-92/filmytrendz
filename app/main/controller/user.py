@@ -1,10 +1,10 @@
 from flask import request
 from flask_restplus import Resource, marshal
 from ..util.dto import UserDto
-from app.main.service.user import *
+from ..service.user import *
 from ..util.decorator import token_required
 import json
-from ..http_status import *
+from ..util.http_status import *
 
 api = UserDto.api
 user_model = UserDto.user

@@ -2,9 +2,9 @@ from time import time
 from itsdangerous import SignatureExpired, BadSignature
 from itsdangerous import TimedJSONWebSignatureSerializer as JWTSerializer, JSONWebSignatureSerializer
 from flask import jsonify, make_response
-from app.main.model.model import *
-from app.main.config import key
-from ..http_status import *
+from ..model.model import *
+from ..config import key
+from ..util.http_status import *
 
 """
 	service.user provides supported functions for the controller.user
