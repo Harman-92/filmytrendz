@@ -68,15 +68,7 @@ const MovieDetails = () => {
         rating: 0
     })
     const [user, setUser] = useState(getUserInfo)
-    const [similarMovies, setSimilarMovies] = useState([
-        {id: 1, url: '/poster.jpg', title: 'Spider Man-1', Genre: 'Fiction', Director: 'Abc'},
-        {id: 2, url: '/poster.jpg', title: 'Spider Man-2', Genre: 'Fiction', Director: 'Abc'},
-        {id: 3, url: '/poster.jpg', title: 'Spider Man-3', Genre: 'Fiction', Director: 'Abc'},
-        {id: 4, url: '/poster.jpg', title: 'Spider Man-4', Genre: 'Fiction', Director: 'Abc'},
-        {id: 5, url: '/poster.jpg', title: 'Spider Man-5', Genre: 'Fiction', Director: 'Abc'},
-        {id: 6, url: '/poster.jpg', title: 'Spider Man-6', Genre: 'Fiction', Director: 'Abc'},
-        {id: 7, url: '/poster.jpg', title: 'Spider Man-7', Genre: 'Fiction', Director: 'Abc'},
-    ])
+    const [similarMovies, setSimilarMovies] = useState([])
     const [addReview, setAddReview] = useState(false)
     const [searchBy, setSearchBy] = useState('a')
     const [addWishList, setAddWishList] = useState(false)
@@ -257,9 +249,21 @@ const MovieDetails = () => {
     }
 
     useEffect(() => {
-        {/*TODO: call recommend movie api*/
+        let filterString = ""
+        if(searchBy === "g"){
+            filterString += "genre=true"
+        }else if(searchBy === "d"){
+            filterString += "director=true"
         }
-        console.log("searchBy: " + searchBy)
+        api.get('/recommend/'+movieDetails.id+'/?'+filterString).then((res) => {
+            if (res.status === 200) {
+                setSimilarMovies(res.data.movies)
+            } else {
+                console.log(response.SERVER_ERROR)
+            }
+        }).catch((e) => {
+            console.log(response.SERVER_ERROR)
+        })
     }, [searchBy])
 
     useEffect(() => {
