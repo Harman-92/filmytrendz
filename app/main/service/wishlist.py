@@ -52,7 +52,7 @@ def update_wishlist(updated_info, wishlist_id, user_id):
         params: id,updated_info,wishlish_id
         this is the function to update a wishlist linked to a user with its updated info
 
-        update functionalities include, adding/deleting moving, updating name and statud.
+        update functionalities include, adding/deleting moving, updating name and status.
     """
     if 'new_list' in updated_info.keys():
         new_list = updated_info['new_list']
@@ -62,6 +62,7 @@ def update_wishlist(updated_info, wishlist_id, user_id):
         remove_list = updated_info['remove_list']
     else:
         remove_list = []
+
 
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
 
@@ -77,7 +78,7 @@ def update_wishlist(updated_info, wishlist_id, user_id):
             wishlist.movies.remove(movie)
 
         if 'name' in updated_info.keys():
-            wishlist.name=updated_info['name']
+            wishlist.name = updated_info['name']
 
         if 'status' in updated_info.keys():
             try:
