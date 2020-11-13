@@ -30,38 +30,7 @@ const WishListPublic = () => {
     const history = useHistory()
     const location = useLocation()
     const {id} = useParams()
-    const [wishList, setWishList] = useState(
-        {
-            id: 43,
-            name: 'Nerves of Steel',
-            status: 'public',
-            movies: [
-                {
-                    id: 64,
-                    title: 'Spider Man 1',
-                    url: '/poster.jpg',
-                    rating: 4,
-                },
-                {
-                    id: 65,
-                    title: 'Spider Man 2',
-                    url: '/poster.jpg',
-                    rating: 2.5,
-                },
-                {
-                    id: 66,
-                    title: 'Spider Man 3',
-                    url: '/poster.jpg',
-                    rating: 3.5,
-                },
-                {
-                    id: 67,
-                    title: 'Spider Man 4',
-                    url: '/poster.jpg',
-                    rating: 5,
-                }
-            ]
-        });
+    const [wishList, setWishList] = useState({});
     useEffect(() => {
         api.get('/wishlist/'+id).then((res) => {
             if (res.status === 200) {

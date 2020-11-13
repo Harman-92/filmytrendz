@@ -20,98 +20,7 @@ const ResultPage = () => {
     const history = useHistory()
     const location = useLocation()
     const [isLogin, setIsLogin] = useState(isAuthenticated())
-    const [movieResults, setMovieResults] = useState([
-        {
-            id: 1,
-            image: '/poster.jpg',
-            title: 'A Spider Man-1',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '1991',
-            averageRating: 4.5
-        },
-        {
-            id: 2,
-            image: '/poster.jpg',
-            title: 'B Spider Man-2',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '1992',
-            averageRating: 4.5
-        },
-        {
-            id: 3,
-            image: '/poster.jpg',
-            title: 'C Spider Man-3',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '1985',
-            averageRating: 3
-        },
-        {
-            id: 4,
-            image: '/poster.jpg',
-            title: 'D Spider Man-4',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '2001',
-            averageRating: 4
-        },
-        {
-            id: 5,
-            image: '/poster.jpg',
-            title: 'E Spider Man-5',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '1781',
-            averageRating: 2.5
-        },
-        {
-            id: 6,
-            image: '/poster.jpg',
-            title: 'F Spider Man-6',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '1991',
-            averageRating: 4.3
-        },
-        {
-            id: 7,
-            image: '/poster.jpg',
-            title: 'G Spider Man-7',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '1991',
-            averageRating: 4.6
-        },
-        {
-            id: 8,
-            image: '/poster.jpg',
-            title: 'H Spider Man-8',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '2009',
-            averageRating: 3.6
-        },
-        {
-            id: 9,
-            image: '/poster.jpg',
-            title: 'I Spider Man-9',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '2012',
-            averageRating: 2.2
-        },
-        {
-            id: 10,
-            image: '/poster.jpg',
-            title: 'J Spider Man-10',
-            genre: 'Fiction',
-            director: 'Abc',
-            releaseYear: '2011',
-            averageRating: 4.5
-        },
-    ])
+    const [movieResults, setMovieResults] = useState([])
 
     const [sortFilter, setSortFilter] = useState({
         keyword: 'title',
@@ -197,10 +106,10 @@ const ResultPage = () => {
                     (a, b) => a.title > b.title ? 1 : -1)
             } else if (keyword === 'releaseYear') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a, b) => a.releaseYear > b.releaseYear ? 1 : -1)
+                    (a, b) => a.year > b.year ? 1 : -1)
             } else if (keyword === 'averageRating') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a, b) => a.averageRating > b.averageRating ? 1 : -1)
+                    (a, b) => a.rating > b.rating ? 1 : -1)
             }
         } else {
             if (keyword === 'title') {
@@ -208,10 +117,10 @@ const ResultPage = () => {
                     (a, b) => a.title > b.title ? -1 : 1)
             } else if (keyword === 'releaseYear') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a, b) => a.releaseYear > b.releaseYear ? -1 : 1)
+                    (a, b) => a.year > b.year ? -1 : 1)
             } else if (keyword === 'averageRating') {
                 copy_movieResults = copy_movieResults.sort(
-                    (a, b) => a.averageRating > b.averageRating ? -1 : 1)
+                    (a, b) => a.rating > b.rating ? -1 : 1)
             }
         }
         console.log(copy_movieResults)

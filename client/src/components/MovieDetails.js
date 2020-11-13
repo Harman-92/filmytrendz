@@ -57,77 +57,8 @@ const MovieDetails = () => {
     const history = useHistory()
     const {id} = useParams()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
-    const [movieDetails, setMovieDetails] = useState({
-        id: 34,
-        title: 'Spider Man 3',
-        url: '/poster.jpg',
-        rating: 4.5,
-        description: 'Lorem ipsum dolor sit amet, cu principes  eloquentiam mea,' +
-            'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-            'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-            'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-            'per at dolorem consectetuer.  Pri oporteat consulatu intellegamte. ' +
-            'Per no mucius audire perpetua, cum tale iriure phaedrum ad.' +
-            'Usu vulputate consetetur voluptatum te, agam unum dicit cu' +
-            'cum. Fugit prompta deleni in sed, singulis explicari vis cu.',
-        genre: 'Fiction',
-        cast: [
-            {image: '/poster.jpg', name: 'Tom Holland', role: 'Peter Parker / Spider-Man'},
-            {image: '/poster.jpg', name: 'Samuel L. Jackson', role: 'Nick Fury long long long long long name'},
-            {image: '/poster.jpg', name: 'Zendaya', role: 'Harold "Happy" Hogan'},
-            {image: '/poster.jpg', name: 'Jon Favreau', role: 'Avebe'},
-            {image: '/poster.jpg', name: 'J. B. Smoove', role: 'Julius Dell'},
-        ],
-        reviews: [
-            {
-                url: '',
-                userId: 23,
-                name: 'Matt',
-                createdDate: '2020-10-20 15:34',
-                title: 'How artistic!',
-                description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
-                rating: 4.5
-            },
-            {
-                url: '/empty_profile.png',
-                userId: 25,
-                name: 'Elliot Fu',
-                createdDate: '2020-10-18 15:34',
-                title: 'This has been very useful for my research. Thanks as well!',
-                description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
-                rating: 4
-            },
-            {
-                url: '/empty_profile.png',
-                userId: 21,
-                name: 'Jenny Hess',
-                createdDate: '2020-10-19 15:34',
-                title: 'Elliot you are always so right :)',
-                description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
-                rating: 3
-            },
-            {
-                url: '/empty_profile.png',
-                userId: 56,
-                name: 'Joe Henderson',
-                createdDate: '2020-10-20 15:34',
-                title: 'Dude, this is awesome. Thanks so much',
-                description: 'at dolorem consectetuer.  Pri oporteat consulatu intellegamte etetur voluptatum',
-                rating: 1.5
-            },
-        ],
-        favorite: false,
-        watched: false
-    })
-    const [wishList, setWishList] = useState([{
-        id: 2,
-        name: 'dark fantasy',
-        added: false
-    }, {
-        id: 5,
-        name: 'cyberpunk',
-        added: true
-    }])
+    const [movieDetails, setMovieDetails] = useState({})
+    const [wishList, setWishList] = useState([])
     const [isWishList, setIsWishList] = useState(false)
     const [myReview, setMyReview] = useState({
         title: '',

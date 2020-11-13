@@ -1,6 +1,6 @@
 import {
     Accordion,
-    Button,
+    Button, Container,
     Dropdown,
     Form,
     Grid,
@@ -104,68 +104,78 @@ const Header = ({setVisible, setActiveIndex}) => {
         <Segment vertical className='header-segment'>
             <Accordion>
                 <Accordion.Title active={filterVisible} index={0}>
+                    <Container className='header-container'>
+                        <Grid columns={3} verticalAlign='middle'>
+                            <Grid.Column width={2}>
+                                {/*-------------------------Logo-----------------------*/}
+                                <Link to={{
+                                    pathname: '/'
+                                }}>
+                                    <Image className='logo' src={images.logo} floated='left' size={"small"}/>
+                                </Link>
+                                {/*---------------------Search Bar----------------------*/}
+                            </Grid.Column>
+                            <Grid.Column width={9}>
+                                <Input fluid className='header-search' type='text' placeholder='Search...' action
+                                       onChange={(e, {value}) => {
+                                           setSearchInput(value)
+                                       }}
+                                >
+                                    <input onKeyPress={event => {
+                                        if (event.key === 'Enter') {
+                                            handleSearch()
+                                        }
+                                    }}
+                                    />
+                                    <Button icon basic className='filter-button' labelPosition='right'
+                                            onClick={() => setFilterVisible(!filterVisible)}>
+                                        <Icon className='filter-icon' name='filter'/>Filter
+                                    </Button>
+                                    <Button className='header-button' type='submit'
+                                            onClick={handleSearch}>Search</Button>
+                                </Input>
+                            </Grid.Column>
+                            <Grid.Column width={5}>
+                                {!isLogin ?
 
-                    {/*-------------------------Logo-----------------------*/}
-                    <Link to={{
-                        pathname: '/'
-                    }}>
-                        <Image className='logo' src={images.logo} floated='left' size={"small"}/>
-                    </Link>
-                    {/*---------------------Search Bar----------------------*/}
+                                    /*---------------Login or Register Button----------------*/
 
-                    <Input className='header-search' type='text' placeholder='Search...' action
-                           onChange={(e, {value}) => {
-                               setSearchInput(value)
-                           }}
-                    >
-                        <input onKeyPress={event => {
-                            if (event.key === 'Enter') {
-                                handleSearch()
-                            }
-                        }}
-                        />
-                        <Button icon basic className='filter-button' labelPosition='right'
-                                onClick={() => setFilterVisible(!filterVisible)}>
-                            <Icon className='filter-icon' name='filter'/>Filter
-                        </Button>
-                        <Button className='header-button' type='submit'
-                                onClick={handleSearch}>Search</Button>
-                    </Input>
-                    {!isLogin ?
+                                    <Button.Group size='medium' floated='right'>
+                                        <Button className='custom-menu header-button' attached='left'
+                                                onClick={() => handleTab(true, 0)}>Login</Button>
+                                        {/*<Button.Or className='custom-menu'/>*/}
+                                        <Button className='custom-menu header-button' attached='right'
+                                                onClick={() => handleTab(true, 1)}>Register</Button>
+                                    </Button.Group>
+                                    :
 
-                        /*---------------Login or Register Button----------------*/
+                                    /*--------------------User Menu Button-------------------*/
 
-                        <Button.Group size='medium' floated='right'>
-                            <Button className='custom-menu header-button'
-                                    onClick={() => handleTab(true, 0)}>Login</Button>
-                            <Button.Or className='custom-menu'/>
-                            <Button className='custom-menu header-button'
-                                    onClick={() => handleTab(true, 1)}>Register</Button>
-                        </Button.Group>
-                        :
-
-                        /*--------------------User Menu Button-------------------*/
-
-                        <div className='custom-menu menu-div'>
-                            <span className='menu-text'>Hey, {user.firstName}</span>
-                            <Popup wide
-                                   position='bottom right'
-                                   trigger={
-                                       <Image className='menu-image'
-                                              src={user.url === '' ? images.no_profile : user.url} circular
-                                              floated='right'
-                                       />
-                                   }
-                                   on='click'
-                                   open={open}
-                                   onOpen={() => setOpen(true)}
-                                   onClose={() => setOpen(false)}
-                            >
-                                <MenuCustom setOpen={setOpen}/>
-                            </Popup>
-                        </div>
-                    }
-
+                                    <Grid className='menu-div' verticalAlign='middle'>
+                                    <Grid.Column width={12} textAlign='right'>
+                                        <span className='menu-text'><p>Hey,</p><h3>{user.firstName}</h3></span>
+                                    </Grid.Column>
+                                        <Grid.Column width={4}>
+                                        <Popup wide
+                                               position='bottom right'
+                                               trigger={
+                                                   <Image src={user.url === '' ? images.no_profile : user.url} circular
+                                                          floated='right'
+                                                   />
+                                               }
+                                               on='click'
+                                               open={open}
+                                               onOpen={() => setOpen(true)}
+                                               onClose={() => setOpen(false)}
+                                        >
+                                            <MenuCustom setOpen={setOpen}/>
+                                        </Popup>
+                                        </Grid.Column>
+                                    </Grid>
+                                }
+                            </Grid.Column>
+                        </Grid>
+                    </Container>
                 </Accordion.Title>
                 {/*---------------------Search Bar Filter ----------------------*/}
 
@@ -294,8 +304,8 @@ const Header = ({setVisible, setActiveIndex}) => {
                                     </Grid.Column>
 
                                 </Grid.Row>
-                                <Grid.Row verticalAlign={'middle'} centered >
-                                    <Grid.Column width={11} >
+                                <Grid.Row verticalAlign={'middle'} centered>
+                                    <Grid.Column width={11}>
                                         <Button floated='right' color='violet' onClick={handleSearch}>Search</Button>
                                         <Button floated='right' onClick={clearFilter}>Clear
                                             Filters</Button>

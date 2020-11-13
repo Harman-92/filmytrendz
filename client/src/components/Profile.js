@@ -27,14 +27,7 @@ const Profile = () => {
     const history = useHistory()
     const location = useLocation()
     const isLogin = isAuthenticated()
-    const [user, setUser] = useState({
-        id: '',
-        email: '',
-        first_name: '',
-        last_name: '',
-        mobile_no: '',
-        url: ''
-    })
+    const [user, setUser] = useState({})
     const [newUser, setNewUser] = useState({
         first_name: user.first_name,
         last_name: user.last_name,

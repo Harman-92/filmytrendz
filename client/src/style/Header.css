@@ -15,21 +15,19 @@
   color: #ffffff !important;
 }
 .header-segment {
-  padding-left: 20% !important;
-  padding-right: 20% !important;
   background-color: rgba(118,45,221,0.05)!important;
-  padding-top: 0!important;
+}
+.header-container.ui.container {
+  min-height: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  background-color: inherit;
 }
 .logo{
-  margin-bottom: 0!important;
-  width: 120px !important;
   float: left!important;
-  margin-top: 0.7em!important;
 }
 .header-search {
   margin-left: 2%;
-  width: 55%;
-  margin-top: 1em!important;
 }
 .header-search.action.input:not([class*="left action"])>input:focus{
   border-color: rgba(34,36,38,.35) !important;
@@ -52,12 +50,6 @@
 .ui.basic.filter-button {
   background: white!important;
 }
-.custom-menu {
-  margin-top: 1em!important;
-}
-.menu-image {
-  width: 40px;
-}
 .menu-div {
   float: right;
   display: flex;
@@ -66,7 +58,9 @@
 .menu-text {
   font-size: 16px;
 }
-
+.menu-text>p,.menu-text>h3 {
+  margin: 0;
+}
 .filterHeader {
   font-size: 1.2em !important;
   font-weight: bold;
