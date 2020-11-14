@@ -14,7 +14,7 @@ def encapsolate_res(movies, director=None):
 	"""
 	movies_list = []
 	if director:
-		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies) and Movie.director.like(f'%{director}%'))
+		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies), Movie.director.like(f'%{director}%'))
 	else:
 		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies))
 
