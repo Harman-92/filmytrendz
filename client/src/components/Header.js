@@ -96,23 +96,22 @@ const Header = ({setVisible, setActiveIndex}) => {
     }
 
     const yearPattern = new RegExp(/^\d+$/)
+
     useEffect(() => {
         setIsLogin(isAuthenticated())
         setUser(getUserInfo())
+        setFilterVisible(!filterVisible)
     }, [location])
+
     return (
         <Segment vertical className='header-segment'>
             <Accordion>
+                <Container className='header-container'>
                 <Accordion.Title active={filterVisible} index={0}>
-                    <Container className='header-container'>
                         <Grid columns={3} verticalAlign='middle'>
                             <Grid.Column width={2}>
                                 {/*-------------------------Logo-----------------------*/}
-                                <Link to={{
-                                    pathname: '/'
-                                }}>
-                                    <Image className='logo' src={images.logo} floated='left' size={"small"}/>
-                                </Link>
+                                    <Image className='logo' src={images.logo} floated='left' size={"small"} onClick={() => history.push('/')}/>
                                 {/*---------------------Search Bar----------------------*/}
                             </Grid.Column>
                             <Grid.Column width={9}>
@@ -175,7 +174,6 @@ const Header = ({setVisible, setActiveIndex}) => {
                                 }
                             </Grid.Column>
                         </Grid>
-                    </Container>
                 </Accordion.Title>
                 {/*---------------------slide down Filter ----------------------*/}
 
@@ -309,6 +307,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                         </Accordion.Content>
                     )}
                 </Transition.Group>
+                </Container>
             </Accordion>
 
         </Segment>

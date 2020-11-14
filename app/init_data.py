@@ -3,7 +3,7 @@ import xlrd
 import pymysql
 import pandas
 
-df = pandas.read_csv("movie_datasets/movie_data.csv", index_col=0)
+df = pandas.read_csv("movie_datasets/movie_data.csv", index_col=0, low_memory=False)
 df.dropna(axis=0, how='any', inplace=True)
 samples = df.head(50000)
 samples.to_excel("movie_datasets/movies.xls")
