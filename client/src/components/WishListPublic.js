@@ -40,8 +40,8 @@ const WishListPublic = () => {
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     },[history, id])
     return (

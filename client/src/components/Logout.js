@@ -13,11 +13,13 @@ const Logout = () => {
                 // Also removes all user information in cookies
                 removeAccessToken()
                 history.push('/')
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     },[location, history])
     return(<></>)

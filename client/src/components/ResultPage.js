@@ -44,7 +44,7 @@ const ResultPage = () => {
     ]
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [deleteItem, setDeleteItem] = useState({index: -1, title: ''})
+    const [deleteItem, setDeleteItem] = useState({index: -1, id: 0, title: ''})
 
     const pageType = history.location.pathname.slice(1)
 
@@ -74,8 +74,8 @@ const ResultPage = () => {
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else {
             if (isLogin) {
@@ -83,31 +83,37 @@ const ResultPage = () => {
                     api.get('/movie?favorite=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 } else if (pageType === 'watched') {
                     api.get('/movie?watched=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 } else if (pageType === 'reviewed') {
                     api.get('/movie?reviewed=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 }
             } else {
@@ -156,11 +162,13 @@ const ResultPage = () => {
                     const copy_resultList = [].concat(movieResults)
                     copy_resultList.splice(deleteItem.index, 1)
                     setMovieResults(copy_resultList)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else if (pageType === 'watched') {
             api.delete('/movie/' + deleteItem.id + '/watched').then(res => {
@@ -169,11 +177,13 @@ const ResultPage = () => {
                     const copy_resultList = [].concat(movieResults)
                     copy_resultList.splice(deleteItem.index, 1)
                     setMovieResults(copy_resultList)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
@@ -233,7 +243,8 @@ const ResultPage = () => {
                                                    setModalOpen(true)
                                                    setDeleteItem({
                                                        index: index,
-                                                       id: movie.id
+                                                       id: movie.id,
+                                                       title: movie.title
                                                    })
                                                }}/>
                                         : null

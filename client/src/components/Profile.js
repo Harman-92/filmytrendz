@@ -93,6 +93,8 @@ const Profile = () => {
                         editError: false,
                         success: true
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                     setEditForm({
@@ -102,10 +104,10 @@ const Profile = () => {
                     })
                 }
             }).catch(() => {
-                console.log(response.SERVER_ERROR)
+                console.log(response.SERVER_UNAVAILABLE)
                 setEditForm({
                     formError: false,
-                    editError: response.SERVER_ERROR,
+                    editError: response.SERVER_UNAVAILABLE,
                     success: false
                 })
             })
@@ -156,6 +158,8 @@ const Profile = () => {
                             success: true
                         })
                     }
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     setSubmit({
                         formError: false,
@@ -164,13 +168,13 @@ const Profile = () => {
                     })
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
+            }).catch(() => {
                 setSubmit({
                     formError: false,
-                    passwordError: response.SERVER_ERROR,
+                    passwordError: response.SERVER_UNAVAILABLE,
                     success: false
                 })
-                console.log(response.SERVER_ERROR)
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
@@ -271,11 +275,13 @@ const Profile = () => {
             api.get('/user/banneduser').then((res) => {
                 if (res.status === 200) {
                     setBannedUsers(res.data.banned_users)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
         setIsActive(!isActive)
@@ -284,11 +290,13 @@ const Profile = () => {
         api.delete('/user/banneduser/'+id).then((res) => {
             if (res.status === 200) {
                 setBannedUsers(users => users.filter(user => user.id !== id))
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
     const handleClickEdit = () => {
@@ -313,11 +321,13 @@ const Profile = () => {
             api.get('/user').then((res) => {
                 if (res.status === 200) {
                     setUser(res.data)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else {
             history.push('/')

@@ -91,7 +91,7 @@ const Login = ({setVisible}) => {
                         success: false
                     })
                 }
-            }).catch((e)=>{
+            }).catch(()=>{
                 setSubmit({
                     formError: false,
                     loginError: response.SERVER_UNAVAILABLE,

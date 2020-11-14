@@ -105,11 +105,13 @@ const MovieDetails = () => {
                     description: '',
                     rating: 0
                 })
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
 
@@ -120,11 +122,13 @@ const MovieDetails = () => {
             if (res.status === 200) {
                 alert("banned user successfully")
                 history.go(0)
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
 
@@ -137,11 +141,13 @@ const MovieDetails = () => {
                     let tempArr = [...wishList]
                     tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
                     setWishList(tempArr)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else {
             api.post('/wishlist/' + value, {
@@ -151,11 +157,13 @@ const MovieDetails = () => {
                     let tempArr = [...wishList]
                     tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
                     setWishList(tempArr)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
@@ -178,18 +186,22 @@ const MovieDetails = () => {
                         setWishList(tempArr)
                         setNewWishList('')
                         setAddWishList(false)
+                    } else if(res.status === 401){
+                        history.push('/')
                     } else {
                         console.log(response.SERVER_ERROR)
                     }
-                }).catch((e) => {
-                    console.log(response.SERVER_ERROR)
+                }).catch(() => {
+                    console.log(response.SERVER_UNAVAILABLE)
                 })
 
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
     const handleFavorite = () => {
@@ -200,11 +212,13 @@ const MovieDetails = () => {
                         ...movieDetails,
                         favorite: !movieDetails.favorite
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else {
             api.put('/movie/' + movieDetails.id + '/favorite').then(res => {
@@ -213,11 +227,13 @@ const MovieDetails = () => {
                         ...movieDetails,
                         favorite: !movieDetails.favorite
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
@@ -229,11 +245,13 @@ const MovieDetails = () => {
                         ...movieDetails,
                         watched: !movieDetails.watched
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else {
             api.put('/movie/' + movieDetails.id + '/watched').then(res => {
@@ -242,11 +260,13 @@ const MovieDetails = () => {
                         ...movieDetails,
                         watched: !movieDetails.watched
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
@@ -261,7 +281,7 @@ const MovieDetails = () => {
                     data.reviews.forEach(review => {
                         rating += review.rating
                     })
-                    data.movie.rating = rating / data.reviews.length
+                    data.movie.rating = (rating / data.reviews.length).toFixed(1)
                 }
                 setMovieDetails({
                     ...data.movie,
@@ -282,19 +302,21 @@ const MovieDetails = () => {
                                 }
                             })
                             setWishList(wishLists)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 }
 
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }, [location, isLogin, id])
 
@@ -303,21 +325,23 @@ const MovieDetails = () => {
     }, [wishList])
 
     useEffect(() => {
-        let filterString = ""
-        if (searchBy === "g") {
-            filterString += "genre=true"
-        } else if (searchBy === "d") {
-            filterString += "director=true"
-        }
-        api.get('/recommend/' + movieDetails.id + '?' + filterString).then((res) => {
-            if (res.status === 200) {
-                setSimilarMovies(res.data.movies)
-            } else {
-                console.log(response.SERVER_ERROR)
+        if(movieDetails.id) {
+            let filterString = ""
+            if (searchBy === "g") {
+                filterString += "genre=true"
+            } else if (searchBy === "d") {
+                filterString += "director=true"
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
-        })
+            api.get('/recommend/' + movieDetails.id + '?' + filterString).then((res) => {
+                if (res.status === 200) {
+                    setSimilarMovies(res.data.movies)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch(() => {
+                console.log(response.SERVER_ERROR)
+            })
+        }
     }, [searchBy, movieDetails.id])
 
     return (

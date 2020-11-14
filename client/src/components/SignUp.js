@@ -129,7 +129,7 @@ const SignUp = () => {
                         success: false
                     })
                 }
-            }).catch((e) => {
+            }).catch(() => {
                 setSubmit({
                     formError: false,
                     signUpError: response.SERVER_UNAVAILABLE,
