@@ -54,13 +54,7 @@ const Profile = () => {
         success: false
     });
     const [isActive, setIsActive] = useState(false);
-    const [bannedUsers, setBannedUsers] = useState([
-        {id: 34, first_name: 'John', last_name: 'Dalton'},
-        {id: 45, first_name: 'Nikola', last_name: 'Tesla'},
-        {id: 32, first_name: 'Charles', last_name: 'Darwin'},
-        {id: 92, first_name: 'Richard', last_name: 'Feynman'},
-        {id: 43, first_name: 'Werner', last_name: 'Heisenberg'}
-    ])
+    const [bannedUsers, setBannedUsers] = useState([])
     const [isBannedUserEdit, setIsBannedUserEdit] = useState(false)
 
     const handleProfileSave = () => {

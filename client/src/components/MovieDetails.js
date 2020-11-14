@@ -93,10 +93,12 @@ const MovieDetails = () => {
                     description: myReview.description,
                     rating: myReview.rating
                 })
+                const newRating = ((movieDetails.rating * movieDetails.reviews.length) + myReview.rating)/(movieDetails.reviews.length + 1)
                 setAddReview(false)
                 setMovieDetails({
                     ...movieDetails,
-                    reviews: copyReviews
+                    reviews: copyReviews,
+                    rating: newRating
                 })
                 setMyReview({
                     title: '',
@@ -254,7 +256,13 @@ const MovieDetails = () => {
         api.get('/movie/' + id).then((res) => {
             if (res.status === 200) {
                 const data = res.data
-                const rating = data.movie.rating ? data.movie.rating : Math.round(data.movie.external_rating * 10) / 10
+                if(data.reviews.length > 0) {
+                    let rating = 0
+                    data.reviews.forEach(review => {
+                        rating += review.rating
+                    })
+                    data.movie.rating = rating / data.reviews.length
+                }
                 setMovieDetails({
                     ...data.movie,
                     favorite: data.favorite,

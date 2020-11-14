@@ -24,7 +24,7 @@ class UsersignUp(Resource):
         description="signup with email, password, names"
     )
     @api.response(200, 'success')
-    @api.response(400, 'badrequest')
+    @api.response(401, 'unauthorized')
     def post(self):
         user_info = json.loads(request.data)
         return Auth.signup(data=user_info)
