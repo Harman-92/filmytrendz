@@ -67,7 +67,7 @@ const ResultPage = () => {
             if(filter.cast){
                 filterString += "&cast="+filter.cast
             }
-            if(filter.genres){
+            if(filter.genres !== ""){
                 filterString += "&genre="+filter.genres
             }
             api.get('/movie?'+filterString).then((res) => {
