@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from flask_restplus import Resource, marshal
 from ..service.movie import *
 from ..service.recommend import encapsolate_res , get_best_reviews
@@ -29,7 +29,6 @@ class MoviesSearch(Resource):
 	@api.response(200, 'success', model=recommendation_movies_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@api.param('mid', description='take the movie id need to be recommendation')
 	@api.param('genre', description='make recommendation according to genre')
 	@api.param('director', description='make recommendation according to director')
 	@token_required
@@ -39,7 +38,10 @@ class MoviesSearch(Resource):
 		"""
 
 		conditions = request.args
-		target_movie = Movie.query.filter_by(id=mid).first()
+		target_movie = Movie.query.filter_by(id=int(mid)).first()
+
+		if not target_movie:
+			api.abort(404, 'the movie does not exist')
 
 		flag = 0
 		if 'genre' in conditions:
@@ -51,10 +53,10 @@ class MoviesSearch(Resource):
 		try:
 			director = target_movie.director.split()[0]
 		except:
-			director = None	
+			director = None
 
-		rec_gen = list(pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results'])['id'])
-		rec_genre = list(pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results'])['id'])
+		rec_gen = list((pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results']))['id'])
+		rec_genre = list((pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results']))['id'])
 		rec_dir = set(rec_gen + rec_genre)
 		rec_dir = list(rec_dir)
 
@@ -93,7 +95,10 @@ class MoviesUser(Resource):
 
 		cur_user = User.query.filter_by(id=user['id']).first()
 		favorite_movies = list(get_all_favorites(cur_user))[-4:]
-		reviewed_movies = get_best_reviews(user['id'])
+		movies = []
+		for m in favorite_movies:
+			movies.append(m.tmdb_id)
+		reviewed_movies = get_best_reviews(user['id'], movies)
 		favorites, rec_movies = [], []
 
 		for m in favorite_movies:
