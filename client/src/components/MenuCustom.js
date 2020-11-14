@@ -18,6 +18,8 @@ const MenuCustom = ({setOpen}) => {
         setOpen(false)
         if (name === 'logout') {
             history.push('/logout')
+        } if(name === 'about'){
+            history.push('/about')
         } else {
             history.push('/' + name)
         }
@@ -95,15 +97,10 @@ const MenuCustom = ({setOpen}) => {
                 <Grid.Column>
                     <Menu text vertical>
                         <Menu.Item
-                            name='FAQ'
-                            active={activeItem === 'FAQ'}
+                            name='about'
+                            active={activeItem === 'about'}
                             onClick={handleClick}
-                        />
-                        <Menu.Item
-                            name='contact'
-                            active={activeItem === 'contact'}
-                            onClick={handleClick}
-                        />
+                        >About Us</Menu.Item>
                     </Menu>
                 </Grid.Column>
             </Grid>
