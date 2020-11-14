@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import '../style/AboutUs.css';
-import {Card, Container, Grid, Image, Segment} from "semantic-ui-react";
+import {Container, Divider, Grid, Image} from "semantic-ui-react";
 import images from "../config/images";
 
 const AboutUs = () => {
@@ -13,11 +13,13 @@ const AboutUs = () => {
             image: '/about/adi.jpg',
             bio: 'Hello'
         }, {
-            name: 'Natalie Zhong',
-            zid: 'z5325276',
+            name: 'Yinghong Zhong',
+            zid: 'z5233608',
             role: 'Frontend developer',
-            image: images.no_profile,
-            bio: 'Hello'
+            image: '/about/nat.jpg',
+            bio: 'I am very happy to work on front-end and it\'s a really ' +
+                'interesting and variable experience to improve my skills. ' +
+                'So glad to work in a passionate team V5!'
         }, {
             name: 'Wei Song',
             zid: 'z5325276',
@@ -40,35 +42,30 @@ const AboutUs = () => {
     ])
     return (
         <Container className="AboutUs">
-            <Grid columns={5}>
-                {data.map((z, index) => (
-                    <ProfileCard key={index} z={z}/>
-                ))}
+            <Grid >
+                 {data.map((z, index) => (
+                <ProfileCard key={index} z={z} i={index}/>
+            ))}
             </Grid>
+
         </Container>
     );
 }
 
-const ProfileCard = ({z}) => (
-    <Grid.Column width={3} className='about-card'>
-        <Card>
-            <Card.Content className='info'>
-                <Image circular src={z.image} wrapped/>
-                <Card.Header>{z.name}</Card.Header>
-                <Card.Meta>
-                    <span className='date'>{z.zid}</span>
-                </Card.Meta>
-                <Card.Description>
-                    {z.role}
-                </Card.Description>
-            </Card.Content>
-            <Card.Content extra className='bio'>
-                <Card.Description>
-                    {z.bio}
-                </Card.Description>
-            </Card.Content>
-        </Card>
-    </Grid.Column>
+const ProfileCard = ({z, i}) => (
+
+    <Grid.Row className='rowSetting' verticalAlign='middle'>
+        <Grid.Column width={3}>
+            <Image circular src={z.image} wrapped bordered/>
+        </Grid.Column>
+        <Grid.Column width={12} className='columnSetting'>
+            <p style={{fontSize: 20, fontWeight: 'bold'}}>{z.name} <span as='p' className='zid'> {z.zid}</span></p>
+            <p style={{fontSize: 16, fontWeight: 'bold'}}>{z.role}</p>
+            <p style={{fontSize: 16}}>{z.bio}</p>
+            {i < 4 ? <Divider className='contentDivider'/> :null}
+        </Grid.Column>
+
+    </Grid.Row>
 )
 
 ProfileCard.propTypes = {

@@ -38,4 +38,9 @@ Started working on favourite movie page.
 Week8
 Finished developing favourite, watched and reviewed movie page.
 Fixed issues on resultPage.
-Prepared demoB
+Prepared and finished demoB
+Created template for final report
+
+Week 9
+Worked on the final report (overview, functionalities and user manual)
+Fixed fornt-end page (Cast Cards & similar Cards)

@@ -37,21 +37,28 @@ const checkWishListActive = (wishList) => {
     return a
 }
 
-const Cast = (props) => (
-    <Card.Group itemsPerRow={4}>
-        {props.casts.map((cast, index) => (
-                <Card key={index}>
-                    <Card.Content className='cast-content'>
-                        <Image className='cast-image' floated='left' size='mini' verticalAlign='middle'
-                               src={cast.image === '' ? images.no_profile : cast.image}/>
-                        <Card.Header className='cast-name'>{cast.name}</Card.Header>
-                        <Card.Meta>{cast.role}</Card.Meta>
-                    </Card.Content>
-                </Card>
-            )
-        )}
-    </Card.Group>
-)
+const Actors = (props) => {
+    let actors = props.cast
+    let arr = actors.split(", ")
+    return (
+        <Card.Group itemsPerRow={7}>
+            {arr.map((cast, index) => {
+                if (cast.length > 36) {
+                    cast = cast.slice(0, 33) + '...'
+                }
+                return(
+                    <Card key={index} color='violet'>
+                        <Card.Content className='cast-content'>
+                            <Card.Description className='cast-name'>{cast}</Card.Description>
+                        </Card.Content>
+                    </Card>
+                )}
+            )}
+        </Card.Group>
+    )
+}
+
+
 
 const MovieDetails = () => {
     const location = useLocation()
@@ -59,7 +66,8 @@ const MovieDetails = () => {
     const {id} = useParams()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
     const [movieDetails, setMovieDetails] = useState({
-        reviews:[]
+        reviews:[],
+        actors:''
     })
     const [wishList, setWishList] = useState([])
     const [isWishList, setIsWishList] = useState(false)
@@ -500,8 +508,7 @@ const MovieDetails = () => {
             {/*-------------------------movie cast-----------------------------*/}
             <h2 className='movieHeader'>Cast</h2>
             <Divider/>
-            {/*<Cast casts={movieDetails.cast}/>*/}
-            <span>{movieDetails.actors}</span>
+            <Actors cast={movieDetails.actors}/>
 
             {/*-------------------------movie review-----------------------------*/}
             <div className="movieHeader">
@@ -696,11 +703,17 @@ const MovieDetails = () => {
                         {similarMovies.map((movie, index) => {
                                 if (index < 6) {
                                     return (
-                                        <Card key={index} centered={true}
-                                              onClick={() => history.push('/movie/' + movie.id)}
-                                        >
+                                        <Card className='movieCard' key={index}>
                                             <Image src={movie.url}/>
-                                            <Card.Description textAlign='center'>{movie.title}</Card.Description>
+                                            <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
+                                                          className='movie-card-content'>
+                                                <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                                <Divider className='cardDivider'/>
+                                                <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
+                                                <div>
+                                                    <Icon name='star' inverted color='violet'/> {movie.rating}
+                                                </div>
+                                            </Card.Content>
                                         </Card>
                                     )
                                 }
