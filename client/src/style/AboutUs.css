@@ -8,6 +8,25 @@
     text-align: center;
     box-shadow: 0 0 0 2px #a291fb inset!important;
 }
-.about-card .ui.card .info.content{
+.about-card .ui.card .info.content {
     height: 280px;
+}
+
+.zid {
+    color: #a1a1a1;
+    font-weight: normal;
+    font-size: inherit;
+}
+
+.columnSetting {
+    padding: 2%;
+    margin: 2%;
+}
+
+.rowSetting {
+    margin-bottom: 5%;
+}
+
+.contentDivider {
+    margin-top: 3% !important;
 }
