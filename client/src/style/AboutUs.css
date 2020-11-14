@@ -1,0 +1,13 @@
+.about-card{
+    padding: 0.5em!important;
+}
+.about-card .ui.circular.image {
+    margin-bottom: 1em;
+}
+.about-card .ui.card{
+    text-align: center;
+    box-shadow: 0 0 0 2px #a291fb inset!important;
+}
+.about-card .ui.card .info.content{
+    height: 280px;
+}

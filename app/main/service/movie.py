@@ -1,6 +1,6 @@
 from datetime import datetime
 from .. import db
-from ..model.model import Movie, User, Wishlist, Review,BannedUser
+from ..model.model import Movie, User, Wishlist, Review, BannedUser
 
 
 """
