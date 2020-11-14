@@ -100,7 +100,7 @@ const Header = ({setVisible, setActiveIndex}) => {
     useEffect(() => {
         setIsLogin(isAuthenticated())
         setUser(getUserInfo())
-        setFilterVisible(!filterVisible)
+        setFilterVisible(false)
     }, [location])
 
     return (
