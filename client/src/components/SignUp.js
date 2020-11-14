@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import '../style/SignUp.css';
-import {Form, Container, Grid, Divider, Message} from "semantic-ui-react";
+import {Form, Container, Grid, Divider, Message, Image, Segment} from "semantic-ui-react";
 import api from '../config/axios';
 import response from '../config/response'
 
@@ -100,36 +100,36 @@ const SignUp = () => {
                 success: false
             })
 
-        }else{
-            api.post('/signup',{
+        } else {
+            api.post('/signup', {
                 email: email.v,
                 password: password.v,
-                first_name:firstName.v,
-                last_name:lastName.v,
-                mobile_no:''
-            }).then((res)=>{
-                if(res.status === 200) {
-                    if(res.data.error){
+                first_name: firstName.v,
+                last_name: lastName.v,
+                mobile_no: ''
+            }).then((res) => {
+                if (res.status === 200) {
+                    if (res.data.error) {
                         setSubmit({
                             formError: false,
                             signUpError: res.data.error,
                             success: false
                         })
-                    }else {
+                    } else {
                         setSubmit({
                             formError: false,
                             signUpError: false,
                             success: true
                         })
                     }
-                }else{
+                } else {
                     setSubmit({
                         formError: false,
                         signUpError: response.REGISTRATION_ERROR,
                         success: false
                     })
                 }
-            }).catch((e)=>{
+            }).catch((e) => {
                 setSubmit({
                     formError: false,
                     signUpError: response.SERVER_UNAVAILABLE,
@@ -149,6 +149,10 @@ const SignUp = () => {
         <Container>
             <Grid padded className='form-container'>
                 <Grid.Column>
+                    <Segment basic className='about-segment'>
+                        <Image src='/logo_icon.png' size='tiny'/>
+                        <Image src='/logo_text.png' size='small'/>
+                    </Segment>
                     <Form size='large'
                           onSubmit={handleSubmit}
                           warning={submit.formError}
@@ -189,7 +193,7 @@ const SignUp = () => {
                         />
                         <Form.Input placeholder='Password' type='password' name='password'
                                     value={password.v}
-                                    onChange={(e, {value}) => setPassword({v:value,e:false})}
+                                    onChange={(e, {value}) => setPassword({v: value, e: false})}
                                     error={password.e}
                         />
                         <Form.Button fluid size='large' color='violet'>Submit</Form.Button>

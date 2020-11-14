@@ -16,7 +16,7 @@ import ResultPage from "./components/ResultPage";
 import WishList from "./components/WishList";
 import WishListPublic from "./components/WishListPublic";
 import Logout from "./components/Logout";
-import AboutUs from "./components/AboutUs";
+import About from "./components/About";
 
 function App() {
     const location = useLocation()
@@ -70,7 +70,7 @@ function App() {
                         <Route exact path="/wishlist" component={WishList}/>
                         <Route path="/wishlist/:id" component={WishListPublic}/>
                         <Route path="/logout" component={Logout}/>
-                        <Route path="/about" component={AboutUs}/>
+                        <Route path="/about" component={About}/>
                         <Route>
                             <Redirect to='/'/>
                         </Route>

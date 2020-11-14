@@ -4,7 +4,7 @@ import '../style/AboutUs.css';
 import {Card, Container, Grid, Image, Segment} from "semantic-ui-react";
 import images from "../config/images";
 
-const AboutUs = () => {
+const About = () => {
     const [data, setData] = useState([
         {
             name: 'Adi Teja Dasari',
@@ -40,6 +40,14 @@ const AboutUs = () => {
     ])
     return (
         <Container className="AboutUs">
+            <Segment basic className='about-segment'>
+                <Image src='/logo_icon.png' size='tiny'/>
+                <Image src='/logo_text.png' size='small'/>
+                <h3>
+                    Get access to amazing experience of your film journey.
+                </h3>
+            </Segment>
+            <br/>
             <Grid columns={5}>
                 {data.map((z, index) => (
                     <ProfileCard key={index} z={z}/>
@@ -75,6 +83,6 @@ ProfileCard.propTypes = {
     z: PropTypes.object.isRequired
 };
 
-AboutUs.defaultProps = {};
+About.defaultProps = {};
 
-export default AboutUs;
+export default About;

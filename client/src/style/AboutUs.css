@@ -9,5 +9,12 @@
     box-shadow: 0 0 0 2px #a291fb inset!important;
 }
 .about-card .ui.card .info.content{
-    height: 280px;
+    height: 285px;
+    display: flex;
+    flex-direction: column;
+}
+.about-segment.ui.basic.segment{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

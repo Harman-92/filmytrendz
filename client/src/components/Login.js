@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import '../style/SignUp.css';
-import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
+import {Button, Container, Divider, Form, Grid, Image, Message, Segment} from "semantic-ui-react";
 import {useHistory} from 'react-router-dom';
 import {setAccessToken, setUserInfo} from "../config/session";
 import api from "../config/axios";
@@ -112,6 +112,10 @@ const Login = ({setVisible}) => {
         <Container>
             <Grid padded className='form-container'>
                 <Grid.Column>
+                    <Segment basic className='about-segment'>
+                        <Image src='/logo_icon.png' size='tiny'/>
+                        <Image src='/logo_text.png' size='small'/>
+                    </Segment>
                     <Form size='large'
                           onSubmit={handleSubmit}
                           warning={submit.formError}
