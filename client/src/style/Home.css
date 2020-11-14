@@ -5,11 +5,14 @@
     font-family: "Century Gothic", sans-serif;
 }
 
-.movieCard {
+.movieCard.ui.card {
     margin-left: 5%;
     margin-right: 5%;
+    height: 290px;
 }
-
+.movieCard.ui.card>.ui.image {
+    height: 100%;
+}
 .recommendText {
     text-align: center;
     font-size: 16px;

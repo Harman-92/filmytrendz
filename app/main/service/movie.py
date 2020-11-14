@@ -68,12 +68,11 @@ def get_all_latest_movies():
 		all the movies published within the recent three years.
 	"""
 	cur_year = int(datetime.now().year)
-
-	movies_1 = Movie.query.filter_by(year=cur_year).all()
-	movies_2 = Movie.query.filter_by(year=cur_year-1).all()
-	movies_3 = Movie.query.filter_by(year=cur_year-2).all()
-
-	movies = movies_1 + movies_2 + movies_3
+    LIMIT = 20
+	movies = Movie.query.filter_by(year=cur_year).limit(LIMIT).all()
+	while len(movies)<LIMIT:
+	    cur_year -= 1
+        movies += Movie.query.filter_by(year=cur_year).limit(LIMIT).all()
 
 	return movies
 

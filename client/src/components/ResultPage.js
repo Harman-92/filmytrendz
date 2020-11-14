@@ -115,7 +115,7 @@ const ResultPage = () => {
             }
         }
 
-    }, [location.isSearch, location.keyword, location.filter, location, isLogin, history, pageType])
+    }, [location.isSearch, location.keyword, location.filter, location, isLogin, history])
 
 
     /*----------------------------------- sort search results --------------------------------------*/
@@ -145,9 +145,8 @@ const ResultPage = () => {
                     (a, b) => a.rating > b.rating ? -1 : 1)
             }
         }
-        console.log(copy_movieResults)
         setMovieResults(copy_movieResults)
-    }, [sortFilter.keyword, sortFilter.ascending, movieResults])
+    }, [sortFilter.keyword, sortFilter.ascending])
 
     const deteleCard = () => {
         if (pageType === 'favorite') {
@@ -181,7 +180,6 @@ const ResultPage = () => {
 
     return (
         <Container className='container'>
-            {console.log('pageType: ' + pageType)}
             {pageType === 'search' ?
                 <h1 className='homePageTitle'>Search Results</h1> :
                 pageType === 'favorite' ?
