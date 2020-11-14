@@ -340,6 +340,8 @@ def add_review_movie(user, mid, review_data):
 			and update the reviews-movie relationship table
 		"""
 		review = Review(**review_data)
+		avg_rating = ((review.rating * len(cur_movie.reviews)) + review.rating) / (len(cur_movie.reviews) + 1)
+		cur_movie.rating = avg_rating
 		review.user = cur_user.id
 		review.movie = cur_movie.id
 		cur_movie.reviews.append(review)
@@ -352,4 +354,3 @@ def add_review_movie(user, mid, review_data):
 		success = True
 
 	return success
-
