@@ -3,19 +3,19 @@ import xlrd
 import pymysql
 import pandas
 
-df = pandas.read_csv("movie_datasets/movie_data.csv", index_col=0)
+df = pandas.read_csv("movie_datasets/movie_data.csv", index_col=0, low_memory=False)
 df.dropna(axis=0, how='any', inplace=True)
 samples = df.head(50000)
-samples.to_excel("../movie_datasets/movies.xls")
+samples.to_excel("movie_datasets/movies.xls")
 
 
 with app.app_context():
 	book = xlrd.open_workbook("movie_datasets/movies.xls")
 	sheet = book.sheet_by_name("Sheet1")
 	conn = pymysql.connect(
-		host='localhost',
-		user='root',
-		password='112321',
+		host='v5-team.c4nceu0tb2ci.us-east-2.rds.amazonaws.com',
+		user='admin',
+		password='frontendbackend',
 		db='v5',
 		port=3306,
 		charset='utf8'

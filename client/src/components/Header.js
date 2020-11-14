@@ -11,7 +11,7 @@ import {
     Segment,
     Transition
 } from "semantic-ui-react";
-import {Link, useHistory, useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import images from "../config/images";
 import MenuCustom from "./MenuCustom";
 import genres from "../config/movieGenres";
@@ -96,23 +96,22 @@ const Header = ({setVisible, setActiveIndex}) => {
     }
 
     const yearPattern = new RegExp(/^\d+$/)
+
     useEffect(() => {
         setIsLogin(isAuthenticated())
         setUser(getUserInfo())
+        setFilterVisible(false)
     }, [location])
+
     return (
         <Segment vertical className='header-segment'>
             <Accordion>
+                <Container className='header-container'>
                 <Accordion.Title active={filterVisible} index={0}>
-                    <Container className='header-container'>
                         <Grid columns={3} verticalAlign='middle'>
                             <Grid.Column width={2}>
                                 {/*-------------------------Logo-----------------------*/}
-                                <Link to={{
-                                    pathname: '/'
-                                }}>
-                                    <Image className='logo' src={images.logo} floated='left' size={"small"}/>
-                                </Link>
+                                    <Image className='logo' src={images.logo} floated='left' size={"small"} onClick={() => history.push('/')}/>
                                 {/*---------------------Search Bar----------------------*/}
                             </Grid.Column>
                             <Grid.Column width={9}>
@@ -152,15 +151,15 @@ const Header = ({setVisible, setActiveIndex}) => {
                                     /*--------------------User Menu Button-------------------*/
 
                                     <Grid className='menu-div' verticalAlign='middle'>
-                                    <Grid.Column width={12} textAlign='right'>
-                                        <span className='menu-text'><p>Hey,</p><h3>{user.firstName}</h3></span>
+                                    <Grid.Column width={14} textAlign='right'>
+                                        <span className='menu-text'><h3>{user.firstName}</h3></span>
                                     </Grid.Column>
-                                        <Grid.Column width={4}>
+                                        <Grid.Column width={2} className='header-profile-url'>
                                         <Popup wide
                                                position='bottom right'
                                                trigger={
                                                    <Image src={user.url === '' ? images.no_profile : user.url} circular
-                                                          floated='right'
+                                                          floated='right' size='medium'
                                                    />
                                                }
                                                on='click'
@@ -175,7 +174,6 @@ const Header = ({setVisible, setActiveIndex}) => {
                                 }
                             </Grid.Column>
                         </Grid>
-                    </Container>
                 </Accordion.Title>
                 {/*---------------------slide down Filter ----------------------*/}
 
@@ -187,11 +185,11 @@ const Header = ({setVisible, setActiveIndex}) => {
                                 {/*---------------------- Keywords -------------------------*/}
                                 <Grid.Row centered verticalAlign={'middle'}>
                                     <Grid.Column width={2} textAlign={'center'}>
-                                        <label className='filterHeader'>Keyword:</label>
+                                        <label className='filterHeader'>Search in:</label>
                                     </Grid.Column>
                                     <Grid.Column width={9}>
                                         <Form>
-                                            <Form.Group widths={'equal'} className='filter-form-group'>
+                                            <Form.Group className='filter-form-group'>
                                                 <Form.Radio
                                                     label='Description'
                                                     value='d'
@@ -309,6 +307,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                         </Accordion.Content>
                     )}
                 </Transition.Group>
+                </Container>
             </Accordion>
 
         </Segment>

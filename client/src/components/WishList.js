@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../style/WishList.css';
 import {
     Button,
@@ -32,7 +32,6 @@ const PRIVATE = 'PRIVATE'
 const WishList = () => {
     const history = useHistory()
     const location = useLocation()
-    const [isLogin, setIsLogin] = useState(isAuthenticated)
     const [wishList, setWishList] = useState([]);
     const [isEditId, setIsEditId] = useState(0)
     const [isDeleteId, setIsDeleteId] = useState(0)
@@ -80,11 +79,13 @@ const WishList = () => {
             if (res.status === 200) {
                 setWishList(wishlist => wishlist.filter(w => w.id !== isDeleteId))
                 setOpen(false)
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
     const handleRemoveMovie = (movieId) => {
@@ -92,18 +93,24 @@ const WishList = () => {
             'remove_list': [movieId]
         }).then((res) => {
             if (res.status === 200) {
-                let wishLists = [...wishList]
-                for (let w of wishLists) {
-                    if (w.id === isEditId) {
-                        w.movies = w.movies.filter(m => m.id !== movieId)
+                if(res.data.error){
+                    alert(res.data.error)
+                }else {
+                    let wishLists = [...wishList]
+                    for (let w of wishLists) {
+                        if (w.id === isEditId) {
+                            w.movies = w.movies.filter(m => m.id !== movieId)
+                        }
                     }
+                    setWishList(wishLists)
                 }
-                setWishList(wishLists)
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
 
     }
@@ -115,7 +122,7 @@ const WishList = () => {
             if (res.status === 200) {
                 let copyWishList = [...wishList]
                 copyWishList.splice(0, 0, {
-                    id: 44,
+                    id: res.data.id,
                     name: newWishList.name,
                     status: newWishList.status,
                     movies: newWishList.movies
@@ -127,11 +134,13 @@ const WishList = () => {
                     movies: []
                 })
                 setIsAddWishList(false)
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
 
     }
@@ -140,16 +149,22 @@ const WishList = () => {
             'name': newWishList.name
         }).then((res) => {
             if (res.status === 200) {
-                let copyWishList = [...wishList]
-                copyWishList.find(x => x.id === isEditId).name = newWishList.name
-                setWishList(copyWishList)
-                setNewWishList({...newWishList, name: ''})
-                setIsEditId(0)
+                if(res.data.error){
+                    alert(res.data.error)
+                }else {
+                    let copyWishList = [...wishList]
+                    copyWishList.find(x => x.id === isEditId).name = newWishList.name
+                    setWishList(copyWishList)
+                    setNewWishList({...newWishList, name: ''})
+                    setIsEditId(0)
+                }
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
     const handleAccessChange = (wishListId, value) => {
@@ -157,14 +172,20 @@ const WishList = () => {
             'status': value
         }).then((res) => {
             if (res.status === 200) {
-                let copyWishList = [...wishList]
-                copyWishList.find(x => x.id === wishListId).status = value
-                setWishList(copyWishList)
+                if(res.data.error){
+                    alert(res.data.error)
+                }else {
+                    let copyWishList = [...wishList]
+                    copyWishList.find(x => x.id === wishListId).status = value
+                    setWishList(copyWishList)
+                }
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
     useEffect(() => {
@@ -172,16 +193,18 @@ const WishList = () => {
             api.get('/wishlist').then((res) => {
                 if (res.status === 200) {
                     setWishList(res.data.wishlists)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }else{
             history.push('/')
         }
-    }, [location])
+    }, [location, history])
 
     return (
         <Container>

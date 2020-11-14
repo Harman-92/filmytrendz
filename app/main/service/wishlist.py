@@ -60,7 +60,6 @@ def update_wishlist(updated_info, wishlist_id, user_id):
     else:
         remove_list = []
 
-
     wishlist = Wishlist.query.filter_by(id=wishlist_id).first()
 
     user = User.query.filter_by(id=user_id).first()
@@ -84,13 +83,13 @@ def update_wishlist(updated_info, wishlist_id, user_id):
                 resp = make_response(jsonify({'error': 'Invalid Access parameter'}))
                 return resp
         db.session.commit()
-        resp = make_response(jsonify({'message': 'updated wishlist succesfully'}))
+        resp = make_response(jsonify({'message': 'updated wish list successfully'}))
         resp.status_code = SUCCESS
         return resp
 
     else:
-        resp = make_response(jsonify({'message': 'wishlist with id do not exist for user'}))
-        resp.status_code = NOT_FOUND
+        resp = make_response(jsonify({'error': 'Wish list does not exist'}))
+        resp.status_code = SUCCESS
         return resp
 
 

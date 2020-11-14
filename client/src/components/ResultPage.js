@@ -44,15 +44,13 @@ const ResultPage = () => {
     ]
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [deleteItem, setDeleteItem] = useState({index: -1, title: ''})
+    const [deleteItem, setDeleteItem] = useState({index: -1, id: 0, title: ''})
 
     const pageType = history.location.pathname.slice(1)
 
     useEffect(() => {
         setIsLogin(isAuthenticated())
         if (location.isSearch) {
-            console.log("location: " + location.keyword)
-            console.log(location.filter)
             let filterString = "search="+location.keyword
             const filter = location.filter
             if(filter.description){
@@ -76,8 +74,8 @@ const ResultPage = () => {
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else {
             if (isLogin) {
@@ -85,31 +83,37 @@ const ResultPage = () => {
                     api.get('/movie?favorite=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 } else if (pageType === 'watched') {
                     api.get('/movie?watched=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 } else if (pageType === 'reviewed') {
                     api.get('/movie?reviewed=true').then((res) => {
                         if (res.status === 200) {
                             setMovieResults(res.data.movies)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 }
             } else {
@@ -117,12 +121,11 @@ const ResultPage = () => {
             }
         }
 
-    }, [location.isSearch, location.keyword, location.filter, location, isLogin])
+    }, [location.isSearch, location.keyword, location.filter, location, isLogin, history])
 
 
     /*----------------------------------- sort search results --------------------------------------*/
     useEffect(() => {
-        console.log("sort keyword: " + sortFilter.keyword, " ascending: " + sortFilter.ascending)
         let copy_movieResults = [].concat(movieResults);
         let keyword = sortFilter.keyword;
         if (sortFilter.ascending) {
@@ -148,7 +151,6 @@ const ResultPage = () => {
                     (a, b) => a.rating > b.rating ? -1 : 1)
             }
         }
-        console.log(copy_movieResults)
         setMovieResults(copy_movieResults)
     }, [sortFilter.keyword, sortFilter.ascending])
 
@@ -160,11 +162,13 @@ const ResultPage = () => {
                     const copy_resultList = [].concat(movieResults)
                     copy_resultList.splice(deleteItem.index, 1)
                     setMovieResults(copy_resultList)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else if (pageType === 'watched') {
             api.delete('/movie/' + deleteItem.id + '/watched').then(res => {
@@ -173,18 +177,19 @@ const ResultPage = () => {
                     const copy_resultList = [].concat(movieResults)
                     copy_resultList.splice(deleteItem.index, 1)
                     setMovieResults(copy_resultList)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
 
     return (
         <Container className='container'>
-            {console.log('pageType: ' + pageType)}
             {pageType === 'search' ?
                 <h1 className='homePageTitle'>Search Results</h1> :
                 pageType === 'favorite' ?
@@ -238,7 +243,8 @@ const ResultPage = () => {
                                                    setModalOpen(true)
                                                    setDeleteItem({
                                                        index: index,
-                                                       id: movie.id
+                                                       id: movie.id,
+                                                       title: movie.title
                                                    })
                                                }}/>
                                         : null

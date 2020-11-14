@@ -66,8 +66,8 @@ const MovieDetails = () => {
     const {id} = useParams()
     const [isLogin, setIsLogin] = useState(isAuthenticated)
     const [movieDetails, setMovieDetails] = useState({
-        reviews:[],
-        actors:''
+        reviews: [],
+        actors: ''
     })
     const [wishList, setWishList] = useState([])
     const [isWishList, setIsWishList] = useState(false)
@@ -84,7 +84,7 @@ const MovieDetails = () => {
     const [newWishList, setNewWishList] = useState('')
 
     const postReview = () => {
-        api.post('/movie/' + movieDetails.id + '/review',{
+        api.post('/movie/' + movieDetails.id + '/review', {
             'title': myReview.title,
             'description': myReview.description,
             'rating': myReview.rating
@@ -101,21 +101,25 @@ const MovieDetails = () => {
                     description: myReview.description,
                     rating: myReview.rating
                 })
+                const newRating = ((movieDetails.rating * movieDetails.reviews.length) + myReview.rating)/(movieDetails.reviews.length + 1)
                 setAddReview(false)
                 setMovieDetails({
                     ...movieDetails,
-                    reviews: copyReviews
+                    reviews: copyReviews,
+                    rating: newRating
                 })
                 setMyReview({
                     title: '',
                     description: '',
                     rating: 0
                 })
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
 
@@ -126,16 +130,18 @@ const MovieDetails = () => {
             if (res.status === 200) {
                 alert("banned user successfully")
                 history.go(0)
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
 
     const handleWishListChange = (e, {id, value}) => {
-        if(wishList[id].added) {
+        if (wishList[id].added) {
             api.post('/wishlist/' + value, {
                 'remove_list': [movieDetails.id]
             }).then((res) => {
@@ -143,13 +149,15 @@ const MovieDetails = () => {
                     let tempArr = [...wishList]
                     tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
                     setWishList(tempArr)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
-        }else{
+        } else {
             api.post('/wishlist/' + value, {
                 'new_list': [movieDetails.id]
             }).then((res) => {
@@ -157,21 +165,23 @@ const MovieDetails = () => {
                     let tempArr = [...wishList]
                     tempArr[id] = {...tempArr[id], added: !tempArr[id].added}
                     setWishList(tempArr)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
     const handleAddWishList = () => {
-        api.put('/wishlist',{
+        api.put('/wishlist', {
             'name': newWishList
         }).then(res => {
             if (res.status === 200) {
 
-                api.post('/wishlist/'+res.data.id,{
+                api.post('/wishlist/' + res.data.id, {
                     'new_list': [movieDetails.id]
                 }).then(res => {
                     if (res.status === 200) {
@@ -184,107 +194,103 @@ const MovieDetails = () => {
                         setWishList(tempArr)
                         setNewWishList('')
                         setAddWishList(false)
+                    } else if(res.status === 401){
+                        history.push('/')
                     } else {
                         console.log(response.SERVER_ERROR)
                     }
-                }).catch((e) => {
-                    console.log(response.SERVER_ERROR)
+                }).catch(() => {
+                    console.log(response.SERVER_UNAVAILABLE)
                 })
 
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
     const handleFavorite = () => {
-        if(movieDetails.favorite){
+        if (movieDetails.favorite) {
             api.put('/movie/' + movieDetails.id + '/unfavorite').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
                         ...movieDetails,
                         favorite: !movieDetails.favorite
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
-        }else {
+        } else {
             api.put('/movie/' + movieDetails.id + '/favorite').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
                         ...movieDetails,
                         favorite: !movieDetails.favorite
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
     const handleWatched = () => {
-        if(movieDetails.watched){
+        if (movieDetails.watched) {
             api.delete('/movie/' + movieDetails.id + '/watched').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
                         ...movieDetails,
                         watched: !movieDetails.watched
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
-        }else {
+        } else {
             api.put('/movie/' + movieDetails.id + '/watched').then(res => {
                 if (res.status === 200) {
                     setMovieDetails({
                         ...movieDetails,
                         watched: !movieDetails.watched
                     })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
-
-    useEffect(() => {
-        let filterString = ""
-        if(searchBy === "g"){
-            filterString += "genre=true"
-        }else if(searchBy === "d"){
-            filterString += "director=true"
-        }
-        api.get('/recommend/'+movieDetails.id+'/?'+filterString).then((res) => {
-            if (res.status === 200) {
-                setSimilarMovies(res.data.movies)
-            } else {
-                console.log(response.SERVER_ERROR)
-            }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
-        })
-    }, [searchBy])
-
-    useEffect(() => {
-        setIsWishList(checkWishListActive(wishList))
-    }, [wishList])
 
     useEffect(() => {
 
         api.get('/movie/' + id).then((res) => {
             if (res.status === 200) {
                 const data = res.data
-                const rating = data.movie.rating?data.movie.rating:Math.round(data.movie.external_rating * 10) / 10
+                if(data.reviews.length > 0) {
+                    let rating = 0
+                    data.reviews.forEach(review => {
+                        rating += review.rating
+                    })
+                    data.movie.rating = (rating / data.reviews.length).toFixed(1)
+                }
                 setMovieDetails({
                     ...data.movie,
                     favorite: data.favorite,
@@ -299,26 +305,52 @@ const MovieDetails = () => {
                         if (res.status === 200) {
                             let wishLists = res.data.wishlists
                             wishLists.forEach(w => {
-                                if(data.wishlist.includes(w.id)){
+                                if (data.wishlist.includes(w.id)) {
                                     w.added = true
                                 }
                             })
                             setWishList(wishLists)
+                        } else if(res.status === 401){
+                            history.push('/')
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 }
 
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
-    }, [location, isLogin])
+    }, [location, isLogin, id])
+
+    useEffect(() => {
+        setIsWishList(checkWishListActive(wishList))
+    }, [wishList])
+
+    useEffect(() => {
+        if(movieDetails.id) {
+            let filterString = ""
+            if (searchBy === "g") {
+                filterString += "genre=true"
+            } else if (searchBy === "d") {
+                filterString += "director=true"
+            }
+            api.get('/recommend/' + movieDetails.id + '?' + filterString).then((res) => {
+                if (res.status === 200) {
+                    setSimilarMovies(res.data.movies)
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch(() => {
+                console.log(response.SERVER_ERROR)
+            })
+        }
+    }, [searchBy, movieDetails.id])
 
     return (
         <Container>
@@ -486,17 +518,17 @@ const MovieDetails = () => {
 
                         <div className='movie-rating-wrapper'>
                             <Statistic className='movie-rating'>
-                                <Statistic.Value>{movieDetails.rating?movieDetails.rating:Math.round(movieDetails.external_rating * 10) / 10}</Statistic.Value>
+                                <Statistic.Value>{movieDetails.rating}</Statistic.Value>
                             </Statistic>
 
-                            <div style={{fontSize: 26, display: 'flex', justifyContent:'flex-end'}}>
+                            <div style={{fontSize: 26, display: 'flex', justifyContent: 'flex-end'}}>
                                 <StarRatingComponent
-                                  name="rate2"
-                                  editing={false}
-                                  starCount={5}
-                                  starColor="#7b68ee"
-                                  emptyStarColor="lightgrey"
-                                  value={movieDetails.rating?movieDetails.rating:movieDetails.external_rating}
+                                    name="rate2"
+                                    editing={false}
+                                    starCount={5}
+                                    starColor="#7b68ee"
+                                    emptyStarColor="lightgrey"
+                                    value={movieDetails.rating}
                                 />
                             </div>
 
@@ -568,7 +600,8 @@ const MovieDetails = () => {
                                 <Segment basic>
                                     <Button floated='right' className='review-button post-button'
                                             type='submit'>Post</Button>
-                                    <Button floated='right' className='review-button' onClick={() => setAddReview(false)}>Cancel</Button>
+                                    <Button floated='right' className='review-button'
+                                            onClick={() => setAddReview(false)}>Cancel</Button>
                                 </Segment>
                             </Form>
                         </Grid.Column>
@@ -600,7 +633,8 @@ const MovieDetails = () => {
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' onClick={() => handleBanReviewer(review.userId)}>Block
+                                            <p className='ban-reviewer'
+                                               onClick={() => handleBanReviewer(review.userId)}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
@@ -658,7 +692,8 @@ const MovieDetails = () => {
                                                on='click'
                                                hideOnScroll
                                         >
-                                            <p className='ban-reviewer' onClick={() => handleBanReviewer(review.userId)}>Block
+                                            <p className='ban-reviewer'
+                                               onClick={() => handleBanReviewer(review.userId)}>Block
                                                 Reviewer</p>
                                         </Popup>
                                     }
@@ -700,24 +735,21 @@ const MovieDetails = () => {
 
 
                     <Card.Group itemsPerRow={6}>
-                        {similarMovies.map((movie, index) => {
-                                if (index < 6) {
-                                    return (
-                                        <Card className='movieCard' key={index}>
-                                            <Image src={movie.url}/>
-                                            <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
-                                                          className='movie-card-content'>
-                                                <Card.Header className='cardContext'>{movie.title}</Card.Header>
-                                                <Divider className='cardDivider'/>
-                                                <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
-                                                <div>
-                                                    <Icon name='star' inverted color='violet'/> {movie.rating}
-                                                </div>
-                                            </Card.Content>
-                                        </Card>
-                                    )
-                                }
-                            }
+                        {similarMovies.map((movie, index) => (
+                            index < 6 ?
+                                <Card className='movieCard' key={index}>
+                                    <Image src={movie.url}/>
+                                    <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
+                                                  className='movie-card-content'>
+                                        <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                        <Divider className='cardDivider'/>
+                                        <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
+                                        <div>
+                                            <Icon name='star' inverted color='violet'/> {movie.rating}
+                                        </div>
+                                    </Card.Content>
+                                </Card>
+                                : null)
                         )}
                     </Card.Group>
                 </Suspense>

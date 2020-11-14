@@ -68,12 +68,11 @@ def get_all_latest_movies():
 		all the movies published within the recent three years.
 	"""
 	cur_year = int(datetime.now().year)
-
-	movies_1 = Movie.query.filter_by(year=cur_year).all()
-	movies_2 = Movie.query.filter_by(year=cur_year-1).all()
-	movies_3 = Movie.query.filter_by(year=cur_year-2).all()
-
-	movies = movies_1 + movies_2 + movies_3
+	LIMIT = 20
+	movies = Movie.query.filter_by(year=cur_year).limit(LIMIT).all()
+	while len(movies)<LIMIT:
+		cur_year -= 1
+		movies += Movie.query.filter_by(year=cur_year).limit(LIMIT).all()
 
 	return movies
 
@@ -103,6 +102,7 @@ def get_all_keywords_movies(conditions):
 	concopy = conditions
 	keyword = '%{}%'.format(concopy['search'])
 	concopy.pop('search')
+	LIMIT = 10
 
 	"""
 		filter_1 = {
@@ -111,10 +111,10 @@ def get_all_keywords_movies(conditions):
 		}
 	"""
 
-	result_1 = set(Movie.query.filter(Movie.title.like(keyword)).all())
+	result_1 = set(Movie.query.filter(Movie.title.like(keyword)).limit(LIMIT).all())
 	result_2 = set()
 	if 'description' in conditions:
-		result_2 = set(Movie.query.filter(Movie.description.like(keyword)).all())
+		result_2 = set(Movie.query.filter(Movie.description.like(keyword)).limit(LIMIT).all())
 
 	"""
 		filter_2:
@@ -126,21 +126,21 @@ def get_all_keywords_movies(conditions):
 	result_3 = set()
 
 	if 'year_start' in conditions and 'year_end' in conditions:
-		result_3 = set(Movie.query.filter(Movie.year >= conditions['year_start']).filter(Movie.year <= conditions['year_end']).all())
+		result_3 = set(Movie.query.filter(Movie.year >= conditions['year_start']).filter(Movie.year <= conditions['year_end']).limit(LIMIT).all())
 
 	result_4 = set()
 
 	if 'rating_start' in conditions and 'rating_end' in conditions:
-		result_4 = set(Movie.query.filter(Movie.rating >= conditions['rating_start']).filter(Movie.rating <= conditions['rating_end']).all())
+		result_4 = set(Movie.query.filter(Movie.rating >= conditions['rating_start']).filter(Movie.rating <= conditions['rating_end']).limit(LIMIT).all())
 
 	result_5 = set()
 
 	if 'cast' in conditions:
-		result_5 = set(Movie.query.filter(Movie.actors.like(keyword)).all())
+		result_5 = set(Movie.query.filter(Movie.actors.like(keyword)).limit(LIMIT).all())
 
 	result_6 = set()
 	if 'genre' in conditions:
-		result_6 = set(Movie.query.filter(Movie.genre.in_(tuple(conditions['genre'].split(',')))).all())
+		result_6 = set(Movie.query.filter(Movie.genre.in_(tuple(conditions['genre'].split(',')))).limit(LIMIT).all())
 
 	return list(result_1 | result_2 | result_3 | result_4 | result_5 | result_6)
 
@@ -340,6 +340,8 @@ def add_review_movie(user, mid, review_data):
 			and update the reviews-movie relationship table
 		"""
 		review = Review(**review_data)
+		avg_rating = ((review.rating * len(cur_movie.reviews)) + review.rating) / (len(cur_movie.reviews) + 1)
+		cur_movie.rating = avg_rating
 		review.user = cur_user.id
 		review.movie = cur_movie.id
 		cur_movie.reviews.append(review)
@@ -352,4 +354,3 @@ def add_review_movie(user, mid, review_data):
 		success = True
 
 	return success
-

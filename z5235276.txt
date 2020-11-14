@@ -68,3 +68,8 @@ Finished Integration and testing and raised JIRA tickets for bugs in API.
 Week 9
 
 Implemented the fixed bugs and refactored the code.
+Integrated missing API, search and movie recommendation API.
+Fixed front end bugs.
+Fixed AWS RDS and EC2 instance.
+Deployed front end and backend production server.
+

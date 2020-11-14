@@ -9,7 +9,7 @@ from main.model.model import *
     Create App with Environment
     ('production', 'development', 'test')
 """
-app = create_app('development')
+app = create_app('production')
 CORS(app)
 app.register_blueprint(blueprint)
 
@@ -32,7 +32,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def run():
-    app.run()
+    app.run(host='0.0.0.0', ssl_context=('ssl_keys/cert.pem', 'ssl_keys/key.pem'))
 
 
 @manager.command

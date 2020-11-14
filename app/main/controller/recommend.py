@@ -55,8 +55,21 @@ class MoviesSearch(Resource):
 		except:
 			director = None
 
-		rec_gen = list((pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results']))['id'])
-		rec_genre = list((pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results']))['id'])
+		# Get general recommendations for a movie
+		try:
+			rec_gen = list((pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results']))['id'])
+		except:
+			# On failure, return empty list
+			rec_gen = []
+
+		# Get recommendations based on genre
+		try:
+			rec_genre = list((pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results']))['id'])
+		except:
+			# On failure, return empty list
+			rec_genre = []
+
+
 		rec_dir = set(rec_gen + rec_genre)
 		rec_dir = list(rec_dir)
 
@@ -110,7 +123,7 @@ class MoviesUser(Resource):
 			favorites = favorites[:2] + favorites[-2:]
 		for id in favorites:
 			temp_res = pd.json_normalize(ts.Movies(id=str(id)).recommendations()['results'])
-			if list(temp_res.columns):
+			if not temp_res.empty:
 				rec_movies += list(temp_res['id'])
 
 		rec_movies = set(rec_movies)

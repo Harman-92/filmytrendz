@@ -100,7 +100,7 @@ const MenuCustom = ({setOpen}) => {
                             name='about'
                             active={activeItem === 'about'}
                             onClick={handleClick}
-                        >About Us</Menu.Item>
+                        >About</Menu.Item>
                     </Menu>
                 </Grid.Column>
             </Grid>

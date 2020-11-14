@@ -25,18 +25,20 @@ const Home = () => {
                         if (res.status === 200) {
                             console.log("recommend results: " + res.data.movies)
                             setRecommendMovies(res.data.movies)
+                        } else if(res.status === 401){
+                            history.go(0)
                         } else {
                             console.log(response.SERVER_ERROR)
                         }
-                    }).catch((e) => {
-                        console.log(response.SERVER_ERROR)
+                    }).catch(() => {
+                        console.log(response.SERVER_UNAVAILABLE)
                     })
                 }
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
 
     }, [location])
