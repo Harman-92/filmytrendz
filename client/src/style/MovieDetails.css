@@ -101,13 +101,18 @@
 }
 .cast-content {
     padding:0 !important;
+    height: 3.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.cast-image {
-    width: 20% !important;
-    margin-bottom: 0!important;
-}
+
 .cast-name {
-    margin-top: 4% !important;
+    /*margin-top: 4% !important;*/
+    padding: 2%;
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
 }
 .contentContainer {
     margin-left: 3%;
