@@ -22,7 +22,7 @@ const AboutUs = () => {
             name: 'Wei Song',
             zid: 'z5325276',
             role: 'Backend developer',
-            image: images.no_profile,
+            image: '/about/wei.jpg',
             bio: 'Hello'
         }, {
             name: 'Allen K',
