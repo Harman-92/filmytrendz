@@ -38,7 +38,7 @@ const checkWishListActive = (wishList) => {
 }
 
 const Actors = (props) => {
-    let actors = props.casts
+    let actors = props.cast
     let arr = actors.split(", ")
     return (
         <Card.Group itemsPerRow={7}>
@@ -506,9 +506,9 @@ const MovieDetails = () => {
             </Grid>
 
             {/*-------------------------movie cast-----------------------------*/}
-            <h2 className='movieHeader'>Casts</h2>
+            <h2 className='movieHeader'>Cast</h2>
             <Divider/>
-            <Actors casts={movieDetails.actors}/>
+            <Actors cast={movieDetails.actors}/>
 
             {/*-------------------------movie review-----------------------------*/}
             <div className="movieHeader">
