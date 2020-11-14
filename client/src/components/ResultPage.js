@@ -51,8 +51,6 @@ const ResultPage = () => {
     useEffect(() => {
         setIsLogin(isAuthenticated())
         if (location.isSearch) {
-            console.log("location: " + location.keyword)
-            console.log(location.filter)
             let filterString = "search="+location.keyword
             const filter = location.filter
             if(filter.description){
@@ -117,12 +115,11 @@ const ResultPage = () => {
             }
         }
 
-    }, [location.isSearch, location.keyword, location.filter, location, isLogin])
+    }, [location.isSearch, location.keyword, location.filter, location, isLogin, history, pageType])
 
 
     /*----------------------------------- sort search results --------------------------------------*/
     useEffect(() => {
-        console.log("sort keyword: " + sortFilter.keyword, " ascending: " + sortFilter.ascending)
         let copy_movieResults = [].concat(movieResults);
         let keyword = sortFilter.keyword;
         if (sortFilter.ascending) {
@@ -150,7 +147,7 @@ const ResultPage = () => {
         }
         console.log(copy_movieResults)
         setMovieResults(copy_movieResults)
-    }, [sortFilter.keyword, sortFilter.ascending])
+    }, [sortFilter.keyword, sortFilter.ascending, movieResults])
 
     const deteleCard = () => {
         if (pageType === 'favorite') {

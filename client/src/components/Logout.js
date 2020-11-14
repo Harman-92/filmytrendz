@@ -19,7 +19,7 @@ const Logout = () => {
         }).catch((e) => {
             console.log(response.SERVER_ERROR)
         })
-    },[location])
+    },[location, history])
     return(<></>)
 }
 export default Logout;

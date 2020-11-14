@@ -11,7 +11,7 @@ import {
     Segment,
     Transition
 } from "semantic-ui-react";
-import {Link, useHistory, useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import images from "../config/images";
 import MenuCustom from "./MenuCustom";
 import genres from "../config/movieGenres";
@@ -151,15 +151,15 @@ const Header = ({setVisible, setActiveIndex}) => {
                                     /*--------------------User Menu Button-------------------*/
 
                                     <Grid className='menu-div' verticalAlign='middle'>
-                                    <Grid.Column width={12} textAlign='right'>
-                                        <span className='menu-text'><p>Hey,</p><h3>{user.firstName}</h3></span>
+                                    <Grid.Column width={14} textAlign='right'>
+                                        <span className='menu-text'><h3>{user.firstName}</h3></span>
                                     </Grid.Column>
-                                        <Grid.Column width={4}>
+                                        <Grid.Column width={2} className='header-profile-url'>
                                         <Popup wide
                                                position='bottom right'
                                                trigger={
                                                    <Image src={user.url === '' ? images.no_profile : user.url} circular
-                                                          floated='right'
+                                                          floated='right' size='medium'
                                                    />
                                                }
                                                on='click'

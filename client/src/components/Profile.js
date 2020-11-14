@@ -328,7 +328,7 @@ const Profile = () => {
         } else {
             history.push('/')
         }
-    }, [location])
+    }, [location, history, isLogin])
     return (
         <Container className="Profile">
 

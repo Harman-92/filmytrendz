@@ -288,7 +288,7 @@ const MovieDetails = () => {
         }).catch((e) => {
             console.log(response.SERVER_ERROR)
         })
-    }, [location, isLogin])
+    }, [location, isLogin, id])
 
     useEffect(() => {
         setIsWishList(checkWishListActive(wishList))
@@ -310,7 +310,7 @@ const MovieDetails = () => {
         }).catch((e) => {
             console.log(response.SERVER_ERROR)
         })
-    }, [searchBy])
+    }, [searchBy, movieDetails.id])
 
     return (
         <Container>
@@ -478,7 +478,7 @@ const MovieDetails = () => {
 
                         <div className='movie-rating-wrapper'>
                             <Statistic className='movie-rating'>
-                                <Statistic.Value>{movieDetails.rating ? movieDetails.rating : Math.round(movieDetails.external_rating * 10) / 10}</Statistic.Value>
+                                <Statistic.Value>{movieDetails.rating}</Statistic.Value>
                             </Statistic>
 
                             <div style={{fontSize: 26, display: 'flex', justifyContent: 'flex-end'}}>
@@ -488,7 +488,7 @@ const MovieDetails = () => {
                                     starCount={5}
                                     starColor="#7b68ee"
                                     emptyStarColor="lightgrey"
-                                    value={movieDetails.rating ? movieDetails.rating : movieDetails.external_rating}
+                                    value={movieDetails.rating}
                                 />
                             </div>
 
@@ -696,18 +696,15 @@ const MovieDetails = () => {
 
 
                     <Card.Group itemsPerRow={6}>
-                        {similarMovies.map((movie, index) => {
-                                if (index < 6) {
-                                    return (
-                                        <Card key={index} centered={true}
-                                              onClick={() => history.push('/movie/' + movie.id)}
-                                        >
-                                            <Image src={movie.url}/>
-                                            <Card.Description textAlign='center'>{movie.title}</Card.Description>
-                                        </Card>
-                                    )
-                                }
-                            }
+                        {similarMovies.map((movie, index) => (
+                            index < 6 ?
+                                <Card key={index} centered={true}
+                                      onClick={() => history.push('/movie/' + movie.id)}
+                                >
+                                    <Image src={movie.url}/>
+                                    <Card.Description textAlign='center'>{movie.title}</Card.Description>
+                                </Card>
+                                : null)
                         )}
                     </Card.Group>
                 </Suspense>
