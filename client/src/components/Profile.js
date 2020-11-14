@@ -213,7 +213,7 @@ const Profile = () => {
     }
     const handleUpload = () => {
         if (isProfileEdit) {
-            alert('upload image')
+            alert('upload image not available')
         }
     }
     const handleFirstName = (e, {value}) => {

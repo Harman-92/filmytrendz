@@ -185,11 +185,11 @@ const Header = ({setVisible, setActiveIndex}) => {
                                 {/*---------------------- Keywords -------------------------*/}
                                 <Grid.Row centered verticalAlign={'middle'}>
                                     <Grid.Column width={2} textAlign={'center'}>
-                                        <label className='filterHeader'>Keyword:</label>
+                                        <label className='filterHeader'>Search in:</label>
                                     </Grid.Column>
                                     <Grid.Column width={9}>
                                         <Form>
-                                            <Form.Group widths={'equal'} className='filter-form-group'>
+                                            <Form.Group className='filter-form-group'>
                                                 <Form.Radio
                                                     label='Description'
                                                     value='d'
