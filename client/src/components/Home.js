@@ -24,7 +24,6 @@ const Home = () => {
                     setIsLogin(isAuthenticated())
                     api.get('/recommend/user').then((res) => {
                         if (res.status === 200) {
-                            console.log("recommend results: " + res.data.movies)
                             setRecommendMovies(res.data.movies)
                         } else if (res.status === 401) {
                             history.go(0)
