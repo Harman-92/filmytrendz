@@ -7,7 +7,8 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
+    text-align: center;
     background: rgba(26, 25, 25, 0.81);
     color: white !important;
     height: -webkit-fill-available;

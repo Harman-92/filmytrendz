@@ -85,43 +85,56 @@ const MovieDetails = () => {
     const [newWishList, setNewWishList] = useState('')
 
     const postReview = () => {
-        api.post('/movie/' + movieDetails.id + '/review', {
-            'title': myReview.title,
-            'description': myReview.description,
-            'rating': myReview.rating
-        }).then(res => {
-            if (res.status === 200) {
-                const copyReviews = Object.assign([], movieDetails.reviews)
-                let time = moment().format('YYYY-MM-DD HH:mm').toString()
-                copyReviews.splice(0, 0, {
-                    url: user.url,
-                    userId: user.id,
-                    name: user.firstName,
-                    createdDate: time,
-                    title: myReview.title,
-                    description: myReview.description,
-                    rating: myReview.rating
+        if(myReview.rating === 0){
+            alert('Please add the rating.')
+        }else {
+            let reviewed = false
+            movieDetails.reviews.forEach( review =>{
+                if(user.id === review.userId){
+                    reviewed = true
+                    alert("Already reviewed this movie.")
+                }
+            })
+            if(!reviewed) {
+                api.post('/movie/' + movieDetails.id + '/review', {
+                    'title': myReview.title,
+                    'description': myReview.description,
+                    'rating': myReview.rating
+                }).then(res => {
+                    if (res.status === 200) {
+                        const copyReviews = Object.assign([], movieDetails.reviews)
+                        let time = moment().format('YYYY-MM-DD HH:mm').toString()
+                        copyReviews.splice(0, 0, {
+                            url: user.url,
+                            userId: user.id,
+                            name: user.firstName,
+                            createdDate: time,
+                            title: myReview.title,
+                            description: myReview.description,
+                            rating: myReview.rating
+                        })
+                        const newRating = ((movieDetails.rating * movieDetails.reviews.length) + myReview.rating) / (movieDetails.reviews.length + 1)
+                        setAddReview(false)
+                        setMovieDetails({
+                            ...movieDetails,
+                            reviews: copyReviews,
+                            rating: newRating.toFixed(1)
+                        })
+                        setMyReview({
+                            title: '',
+                            description: '',
+                            rating: 0
+                        })
+                    } else if (res.status === 401) {
+                        history.push('/')
+                    } else {
+                        console.log(response.SERVER_ERROR)
+                    }
+                }).catch(() => {
+                    console.log(response.SERVER_UNAVAILABLE)
                 })
-                const newRating = ((movieDetails.rating * movieDetails.reviews.length) + myReview.rating)/(movieDetails.reviews.length + 1)
-                setAddReview(false)
-                setMovieDetails({
-                    ...movieDetails,
-                    reviews: copyReviews,
-                    rating: newRating
-                })
-                setMyReview({
-                    title: '',
-                    description: '',
-                    rating: 0
-                })
-            } else if(res.status === 401){
-                history.push('/')
-            } else {
-                console.log(response.SERVER_ERROR)
             }
-        }).catch(() => {
-            console.log(response.SERVER_UNAVAILABLE)
-        })
+        }
     }
 
     const handleBanReviewer = (id) => {
@@ -370,9 +383,10 @@ const MovieDetails = () => {
                         <h1>{movieDetails.title}
                             <span style={{color: 'white'}}>-</span>
                             <span style={{fontSize: 20, color: 'grey'}}> {movieDetails.year} </span>
-                            <span style={{color: 'white'}}>-</span>
-                            <span style={{fontSize: 20, fontWeight: 'normal', color: 'darkgrey'}}> Directed by </span>
-                            <span style={{fontSize: 20, color: 'grey'}}> {movieDetails.director}</span>
+                            <div>
+                            <span style={{fontSize: 14, fontWeight: 'normal', color: 'darkgrey'}}> Directed by </span>
+                            <span style={{fontSize: 14, color: 'grey'}}> {movieDetails.director}</span>
+                            </div>
                         </h1>
                         <p>{movieDetails.description}</p>
                         <h3>Genre</h3>
@@ -597,7 +611,7 @@ const MovieDetails = () => {
                                     color='lightgrey'
                                 />
                                 <Form.TextArea style={{minHeight: 150}}
-                                               placeholder="Tell us what you think about this movie..."
+                                               placeholder="Write your review (optional)"
                                                onChange={(e, {value}) => setMyReview({
                                                    ...myReview,
                                                    description: value

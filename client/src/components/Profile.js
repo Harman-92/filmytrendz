@@ -11,14 +11,11 @@ import {
     Header,
     Icon,
     Input,
-    Image,
     Message,
     Segment,
-    Reveal,
     List
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
-import images from "../config/images";
 import {isAuthenticated, setUserInfo} from "../config/session";
 import api from "../config/axios";
 import response from "../config/response";
@@ -263,7 +260,7 @@ const Profile = () => {
             ...newUser,
             mobile_no: value
         })
-        if ((pattern.test(value) || value === "") && value.length === 10) {
+        if ((pattern.test(value) && value.length === 10) || value === ""){
             setErr({
                 ...err,
                 mobile_no: false
