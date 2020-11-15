@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_restplus import Resource, marshal
 from ..service.movie import *
 from ..service.recommend import encapsolate_res, get_best_reviews
-from ..util.decorator import token_optional
+from ..util.decorator import token_optional, token_required
 from ..util.dto import RecommendationDto
 from ..service.movie import get_all_favorites
 import pandas as pd
@@ -99,7 +99,7 @@ class MoviesUser(Resource):
 	@api.response(200, 'success', model=recommendation_movies_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@token_optional
+	@token_required
 	def get(self, user):
 		"""
 			this will generate the recommendations for a specific user according to
