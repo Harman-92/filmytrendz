@@ -62,7 +62,6 @@ const Home = () => {
                     </div> : null
                 :
                 <div style={{display: "flex", flexDirection: 'column',alignItems: 'center'}}>
-                    <Image src={images.topBanner}/>
                     <div className='guideText'>
                         <p className='guideContext'>Track films you’ve watched and reviewed.</p>
                         <p className='guideContext'>Save those you want to see.</p>
