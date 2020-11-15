@@ -20,8 +20,7 @@ def encapsolate_res(movies, director=None):
 		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies))
 
 	for m in movie_res:
-		movies_list.append(m)	
-
+		movies_list.append(m)
 
 	res = {
 		'movies': movies_list
@@ -32,8 +31,9 @@ def encapsolate_res(movies, director=None):
 
 def get_best_reviews(id, movies):
 	"""
-		param: user id
-
+		param: id, movies
+		- id is the user id
+		- movies is a list of movie id
 		return: res
 		- list of movie objects
 	"""

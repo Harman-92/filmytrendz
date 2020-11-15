@@ -40,14 +40,16 @@ class MoviesSearch(Resource):
 		conditions = request.args
 		target_movie = Movie.query.filter_by(id=int(mid)).first()
 
+		GENRE, DIRECTOR = 1, 2
+
 		if not target_movie:
 			api.abort(404, 'the movie does not exist')
 
 		flag = 0
 		if 'genre' in conditions:
-			flag = 1
+			flag = GENRE
 		if 'director' in conditions:
-			flag = 2
+			flag = DIRECTOR
 
 		movie_id = str(target_movie.tmdb_id)
 		try:
@@ -59,16 +61,13 @@ class MoviesSearch(Resource):
 		try:
 			rec_gen = list((pd.json_normalize(ts.Movies(id=movie_id).recommendations()['results']))['id'])
 		except:
-			# On failure, return empty list
 			rec_gen = []
 
 		# Get recommendations based on genre
 		try:
 			rec_genre = list((pd.json_normalize(ts.Movies(id=movie_id).similar_movies()['results']))['id'])
 		except:
-			# On failure, return empty list
 			rec_genre = []
-
 
 		rec_dir = set(rec_gen + rec_genre)
 		rec_dir = list(rec_dir)
@@ -78,17 +77,16 @@ class MoviesSearch(Resource):
 		if flag == 0:
 			rec_movies = rec_gen
 			
-		elif flag == 1:
+		elif flag == GENRE:
 			rec_movies = rec_genre
 			
 		else:
 			rec_movies = rec_dir
 			
-		if flag == 2 and director:
+		if flag == DIRECTOR and director:
 			res = encapsolate_res(rec_movies, director=director)
 		else:
 			res = encapsolate_res(rec_movies)	
-		
 
 		return marshal(res, recommendation_movies_model)
 
