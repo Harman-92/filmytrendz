@@ -86,45 +86,54 @@ const MovieDetails = () => {
 
     const postReview = () => {
         if(myReview.rating === 0){
-            alert('Please rate the movie')
+            alert('Please add the rating.')
         }else {
-            api.post('/movie/' + movieDetails.id + '/review', {
-                'title': myReview.title,
-                'description': myReview.description,
-                'rating': myReview.rating
-            }).then(res => {
-                if (res.status === 200) {
-                    const copyReviews = Object.assign([], movieDetails.reviews)
-                    let time = moment().format('YYYY-MM-DD HH:mm').toString()
-                    copyReviews.splice(0, 0, {
-                        url: user.url,
-                        userId: user.id,
-                        name: user.firstName,
-                        createdDate: time,
-                        title: myReview.title,
-                        description: myReview.description,
-                        rating: myReview.rating
-                    })
-                    const newRating = ((movieDetails.rating * movieDetails.reviews.length) + myReview.rating) / (movieDetails.reviews.length + 1)
-                    setAddReview(false)
-                    setMovieDetails({
-                        ...movieDetails,
-                        reviews: copyReviews,
-                        rating: newRating
-                    })
-                    setMyReview({
-                        title: '',
-                        description: '',
-                        rating: 0
-                    })
-                } else if (res.status === 401) {
-                    history.push('/')
-                } else {
-                    console.log(response.SERVER_ERROR)
+            let reviewed = false
+            movieDetails.reviews.forEach( review =>{
+                if(user.id === review.userId){
+                    reviewed = true
+                    alert("Already reviewed this movie.")
                 }
-            }).catch(() => {
-                console.log(response.SERVER_UNAVAILABLE)
             })
+            if(!reviewed) {
+                api.post('/movie/' + movieDetails.id + '/review', {
+                    'title': myReview.title,
+                    'description': myReview.description,
+                    'rating': myReview.rating
+                }).then(res => {
+                    if (res.status === 200) {
+                        const copyReviews = Object.assign([], movieDetails.reviews)
+                        let time = moment().format('YYYY-MM-DD HH:mm').toString()
+                        copyReviews.splice(0, 0, {
+                            url: user.url,
+                            userId: user.id,
+                            name: user.firstName,
+                            createdDate: time,
+                            title: myReview.title,
+                            description: myReview.description,
+                            rating: myReview.rating
+                        })
+                        const newRating = ((movieDetails.rating * movieDetails.reviews.length) + myReview.rating) / (movieDetails.reviews.length + 1)
+                        setAddReview(false)
+                        setMovieDetails({
+                            ...movieDetails,
+                            reviews: copyReviews,
+                            rating: newRating.toFixed(1)
+                        })
+                        setMyReview({
+                            title: '',
+                            description: '',
+                            rating: 0
+                        })
+                    } else if (res.status === 401) {
+                        history.push('/')
+                    } else {
+                        console.log(response.SERVER_ERROR)
+                    }
+                }).catch(() => {
+                    console.log(response.SERVER_UNAVAILABLE)
+                })
+            }
         }
     }
 
