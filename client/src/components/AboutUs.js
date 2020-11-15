@@ -4,7 +4,7 @@ import '../style/AboutUs.css';
 import {Container, Divider, Grid, Image} from "semantic-ui-react";
 import images from "../config/images";
 
-const About = () => {
+const AboutUs = () => {
     const [data, setData] = useState([
         {
             name: 'Adi Teja Dasari',
@@ -71,6 +71,6 @@ ProfileCard.propTypes = {
     z: PropTypes.object.isRequired
 };
 
-About.defaultProps = {};
+AboutUs.defaultProps = {};
 
-export default About;
+export default AboutUs;

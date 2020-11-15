@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react";
 import {useHistory, useLocation} from "react-router-dom";
 import images from "../config/images";
-import MenuCustom from "./MenuCustom";
+import Menu from "./Menu";
 import genres from "../config/movieGenres";
 import rating from "../config/ratings";
 import React, {useEffect, useState} from "react";
@@ -167,7 +167,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                                                onOpen={() => setOpen(true)}
                                                onClose={() => setOpen(false)}
                                         >
-                                            <MenuCustom setOpen={setOpen}/>
+                                            <Menu setOpen={setOpen}/>
                                         </Popup>
                                         </Grid.Column>
                                     </Grid>
