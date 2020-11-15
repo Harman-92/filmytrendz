@@ -22,12 +22,17 @@ import images from "../config/images";
 import {isAuthenticated, setUserInfo} from "../config/session";
 import api from "../config/axios";
 import response from "../config/response";
+import Avatar from "./Avatar";
 
 const Profile = () => {
     const history = useHistory()
     const location = useLocation()
     const isLogin = isAuthenticated()
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({
+        first_name: '',
+        last_name: '',
+        mobile_no: '',
+    })
     const [newUser, setNewUser] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
@@ -48,13 +53,7 @@ const Profile = () => {
         success: false
     });
     const [isActive, setIsActive] = useState(false);
-    const [bannedUsers, setBannedUsers] = useState([
-        {id: 34, first_name: 'John', last_name: 'Dalton'},
-        {id: 45, first_name: 'Nikola', last_name: 'Tesla'},
-        {id: 32, first_name: 'Charles', last_name: 'Darwin'},
-        {id: 92, first_name: 'Richard', last_name: 'Feynman'},
-        {id: 43, first_name: 'Werner', last_name: 'Heisenberg'}
-    ])
+    const [bannedUsers, setBannedUsers] = useState([])
     const [isBannedUserEdit, setIsBannedUserEdit] = useState(false)
 
     const handleProfileSave = () => {
@@ -333,14 +332,15 @@ const Profile = () => {
 
                 <Grid columns={2} stackable textAlign='center' className='profile-grid'>
                     <Grid.Column width={3} verticalAlign='middle'>
-                        <Reveal animated='fade'>
-                            <Reveal.Content visible className={isProfileEdit ? 'show' : 'hide'}>
-                                <Image circular src={images.upload} size='small' onClick={handleUpload}/>
-                            </Reveal.Content>
-                            <Reveal.Content hidden>
-                                <Image circular src={user.url === '' ? images.no_profile : user.url} size='small'/>
-                            </Reveal.Content>
-                        </Reveal>
+                        {/*<Reveal animated='fade'>*/}
+                        {/*    <Reveal.Content visible className={isProfileEdit ? 'show' : 'hide'}>*/}
+                        {/*        <Image circular src={images.upload} size='small' onClick={handleUpload}/>*/}
+                        {/*    </Reveal.Content>*/}
+                        {/*    <Reveal.Content hidden>*/}
+                        {/*        <Image circular src={user.url === '' ? images.no_profile : user.url} size='small'/>*/}
+                        {/*    </Reveal.Content>*/}
+                        {/*</Reveal>*/}
+                        <Avatar  user={user.first_name} size='small'/>
                     </Grid.Column>
 
                     {/*---------------------------user details-------------------------------*/}
