@@ -7,6 +7,7 @@ from ..util.dto import RecommendationDto
 from ..service.movie import get_all_favorites
 import pandas as pd
 import tmdbsimple as ts
+import random
 
 
 ts.API_KEY = 'e8ad3a064b09b320f171bc110b451cfd'
@@ -125,13 +126,16 @@ class MoviesUser(Resource):
 			if not temp_res.empty:
 				rec_movies += list(temp_res['id'])
 
-		rec_movies = set(rec_movies)
-		rec_movies = list(rec_movies)
+
 
 		if rec_movies:
+			rec_movies = set(rec_movies)
+			rec_movies = list(rec_movies)
+			random.shuffle(rec_movies)
 			res = encapsolate_res(rec_movies)
 		else:
 			rec_movies = list(pd.json_normalize(ts.Movies().popular()['results'])['id'])
+			random.shuffle(rec_movies)
 			res = encapsolate_res(rec_movies)
 		return marshal(res, recommendation_movies_model)
 
