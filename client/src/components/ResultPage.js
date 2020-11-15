@@ -235,7 +235,7 @@ const ResultPage = () => {
                         <Card className='movieCard' fluid
                               key={index}
                         >
-                            <Image src={movie.url === ''?images.no_image:movie.url}/>
+                            <Image src={movie.url === '' ? images.no_image : movie.url}/>
                             <Card.Content as={'div'} className='movie-card-content'>
                                 {
                                     pageType !== 'search' && pageType !== 'reviewed' ?

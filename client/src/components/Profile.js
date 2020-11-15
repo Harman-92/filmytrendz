@@ -22,12 +22,17 @@ import images from "../config/images";
 import {isAuthenticated, setUserInfo} from "../config/session";
 import api from "../config/axios";
 import response from "../config/response";
+import Avatar from "./Avatar";
 
 const Profile = () => {
     const history = useHistory()
     const location = useLocation()
     const isLogin = isAuthenticated()
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({
+        first_name: '',
+        last_name: '',
+        mobile_no: '',
+    })
     const [newUser, setNewUser] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
@@ -370,14 +375,15 @@ const Profile = () => {
 
                 <Grid columns={2} stackable textAlign='center' className='profile-grid'>
                     <Grid.Column width={3} verticalAlign='middle'>
-                        <Reveal animated='fade'>
-                            <Reveal.Content visible className={isProfileEdit ? 'show' : 'hide'}>
-                                <Image circular src={images.upload} size='small' onClick={handleUpload}/>
-                            </Reveal.Content>
-                            <Reveal.Content hidden>
-                                <Image circular src={user.url === '' ? images.no_profile : user.url} size='small'/>
-                            </Reveal.Content>
-                        </Reveal>
+                        {/*<Reveal animated='fade'>*/}
+                        {/*    <Reveal.Content visible className={isProfileEdit ? 'show' : 'hide'}>*/}
+                        {/*        <Image circular src={images.upload} size='small' onClick={handleUpload}/>*/}
+                        {/*    </Reveal.Content>*/}
+                        {/*    <Reveal.Content hidden>*/}
+                        {/*        <Image circular src={user.url === '' ? images.no_profile : user.url} size='small'/>*/}
+                        {/*    </Reveal.Content>*/}
+                        {/*</Reveal>*/}
+                        <Avatar  user={user.first_name} size='small'/>
                     </Grid.Column>
 
                     {/*---------------------------user details-------------------------------*/}

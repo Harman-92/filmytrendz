@@ -8,7 +8,7 @@ import {removeAccessToken} from "./session";
  **/
 const api = axios.create({
     baseURL: 'https://ec2-18-188-47-194.us-east-2.compute.amazonaws.com:5000',
-    timeout: 20000
+    timeout: 10000
 });
 api.interceptors.response.use(response => {
     return response;

@@ -81,7 +81,7 @@ const Home = () => {
 
 const MovieCard = ({movie, history}) => (
     <Card className='movieCard'>
-        <Image src={movie.url === ''?images.no_image:movie.url}/>
+        <Image src={movie.url === '' ? images.no_image : movie.url}/>
         <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
                       className='movie-card-content'>
             <Card.Header className='cardContext'>{movie.title}</Card.Header>
