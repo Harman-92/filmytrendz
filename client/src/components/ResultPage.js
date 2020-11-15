@@ -15,6 +15,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import {isAuthenticated} from "../config/session";
 import api from "../config/axios";
 import response from "../config/response";
+import images from "../config/images";
 
 const ResultPage = () => {
     const history = useHistory()
@@ -229,7 +230,7 @@ const ResultPage = () => {
                         <Card className='movieCard' fluid
                               key={index}
                         >
-                            <Image src={movie.url}/>
+                            <Image src={movie.url === '' ? images.no_image : movie.url}/>
                             <Card.Content as={'div'} className='movie-card-content'>
                                 {
                                     pageType !== 'search' && pageType !== 'reviewed' ?

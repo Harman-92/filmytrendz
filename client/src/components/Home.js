@@ -6,6 +6,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import {isAuthenticated} from "../config/session";
 import api from "../config/axios"
 import response from "../config/response";
+import images from "../config/images";
 
 const Home = () => {
     const history = useHistory()
@@ -78,7 +79,7 @@ const Home = () => {
 
 const MovieCard = ({movie, history}) => (
     <Card className='movieCard'>
-        <Image src={movie.url}/>
+        <Image src={movie.url === '' ? images.no_image : movie.url}/>
         <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
                       className='movie-card-content'>
             <Card.Header className='cardContext'>{movie.title}</Card.Header>

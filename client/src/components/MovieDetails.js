@@ -706,7 +706,7 @@ const MovieDetails = () => {
                                 if (index < 6) {
                                     return (
                                         <Card className='movieCard' key={index}>
-                                            <Image src={movie.url}/>
+                                            <Image src={movie.url=== '' ? images.no_image : movie.url}/>
                                             <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
                                                           className='movie-card-content'>
                                                 <Card.Header className='cardContext'>{movie.title}</Card.Header>
