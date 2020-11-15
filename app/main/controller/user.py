@@ -23,7 +23,7 @@ ban_list_model = UserDto.banned_list
 
 @api.route('')
 class User(Resource):
-    @api.doc('retrieve a user profile')
+    @api.doc('retrieve the user profile')
     @api.response(200, 'success', model=user_model)
     @api.response(401, 'unauthorized')
     @token_required
@@ -83,7 +83,7 @@ class Banneduser(Resource):
         banned_users = get_banned_user(user_id)
         return marshal(banned_users, ban_list_model), SUCCESS
 
-    @api.doc('add ban user')
+    @api.doc('ban a user')
     @api.expect(ban_model)
     @api.response(200, 'success')
     @api.response(401, 'unauthorized')
@@ -99,7 +99,7 @@ class Banneduser(Resource):
 
 @api.route('/banneduser/<id>')
 class Banneduser(Resource):
-    @api.doc('delete ban user')
+    @api.doc('delete banned user')
     @api.expect(ban_model)
     @api.response(200, 'success')
     @api.response(401, 'unauthorized')

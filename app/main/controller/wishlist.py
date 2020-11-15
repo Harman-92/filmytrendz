@@ -17,7 +17,7 @@ wish_lists_model=WishListDto.wish_lists_model
 @api.route('')
 class Wishlist(Resource):
 
-	@api.doc('adding new wishlist')
+	@api.doc('add a new wish list')
 	@api.response(200, 'Success')
 	@api.expect(new_wishlist_model)
 	@api.response(400, 'unauthorized')
@@ -36,7 +36,7 @@ class Wishlist(Resource):
 		else:
 			return marshal(wishlist, new_wishlist_return_model), SUCCESS
 
-	@api.doc('get all wishlists of user')
+	@api.doc('get all wish lists of user')
 	@api.response(200, 'success', model=wish_lists_model)
 	@api.response(401, 'unauthorized')
 	@token_required
@@ -52,7 +52,7 @@ class Wishlist(Resource):
 @api.route('/<id>')
 class Wishlist(Resource):
 
-	@api.doc('get wishlist of user')
+	@api.doc('get wish list of user by id')
 	@api.response(200, 'success', model=wish_list_model)
 	@api.response(401, 'unauthorized')
 	@token_optional
@@ -63,7 +63,7 @@ class Wishlist(Resource):
 		wishlist = get_wishlist(id, user)
 		return marshal(wishlist, wish_list_model), SUCCESS
 
-	@api.doc('deleting new wishlist')
+	@api.doc('delete a wish list by id')
 	@api.response(200, 'Success')
 	@api.response(400, 'unauthorized')
 	@token_required
@@ -81,7 +81,7 @@ class Wishlist(Resource):
 		else:
 			api.abort(400, 'invalid operation')
 
-	@api.doc('update wishlist of user')
+	@api.doc('update wish list')
 	@api.expect(wishlist_update_model)
 	@api.response(200, 'success')
 	@api.response(401, 'unauthorized')

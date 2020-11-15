@@ -6,9 +6,7 @@ from ..util.decorator import token_required
 import json
 from ..util.http_status import *
 
-
 api = ReviewDto.api
-
 
 """
 	review api:
@@ -20,7 +18,7 @@ api = ReviewDto.api
 @api.route('/<rid>')
 class Review(Resource):
 
-    @api.doc('delete review')
+    @api.doc('delete a review')
     @api.response(200, 'success')
     @api.response(400, 'invalid')
     @api.response(401, 'unauthorized')
@@ -37,8 +35,7 @@ class Review(Resource):
         else:
             api.abort(BAD_REQUEST, 'invalid operation')
 
-
-    @api.doc('delete review')
+    @api.doc('update a review')
     @api.response(200, 'success')
     @api.response(400, 'invalid')
     @api.response(401, 'unauthorized')
@@ -54,4 +51,3 @@ class Review(Resource):
 
         else:
             api.abort(BAD_REQUEST, 'invalid operation')
-
