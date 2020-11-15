@@ -158,7 +158,7 @@ const Header = ({setVisible, setActiveIndex}) => {
                                                    <div style={{display: "flex", justifyContent:'center', alignItems: 'center'}}>
                                                        <Image src={images.avatar} circular/>
                                                           <div className='avatarText'>
-                                                              <div style={{color: 'white', fontSize:24, fontWeight:'bold'}}>
+                                                              <div style={{color: 'white', fontSize:20, fontWeight:'bold'}}>
                                                                   {user.firstName.slice(0,1)}</div>
                                                           </div>
                                                    </div>
