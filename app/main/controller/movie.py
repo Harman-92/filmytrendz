@@ -134,7 +134,7 @@ class MovieWatched(Resource):
 
 @api.route('/<mid>/wishlist')
 class MovieWishlist(Resource):
-	@api.doc('movie watched')
+	@api.doc('movie watched list')
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
