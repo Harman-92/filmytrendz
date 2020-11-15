@@ -1,6 +1,8 @@
 # COMP9900-CircEx
 ## FilmFinder project
+### Access FilmFinder application on line: https://filmytrendz.netlify.app/
 
+### Setup FileFinder application on your local host following below instructions
 ## backend setup instructions
 ### Step 1: config local database
 If you are going to setup the application on your own localhost, you need to setup your
