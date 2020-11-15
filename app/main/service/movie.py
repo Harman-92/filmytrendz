@@ -110,10 +110,9 @@ def get_all_keywords_movies(conditions):
         }
     """
 
-    result_1 = set(Movie.query.filter(Movie.title.like(keyword)).limit(LIMIT).all())
-    result_2 = set()
+    result_1 = set(Movie.query.filter(Movie.title.like(keyword)).all())
     if 'description' in conditions:
-        result_2 = set(Movie.query.filter(Movie.description.like(keyword)).limit(LIMIT).all())
+        result_1 = result_1 | set(Movie.query.filter(Movie.description.like(keyword)).all())
 
     """
         filter_2:
@@ -122,28 +121,24 @@ def get_all_keywords_movies(conditions):
         year_start <= year <= year_end
     """
 
-    result_3 = set()
-
     if 'year_start' in conditions and 'year_end' in conditions:
-        result_3 = set(Movie.query.filter(Movie.year >= conditions['year_start']).filter(
-            Movie.year <= conditions['year_end']).limit(LIMIT).all())
-
-    result_4 = set()
+        result_1 = result_1 & set(Movie.query.filter(Movie.year >= int(conditions['year_start'])).filter(
+            Movie.year <= int(conditions['year_end'])).all())
 
     if 'rating_start' in conditions and 'rating_end' in conditions:
-        result_4 = set(Movie.query.filter(Movie.rating >= conditions['rating_start']).filter(
-            Movie.rating <= conditions['rating_end']).limit(LIMIT).all())
-
-    result_5 = set()
+        result_1 = result_1 & set(Movie.query.filter(Movie.rating >= conditions['rating_start']).filter(
+            Movie.rating <= conditions['rating_end']).all())
 
     if 'cast' in conditions:
-        result_5 = set(Movie.query.filter(Movie.actors.like(keyword)).limit(LIMIT).all())
+        result_1 = result_1 | set(Movie.query.filter(Movie.actors.like(keyword)).all())
 
-    result_6 = set()
     if 'genre' in conditions:
-        result_6 = set(Movie.query.filter(Movie.genre.in_(tuple(conditions['genre'].split(',')))).limit(LIMIT).all())
+        for genre in tuple(conditions['genre'].split(',')):
+            genre = '%{}%'.format(genre)
+            result_1 = result_1 & set(Movie.query.filter(Movie.genre.like(genre)).all())
 
-    return list(result_1 | result_2 | result_3 | result_4 | result_5 | result_6)
+
+    return list(result_1)[:LIMIT]
 
 
 def retrieve_movie(user, mid):

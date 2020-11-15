@@ -9,13 +9,17 @@ samples = df.head(50000)
 samples.to_excel("movie_datasets/movies.xls")
 
 
+"""
+Provide your database details you would like to insert data
+"""
+
 with app.app_context():
 	book = xlrd.open_workbook("movie_datasets/movies.xls")
 	sheet = book.sheet_by_name("Sheet1")
 	conn = pymysql.connect(
-		host='v5-team.c4nceu0tb2ci.us-east-2.rds.amazonaws.com',
-		user='admin',
-		password='frontendbackend',
+		host='127.0.0.1',
+		user='root',
+		password='password',
 		db='v5',
 		port=3306,
 		charset='utf8'
