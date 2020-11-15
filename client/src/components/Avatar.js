@@ -5,7 +5,7 @@ import {Image} from "semantic-ui-react";
 
 const Avatar = ({user, size}) => {
     return (
-        <div style={{display: "flex", justifyContent:'center', alignItems: 'center'}}>
+        <div style={{display: "flex", justifyContent:'center', alignItems: 'center', width: 'fit-content'}}>
            <Image src={images.avatar} circular size={size}
               />
               <div className='avatarText'>

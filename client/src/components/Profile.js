@@ -13,13 +13,14 @@ import {
     Input,
     Message,
     Segment,
-    List
+    List, Reveal, Image
 } from 'semantic-ui-react';
 import '../style/SignUp.css';
 import {isAuthenticated, setUserInfo} from "../config/session";
 import api from "../config/axios";
 import response from "../config/response";
 import Avatar from "./Avatar";
+import images from "../config/images";
 
 const Profile = () => {
     const history = useHistory()
@@ -372,15 +373,18 @@ const Profile = () => {
 
                 <Grid columns={2} stackable textAlign='center' className='profile-grid'>
                     <Grid.Column width={3} verticalAlign='middle'>
-                        {/*<Reveal animated='fade'>*/}
-                        {/*    <Reveal.Content visible className={isProfileEdit ? 'show' : 'hide'}>*/}
-                        {/*        <Image circular src={images.upload} size='small' onClick={handleUpload}/>*/}
-                        {/*    </Reveal.Content>*/}
-                        {/*    <Reveal.Content hidden>*/}
-                        {/*        <Image circular src={user.url === '' ? images.no_profile : user.url} size='small'/>*/}
-                        {/*    </Reveal.Content>*/}
-                        {/*</Reveal>*/}
-                        <Avatar  user={user.first_name} size='small'/>
+                        <Reveal animated='fade'>
+                            <Reveal.Content visible className={isProfileEdit ? 'show' : 'hide'}>
+                                <Image circular src={images.upload} size='small' onClick={handleUpload}/>
+                            </Reveal.Content>
+                            <Reveal.Content hidden>
+                                {user.url === '' ?
+                                    <Avatar user={user.first_name} size='small'/>
+                                    :
+                                    <Image circular src={user.url} size='small'/>
+                                }
+                            </Reveal.Content>
+                        </Reveal>
                     </Grid.Column>
 
                     {/*---------------------------user details-------------------------------*/}
