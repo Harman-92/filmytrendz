@@ -95,7 +95,7 @@ const WishListPublic = () => {
                                   key={i}
                                   id={movie.id}
                             >
-                                <Image src={movie.url}/>
+                                <Image src={movie.url === ''?images.no_image:movie.url}/>
                             </Card>
 
                         ))

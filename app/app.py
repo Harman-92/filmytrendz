@@ -21,7 +21,6 @@ migrate = Migrate(app, db)
 
 manager.add_command('db', MigrateCommand)
 
-
 """
 	Customized commands to be used to launch the application and database
 	run: launch the backend api
@@ -47,4 +46,3 @@ def create_all():
 
 if __name__ == '__main__':
     manager.run()
-
