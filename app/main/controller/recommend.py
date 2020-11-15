@@ -31,7 +31,6 @@ class MoviesSearch(Resource):
 	@api.response(401, 'unauthorized')
 	@api.param('genre', description='make recommendation according to genre')
 	@api.param('director', description='make recommendation according to director')
-	@token_required
 	def get(self, user, mid):
 		"""
 			make recommendation for a specific movie according to movie genre and director
@@ -99,7 +98,6 @@ class MoviesUser(Resource):
 	@api.response(200, 'success', model=recommendation_movies_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
-	@token_required
 	def get(self, user):
 		"""
 			this will generate the recommendations for a specific user according to
