@@ -7,8 +7,8 @@ import {removeAccessToken} from "./session";
  * Replace the below baseUrl with your local IP to connect to local backend server
  **/
 const api = axios.create({
-    baseURL: 'https://ec2-18-188-47-194.us-east-2.compute.amazonaws.com:5000',
-    timeout: 20000
+    baseURL: 'https://127.0.0.1:5000',
+    timeout: 10000
 });
 api.interceptors.response.use(response => {
     return response;

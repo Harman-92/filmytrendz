@@ -13,7 +13,8 @@ const images = {
     no_image : '/empty_image.png',
     upload : '/upload.png',
     PUBLIC : access+'/public.png',
-    PRIVATE : access+'/private.png'
+    PRIVATE : access+'/private.png',
+    avatar : '/avatar.png',
 }
 
 export default images
