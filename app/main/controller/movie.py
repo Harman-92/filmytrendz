@@ -50,6 +50,7 @@ class MoviesSearch(Resource):
 			case 3: /movie?search=keyword&name=true&description=true...
 			case 4: /movie?latest=true
 			case 5: /movie?reviewed=true
+			case 6: /movie?description=true
 		"""
 		conditions = request.args
 		movie_list = search_movies(user, dict(conditions))
