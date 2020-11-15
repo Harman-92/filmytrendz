@@ -29,11 +29,11 @@ To delete all the tables in the database
 ```python
 python3 app.py drop_all
 ```
-### Step 5:  run the backend application
-```python
-python3 app.py run
-```
-### Step 6:  initialize database
+### Step 5:  initialize database
 ```python
 python3 init_data.py
+```
+### Step 6:  run the backend application
+```python
+python3 app.py run
 ```
