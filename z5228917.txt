@@ -48,6 +48,14 @@ Held a mock demo.
 
 Week 8
 
-Worked on recommendation api. Started work on report.
+Worked on recommendation api. Updated DB models. Started work on report.
 
 -----------------------------------------------------------------------------------------------------
+
+Week 9
+
+Added content on Service Architecture Diagram, Challenges and Third Part Api sections of the report. 
+Updated recommendation system to work with no user history. 
+Fixed recommendation bugs. Tested the app to find out any bugs. Fixed review sorting.
+
+----------------------------------------------------------------------------------------------------
