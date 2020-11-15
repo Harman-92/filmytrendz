@@ -10,7 +10,7 @@ const Avatar = ({user, size}) => {
               />
               <div className='avatarText'>
                   <div style={{color: 'white', fontSize:36, fontWeight:'bold'}}>
-                      {user.slice(0,1)}</div>
+                      {user.slice(0,1).toUpperCase()}</div>
               </div>
        </div>
     )

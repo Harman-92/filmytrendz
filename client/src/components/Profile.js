@@ -474,7 +474,7 @@ const Profile = () => {
                                 >
                                     <Header icon as='h1' className='banned-list-title'>
                                         <Icon name='dropdown'/>
-                                        Blocked Users
+                                        Blocked Reviewers
                                     </Header>
                                 </Accordion.Title>
                                 {isActive ?
