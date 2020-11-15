@@ -32,8 +32,7 @@ class MoviesSearch(Resource):
 	@api.response(401, 'unauthorized')
 	@api.param('genre', description='make recommendation according to genre')
 	@api.param('director', description='make recommendation according to director')
-	@token_optional
-	def get(self, user, mid):
+	def get(self, mid):
 		"""
 			make recommendation for a specific movie according to movie genre and director
 		"""
