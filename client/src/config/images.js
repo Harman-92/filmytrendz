@@ -15,6 +15,8 @@ const images = {
     PUBLIC : access+'/public.png',
     PRIVATE : access+'/private.png',
     avatar : '/avatar.png',
+    no_result: '/noResults.png',
+    topBanner: '/banner.png',
 }
 
 export default images

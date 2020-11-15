@@ -371,7 +371,13 @@ const MovieDetails = () => {
                         />
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <h1>{movieDetails.title}</h1>
+                        <h1>{movieDetails.title}
+                            <span style={{color: 'white'}}>-</span>
+                            <span style={{fontSize: 20, color: 'grey'}}> {movieDetails.year} </span>
+                            <span style={{color: 'white'}}>-</span>
+                            <span style={{fontSize: 20, fontWeight: 'normal', color: 'darkgrey'}}> Directed by </span>
+                            <span style={{fontSize: 20, color: 'grey'}}> {movieDetails.director}</span>
+                        </h1>
                         <p>{movieDetails.description}</p>
                         <h3>Genre</h3>
                         <span>{movieDetails.genre}</span>
@@ -740,10 +746,10 @@ const MovieDetails = () => {
                     </Form>
 
 
-                    <Card.Group itemsPerRow={6}>
+                    <Card.Group itemsPerRow={5}>
 
                         {similarMovies.map((movie, index) => (
-                            index < 6 ?
+                            index < 5 ?
                                 <Card className='movieCard' key={index}>
                                     <Image src={movie.url=== '' ? images.no_image : movie.url}/>
                                     <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}

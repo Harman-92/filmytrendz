@@ -200,6 +200,7 @@ const ResultPage = () => {
                         <h1 className='homePageTitle'>Reviewed Movies</h1>
             }
 
+            {/*--------------------------------- srot by -----------------------------*/}
             <Menu text>
                 <Menu.Menu position='right'>
                     <Menu.Item header>Sort by </Menu.Item>
@@ -226,45 +227,70 @@ const ResultPage = () => {
                         }
                     </Menu.Item>
                 </Menu.Menu>
-
             </Menu>
-            <Card.Group itemsPerRow={5}>
-                {
-                    movieResults.map((movie, index) => (
-                        index<20?
-                        <Card className='movieCard' fluid
-                              key={index}
-                        >
-                            <Image src={movie.url === '' ? images.no_image : movie.url}/>
-                            <Card.Content as={'div'} className='movie-card-content'>
-                                {
-                                    pageType !== 'search' && pageType !== 'reviewed' ?
-                                        <Label as='a' corner='right' color='violet' icon='x'
-                                               onClick={() => {
-                                                   setModalOpen(true)
-                                                   setDeleteItem({
-                                                       index: index,
-                                                       id: movie.id,
-                                                       title: movie.title
-                                                   })
-                                               }}/>
-                                        : null
-                                }
-                                <div className='cardContentView'
-                                     onClick={() => history.push('/movie/' + movie.id)}>
-                                    <Card.Header className='cardContext'>{movie.title}</Card.Header>
-                                    <Divider className='cardDivider'/>
-                                    <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
-                                    <div>
-                                        <Icon name='star' inverted color='violet'/> {movie.rating}
-                                    </div>
-                                </div>
-                            </Card.Content>
-                        </Card>:null
-                    ))
-                }
-            </Card.Group>
 
+            {/*------------------------------------- movie cards --------------------------------*/}
+            {
+                movieResults.length === 0 ?
+
+                        pageType === 'search' ?
+                            <div style={{display: 'flex', flexDirection: 'column',alignItems:'center'}}>
+                                <Image size='medium' src={images.no_result}/>
+                                <div className='recommendText'>
+                                    <p>Opps! There were no matches for your search term. </p>
+                                    <p>Please try to use other key words.</p>
+                                </div>
+                            </div> :
+                            <div style={{display: 'flex', flexDirection: 'column',alignItems:'center'}}>
+                                <Image size='medium' src={images.no_result}/>
+                                <div className='recommendText'>
+                                    <p>Opps! You don't have any movies in your {pageType.replace(/^\S/, s => s.toUpperCase())} list. </p>
+                                    <p>Enjoy your film travel and share your life in film.</p>
+                                </div>
+                            </div>
+                    :
+                    <Card.Group itemsPerRow={5}>
+                        {
+                            movieResults.map((movie, index) => (
+                                index<20?
+                                <Card className='movieCard' fluid
+                                      key={index}
+                                >
+                                    <Image src={movie.url === '' ? images.no_image : movie.url}/>
+                                    <Card.Content as={'div'} className='movie-card-content'>
+                                        {
+                                            pageType !== 'search' && pageType !== 'reviewed' ?
+                                                <Label as='a' corner='right' color='violet' icon='x'
+                                                       onClick={() => {
+                                                           setModalOpen(true)
+                                                           setDeleteItem({
+                                                               index: index,
+                                                               id: movie.id,
+                                                               title: movie.title
+                                                           })
+                                                       }}/>
+                                                : null
+                                        }
+                                        <div className='cardContentView'
+                                             onClick={() => history.push('/movie/' + movie.id)}>
+                                            <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                            <Divider className='cardDivider'/>
+                                            <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
+                                            <div>
+                                                <Icon name='star' inverted color='violet'/> {movie.rating}
+                                            </div>
+                                        </div>
+                                    </Card.Content>
+                                </Card>:null
+                            ))
+                        }
+                    </Card.Group>
+            }
+
+
+
+
+            {/*----------------------------- delete movie from list ---------------------------*/}
             <Modal
                 size='tiny'
                 open={modalOpen}

@@ -101,7 +101,7 @@ const Header = ({setVisible, setActiveIndex}) => {
         <Segment vertical className='header-segment'>
             <Accordion>
                 <Container className='header-container'>
-                    <Accordion.Title active={filterVisible} index={0}>
+                <Accordion.Title active={filterVisible} index={0}>
                         <Grid columns={3} verticalAlign='middle'>
                             <Grid.Column width={2}>
                                 {/*-------------------------Logo-----------------------*/}
@@ -156,27 +156,19 @@ const Header = ({setVisible, setActiveIndex}) => {
                                             <span className='menu-text'><h3>{user.firstName}</h3></span>
                                         </Grid.Column>
                                         <Grid.Column width={2} className='header-profile-url'>
-                                            <Popup wide
-                                                   position='bottom right'
-                                                   trigger={
-                                                       // <Image src={user.url === '' ? images.no_profile : user.url} circular
-                                                       //        floated='right'
-                                                       // />
-                                                       <div style={{
-                                                           display: "flex",
-                                                           justifyContent: 'center',
-                                                           alignItems: 'center'
-                                                       }}>
-                                                           <Image src={images.avatar} circular/>
-                                                           <div className='avatarText'>
-                                                               <div style={{
-                                                                   color: 'white',
-                                                                   fontSize: 24,
-                                                                   fontWeight: 'bold'
-                                                               }}>
-                                                                   {user.firstName.slice(0, 1)}</div>
-                                                           </div>
-                                                       </div>
+                                        <Popup wide
+                                               position='bottom right'
+                                               trigger={
+                                                   // <Image src={user.url === '' ? images.no_profile : user.url} circular
+                                                   //        floated='right'
+                                                   // />
+                                                   <div style={{display: "flex", justifyContent:'center', alignItems: 'center'}}>
+                                                       <Image src={images.avatar} circular/>
+                                                          <div className='avatarText'>
+                                                              <div style={{color: 'white', fontSize:20, fontWeight:'bold'}}>
+                                                                  {user.firstName.slice(0,1)}</div>
+                                                          </div>
+                                                   </div>
 
                                                    }
                                                    on='click'

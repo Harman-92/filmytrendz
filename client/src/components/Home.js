@@ -60,9 +60,18 @@ const Home = () => {
                         </Card.Group>
 
                     </div> : null
-
-
-                : null
+                :
+                <div style={{display: "flex", flexDirection: 'column',alignItems: 'center'}}>
+                    <Image src={images.topBanner}/>
+                    <div className='guideText'>
+                        <p className='guideContext'>Track films you’ve watched and reviewed.</p>
+                        <p className='guideContext'>Save those you want to see.</p>
+                        <p className='guideContext'>Tell your friends what’s good.</p>
+                        <p className='guideContext'>Just
+                            <span className='emphasizeText'> Register and Login </span>
+                            to explore more in Filmytrendz!</p>
+                    </div>
+                </div>
             }
 
             <h1 className='homePageTitle'>Latest Movies</h1>
