@@ -54,6 +54,7 @@ class Review(Resource):
             response = update_review(data, rid, user_id)
 
             return response
+
         else:
             api.abort(BAD_REQUEST, 'invalid operation')
 

@@ -19,7 +19,7 @@ recommendation_movies_model = RecommendationDto.recommendation_movies_model
 
 @api.route('/<mid>')
 class MoviesSearch(Resource):
-	@api.doc('movie recommendations')
+	@api.doc('recommendations based on a movie')
 	@api.response(200, 'success', model=recommendation_movies_model)
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
