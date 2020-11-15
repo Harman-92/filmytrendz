@@ -374,9 +374,10 @@ const MovieDetails = () => {
                         <h1>{movieDetails.title}
                             <span style={{color: 'white'}}>-</span>
                             <span style={{fontSize: 20, color: 'grey'}}> {movieDetails.year} </span>
-                            <span style={{color: 'white'}}>-</span>
-                            <span style={{fontSize: 20, fontWeight: 'normal', color: 'darkgrey'}}> Directed by </span>
-                            <span style={{fontSize: 20, color: 'grey'}}> {movieDetails.director}</span>
+                            <div>
+                            <span style={{fontSize: 14, fontWeight: 'normal', color: 'darkgrey'}}> Directed by </span>
+                            <span style={{fontSize: 14, color: 'grey'}}> {movieDetails.director}</span>
+                            </div>
                         </h1>
                         <p>{movieDetails.description}</p>
                         <h3>Genre</h3>
