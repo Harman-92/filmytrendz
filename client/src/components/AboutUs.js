@@ -27,7 +27,10 @@ const AboutUs = () => {
             zid: 'z5325276',
             role: 'Backend developer',
             image: '/about/wei.jpg',
-            bio: 'Hello'
+            bio: 'It is really happy working with my team members, they are professionals.' +
+                'As a backend developer I contribute myself to building the backend Api, ' +
+                'and I learned MVC concepts in api design, git skills and AWS services.' +
+                'We are the best team!!!'
         }, {
             name: 'Allen K',
             zid: 'z5325276',
