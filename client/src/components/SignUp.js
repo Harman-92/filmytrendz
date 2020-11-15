@@ -21,6 +21,10 @@ const SignUp = () => {
         v: '',
         e: false
     })
+    const [mobile, setMobile] = useState({
+        v: '',
+        e: false
+    })
     const [submit, setSubmit] = useState({
         formError: false,
         signUpError: false,
@@ -68,8 +72,22 @@ const SignUp = () => {
             })
         }
     }
+    const handleMobile = (e, {value}) => {
+        const pattern = new RegExp(/^[0-9]+$/)
+        if ((pattern.test(value) && value.length === 10) || value === ""){
+            setMobile({
+                v: value,
+                e: false
+            })
+        } else {
+            setMobile({
+                v: value,
+                e: true
+            })
+        }
+    }
     const handleSubmit = () => {
-        if (firstName.e || lastName.e || email.e || firstName.v === "" || lastName.v === "" || email.v === "" || password.v === "") {
+        if (firstName.e || lastName.e || email.e || mobile.e || firstName.v === "" || lastName.v === "" || email.v === "" || password.v === "") {
             if (firstName.v === "") {
                 setFirstName({
                     v: firstName.v,
@@ -195,6 +213,11 @@ const SignUp = () => {
                                     value={password.v}
                                     onChange={(e, {value}) => setPassword({v: value, e: false})}
                                     error={password.e}
+                        />
+                        <Form.Input placeholder='Mobile (Optional)' name='mobile'
+                                    value={mobile.v}
+                                    onChange={handleMobile}
+                                    error={mobile.e}
                         />
                         <Form.Button fluid size='large' color='violet'>Submit</Form.Button>
                     </Form>

@@ -7,15 +7,12 @@
 }
 .active.menu-icon {
     color: rgb(0,0,0) !important;
-    font-family: "Century Gothic", sans-serif;
     filter: drop-shadow(0 0 0.3rem grey);
 }
 .menu-icon {
     color: rgb(0,0,0) !important;
-    font-family: "Century Gothic", sans-serif;
 }
 .menu-icon:hover{
-    font-family: "Century Gothic", sans-serif;
     filter: drop-shadow(0 0 0.3rem grey);
 }
 .user-menu .item{

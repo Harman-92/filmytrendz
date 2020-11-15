@@ -101,11 +101,12 @@ const Header = ({setVisible, setActiveIndex}) => {
         <Segment vertical className='header-segment'>
             <Accordion>
                 <Container className='header-container'>
-                <Accordion.Title active={filterVisible} index={0}>
+                    <Accordion.Title active={filterVisible} index={0}>
                         <Grid columns={3} verticalAlign='middle'>
                             <Grid.Column width={2}>
                                 {/*-------------------------Logo-----------------------*/}
-                                    <Image className='logo' src={images.logo} floated='left' size={"small"} onClick={() => history.push('/')}/>
+                                <Image className='logo' src={images.logo} floated='left' size={"small"}
+                                       onClick={() => history.push('/')}/>
                                 {/*---------------------Search Bar----------------------*/}
                             </Grid.Column>
                             <Grid.Column width={9}>
@@ -120,10 +121,16 @@ const Header = ({setVisible, setActiveIndex}) => {
                                         }
                                     }}
                                     />
-                                    <Button icon basic className='filter-button' labelPosition='right'
-                                            onClick={() => setFilterVisible(!filterVisible)}>
-                                        <Icon className='filter-icon' name='filter'/>Filter
-                                    </Button>
+                                    <Popup
+                                        trigger={
+                                            <Button icon basic className='filter-button'
+                                                    onClick={() => setFilterVisible(!filterVisible)}>
+                                                <Icon className='filter-icon' name='filter'/>
+                                            </Button>
+                                        }
+                                        content='Filter your search'
+                                        position='top center'
+                                    />
                                     <Button className='header-button' type='submit'
                                             onClick={handleSearch}>Search</Button>
                                 </Input>
@@ -145,170 +152,183 @@ const Header = ({setVisible, setActiveIndex}) => {
                                     /*--------------------User Menu Button-------------------*/
 
                                     <Grid className='menu-div' verticalAlign='middle'>
-                                    <Grid.Column width={14} textAlign='right'>
-                                        <span className='menu-text'><h3>{user.firstName}</h3></span>
-                                    </Grid.Column>
+                                        <Grid.Column width={14} textAlign='right'>
+                                            <span className='menu-text'><h3>{user.firstName}</h3></span>
+                                        </Grid.Column>
                                         <Grid.Column width={2} className='header-profile-url'>
-                                        <Popup wide
-                                               position='bottom right'
-                                               trigger={
-                                                   // <Image src={user.url === '' ? images.no_profile : user.url} circular
-                                                   //        floated='right'
-                                                   // />
-                                                   <div style={{display: "flex", justifyContent:'center', alignItems: 'center'}}>
-                                                       <Image src={images.avatar} circular/>
-                                                          <div className='avatarText'>
-                                                              <div style={{color: 'white', fontSize:24, fontWeight:'bold'}}>
-                                                                  {user.firstName.slice(0,1)}</div>
-                                                          </div>
-                                                   </div>
+                                            <Popup wide
+                                                   position='bottom right'
+                                                   trigger={
+                                                       // <Image src={user.url === '' ? images.no_profile : user.url} circular
+                                                       //        floated='right'
+                                                       // />
+                                                       <div style={{
+                                                           display: "flex",
+                                                           justifyContent: 'center',
+                                                           alignItems: 'center'
+                                                       }}>
+                                                           <Image src={images.avatar} circular/>
+                                                           <div className='avatarText'>
+                                                               <div style={{
+                                                                   color: 'white',
+                                                                   fontSize: 24,
+                                                                   fontWeight: 'bold'
+                                                               }}>
+                                                                   {user.firstName.slice(0, 1)}</div>
+                                                           </div>
+                                                       </div>
 
-                                               }
-                                               on='click'
-                                               open={open}
-                                               onOpen={() => setOpen(true)}
-                                               onClose={() => setOpen(false)}
-                                        >
-                                            <MenuCustom setOpen={setOpen}/>
-                                        </Popup>
+                                                   }
+                                                   on='click'
+                                                   open={open}
+                                                   onOpen={() => setOpen(true)}
+                                                   onClose={() => setOpen(false)}
+                                            >
+                                                <MenuCustom setOpen={setOpen}/>
+                                            </Popup>
                                         </Grid.Column>
                                     </Grid>
                                 }
                             </Grid.Column>
                         </Grid>
-                </Accordion.Title>
-                {/*---------------------slide down Filter ----------------------*/}
+                    </Accordion.Title>
+                    {/*---------------------slide down Filter ----------------------*/}
 
-                <Transition.Group animation='slide down' duration={200}>
-                    {filterVisible && (
-                        <Accordion.Content active={filterVisible}>
+                    <Transition.Group animation='slide down' duration={200}>
+                        {filterVisible && (
+                            <Accordion.Content active={filterVisible}>
 
-                            <Grid className='filter-grid'>
-                                {/*---------------------- Keywords -------------------------*/}
-                                <Grid.Row centered verticalAlign={'middle'}>
-                                    <Grid.Column width={2} textAlign={'center'}>
-                                        <label className='filterHeader'>Search in:</label>
-                                    </Grid.Column>
-                                    <Grid.Column width={9}>
-                                        <Form>
-                                            <Form.Group className='filter-form-group'>
-                                                <Form.Radio
-                                                    label='Description'
-                                                    value='d'
-                                                    checked={filter.description}
-                                                    onClick={() => setFilter({
-                                                        ...filter,
-                                                        description: !filter.description
-                                                    })}
-                                                />
-                                                <Form.Radio
-                                                    label='Cast'
-                                                    value='c'
-                                                    checked={filter.cast}
-                                                    onClick={() => setFilter({...filter, cast: !filter.cast})}
-                                                />
-                                                <Form.Radio
-                                                    label='Wishlist'
-                                                    value='w'
-                                                    checked={filter.wishList}
-                                                    onClick={() => setFilter({...filter, wishList: !filter.wishList})}
-                                                />
-                                            </Form.Group>
-                                        </Form>
-                                    </Grid.Column>
-                                </Grid.Row>
-                                {/*---------------------- Genre, Year and Rating -------------------------*/}
-                                <Grid.Row verticalAlign={'middle'} centered>
-                                    <Grid.Column width={2} textAlign={'center'}>
-                                        <div className='filterHeader'>Genre:</div>
-                                    </Grid.Column>
-                                    <Grid.Column width={9} className='filter-genre-container'>
-                                        <Dropdown search selection multiple clearable fluid className='filter-genre'
-                                                  options={genres}
-                                                  placeholder="-- Select Genres --"
-                                                  value={filter.genres}
-                                                  onChange={(e, {value}) => setFilter({...filter, genres: value})}
-                                        />
-                                    </Grid.Column>
-                                </Grid.Row>
-                                <Grid.Row verticalAlign={'middle'} centered>
-                                    <Grid.Column width={2} textAlign={'center'}>
-                                        <div className='filterHeader'>Year:</div>
-                                    </Grid.Column>
-                                    <Grid.Column width={9}>
-                                        <Form>
-                                            <Form.Group widths='equal' className='filter-form-group'>
-                                                <Form.Input placeholder='From YYYY'
-                                                            onChange={(e, {value}) => setFilter({
-                                                                ...filter,
-                                                                yearFrom: value
-                                                            })}
-                                                />
-                                                <Form.Input placeholder='To YYYY'
-                                                            onChange={(e, {value}) => setFilter({
-                                                                ...filter,
-                                                                yearTo: value
-                                                            })}
-                                                />
-                                            </Form.Group>
-                                            {parseInt(filter.yearFrom) > parseInt(filter.yearTo) || !yearPattern.test(filter.yearFrom) || !yearPattern.test(filter.yearTo)
-                                                ? (filter.yearFrom === '' && filter.yearTo === ''
-                                                    ? null :
-                                                    <div className='errMsg'>Please enter correct year range...</div>)
-                                                : null}
-                                        </Form>
-                                    </Grid.Column>
-                                </Grid.Row>
-                                <Grid.Row verticalAlign={'middle'} centered>
-                                    <Grid.Column width={2} textAlign={'center'}>
-                                        <div className='filterHeader'>Rating:</div>
-                                    </Grid.Column>
-                                    <Grid.Column width={9}>
-                                        <Form>
-                                            <Form.Group widths='equal' className='filter-form-group'>
-                                                <Form.Field>
-                                                    <Dropdown search selection clearable
-                                                              options={rating}
-                                                              placeholder='From'
-                                                              value={filter.ratingFrom}
-                                                              onChange={(e, {value}) => setFilter({
-                                                                  ...filter,
-                                                                  ratingFrom: value
-                                                              })}
+                                <Grid className='filter-grid'>
+                                    {/*---------------------- Keywords -------------------------*/}
+                                    <Grid.Row centered verticalAlign={'middle'}>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <label className='filterHeader'>Search in:</label>
+                                        </Grid.Column>
+                                        <Grid.Column width={9}>
+                                            <Form>
+                                                <Form.Group className='filter-form-group'>
+                                                    <Form.Radio
+                                                        label='Description'
+                                                        value='d'
+                                                        checked={filter.description}
+                                                        onClick={() => setFilter({
+                                                            ...filter,
+                                                            description: !filter.description
+                                                        })}
                                                     />
-                                                </Form.Field>
-                                                <Form.Field>
-                                                    <Dropdown search selection clearable
-                                                              options={rating}
-                                                              placeholder='To'
-                                                              value={filter.ratingTo}
-                                                              onChange={(e, {value}) => setFilter({
-                                                                  ...filter,
-                                                                  ratingTo: value
-                                                              })}
+                                                    <Form.Radio
+                                                        label='Cast'
+                                                        value='c'
+                                                        checked={filter.cast}
+                                                        onClick={() => setFilter({...filter, cast: !filter.cast})}
                                                     />
-                                                </Form.Field>
-                                            </Form.Group>
-                                            {parseInt(filter.ratingFrom) > parseInt(filter.ratingTo) ?
-                                                <div className='errMsg'>Please enter correct rating
-                                                    range...</div> : null}
-                                        </Form>
+                                                    <Form.Radio
+                                                        label='Wishlist'
+                                                        value='w'
+                                                        checked={filter.wishList}
+                                                        onClick={() => setFilter({
+                                                            ...filter,
+                                                            wishList: !filter.wishList
+                                                        })}
+                                                    />
+                                                </Form.Group>
+                                            </Form>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    {/*---------------------- Genre, Year and Rating -------------------------*/}
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <div className='filterHeader'>Genre:</div>
+                                        </Grid.Column>
+                                        <Grid.Column width={9} className='filter-genre-container'>
+                                            <Dropdown search selection multiple clearable fluid className='filter-genre'
+                                                      options={genres}
+                                                      placeholder="-- Select Genres --"
+                                                      value={filter.genres}
+                                                      onChange={(e, {value}) => setFilter({...filter, genres: value})}
+                                            />
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <div className='filterHeader'>Year:</div>
+                                        </Grid.Column>
+                                        <Grid.Column width={9}>
+                                            <Form>
+                                                <Form.Group widths='equal' className='filter-form-group'>
+                                                    <Form.Input placeholder='From YYYY'
+                                                                onChange={(e, {value}) => setFilter({
+                                                                    ...filter,
+                                                                    yearFrom: value
+                                                                })}
+                                                    />
+                                                    <Form.Input placeholder='To YYYY'
+                                                                onChange={(e, {value}) => setFilter({
+                                                                    ...filter,
+                                                                    yearTo: value
+                                                                })}
+                                                    />
+                                                </Form.Group>
+                                                {parseInt(filter.yearFrom) > parseInt(filter.yearTo) || !yearPattern.test(filter.yearFrom) || !yearPattern.test(filter.yearTo)
+                                                    ? (filter.yearFrom === '' && filter.yearTo === ''
+                                                        ? null :
+                                                        <div className='errMsg'>Please enter correct year
+                                                            range...</div>)
+                                                    : null}
+                                            </Form>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={2} textAlign={'center'}>
+                                            <div className='filterHeader'>Rating:</div>
+                                        </Grid.Column>
+                                        <Grid.Column width={9}>
+                                            <Form>
+                                                <Form.Group widths='equal' className='filter-form-group'>
+                                                    <Form.Field>
+                                                        <Dropdown search selection clearable
+                                                                  options={rating}
+                                                                  placeholder='From'
+                                                                  value={filter.ratingFrom}
+                                                                  onChange={(e, {value}) => setFilter({
+                                                                      ...filter,
+                                                                      ratingFrom: value
+                                                                  })}
+                                                        />
+                                                    </Form.Field>
+                                                    <Form.Field>
+                                                        <Dropdown search selection clearable
+                                                                  options={rating}
+                                                                  placeholder='To'
+                                                                  value={filter.ratingTo}
+                                                                  onChange={(e, {value}) => setFilter({
+                                                                      ...filter,
+                                                                      ratingTo: value
+                                                                  })}
+                                                        />
+                                                    </Form.Field>
+                                                </Form.Group>
+                                                {parseInt(filter.ratingFrom) > parseInt(filter.ratingTo) ?
+                                                    <div className='errMsg'>Please enter correct rating
+                                                        range...</div> : null}
+                                            </Form>
 
-                                    </Grid.Column>
+                                        </Grid.Column>
 
-                                </Grid.Row>
-                                <Grid.Row verticalAlign={'middle'} centered>
-                                    <Grid.Column width={11}>
-                                        <Button floated='right' color='violet' onClick={handleSearch}>Search</Button>
-                                        <Button floated='right' onClick={clearFilter}>Clear
-                                            Filters</Button>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                                    </Grid.Row>
+                                    <Grid.Row verticalAlign={'middle'} centered>
+                                        <Grid.Column width={11}>
+                                            <Button floated='right' color='violet'
+                                                    onClick={handleSearch}>Search</Button>
+                                            <Button floated='right' onClick={clearFilter}>Clear
+                                                Filters</Button>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
 
-                        </Accordion.Content>
-                    )}
-                </Transition.Group>
+                            </Accordion.Content>
+                        )}
+                    </Transition.Group>
                 </Container>
             </Accordion>
 
