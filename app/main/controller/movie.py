@@ -35,7 +35,13 @@ class MoviesSearch(Resource):
 	@api.param('search', description='search movie with keywords')
 	@api.param('latest', description='search the latest movies')
 	@api.param('reviewed', description='return all reviewed movies')
-	@api.param('description', description='return all movies according to description')
+	@api.param('description', description='return all movies with description')
+	@api.param('genre', description='search movie with genre')
+	@api.param('cast', description='search movie with case')
+	@api.param('year_start', description='search movie with start year')
+	@api.param('year_end', description='search movie with end year')
+	@api.param('rating_start', description='search movie with rating')
+	@api.param('rating_end', description='search movie with rating')
 	@token_optional
 	def get(self, user):
 		"""
@@ -133,7 +139,7 @@ class MovieWatched(Resource):
 
 @api.route('/<mid>/wishlist')
 class MovieWishlist(Resource):
-	@api.doc('movie watched')
+	@api.doc('movie watched list')
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')

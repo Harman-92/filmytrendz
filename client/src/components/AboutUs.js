@@ -11,7 +11,9 @@ const AboutUs = () => {
             zid: 'z5325276',
             role: 'Scrum Master / Frontend developer',
             image: '/about/adi.jpg',
-            bio: 'Hello'
+            bio: 'It has been a great journey of end to end development following Agile methodology. ' +
+                'Coming from a professional background, working with Filmy Trendz helped me to enhance my skills ' +
+                'and also aware of challenges involved in terms of project management and software development.'
         }, {
             name: 'Yinghong Zhong',
             zid: 'z5233608',
@@ -42,7 +44,8 @@ const AboutUs = () => {
     ])
     return (
         <Container className="AboutUs">
-            <Grid >
+            <Image src={images.topBanner} className='bannerSetting'/>
+            <Grid>
                  {data.map((z, index) => (
                 <ProfileCard key={index} z={z} i={index}/>
             ))}

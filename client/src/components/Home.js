@@ -24,9 +24,8 @@ const Home = () => {
                     setIsLogin(isAuthenticated())
                     api.get('/recommend/user').then((res) => {
                         if (res.status === 200) {
-                            console.log("recommend results: " + res.data.movies)
                             setRecommendMovies(res.data.movies)
-                        } else if(res.status === 401){
+                        } else if (res.status === 401) {
                             history.go(0)
                         } else {
                             console.log(response.SERVER_ERROR)
@@ -47,24 +46,30 @@ const Home = () => {
     return (
         <Container className='container'>
             {isLogin ?
-                <div style={{paddingBottom: "2%"}}>
-                    <h1 className='homePageTitle'>Recommended Movies</h1>
-                    {
-                        recommendMovies.length > 0 ?
-                            <Card.Group itemsPerRow={5}>
-                                {
-                                    recommendMovies.map((movie, index) => (
-                                        <MovieCard key={index} movie={movie} history={history}/>
-                                    ))
-                                }
-                            </Card.Group> :
-                            <div className='recommendText'>
-                                <p>Opps! There are no recommended movies for you now. </p>
-                                <p>Enjoy your film travel and share your life in film.</p>
-                            </div>
-                    }
 
-                </div> : null
+                recommendMovies.length > 0 ?
+                    <div style={{paddingBottom: "2%"}}>
+                        <h1 className='homePageTitle'>Recommended Movies</h1>
+                        <Card.Group itemsPerRow={5}>
+                            {
+                                recommendMovies.map((movie, index) => (
+                                    <MovieCard key={index} movie={movie} history={history}/>
+                                ))
+                            }
+                        </Card.Group>
+
+                    </div> : null
+                :
+                <div style={{display: "flex", flexDirection: 'column',alignItems: 'center'}}>
+                    <div className='guideText'>
+                        <p className='guideContext'>Track films you’ve watched and reviewed.</p>
+                        <p className='guideContext'>Save those you want to see.</p>
+                        <p className='guideContext'>Tell your friends what’s good.</p>
+                        <p className='guideContext'>Just
+                            <span className='emphasizeText'> Register and Login </span>
+                            to explore more in Filmytrendz!</p>
+                    </div>
+                </div>
             }
 
             <h1 className='homePageTitle'>Latest Movies</h1>

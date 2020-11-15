@@ -1,12 +1,13 @@
 from flask import request, jsonify
 from flask_restplus import Resource, marshal
 from ..service.movie import *
-from ..service.recommend import encapsolate_res , get_best_reviews
-from ..util.decorator import token_required
+from ..service.recommend import encapsolate_res, get_best_reviews
+from ..util.decorator import token_optional, token_required
 from ..util.dto import RecommendationDto
 from ..service.movie import get_all_favorites
 import pandas as pd
 import tmdbsimple as ts
+import random
 
 
 ts.API_KEY = 'e8ad3a064b09b320f171bc110b451cfd'
@@ -31,8 +32,7 @@ class MoviesSearch(Resource):
 	@api.response(401, 'unauthorized')
 	@api.param('genre', description='make recommendation according to genre')
 	@api.param('director', description='make recommendation according to director')
-	@token_required
-	def get(self, user, mid):
+	def get(self, mid):
 		"""
 			make recommendation for a specific movie according to movie genre and director
 		"""
@@ -124,13 +124,17 @@ class MoviesUser(Resource):
 			if not temp_res.empty:
 				rec_movies += list(temp_res['id'])
 
-		rec_movies = set(rec_movies)
-		rec_movies = list(rec_movies)
+
 
 		if rec_movies:
+			rec_movies = set(rec_movies)
+			rec_movies = list(rec_movies)
+			random.shuffle(rec_movies)
+			rec_movies=rec_movies[:20]
 			res = encapsolate_res(rec_movies)
 		else:
 			rec_movies = list(pd.json_normalize(ts.Movies().popular()['results'])['id'])
+			random.shuffle(rec_movies)
 			res = encapsolate_res(rec_movies)
 		return marshal(res, recommendation_movies_model)
 
