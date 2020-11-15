@@ -16,7 +16,6 @@ def ban_user(banid, id):
 		param: banid, id
 		- banid is the unique id for banned list at the database
 		- id is the unique id for banned list at the database
-
 	"""
 
 	user1 = User.query.filter_by(id=id).first()
@@ -121,7 +120,7 @@ def get_all_users():
 
 def get_user(id):
 	"""
-	function to retrieve user information from the database
+		function to retrieve user information from the database
 	"""
 	return User.query.filter_by(id=id).first()
 
