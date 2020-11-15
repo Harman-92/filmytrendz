@@ -35,7 +35,13 @@ class MoviesSearch(Resource):
 	@api.param('search', description='search movie with keywords')
 	@api.param('latest', description='search the latest movies')
 	@api.param('reviewed', description='return all reviewed movies')
-	@api.param('description', description='return all movies according to description')
+	@api.param('description', description='return all movies with description')
+	@api.param('genre', description='search movie with genre')
+	@api.param('cast', description='search movie with case')
+	@api.param('year_start', description='search movie with start year')
+	@api.param('year_end', description='search movie with end year')
+	@api.param('rating_start', description='search movie with rating')
+	@api.param('rating_end', description='search movie with rating')
 	@token_optional
 	def get(self, user):
 		"""
@@ -50,7 +56,6 @@ class MoviesSearch(Resource):
 			case 3: /movie?search=keyword&name=true&description=true...
 			case 4: /movie?latest=true
 			case 5: /movie?reviewed=true
-			case 6: /movie?description=true
 		"""
 		conditions = request.args
 		movie_list = search_movies(user, dict(conditions))
