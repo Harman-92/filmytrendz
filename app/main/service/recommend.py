@@ -35,11 +35,10 @@ def encapsolate_res(movies, director=None):
 	return res
 
 
-def get_best_reviews(id, movies):
+def get_best_reviews(id):
 	"""
-		param: id, movies
+		param: id
 		- id is the user id
-		- movies is a list of movie id
 		return: res
 		- list of movie objects
 	"""
@@ -47,7 +46,7 @@ def get_best_reviews(id, movies):
 	id_list = [x.movie for x in reviews]
 	res = []
 	if id_list:
-		res = Movie.query.filter(Movie.tmdb_id.in_(movies)).limit(4)
+		res = Movie.query.filter(Movie.id.in_(id_list)).limit(4).all()
 
 	return res
 
@@ -120,7 +119,7 @@ def recommend_movie(user):
 	movies = []
 	for m in favorite_movies:
 		movies.append(m.tmdb_id)
-	reviewed_movies = get_best_reviews(user['id'], movies)
+	reviewed_movies = get_best_reviews(user['id'])
 	favorites, rec_movies = [], []
 
 	for m in favorite_movies:
