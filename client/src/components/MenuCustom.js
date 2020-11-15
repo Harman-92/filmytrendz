@@ -10,7 +10,7 @@ const IconCustom = (props) => (
     </i>
 );
 
-const Menu = ({setOpen}) => {
+const MenuCustom = ({setOpen}) => {
     const history = useHistory()
     const [activeItem, setActiveItem] = React.useState('')
     const handleClick = (e, {name}) => {
@@ -108,4 +108,4 @@ const Menu = ({setOpen}) => {
     );
 }
 
-export default Menu
+export default MenuCustom
