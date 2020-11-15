@@ -13,7 +13,7 @@ import {
     Image,
     Popup
 } from "semantic-ui-react";
-import {useHistory, useLocation, useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import images from "../config/images";
 import api from "../config/axios";
 import response from "../config/response";
@@ -23,12 +23,9 @@ const IconCustom = (props) => (
         <img width={38} height={38} src={props.src} alt='User Menu Icon'/>
     </i>
 );
-const PUBLIC = 'public'
-const PRIVATE = 'private'
 
 const WishListPublic = () => {
     const history = useHistory()
-    const location = useLocation()
     const {id} = useParams()
     const [wishList, setWishList] = useState({});
     useEffect(() => {
@@ -43,10 +40,10 @@ const WishListPublic = () => {
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
-    },[])
+    },[history, id])
     return (
         <Container>
             <Segment basic className='wishlist-header flex'>

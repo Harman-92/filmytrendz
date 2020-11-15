@@ -54,12 +54,12 @@ class Auth:
 
         if not user:
             resp = make_response(jsonify({'error': 'Email does not exist'}))
-            resp.status_code = UNAUTHORIZED
+            resp.status_code = SUCCESS
             return resp
 
         if not user.check_password(password):
             resp = make_response(jsonify({'error': 'Incorrect password'}))
-            resp.status_code = UNAUTHORIZED
+            resp.status_code = SUCCESS
             return resp
 
         token = TOKEN.generate_token(user.id)

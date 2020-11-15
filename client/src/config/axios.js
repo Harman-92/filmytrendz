@@ -1,13 +1,24 @@
-import axios from 'axios'
-
+import axios from 'axios';
+import response from "./response";
+import {removeAccessToken} from "./session";
 
 /**
  * Backend Connection configuration
  * Replace the below baseUrl with your local IP to connect to local backend server
  **/
 const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://ec2-18-188-47-194.us-east-2.compute.amazonaws.com:5000',
     timeout: 20000
+});
+api.interceptors.response.use(response => {
+    return response;
+}, error => {
+    console.log(error)
+    if (error.response.status === 401) {
+        alert(response.INVALID_TOKEN)
+        removeAccessToken()
+    }
+    return error.response;
 });
 
 // Set JSON Web Token in Client to be included in all calls

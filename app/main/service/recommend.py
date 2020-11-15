@@ -1,4 +1,5 @@
 from ..model.model import Movie, Review
+from sqlalchemy import and_, or_
 
 
 def encapsolate_res(movies, director=None):
@@ -14,7 +15,7 @@ def encapsolate_res(movies, director=None):
 	"""
 	movies_list = []
 	if director:
-		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies) and Movie.director.like(f'%{director}%'))
+		movie_res = Movie.query.filter(and_(Movie.tmdb_id.in_(movies), Movie.director.like(f'%{director}%')))
 	else:
 		movie_res = Movie.query.filter(Movie.tmdb_id.in_(movies))
 
@@ -36,7 +37,7 @@ def get_best_reviews(id, movies):
 		return: res
 		- list of movie objects
 	"""
-	reviews = Review.query.filter(Review.user == id, Review.rating >= 3).order_by(Review.id.desc())
+	reviews = Review.query.filter(and_(Review.user == id, Review.rating >= 3)).order_by(Review.id.desc())
 	id_list = [x.movie for x in reviews]
 	res = []
 	if id_list:

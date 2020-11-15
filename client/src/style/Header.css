@@ -14,8 +14,10 @@
   background-color: #6435C9!important;
   color: #ffffff !important;
 }
-.header-segment {
-  background-color: rgba(118,45,221,0.05)!important;
+.header-segment.ui.vertical.segment {
+  background-color: rgba(118,45,221,0.05);
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 .header-container.ui.container {
   min-height: 0;
@@ -31,6 +33,9 @@
 }
 .header-search.action.input:not([class*="left action"])>input:focus{
   border-color: rgba(34,36,38,.35) !important;
+}
+.header-profile-url{
+  padding: 0!important;
 }
 .filter-icon {
   background-color: rgba(0,0,0,0) !important;

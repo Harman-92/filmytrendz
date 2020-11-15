@@ -36,7 +36,8 @@ const Profile = () => {
     const [newUser, setNewUser] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
-        mobile_no: user.mobile_no
+        mobile_no: user.mobile_no,
+        url: user.url
     })
     const [err, setErr] = useState({
         first_name: false,
@@ -52,12 +53,17 @@ const Profile = () => {
         passwordError: false,
         success: false
     });
+    const [editForm, setEditForm] = useState({
+        formError: false,
+        editError: false,
+        success: false
+    });
     const [isActive, setIsActive] = useState(false);
     const [bannedUsers, setBannedUsers] = useState([])
     const [isBannedUserEdit, setIsBannedUserEdit] = useState(false)
 
     const handleProfileSave = () => {
-        if (err.first_name || err.last_name || err.mobile_no || newUser.first_name === "" || newUser.last_name === "" || newUser.mobile_no === "") {
+        if (err.first_name || err.last_name || err.mobile_no || newUser.first_name === "" || newUser.last_name === "") {
             if (newUser.first_name === "") {
                 setErr({
                     ...err,
@@ -71,14 +77,11 @@ const Profile = () => {
                     last_name: true
                 })
             }
-            if (newUser.mobile_no === "") {
-
-                setErr({
-                    ...err,
-                    mobile_no: true
-                })
-            }
-            alert("please give valid input")
+            setEditForm({
+                formError: true,
+                editError: false,
+                success: false
+            })
         } else {
             api.post('/user', newUser).then((res) => {
                 if (res.status === 200) {
@@ -90,11 +93,28 @@ const Profile = () => {
                         mobile_no: newUser.mobile_no
                     })
                     setIsProfileEdit(false)
+                    setEditForm({
+                        formError: false,
+                        editError: false,
+                        success: true
+                    })
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
+                    setEditForm({
+                        formError: false,
+                        editError: response.SERVER_ERROR,
+                        success: false
+                    })
                 }
             }).catch(() => {
-                console.log(response.SERVER_ERROR)
+                console.log(response.SERVER_UNAVAILABLE)
+                setEditForm({
+                    formError: false,
+                    editError: response.SERVER_UNAVAILABLE,
+                    success: false
+                })
             })
         }
     }
@@ -143,6 +163,8 @@ const Profile = () => {
                             success: true
                         })
                     }
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     setSubmit({
                         formError: false,
@@ -151,18 +173,28 @@ const Profile = () => {
                     })
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
+            }).catch(() => {
                 setSubmit({
                     formError: false,
-                    passwordError: response.SERVER_ERROR,
+                    passwordError: response.SERVER_UNAVAILABLE,
                     success: false
                 })
-                console.log(response.SERVER_ERROR)
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
     }
     const handleCancel = () => {
         setIsProfileEdit(false)
+        setEditForm({
+            formError: false,
+            editError: false,
+            success: false
+        })
+        setErr({
+            first_name: false,
+            last_name: false,
+            mobile_no: false
+        })
         setNewUser({
             first_name: user.first_name,
             last_name: user.last_name,
@@ -184,7 +216,7 @@ const Profile = () => {
     }
     const handleUpload = () => {
         if (isProfileEdit) {
-            alert('upload image')
+            alert('upload image not available')
         }
     }
     const handleFirstName = (e, {value}) => {
@@ -248,11 +280,13 @@ const Profile = () => {
             api.get('/user/banneduser').then((res) => {
                 if (res.status === 200) {
                     setBannedUsers(res.data.banned_users)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         }
         setIsActive(!isActive)
@@ -261,15 +295,22 @@ const Profile = () => {
         api.delete('/user/banneduser/'+id).then((res) => {
             if (res.status === 200) {
                 setBannedUsers(users => users.filter(user => user.id !== id))
+            } else if(res.status === 401){
+                history.push('/')
             } else {
                 console.log(response.SERVER_ERROR)
             }
-        }).catch((e) => {
-            console.log(response.SERVER_ERROR)
+        }).catch(() => {
+            console.log(response.SERVER_UNAVAILABLE)
         })
     }
     const handleClickEdit = () => {
         setIsProfileEdit(true)
+        setEditForm({
+            formError: false,
+            editError: false,
+            success: false
+        })
         setNewUser(user)
     }
 
@@ -285,16 +326,18 @@ const Profile = () => {
             api.get('/user').then((res) => {
                 if (res.status === 200) {
                     setUser(res.data)
+                } else if(res.status === 401){
+                    history.push('/')
                 } else {
                     console.log(response.SERVER_ERROR)
                 }
-            }).catch((e) => {
-                console.log(response.SERVER_ERROR)
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
             })
         } else {
             history.push('/')
         }
-    }, [location])
+    }, [location, history, isLogin])
     return (
         <Container className="Profile">
 
@@ -345,7 +388,22 @@ const Profile = () => {
 
                     {/*---------------------------user details-------------------------------*/}
 
-                    <Grid.Column width={8} verticalAlign='middle'>
+                    <Grid.Column as={Form} width={8} verticalAlign='middle'
+                                 warning={editForm.formError}
+                                 error={editForm.editError}
+                                 success={editForm.success}>
+                        <Message
+                            warning
+                            header='Please give a valid input!'
+                        />
+                        <Message
+                            error
+                            header={editForm.editError}
+                        />
+                        <Message
+                            success
+                            header='User Details Successfully updated'
+                        />
                         <Grid columns={2} textAlign='center' className='profile-details'>
                             <Grid.Row verticalAlign='middle'>
                                 <Grid.Column width={4} verticalAlign='middle' textAlign='right'>
