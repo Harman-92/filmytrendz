@@ -138,20 +138,20 @@ const MovieDetails = () => {
     }
 
     const handleBanReviewer = (id) => {
-        api.put('/user/banneduser', {
-            id: id
-        }).then((res) => {
-            if (res.status === 200) {
-                alert("banned user successfully")
-                history.go(0)
-            } else if(res.status === 401){
-                history.push('/')
-            } else {
-                console.log(response.SERVER_ERROR)
-            }
-        }).catch(() => {
-            console.log(response.SERVER_UNAVAILABLE)
-        })
+            api.put('/user/banneduser', {
+                id: id
+            }).then((res) => {
+                if (res.status === 200) {
+                    alert("Ban user successfully")
+                    history.go(0)
+                } else if(res.status === 401){
+                    history.push('/')
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
+            })
     }
 
     const handleWishListChange = (e, {id, value}) => {
@@ -549,7 +549,7 @@ const MovieDetails = () => {
                                     starCount={5}
                                     starColor="#7b68ee"
                                     emptyStarColor="lightgrey"
-                                    value={movieDetails.rating}
+                                    value={parseFloat(movieDetails.rating)}
                                 />
                             </div>
 
@@ -643,7 +643,7 @@ const MovieDetails = () => {
                                     <div className='reviewer-image'>
                                         <Avatar  user={review.name} size='tiny'/>
                                     </div>
-                                    {review.userId === parseInt(user.id) ?
+                                    {review.userId === parseInt(user.id) || !isLogin ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
                                         <Popup wide
@@ -703,7 +703,7 @@ const MovieDetails = () => {
                                     <div className='reviewer-image'>
                                         <Avatar  user={review.name} size='tiny'/>
                                     </div>
-                                    {review.userId === parseInt(user.id) ?
+                                    {review.userId === parseInt(user.id) || !isLogin ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
                                         <Popup wide
