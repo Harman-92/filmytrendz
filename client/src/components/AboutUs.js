@@ -42,7 +42,8 @@ const AboutUs = () => {
     ])
     return (
         <Container className="AboutUs">
-            <Grid >
+            <Image src={images.topBanner} className='bannerSetting'/>
+            <Grid>
                  {data.map((z, index) => (
                 <ProfileCard key={index} z={z} i={index}/>
             ))}
