@@ -192,7 +192,7 @@ def retrieve_movie(user, mid):
                     if m.id == mid:
                         wishlist.append(w.id)
 
-        review_list = Review.query.filter_by(movie=mid).all()
+        review_list = Review.query.filter_by(movie=mid).sort_by(Review.created_date.desc()).all()
         reviews = []
         for r in review_list:
             if r.by_user.id not in banned_user_ids:
