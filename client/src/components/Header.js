@@ -68,12 +68,6 @@ const Header = ({setVisible, setActiveIndex}) => {
         } else {
             alert("Please enter a keyword...")
         }
-
-        // alert("title: " + filter.title + "\ndes: " + filter.description + "\ncast: " + filter.cast + "\nwishlist: " + filter.wishList +
-        //     "\ngenres: " + filter.genres + "\nyear from: " + filter.yearFrom + "\nyear to: " + filter.yearTo + "\nrating from: " + filter.ratingFrom +
-        //     "\nrating to: " + filter.ratingTo +
-        //     "\npath is: " + location.pathname
-        // )
     }
 
     const clearFilter = () => {
@@ -158,9 +152,17 @@ const Header = ({setVisible, setActiveIndex}) => {
                                         <Popup wide
                                                position='bottom right'
                                                trigger={
-                                                   <Image src={user.url === '' ? images.no_profile : user.url} circular
-                                                          floated='right' size='medium'
-                                                   />
+                                                   // <Image src={user.url === '' ? images.no_profile : user.url} circular
+                                                   //        floated='right'
+                                                   // />
+                                                   <div style={{display: "flex", justifyContent:'center', alignItems: 'center'}}>
+                                                       <Image src={images.avatar} circular/>
+                                                          <div className='avatarText'>
+                                                              <div style={{color: 'white', fontSize:24, fontWeight:'bold'}}>
+                                                                  {user.firstName.slice(0,1)}</div>
+                                                          </div>
+                                                   </div>
+
                                                }
                                                on='click'
                                                open={open}

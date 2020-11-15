@@ -26,6 +26,7 @@ import {getUserInfo, isAuthenticated} from "../config/session";
 import api from "../config/axios"
 import response from "../config/response";
 import StarRatingComponent from 'react-star-rating-component';
+import Avatar from "./Avatar";
 
 const checkWishListActive = (wishList) => {
     let a = false
@@ -564,10 +565,9 @@ const MovieDetails = () => {
                 <Grid columns={2} className='review-grid'>
                     <Grid.Row>
                         <Grid.Column width={3} textAlign={"center"} className='reviewer'>
-                            <Image className='reviewer-image'
-                                   circular size='tiny'
-                                   src={user.url === '' ? images.no_profile : user.url}
-                            />
+                            <div className='reviewer-image'>
+                                <Avatar  user={user.firstName} size='tiny'/>
+                            </div>
                             <h4 className='reviewer-name-user'>{user.firstName}</h4>
                             <Item.Description>{moment().format('YYYY-MM-DD HH:mm').toString()}</Item.Description>
                         </Grid.Column>
@@ -620,8 +620,9 @@ const MovieDetails = () => {
                             <Grid.Row>
                                 <Grid.Column width={3} textAlign='center' className='reviewer'>
 
-                                    <Image className='reviewer-image' circular size='tiny'
-                                           src={review.url === '' ? images.no_profile : review.url}/>
+                                    <div className='reviewer-image'>
+                                        <Avatar  user={review.name} size='tiny'/>
+                                    </div>
                                     {review.userId === parseInt(user.id) ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
@@ -638,7 +639,7 @@ const MovieDetails = () => {
                                                 Reviewer</p>
                                         </Popup>
                                     }
-                                    <Item.Description>{review.createdDate}</Item.Description>
+                                    <Item.Description>{review.createdDate.replace(/T/, ' ')}</Item.Description>
                                 </Grid.Column>
                                 <Grid.Column width={10} className='review-content'>
                                     <Header as='a'>{review.title}</Header>
@@ -679,8 +680,9 @@ const MovieDetails = () => {
 
                                 <Grid.Column width={3} textAlign={"center"} className='reviewer'>
 
-                                    <Image className='reviewer-image' circular size='tiny'
-                                           src={review.url === '' ? images.no_profile : review.url}/>
+                                    <div className='reviewer-image'>
+                                        <Avatar  user={review.name} size='tiny'/>
+                                    </div>
                                     {review.userId === parseInt(user.id) ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
@@ -697,7 +699,7 @@ const MovieDetails = () => {
                                                 Reviewer</p>
                                         </Popup>
                                     }
-                                    <Item.Description>{review.createdDate}</Item.Description>
+                                    <Item.Description>{review.createdDate.replace(/T/, ' ')}</Item.Description>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>}
@@ -735,10 +737,11 @@ const MovieDetails = () => {
 
 
                     <Card.Group itemsPerRow={6}>
+
                         {similarMovies.map((movie, index) => (
                             index < 6 ?
                                 <Card className='movieCard' key={index}>
-                                    <Image src={movie.url}/>
+                                    <Image src={movie.url=== '' ? images.no_image : movie.url}/>
                                     <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
                                                   className='movie-card-content'>
                                         <Card.Header className='cardContext'>{movie.title}</Card.Header>

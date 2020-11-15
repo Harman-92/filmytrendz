@@ -10,10 +10,11 @@ const images = {
     profile : menu+'/user.png',
     logout : menu+'/logout.png',
     no_profile : '/empty_profile.png',
-    no_image : '/empty_image.png',
+    no_image : '/empty_poster.png',
     upload : '/upload.png',
     PUBLIC : access+'/public.png',
-    PRIVATE : access+'/private.png'
+    PRIVATE : access+'/private.png',
+    avatar : '/avatar.png',
 }
 
 export default images

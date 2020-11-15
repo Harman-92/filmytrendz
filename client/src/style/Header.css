@@ -87,3 +87,10 @@
   padding-right: 2em!important;
 }
 
+.avatarText {
+    position: absolute;
+    display: flex;
+    padding: 2%;
+}
+
+
