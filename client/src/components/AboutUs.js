@@ -30,8 +30,10 @@ const AboutUs = () => {
             name: 'Allen K',
             zid: 'z5325276',
             role: 'Backend developer',
-            image: images.no_profile,
-            bio: 'Hello'
+            image: '/about/allen.jpg',
+            bio: 'i like to work as a backend team member,'+
+            'partly because of the flexibility in ways to achieve results'+
+            'i learned a lot from my team mates too'
         }, {
             name: 'Harman',
             zid: 'z5325276',

@@ -340,6 +340,10 @@ def add_review_movie(user, mid, review_data):
             build a new review according to the review data from user
             and update the reviews-movie relationship table
         """
+        for x in cur_movie.reviews:
+            if user['id'] == x.user:
+                return 0
+
         review = Review(**review_data)
         avg_rating = ((review.rating * cur_movie.reviews.count()) + review.rating) / (cur_movie.reviews.count() + 1)
         cur_movie.rating = avg_rating
