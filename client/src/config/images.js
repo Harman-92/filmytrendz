@@ -10,7 +10,7 @@ const images = {
     profile : menu+'/user.png',
     logout : menu+'/logout.png',
     no_profile : '/empty_profile.png',
-    no_image : '/empty_poster.png',
+    no_image : '/empty_image.png',
     upload : '/upload.png',
     PUBLIC : access+'/public.png',
     PRIVATE : access+'/private.png',
