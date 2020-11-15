@@ -132,6 +132,7 @@ class MoviesUser(Resource):
 			rec_movies = set(rec_movies)
 			rec_movies = list(rec_movies)
 			random.shuffle(rec_movies)
+			rec_movies=rec_movies[:20]
 			res = encapsolate_res(rec_movies)
 		else:
 			rec_movies = list(pd.json_normalize(ts.Movies().popular()['results'])['id'])
