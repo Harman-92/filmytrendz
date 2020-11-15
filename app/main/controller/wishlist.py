@@ -11,8 +11,9 @@ api = WishListDto.api
 wish_list_model = WishListDto.wish_list_model
 new_wishlist_model = WishListDto.new_wishlist_model
 new_wishlist_return_model = WishListDto.new_wishlist_return_model
-wishlist_update_model= WishListDto.wishlist_update_model
-wish_lists_model=WishListDto.wish_lists_model
+wishlist_update_model = WishListDto.wishlist_update_model
+wish_lists_model = WishListDto.wish_lists_model
+
 
 @api.route('')
 class Wishlist(Resource):
@@ -58,7 +59,7 @@ class Wishlist(Resource):
 	@token_optional
 	def get(self, user, id):
 		"""
-		this is the functionality to get all information of a wishlist given its id
+			This is the functionality to get all information of a wishlist given its id
 		"""
 		wishlist = get_wishlist(id, user)
 		return marshal(wishlist, wish_list_model), SUCCESS
@@ -69,7 +70,7 @@ class Wishlist(Resource):
 	@token_required
 	def delete(self, user, id):
 		"""
-		this is the functionality to delete a wishlist linked to a user
+			This is the functionality to delete a wishlist linked to a user
 		"""
 		user_id = user['id']
 
@@ -79,7 +80,7 @@ class Wishlist(Resource):
 			return response
 
 		else:
-			api.abort(400, 'invalid operation')
+			api.abort(BAD_REQUEST, 'invalid operation')
 
 	@api.doc('update wishlist of user')
 	@api.expect(wishlist_update_model)
@@ -88,7 +89,7 @@ class Wishlist(Resource):
 	@token_required
 	def post(self, user, id):
 		"""
-		this is the functionality to update a wishlist linked to a user
+			This is the functionality to update a wishlist linked to a user
 		"""
 		user_id = user['id']
 		updated_info = json.loads(request.get_data())

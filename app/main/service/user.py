@@ -147,6 +147,7 @@ class AuthenticationToken:
 		}
 
 		token = self.serializer.dumps(payload)
+
 		return token.decode()
 
 	def validate_token(self, token):
@@ -164,5 +165,9 @@ class AuthenticationToken:
 		return payload
 
 
+"""
+	EXPIRE is the fixed time period for a token, after this EXPIRE the token
+	will be NOT valid, 6000 means 6000 seconds, which is a proper expire duration.
+"""
 EXPIRE = 6000
 TOKEN = AuthenticationToken(key, EXPIRE)

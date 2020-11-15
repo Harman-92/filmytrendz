@@ -1,6 +1,5 @@
 from flask_restplus import Api
 from flask import Blueprint
-
 from .controller.auth import api as auth_ns
 from .controller.user import api as user_ns
 from .controller.movie import api as movie_ns

@@ -242,7 +242,7 @@ def favorite_movie_user(user, mid):
 
 def unfavorite_movie_user(user, mid):
     """
-
+		This is the support function for unfavorite the specific movie for a user
     """
     cur_user = User.query.filter_by(id=user['id']).first()
     cur_movie = Movie.query.filter_by(id=mid).first()
