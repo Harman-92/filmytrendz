@@ -7,7 +7,7 @@ import {removeAccessToken} from "./session";
  * Replace the below baseUrl with your local IP to connect to local backend server
  **/
 const api = axios.create({
-    baseURL: 'https://localhost:5000',
+    baseURL: 'http://localhost:3001',
     timeout: 10000
 });
 api.interceptors.response.use(response => {

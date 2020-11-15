@@ -31,7 +31,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def run():
-    app.run(host='0.0.0.0', ssl_context=('ssl_keys/cert.pem', 'ssl_keys/key.pem'))
+    app.run(host='0.0.0.0', port='3001')
 
 
 @manager.command
