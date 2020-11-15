@@ -344,7 +344,7 @@ const WishList = () => {
                                     <Card className='movieCard' fluid
                                           key={j}
                                     >
-                                        <Image src={movie.url}/>
+                                        <Image src={movie.url === ''?images.no_image:movie.url}/>
                                         <Card.Content as={'div'} className='movie-card-content'>
                                             {
                                                 isEditId === w.id ?
