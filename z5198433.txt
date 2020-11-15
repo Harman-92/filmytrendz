@@ -57,3 +57,18 @@ Week7:
 3. Worked on CWV-119 - get movie details
 4. Worked on CWV-120 - search movie with filters
 --------------------------------------------------------------
+
+Week8:
+1. draft report file - project overview and challenges
+2. As a presenter do the demo B
+3. Api testing, test movie, recommendation api
+4. Do the retrospective with team members
+--------------------------------------------------------------
+
+Week9:
+1. finalise report file
+2. test all api thoroughly and fix bugs for some functions
+3. re-orgainze backend files layout, and deployment
+4. finalise Swagger doc
+5. code clean and commentary for backend source code files
+--------------------------------------------------------------
