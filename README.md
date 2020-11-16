@@ -12,6 +12,7 @@ app/main/config.py with your own username, password and local database:
 local_db = "mysql+pymysql://username:password@127.0.0.1/local-database"
 ```
 ### Step 2:  Install dependency of Python 
+Navigate to backend root directory /app
 ```python
 pip install app/requirements.txt
 ```
@@ -39,3 +40,26 @@ python3 init_data.py
 ```python
 python3 app.py run
 ```
+The server should be running on http://localhost:3001
+
+
+## frontend setup instructions
+
+### Step 1: Install frontend packages
+Navigate to the root directory of the frontend code /client and install the node modules from package.json file.
+cd client
+```python
+npm install
+```
+
+### Step 2: Configure backend server location
+Navigate to the file /client/src/config/axios.js and provide the backend server base url
+```python
+baseURL: 'http://localhost:3001' 
+```
+
+### Step 3: Run the frontend server
+```python
+npm start 
+```
+You should be able to see the application running at http://localhost:3000
