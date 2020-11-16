@@ -60,17 +60,21 @@ const Home = () => {
 
                     </div> : null
                 :
-                <div style={{display: "flex", flexDirection: 'column',alignItems: 'center'}}>
-                    <div className='guideText'>
+                <div style={{marginBottom:'5%'}}>
+                    <div className='relativeDiv'>
                         <p className='guideContext'>Do you often forget movie names or wonder if you have watched them?</p>
                         <p className='guideContext'><span className='emphasizeText'> Register and Login </span></p>
                         <p className='guideContext'>
-
                             to save your favorites and share wish lists with your friends.</p>
                         <p className='guideContext'>Track films you’ve watched and reviewed.</p>
                         <p className='guideContext'>Find all the updates on FILMY TRENDZ!</p>
+                        <div  className='arrowLineSetting'>
+                            <Image src={images.arrowLine}/>
+                        </div>
                     </div>
+
                 </div>
+
             }
 
             <h1 className='homePageTitle'>Latest Movies</h1>
