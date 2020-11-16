@@ -138,6 +138,7 @@ const MovieDetails = () => {
     }
 
     const handleBanReviewer = (id) => {
+        if (id === parseInt(user.id)) {
             api.put('/user/banneduser', {
                 id: id
             }).then((res) => {
@@ -152,6 +153,10 @@ const MovieDetails = () => {
             }).catch(() => {
                 console.log(response.SERVER_UNAVAILABLE)
             })
+        } else {
+            alert ("Sorry, you can't block yourself.")
+        }
+
     }
 
     const handleWishListChange = (e, {id, value}) => {
