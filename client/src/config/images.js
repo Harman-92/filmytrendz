@@ -17,6 +17,8 @@ const images = {
     avatar : '/avatar.png',
     no_result: '/noResults.png',
     topBanner: '/banner.png',
+    arrowLine: '/arrow_line.png',
+    home: '/home.gif'
 }
 
 export default images

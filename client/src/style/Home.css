@@ -19,9 +19,16 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.guideText {
-    margin-bottom: 5%;
-}
+/*.guideText {*/
+/*    margin-bottom: 5%;*/
+/*    alignItems: 'center';*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    background-color: #7d64ff;*/
+/*    position: relative;*/
+/*}*/
 
 .guideContext {
     font-size: 18px;
@@ -33,4 +40,17 @@
     font-size: 20px;
     color: #7b68ee;
     font-weight: bold;
+}
+
+.arrowLineSetting {
+    position: absolute;
+    right: 5%;
+    top:0em;
+}
+
+.relativeDiv {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  text-align: center;
 }

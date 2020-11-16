@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import '../style/Home.css';
-import {Card, Container, Divider, Icon, Image} from "semantic-ui-react";
+import {Card, Container, Divider, Icon, Image, Segment} from "semantic-ui-react";
 import {useHistory, useLocation} from "react-router-dom";
 import {isAuthenticated} from "../config/session";
 import api from "../config/axios"
@@ -60,17 +60,12 @@ const Home = () => {
 
                     </div> : null
                 :
-                <div style={{display: "flex", flexDirection: 'column',alignItems: 'center'}}>
-                    <div className='guideText'>
-                        <p className='guideContext'>Do you often forget movie names or wonder if you have watched them?</p>
-                        <p className='guideContext'><span className='emphasizeText'> Register and Login </span></p>
-                        <p className='guideContext'>
+                <div className='home-display' style={{display: 'flow-root', marginBottom: '5%', marginRight: '3%'}}>
+                    <Image floated='right' src={images.arrowLine}/>
+                    <Image floated='right' src={images.home} size='big'/>
 
-                            to save your favorites and share wish lists with your friends.</p>
-                        <p className='guideContext'>Track films you’ve watched and reviewed.</p>
-                        <p className='guideContext'>Find all the updates on FILMY TRENDZ!</p>
-                    </div>
                 </div>
+
             }
 
             <h1 className='homePageTitle'>Latest Movies</h1>

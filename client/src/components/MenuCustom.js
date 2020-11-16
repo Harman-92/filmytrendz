@@ -36,7 +36,7 @@ const MenuCustom = ({setOpen}) => {
                             className='menu-icon'
                         >
                             <IconCustom src={images.favorite}/>
-                            Favourites
+                            Favorites
                         </Menu.Item>
 
                         <Menu.Item

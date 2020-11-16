@@ -1,3 +1,5 @@
+Yinghong Zhong (z5233608)
+
 Week 1
 
 Group formed.
@@ -42,5 +44,6 @@ Prepared and finished demoB
 Created template for final report
 
 Week 9
-Worked on the final report (overview, functionalities and user manual)
+Worked on the final report (overview, functionalities, user manual)
 Fixed bugs on forntend page (Cast Cards & similar Cards, avatar, banned users ...)
+Reformat the final report

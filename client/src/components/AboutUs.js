@@ -24,7 +24,7 @@ const AboutUs = () => {
                 'management skills. So glad to work in a passionate team V5!'
         }, {
             name: 'Wei Song',
-            zid: 'z5325276',
+            zid: 'z5198433',
             role: 'Backend developer',
             image: '/about/wei.jpg',
             bio: 'It is really happy working with my team members, they are professionals. ' +
@@ -33,18 +33,20 @@ const AboutUs = () => {
                 'We are the best team!!!'
         }, {
             name: 'Allen K',
-            zid: 'z5325276',
+            zid: 'z5232188',
             role: 'Backend developer',
             image: '/about/allen.jpg',
-            bio: 'i like to work as a backend team member,'+
+            bio: 'I like to work as a backend team member,'+
             'partly because of the flexibility in ways to achieve results'+
-            'i learned a lot from my team mates too'
+            'I learned a lot from my team mates too'
         }, {
-            name: 'Harman',
-            zid: 'z5325276',
+            name: 'Harmanpreet Singh',
+            zid: 'z5228917',
             role: 'Backend developer',
-            image: images.no_profile,
-            bio: 'Hello'
+            image: '/about/harman.jpg',
+            bio: 'Being a movie buff, it was very exciting to work on this project. '+
+                'My focus was to create a robust recommendation system that I can enjoy as a user. '+
+                'Really happy with what we have achieved as a team in such a short time!'
         }
     ])
     return (
