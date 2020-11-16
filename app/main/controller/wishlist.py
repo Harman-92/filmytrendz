@@ -62,7 +62,7 @@ class Wishlist(Resource):
 			This is the functionality to get all information of a wishlist given its id
 		"""
 		response = get_wishlist(id, user)
-		if 'id' in response:
+		if type(response) == dict:
 			return marshal(response, wish_list_model), SUCCESS
 		else:
 			return response
