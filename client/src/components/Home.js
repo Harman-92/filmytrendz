@@ -62,7 +62,7 @@ const Home = () => {
                 :
                 <div className='home-display' style={{display: 'flow-root', marginBottom: '5%', marginRight: '3%'}}>
                     <Image floated='right' src={images.arrowLine}/>
-                    <Image floated='right' src='/home.gif' size='big'/>
+                    <Image floated='right' src={images.home} size='big'/>
 
                 </div>
 
