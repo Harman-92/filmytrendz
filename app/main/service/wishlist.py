@@ -85,11 +85,13 @@ def update_wishlist(updated_info, wishlist_id, user_id):
         db.session.commit()
         resp = make_response(jsonify({'message': 'updated wish list successfully'}))
         resp.status_code = SUCCESS
+
         return resp
 
     else:
         resp = make_response(jsonify({'error': 'Wish list does not exist'}))
         resp.status_code = SUCCESS
+
         return resp
 
 
@@ -105,8 +107,9 @@ def get_wishlist(wishlist_id, user):
 
     if wishlist.status == Access.PRIVATE:
         if (not user) or (user and wishlist not in user.wish_lists):
-            resp = make_response(jsonify({'error': 'Access to Wish list is denied'}))
+            resp = make_response(jsonify({'error': 'Wish list is private'}))
             resp.status_code = SUCCESS
+
             return resp
 
     wishlist_info['name'] = wishlist.name
@@ -115,6 +118,7 @@ def get_wishlist(wishlist_id, user):
 
     for x in wishlist.movies:
         wishlist_info['movies'].append(Movie.query.filter_by(id=x.id).first())
+
     return wishlist_info
 
 
@@ -135,3 +139,4 @@ def get_all_wishlists(user_id):
         wishlists_info["wishlists"].append(wishlist_info)
 
     return wishlists_info
+

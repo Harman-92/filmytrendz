@@ -23,11 +23,13 @@ const IconCustom = (props) => (
         <img width={38} height={38} src={props.src} alt='User Menu Icon'/>
     </i>
 );
-
+const PUBLIC = 'PUBLIC'
 const WishListPublic = () => {
     const history = useHistory()
     const {id} = useParams()
-    const [wishList, setWishList] = useState({});
+    const [wishList, setWishList] = useState({
+        movies: []
+    });
     useEffect(() => {
         api.get('/wishlist/'+id).then((res) => {
             if (res.status === 200) {
@@ -62,6 +64,7 @@ const WishListPublic = () => {
                 {/*-----------------------wish list options edit,share,delete------------------------*/}
                 <Header as='h4' className='wishlist-option'>
 
+                    {wishList.status === PUBLIC ?
                         <Popup
                             position='bottom right'
                             trigger={
@@ -72,16 +75,17 @@ const WishListPublic = () => {
                             flowing={false}
                             hideOnScroll
                         >
-                            <Segment basic className='share-link'>
-
-                                {window.location.href}/{wishList.id}
-                                <Button
-                                    onClick={() => navigator.clipboard.writeText(window.location.href + '/' + wishList.id)}
-                                    className='wishlist-add share-link-button' basic icon='paperclip'
-                                />
-                            </Segment>
+                                <Segment basic className='share-link'>
+                                    {window.location.href}
+                                    <Button
+                                        onClick={() => navigator.clipboard.writeText(window.location.href + '/' + wishList.id)}
+                                        className='wishlist-add share-link-button' basic icon='paperclip'
+                                    />
+                                </Segment>
                         </Popup>
 
+                        : null
+                    }
 
                 </Header>
             </Segment>
@@ -89,15 +93,21 @@ const WishListPublic = () => {
             <Container className='wishlist-cards'>
                 <Card.Group itemsPerRow={5}>
                     {
-                        wishList.movies.map((movie, i) => (
-
-                            <Card className='movieCard' fluid
-                                  key={i}
-                                  id={movie.id}
-                            >
+                        wishList.movies.map((movie, index) => (
+                            <Card className='movieCard' fluid key={index}>
                                 <Image src={movie.url === ''?images.no_image:movie.url}/>
+                                <Card.Content as={'div'} className='movie-card-content'>
+                                    <div  className='cardContentView'
+                                          onClick={() => history.push('/movie/' + movie.id)}>
+                                        <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                        <Divider className='cardDivider'/>
+                                        <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
+                                        <div>
+                                            <Icon name='star' inverted color='violet'/> {movie.rating}
+                                        </div>
+                                    </div>
+                                </Card.Content>
                             </Card>
-
                         ))
                     }
                 </Card.Group>

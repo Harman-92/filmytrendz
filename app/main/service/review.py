@@ -4,7 +4,6 @@ from flask import jsonify, make_response
 from ..util.http_status import *
 
 
-
 """
 	service.review provides supported functions for controll.review
 	delete_review() -- support delete api

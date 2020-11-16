@@ -72,11 +72,6 @@ class MovieDto:
         'url': fields.String
     })
 
-    # cast_model = api.model('cast', {
-    #     'id': fields.Integer,
-    #     'name': fields.String
-    # })
-
     movie_model = api.model('movie', {
         'id': fields.Integer,
         'director': fields.String,
@@ -152,15 +147,6 @@ class WishListDto:
     })
 
 
-# watched movies are the histories...
-# class HistoryListDto:
-#     api = Namespace('history', description='history list')
-#
-#     watched_history_model = api.model('watch history', {
-#         'movies': fields.List(fields.Nested(MovieDto.movie_model))
-#     })
-
-
 class RecommendationDto:
     api = Namespace('recommendation', description='movies recommendation for a specific user')
 
@@ -173,3 +159,4 @@ class RecommendationDto:
 
 class ReviewDto:
     api = Namespace('review', description='review apis')
+

@@ -19,21 +19,26 @@ const AboutUs = () => {
             zid: 'z5233608',
             role: 'Frontend developer',
             image: '/about/nat.jpg',
-            bio: 'I am very happy to work on front-end and it\'s a really ' +
-                'interesting and variable experience to improve my skills. ' +
-                'So glad to work in a passionate team V5!'
+            bio: 'I am very happy to work on front-end and complete this project following Agile. ' +
+                'It\'s a really interesting and variable experience to improve my coding and project ' +
+                'management skills. So glad to work in a passionate team V5!'
         }, {
             name: 'Wei Song',
             zid: 'z5325276',
             role: 'Backend developer',
             image: '/about/wei.jpg',
-            bio: 'Hello'
+            bio: 'It is really happy working with my team members, they are professionals. ' +
+                'As a backend developer I contribute myself to building the backend Api, ' +
+                'and I learned MVC concepts in api design, git skills and AWS services. ' +
+                'We are the best team!!!'
         }, {
             name: 'Allen K',
             zid: 'z5325276',
             role: 'Backend developer',
-            image: images.no_profile,
-            bio: 'Hello'
+            image: '/about/allen.jpg',
+            bio: 'i like to work as a backend team member,'+
+            'partly because of the flexibility in ways to achieve results'+
+            'i learned a lot from my team mates too'
         }, {
             name: 'Harman',
             zid: 'z5325276',

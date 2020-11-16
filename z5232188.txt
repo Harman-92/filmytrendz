@@ -25,3 +25,7 @@ week8:
 help song with review api
 study aws deployment
 developed review related operations
+
+week9:
+
+created rds and ec2 instance

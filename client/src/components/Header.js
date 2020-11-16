@@ -33,10 +33,8 @@ const Header = ({setVisible, setActiveIndex}) => {
     const [open, setOpen] = React.useState(false)
     const [searchInput, setSearchInput] = useState('')
     const [filter, setFilter] = useState({
-        title: false,
         description: false,
         cast: false,
-        wishList: false,
         genres: [],
         yearFrom: '',
         yearTo: '',
@@ -68,15 +66,14 @@ const Header = ({setVisible, setActiveIndex}) => {
         } else {
             alert("Please enter a keyword...")
         }
+
     }
 
     const clearFilter = () => {
-        setFilterVisible(!filterVisible)
+        // setFilterVisible(!filterVisible)
         setFilter({
-            title: false,
             description: false,
             cast: false,
-            wishList: false,
             genres: [],
             yearFrom: '',
             yearTo: '',
@@ -84,9 +81,6 @@ const Header = ({setVisible, setActiveIndex}) => {
             ratingTo: null
         })
 
-        if (pageType === 'search') {
-            history.push('/')
-        }
     }
 
     const yearPattern = new RegExp(/^\d+$/)
@@ -94,8 +88,11 @@ const Header = ({setVisible, setActiveIndex}) => {
     useEffect(() => {
         setIsLogin(isAuthenticated())
         setUser(getUserInfo())
-        setFilterVisible(false)
     }, [location])
+
+    useEffect(() => {
+        setFilterVisible(false)
+    },[pageType])
 
     return (
         <Segment vertical className='header-segment'>
@@ -159,14 +156,11 @@ const Header = ({setVisible, setActiveIndex}) => {
                                         <Popup wide
                                                position='bottom right'
                                                trigger={
-                                                   // <Image src={user.url === '' ? images.no_profile : user.url} circular
-                                                   //        floated='right'
-                                                   // />
                                                    <div style={{display: "flex", justifyContent:'center', alignItems: 'center'}}>
                                                        <Image src={images.avatar} circular/>
                                                           <div className='avatarText'>
                                                               <div style={{color: 'white', fontSize:20, fontWeight:'bold'}}>
-                                                                  {user.firstName.slice(0,1)}</div>
+                                                                  {user.firstName.slice(0,1).toUpperCase()}</div>
                                                           </div>
                                                    </div>
 
@@ -213,15 +207,6 @@ const Header = ({setVisible, setActiveIndex}) => {
                                                         value='c'
                                                         checked={filter.cast}
                                                         onClick={() => setFilter({...filter, cast: !filter.cast})}
-                                                    />
-                                                    <Form.Radio
-                                                        label='Wishlist'
-                                                        value='w'
-                                                        checked={filter.wishList}
-                                                        onClick={() => setFilter({
-                                                            ...filter,
-                                                            wishList: !filter.wishList
-                                                        })}
                                                     />
                                                 </Form.Group>
                                             </Form>

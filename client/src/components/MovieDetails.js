@@ -1,4 +1,4 @@
-import React, {Suspense, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactStars from "react-rating-stars-component";
 import '../style/MovieDetails.css';
 import {useLocation, useHistory, useParams} from "react-router-dom";
@@ -138,20 +138,20 @@ const MovieDetails = () => {
     }
 
     const handleBanReviewer = (id) => {
-        api.put('/user/banneduser', {
-            id: id
-        }).then((res) => {
-            if (res.status === 200) {
-                alert("banned user successfully")
-                history.go(0)
-            } else if(res.status === 401){
-                history.push('/')
-            } else {
-                console.log(response.SERVER_ERROR)
-            }
-        }).catch(() => {
-            console.log(response.SERVER_UNAVAILABLE)
-        })
+            api.put('/user/banneduser', {
+                id: id
+            }).then((res) => {
+                if (res.status === 200) {
+                    alert("Ban user successfully")
+                    history.go(0)
+                } else if(res.status === 401){
+                    history.push('/')
+                } else {
+                    console.log(response.SERVER_ERROR)
+                }
+            }).catch(() => {
+                console.log(response.SERVER_UNAVAILABLE)
+            })
     }
 
     const handleWishListChange = (e, {id, value}) => {
@@ -549,7 +549,7 @@ const MovieDetails = () => {
                                     starCount={5}
                                     starColor="#7b68ee"
                                     emptyStarColor="lightgrey"
-                                    value={movieDetails.rating}
+                                    value={parseFloat(movieDetails.rating)}
                                 />
                             </div>
 
@@ -643,7 +643,7 @@ const MovieDetails = () => {
                                     <div className='reviewer-image'>
                                         <Avatar  user={review.name} size='tiny'/>
                                     </div>
-                                    {review.userId === parseInt(user.id) ?
+                                    {review.userId === parseInt(user.id) || !isLogin ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
                                         <Popup wide
@@ -703,7 +703,7 @@ const MovieDetails = () => {
                                     <div className='reviewer-image'>
                                         <Avatar  user={review.name} size='tiny'/>
                                     </div>
-                                    {review.userId === parseInt(user.id) ?
+                                    {review.userId === parseInt(user.id) || !isLogin ?
                                         <h4 className='reviewer-name-user'>{review.name}</h4>
                                         :
                                         <Popup wide
@@ -730,52 +730,65 @@ const MovieDetails = () => {
             <div className="movieHeader">
                 <h2>Similar Movies</h2>
                 <Divider/>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <Form>
-                        <Form.Group inline>
-                            <label>By: </label>
-                            <Form.Radio
-                                label='All'
-                                value='a'
-                                checked={searchBy === 'a'}
-                                onChange={() => setSearchBy('a')}
-                            />
-                            <Form.Radio
-                                label='Genre'
-                                value='g'
-                                checked={searchBy === 'g'}
-                                onChange={() => setSearchBy('g')}
-                            />
-                            <Form.Radio
-                                label='Director'
-                                value='d'
-                                checked={searchBy === 'd'}
-                                onChange={() => setSearchBy('d')}
-                            />
-                        </Form.Group>
-                    </Form>
 
+                {/*---------------------------- sort by ------------------------*/}
+                <Form>
+                    <Form.Group inline>
+                        <label>By: </label>
+                        <Form.Radio
+                            label='All'
+                            value='a'
+                            checked={searchBy === 'a'}
+                            onChange={() => setSearchBy('a')}
+                        />
+                        <Form.Radio
+                            label='Genre'
+                            value='g'
+                            checked={searchBy === 'g'}
+                            onChange={() => setSearchBy('g')}
+                        />
+                        <Form.Radio
+                            label='Director'
+                            value='d'
+                            checked={searchBy === 'd'}
+                            onChange={() => setSearchBy('d')}
+                        />
+                    </Form.Group>
+                </Form>
 
-                    <Card.Group itemsPerRow={5}>
+                {
+                    similarMovies.length === 0 ?
+                        <div style={{display: 'flex', flexDirection: 'row',alignItems:'center', justifyContent:'center'}}>
+                            <Image size='small' src={images.no_result}/>
+                            <div className='recommendText'>
+                                <p style={{margin: '2%'}}>Sorry, we cannot find any similar movies for
+                                    <span style={{fontWeight:'bold'}}> {movieDetails.title} </span>.
+                                    We are trying our best to collect more data...</p>
+                            </div>
+                        </div> :
+                        <div>
+                              {/*------------------------- movie cards ------------------------*/}
+                            <Card.Group itemsPerRow={5}>
+                                {similarMovies.map((movie, index) => (
+                                    index < 5 ?
+                                        <Card className='movieCard' key={index}>
+                                            <Image src={movie.url=== '' ? images.no_image : movie.url}/>
+                                            <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
+                                                          className='movie-card-content'>
+                                                <Card.Header className='cardContext'>{movie.title}</Card.Header>
+                                                <Divider className='cardDivider'/>
+                                                <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
+                                                <div>
+                                                    <Icon name='star' inverted color='violet'/> {movie.rating}
+                                                </div>
+                                            </Card.Content>
+                                        </Card>
+                                        : null)
+                                )}
+                            </Card.Group>
+                        </div>
+                }
 
-                        {similarMovies.map((movie, index) => (
-                            index < 5 ?
-                                <Card className='movieCard' key={index}>
-                                    <Image src={movie.url=== '' ? images.no_image : movie.url}/>
-                                    <Card.Content as={'div'} onClick={() => history.push('/movie/' + movie.id)}
-                                                  className='movie-card-content'>
-                                        <Card.Header className='cardContext'>{movie.title}</Card.Header>
-                                        <Divider className='cardDivider'/>
-                                        <Card.Meta className='cardContext'>Released in {movie.year}</Card.Meta>
-                                        <div>
-                                            <Icon name='star' inverted color='violet'/> {movie.rating}
-                                        </div>
-                                    </Card.Content>
-                                </Card>
-                                : null)
-                        )}
-                    </Card.Group>
-                </Suspense>
             </div>
 
         </Container>

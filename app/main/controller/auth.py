@@ -21,7 +21,7 @@ auth_signup_model = AuthDto.user_signup_auth
 class UsersignUp(Resource):
     @api.expect(auth_signup_model, validate=True)
     @api.doc(
-        description="signup with email, password, names"
+        description="signup with email, password, first name and last name"
     )
     @api.response(200, 'success')
     @api.response(401, 'unauthorized')

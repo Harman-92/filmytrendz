@@ -30,18 +30,18 @@ class MoviesSearch(Resource):
 	@api.doc('search movies')
 	@api.response(200, 'success', model=search_result_model)
 	@api.response(401, 'unauthorized')
-	@api.param('favorite', description='search movie with favorite list')
-	@api.param('watched', description='search movie with watched list')
-	@api.param('search', description='search movie with keywords')
-	@api.param('latest', description='search the latest movies')
-	@api.param('reviewed', description='return all reviewed movies')
-	@api.param('description', description='return all movies with description')
-	@api.param('genre', description='search movie with genre')
-	@api.param('cast', description='search movie with case')
-	@api.param('year_start', description='search movie with start year')
-	@api.param('year_end', description='search movie with end year')
-	@api.param('rating_start', description='search movie with rating')
-	@api.param('rating_end', description='search movie with rating')
+	@api.param('favorite', description='(true/false) to get favorite movies')
+	@api.param('watched', description='(true/false) to get watched movies')
+	@api.param('search', description='required parameter for search keyword')
+	@api.param('latest', description='(true/false) to get latest movies')
+	@api.param('reviewed', description='(true/false) to get reviewed movies')
+	@api.param('description', description='(true/false) optional parameter to search in movie description')
+	@api.param('genre', description='search by genre. Takes list of genres as string')
+	@api.param('cast', description='search in cast')
+	@api.param('year_start', description='search movies released from year')
+	@api.param('year_end', description='search movies released until year')
+	@api.param('rating_start', description='minimum rating of the movie')
+	@api.param('rating_end', description='maximum rating of the movie')
 	@token_optional
 	def get(self, user):
 		"""
@@ -67,7 +67,7 @@ class MoviesSearch(Resource):
 
 @api.route('/<mid>')
 class MovieRetrive(Resource):
-	@api.doc('retrive movies')
+	@api.doc('retrieve movie by id')
 	@api.response(200, 'success', model=retrive_result_model)
 	@token_optional
 	def get(self, user, mid):
@@ -81,7 +81,7 @@ class MovieRetrive(Resource):
 
 @api.route('/<mid>/favorite')
 class MovieFavorite(Resource):
-	@api.doc('movie favorite')
+	@api.doc('favorite a movie by id')
 	@api.response(200, 'success')
 	@api.response(401, 'unauthorized')
 	@token_required
@@ -96,7 +96,7 @@ class MovieFavorite(Resource):
 
 @api.route('/<mid>/unfavorite')
 class MovieUnfavorite(Resource):
-	@api.doc('movie unfavorite')
+	@api.doc('unfavorite a movie by id')
 	@api.response(200, 'success')
 	@api.response(401, 'unauthorized')
 	@token_required
@@ -111,9 +111,8 @@ class MovieUnfavorite(Resource):
 
 @api.route('/<mid>/watched')
 class MovieWatched(Resource):
-	@api.doc('movie watched')
+	@api.doc('add movie to watched')
 	@api.response(200, 'success')
-	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
 	@token_required
 	def put(self, user, mid):
@@ -126,7 +125,6 @@ class MovieWatched(Resource):
 
 	@api.doc('remove movie from watched list')
 	@api.response(200, 'success')
-	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
 	@token_required
 	def delete(self, user, mid):
@@ -139,7 +137,7 @@ class MovieWatched(Resource):
 
 @api.route('/<mid>/wishlist')
 class MovieWishlist(Resource):
-	@api.doc('movie watched list')
+	@api.doc('add movie to wish list')
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
@@ -162,7 +160,7 @@ class MovieWishlist(Resource):
 
 @api.route('/<mid>/review')
 class MovieReview(Resource):
-	@api.doc('add reviews to a specific movie')
+	@api.doc('add review to a specific movie')
 	@api.response(200, 'success')
 	@api.response(404, 'not found')
 	@api.response(401, 'unauthorized')
@@ -176,7 +174,7 @@ class MovieReview(Resource):
 			api.abort(BAD_REQUEST, 'no review data found')
 		data = json.loads(request.data)
 		if data and add_review_movie(user, mid, data):
-			return jsonify({'addreview': 'success'}, SUCCESS)
+			return jsonify({'add review': 'success'}, SUCCESS)
 		else:
-			api.abort(NOT_FOUND, 'movie not found')
+			api.abort(NOT_FOUND, 'movie not found or review already added')
 
