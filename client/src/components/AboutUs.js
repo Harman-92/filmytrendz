@@ -33,7 +33,7 @@ const AboutUs = () => {
                 'We are the best team!!!'
         }, {
             name: 'Allen K',
-            zid: 'z5325276',
+            zid: 'z5232188',
             role: 'Backend developer',
             image: '/about/allen.jpg',
             bio: 'i like to work as a backend team member,'+
