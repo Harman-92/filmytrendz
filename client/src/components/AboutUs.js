@@ -24,7 +24,7 @@ const AboutUs = () => {
                 'management skills. So glad to work in a passionate team V5!'
         }, {
             name: 'Wei Song',
-            zid: 'z5325276',
+            zid: 'z5198433',
             role: 'Backend developer',
             image: '/about/wei.jpg',
             bio: 'It is really happy working with my team members, they are professionals. ' +
