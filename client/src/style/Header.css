@@ -93,4 +93,9 @@
     padding: 2%;
 }
 
+.header-menu-tab .ui.menu .active.item, .header-menu-tab .ui.pointing.menu .item:after {
+  background-color: #6435c9!important;
+  color: white!important;
+}
+
 
