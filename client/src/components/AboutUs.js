@@ -46,7 +46,7 @@ const AboutUs = () => {
             image: '/about/harman.jpg',
             bio: 'Being a movie buff, it was very exciting to work on this project. '+
                 'My focus was to create a robust recommendation system that I can enjoy as a user. '+
-                'Really happy with what we have achieved as a team in such a short time!'
+                'Really happy with what we have achieved as a team in such a short time !'
         }
     ])
     return (
