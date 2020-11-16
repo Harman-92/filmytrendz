@@ -61,8 +61,11 @@ class Wishlist(Resource):
 		"""
 			This is the functionality to get all information of a wishlist given its id
 		"""
-		wishlist = get_wishlist(id, user)
-		return marshal(wishlist, wish_list_model), SUCCESS
+		response = get_wishlist(id, user)
+		if 'id' in response:
+			return marshal(response, wish_list_model), SUCCESS
+		else:
+			return response
 
 	@api.doc('delete a wish list by id')
 	@api.response(200, 'Success')

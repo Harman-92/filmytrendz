@@ -107,7 +107,7 @@ def get_wishlist(wishlist_id, user):
 
     if wishlist.status == Access.PRIVATE:
         if (not user) or (user and wishlist not in user.wish_lists):
-            resp = make_response(jsonify({'error': 'Access to Wish list is denied'}))
+            resp = make_response(jsonify({'error': 'Wish list is private'}))
             resp.status_code = SUCCESS
 
             return resp
