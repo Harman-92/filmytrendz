@@ -174,7 +174,7 @@ class MovieReview(Resource):
 			api.abort(BAD_REQUEST, 'no review data found')
 		data = json.loads(request.data)
 		if data and add_review_movie(user, mid, data):
-			return jsonify({'addreview': 'success'}, SUCCESS)
+			return jsonify({'add review': 'success'}, SUCCESS)
 		else:
-			api.abort(NOT_FOUND, 'movie not found')
+			api.abort(NOT_FOUND, 'movie not found or review already added')
 
