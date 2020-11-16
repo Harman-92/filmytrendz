@@ -1,6 +1,7 @@
 # COMP9900-CircEx
 ## FilmFinder project
 ### Access FilmFinder application on line: https://filmytrendz.netlify.app/
+### You can find Swagger UI at: https://ec2-18-188-47-194.us-east-2.compute.amazonaws.com:3001
 
 ### Setup FileFinder application on your local host following below instructions
 ## backend setup instructions
