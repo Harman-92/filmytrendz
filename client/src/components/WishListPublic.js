@@ -27,7 +27,9 @@ const IconCustom = (props) => (
 const WishListPublic = () => {
     const history = useHistory()
     const {id} = useParams()
-    const [wishList, setWishList] = useState({});
+    const [wishList, setWishList] = useState({
+        movies: []
+    });
     useEffect(() => {
         api.get('/wishlist/'+id).then((res) => {
             if (res.status === 200) {

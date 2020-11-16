@@ -72,4 +72,5 @@ Integrated missing API, search and movie recommendation API.
 Fixed front end bugs.
 Fixed AWS RDS and EC2 instance.
 Deployed front end and backend production server.
+Fixed
 
