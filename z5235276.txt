@@ -72,5 +72,8 @@ Integrated missing API, search and movie recommendation API.
 Fixed front end bugs.
 Fixed AWS RDS and EC2 instance.
 Deployed front end and backend production server.
-Fixed
+Fixed bugs, made design improvements.
+Organised a meeting to discuss final testing and demo.
+Edited report.
+Made software quality and report submission.
 
